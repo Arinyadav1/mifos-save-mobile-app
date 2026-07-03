@@ -112,6 +112,7 @@ jobs:
       metadata_path: './fastlane/metadata'
       use_cocoapods: true
       shared_module: ':cmp-shared'
+      xcode-version: '16.2'
       distribute_ios_firebase: ${{ inputs.distribute_ios_firebase }}
       # When App Store is enabled, skip TestFlight — deliver() already uploads
       # the IPA to App Store Connect which makes the build available in TestFlight.
