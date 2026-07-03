@@ -11,10 +11,10 @@ package org.mifos.core.database.di
 
 import androidx.sqlite.driver.bundled.BundledSQLiteDriver
 import kotlinx.coroutines.Dispatchers
-import mifos.core.database.AppDatabase
 import org.koin.core.module.Module
 import org.koin.dsl.module
 import org.mifos.core.base.database.AppDatabaseFactory
+import org.mifos.core.database.AppDatabase
 
 actual val platformModule: Module = module {
     single {

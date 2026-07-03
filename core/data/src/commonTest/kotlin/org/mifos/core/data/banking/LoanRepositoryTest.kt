@@ -13,9 +13,7 @@ import app.cash.turbine.test
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import kotlinx.datetime.LocalDate
-import mifos.core.data.banking.impl.LoanRepositoryImpl
-import org.mifos.core.model.banking.Loan
-import org.mifos.core.model.banking.LoanKind
+import org.mifos.core.data.banking.impl.LoanRepositoryImpl
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
