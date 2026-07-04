@@ -11,7 +11,7 @@ package org.mifos.core.base.security.di
 
 import org.koin.core.module.Module
 import org.koin.dsl.module
-import mifos.core.base.security.CertificatePinConfig
+import org.mifos.core.base.security.CertificatePinConfig
 import org.mifos.core.base.security.FieldEncryptor
 import org.mifos.core.base.security.SecureKeyProvider
 import org.mifos.core.base.security.SecureRandom

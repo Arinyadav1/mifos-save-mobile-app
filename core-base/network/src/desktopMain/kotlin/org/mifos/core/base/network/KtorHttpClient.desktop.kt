@@ -13,7 +13,7 @@ import io.ktor.client.HttpClient
 import io.ktor.client.HttpClientConfig
 import io.ktor.client.engine.okhttp.OkHttp
 import okhttp3.CertificatePinner
-import mifos.core.base.security.CertificatePinConfig
+import org.mifos.core.base.security.CertificatePinConfig
 
 actual fun httpClient(config: HttpClientConfig<*>.() -> Unit) = HttpClient(OkHttp) {
     config(this)

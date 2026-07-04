@@ -8,9 +8,6 @@
  * See https://github.com/openMF/kmp-project-template/blob/main/LICENSE
  */
 package org.mifos.core.base.security
-
-import mifos.core.base.security.BiometricResult
-
 actual class BiometricAuthenticator actual constructor() {
 
     actual fun isAvailable(): Boolean = false
