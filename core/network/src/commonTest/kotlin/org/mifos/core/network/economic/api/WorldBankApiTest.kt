@@ -24,8 +24,7 @@ import io.ktor.serialization.kotlinx.json.json
 import io.ktor.utils.io.ByteReadChannel
 import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.json.Json
-import mifos.core.model.economic.IndicatorKind
-import mifos.core.network.economic.api.createWorldBankApi
+import org.mifos.core.model.economic.IndicatorKind
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue

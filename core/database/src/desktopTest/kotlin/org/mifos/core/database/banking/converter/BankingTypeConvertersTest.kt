@@ -29,7 +29,7 @@ class BankingTypeConvertersTest {
 
     @Test
     fun loanKindRoundTripCoversAllValues() {
-        _root_ide_package_.org.mifos.core.model.banking.LoanKind.entries.forEach { kind ->
+        LoanKind.entries.forEach { kind ->
             val encoded = converters.fromLoanKind(kind)
             val decoded = converters.toLoanKind(encoded)
             assertEquals(kind, decoded)
@@ -38,7 +38,7 @@ class BankingTypeConvertersTest {
 
     @Test
     fun recurrenceRoundTripCoversAllValues() {
-        _root_ide_package_.org.mifos.core.model.banking.Recurrence.entries.forEach { value ->
+        Recurrence.entries.forEach { value ->
             val encoded = converters.fromRecurrence(value)
             val decoded = converters.toRecurrence(encoded)
             assertEquals(value, decoded)
@@ -47,7 +47,7 @@ class BankingTypeConvertersTest {
 
     @Test
     fun billCategoryRoundTripCoversAllValues() {
-        _root_ide_package_.org.mifos.core.model.banking.BillCategory.entries.forEach { value ->
+        BillCategory.entries.forEach { value ->
             val encoded = converters.fromBillCategory(value)
             val decoded = converters.toBillCategory(encoded)
             assertEquals(value, decoded)

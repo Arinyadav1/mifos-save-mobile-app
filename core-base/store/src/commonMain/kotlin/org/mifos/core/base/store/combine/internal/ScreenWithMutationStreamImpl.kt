@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright 2026 Mifos Initiative
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
@@ -7,7 +7,7 @@
  *
  * See https://github.com/openMF/kmp-project-template/blob/main/LICENSE
  */
-package org.mifos.core.base.store.combine.internal
+package internal
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
@@ -17,21 +17,18 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import org.mifos.core.base.store.combine.CombinedState
 import org.mifos.core.base.store.combine.ScreenWithMutationStream
-import org.mifos.core.base.store.screen.ScreenState
-import org.mifos.core.base.store.submit.SubmitHandler
-import org.mifos.core.base.store.submit.SubmitState
 
 /**
- * Default [org.mifos.core.base.store.combine.ScreenWithMutationStream] implementation — fuses a read-side
+ * Default [ScreenWithMutationStream] implementation — fuses a read-side
  * `Flow<ScreenState<R>>` with a [org.mifos.core.base.store.submit.SubmitHandler] write pipeline plus optional
  * outbox-count / sync-status flows into a single hot [StateFlow] of
- * [org.mifos.core.base.store.combine.CombinedState].
+ * [CombinedState].
  *
  * Internal — consumers build instances via `StoreFactory.createScreenWithMutation`,
  * not by referencing this class directly.
  *
  * @param readStream the read-side state flow, typically `screenDataStream.state`.
- * @param submitHandler the write-side handler typed at `<W>` so [org.mifos.core.base.store.combine.CombinedState.mutation]
+ * @param submitHandler the write-side handler typed at `<W>` so [CombinedState.mutation]
  *   propagates the same payload type the screen submits.
  * @param submitBlock the actual API call wrapped by [submit] — `suspend (W) -> W`.
  *   Returning the payload keeps types consistent with `SubmitHandler<W>`; callers
@@ -55,15 +52,15 @@ internal class ScreenWithMutationStreamImpl<R, W>(
     syncingFlow: Flow<Boolean>,
     scope: CoroutineScope,
     private val onRefresh: () -> Unit,
-) : org.mifos.core.base.store.combine.ScreenWithMutationStream<R, W> {
+) : ScreenWithMutationStream<R, W> {
 
-    override val state: StateFlow<org.mifos.core.base.store.combine.CombinedState<R, W>> = combine(
+    override val state: StateFlow<CombinedState<R, W>> = combine(
         readStream,
         submitHandler.state,
         pendingCountFlow,
         syncingFlow,
     ) { read, mutation, pending, syncing ->
-        _root_ide_package_.org.mifos.core.base.store.combine.CombinedState(
+        CombinedState(
             read = read,
             mutation = mutation,
             outboxPending = pending,
@@ -72,9 +69,9 @@ internal class ScreenWithMutationStreamImpl<R, W>(
     }.stateIn(
         scope = scope,
         started = SharingStarted.WhileSubscribed(STOP_TIMEOUT_MS),
-        initialValue = _root_ide_package_.org.mifos.core.base.store.combine.CombinedState(
-            read = _root_ide_package_.org.mifos.core.base.store.screen.ScreenState.Loading,
-            mutation = _root_ide_package_.org.mifos.core.base.store.submit.SubmitState.Idle,
+        initialValue = CombinedState(
+            read = org.mifos.core.base.store.screen.ScreenState.Loading,
+            mutation = org.mifos.core.base.store.submit.SubmitState.Idle,
             outboxPending = 0,
             isSyncing = false,
         ),

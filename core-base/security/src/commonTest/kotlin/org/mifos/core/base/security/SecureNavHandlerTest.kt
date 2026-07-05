@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright 2025 Mifos Initiative
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
@@ -9,8 +9,6 @@
  */
 package org.mifos.core.base.security
 
-import mifos.core.base.security.DeepLinkValidator
-import mifos.core.base.security.SecureNavHandler
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse

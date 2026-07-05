@@ -10,8 +10,7 @@
 package org.mifos.core.network.economic.dto
 
 import kotlinx.serialization.json.Json
-import mifos.core.model.economic.IndicatorKind
-import kotlin.collections.get
+import org.mifos.core.model.economic.IndicatorKind
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull

@@ -17,18 +17,18 @@ import org.mifos.core.model.banking.LoanKind
 /**
  * Persistent row for a personal loan tracked by the user.
  *
- * Mirrors [org.mifos.core.model.banking.Loan]; mapping lives in the repository
+ * Mirrors [Loan]; mapping lives in the repository
  * layer (`core/data/banking/`). Stored locally only — no remote sync.
  *
  * Type-converters in [mifos.core.database.banking.converter.BankingTypeConverters]
- * handle the [org.mifos.core.model.banking.LoanKind] enum (TEXT) and [LocalDate] (ISO-8601 TEXT) columns.
+ * handle the [LoanKind] enum (TEXT) and [LocalDate] (ISO-8601 TEXT) columns.
  */
 @Entity(tableName = "banking_loans")
 data class LoanEntity(
     @PrimaryKey
     val id: String,
     val name: String,
-    val kind: org.mifos.core.model.banking.LoanKind,
+    val kind: LoanKind,
     val principal: Double,
     val principalRemaining: Double,
     val annualRatePercent: Double,

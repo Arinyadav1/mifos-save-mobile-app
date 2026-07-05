@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright 2025 Mifos Initiative
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
@@ -9,13 +9,6 @@
  */
 package org.mifos.core.base.security
 
-import mifos.core.base.security.BiometricAuthenticator
-import mifos.core.base.security.FailedAttemptTracker
-import mifos.core.base.security.FailureAction
-import mifos.core.base.security.SecureAuthManager
-import mifos.core.base.security.SecureWiper
-import mifos.core.base.security.SecurityPolicy
-import mifos.core.base.security.SessionManager
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse

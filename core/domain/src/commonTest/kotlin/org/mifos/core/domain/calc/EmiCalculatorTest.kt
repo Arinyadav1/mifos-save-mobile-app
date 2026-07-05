@@ -31,7 +31,7 @@ class EmiCalculatorTest {
     fun computeEmiMatchesStandardFormulaForTypicalMortgage() {
         // $250,000 @ 6.5 % APR for 30 years (360 months)
         // EMI ≈ 1580.17
-        val result = _root_ide_package_.org.mifos.core.domain.calc.computeEmi(
+        val result = computeEmi(
             principal = 250_000.0,
             annualRatePercent = 6.5,
             tenureMonths = 360,
@@ -44,7 +44,7 @@ class EmiCalculatorTest {
     @Test
     fun computeEmiFallsBackToFlatDivisionWhenRateIsZero() {
         // 0 % rate → EMI = principal / months, total interest = 0.
-        val result = _root_ide_package_.org.mifos.core.domain.calc.computeEmi(
+        val result = computeEmi(
             principal = 12_000.0,
             annualRatePercent = 0.0,
             tenureMonths = 12,
@@ -56,7 +56,7 @@ class EmiCalculatorTest {
 
     @Test
     fun computeEmiReturnsZeroResultForNonPositiveTenure() {
-        val result = _root_ide_package_.org.mifos.core.domain.calc.computeEmi(
+        val result = computeEmi(
             principal = 50_000.0,
             annualRatePercent = 8.0,
             tenureMonths = 0,
@@ -68,7 +68,7 @@ class EmiCalculatorTest {
 
     @Test
     fun computeEmiReturnsZeroResultForNonPositivePrincipal() {
-        val result = _root_ide_package_.org.mifos.core.domain.calc.computeEmi(
+        val result = computeEmi(
             principal = 0.0,
             annualRatePercent = 8.0,
             tenureMonths = 24,
@@ -78,7 +78,7 @@ class EmiCalculatorTest {
 
     @Test
     fun amortizationScheduleHasOneRowPerMonth() {
-        val schedule = _root_ide_package_.org.mifos.core.domain.calc.amortizationSchedule(
+        val schedule = amortizationSchedule(
             principal = 10_000.0,
             annualRatePercent = 12.0,
             tenureMonths = 6,
@@ -91,7 +91,7 @@ class EmiCalculatorTest {
     @Test
     fun amortizationScheduleSumOfPrincipalEqualsLoanPrincipal() {
         val principal = 100_000.0
-        val schedule = _root_ide_package_.org.mifos.core.domain.calc.amortizationSchedule(
+        val schedule = amortizationSchedule(
             principal,
             annualRatePercent = 9.0,
             tenureMonths = 60,
@@ -103,9 +103,9 @@ class EmiCalculatorTest {
 
     @Test
     fun amortizationScheduleSumOfInterestMatchesTotalInterestFromComputeEmi() {
-        val emi = _root_ide_package_.org.mifos.core.domain.calc.computeEmi(50_000.0, 7.5, 24)
+        val emi = computeEmi(50_000.0, 7.5, 24)
         val sched =
-            _root_ide_package_.org.mifos.core.domain.calc.amortizationSchedule(50_000.0, 7.5, 24)
+            amortizationSchedule(50_000.0, 7.5, 24)
         val totalInterestFromSchedule = sched.sumOf { it.interestPaid }
         assertCloseTo(emi.totalInterest, totalInterestFromSchedule, tolerance = 0.10)
     }
@@ -113,7 +113,7 @@ class EmiCalculatorTest {
     @Test
     fun amortizationScheduleClosingBalanceIsZero() {
         val schedule =
-            _root_ide_package_.org.mifos.core.domain.calc.amortizationSchedule(25_000.0, 6.0, 12)
+            amortizationSchedule(25_000.0, 6.0, 12)
         // Final remaining balance rounds to ≤ ¢-level.
         assertTrue(
             abs(schedule.last().balanceRemaining) < 0.01,
@@ -136,7 +136,7 @@ class EmiCalculatorTest {
     @Test
     fun amortizationScheduleHandlesZeroRate() {
         val schedule =
-            _root_ide_package_.org.mifos.core.domain.calc.amortizationSchedule(1_200.0, 0.0, 12)
+            amortizationSchedule(1_200.0, 0.0, 12)
         assertEquals(12, schedule.size)
         // Every installment is identical, only principal — no interest.
         schedule.forEach {

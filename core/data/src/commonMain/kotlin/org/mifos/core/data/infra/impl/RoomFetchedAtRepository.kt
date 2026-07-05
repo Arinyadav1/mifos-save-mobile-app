@@ -10,7 +10,6 @@
 package org.mifos.core.data.infra.impl
 
 import org.mifos.core.base.store.infra.FetchedAtRepository
-import org.mifos.core.database.infra.dao.FetchedAtDao
 import org.mifos.core.database.infra.entity.FetchedAtEntity
 import kotlin.time.ExperimentalTime
 import kotlin.time.Instant
@@ -32,7 +31,7 @@ class RoomFetchedAtRepository(
 
     override suspend fun write(storeKey: String, instant: Instant) {
         dao.upsert(
-            _root_ide_package_.org.mifos.core.database.infra.entity.FetchedAtEntity(
+            FetchedAtEntity(
                 storeKey,
                 instant.toEpochMilliseconds(),
             ),

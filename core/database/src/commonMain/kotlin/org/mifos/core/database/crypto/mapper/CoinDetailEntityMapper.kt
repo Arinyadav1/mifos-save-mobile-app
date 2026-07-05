@@ -13,7 +13,7 @@ import org.mifos.core.database.crypto.entity.CoinDetailEntity
 import org.mifos.core.model.crypto.CoinDetail
 import kotlin.time.Clock
 
-fun org.mifos.core.model.crypto.CoinDetail.toEntity(): CoinDetailEntity = CoinDetailEntity(
+fun CoinDetail.toEntity(): CoinDetailEntity = CoinDetailEntity(
     id = id,
     name = name,
     symbol = symbol,
@@ -30,8 +30,8 @@ fun org.mifos.core.model.crypto.CoinDetail.toEntity(): CoinDetailEntity = CoinDe
     fetchedAt = Clock.System.now().toEpochMilliseconds(),
 )
 
-fun CoinDetailEntity.toDomain(): org.mifos.core.model.crypto.CoinDetail =
-    _root_ide_package_.org.mifos.core.model.crypto.CoinDetail(
+fun CoinDetailEntity.toDomain(): CoinDetail =
+    CoinDetail(
         id = id,
         name = name,
         symbol = symbol,

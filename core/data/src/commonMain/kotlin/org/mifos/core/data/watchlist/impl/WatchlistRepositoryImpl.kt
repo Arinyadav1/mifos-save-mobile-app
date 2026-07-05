@@ -29,7 +29,7 @@ internal class WatchlistRepositoryImpl(
 
     override suspend fun add(coinId: String) {
         dao.insert(
-            _root_ide_package_.org.mifos.core.database.watchlist.entity.WatchlistEntity(
+            org.mifos.core.database.watchlist.entity.WatchlistEntity(
                 coinId = coinId,
                 addedAtMs = Clock.System.now().toEpochMilliseconds(),
             ),

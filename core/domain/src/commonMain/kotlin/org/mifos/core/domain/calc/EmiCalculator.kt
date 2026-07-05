@@ -31,14 +31,14 @@ import kotlin.math.pow
  * Formula: `EMI = P · r · (1+r)^n / ((1+r)^n − 1)` where `r = annualRate/12/100`.
  *
  * Edge cases:
- * - `principal <= 0` or `tenureMonths <= 0` → returns a zero [org.mifos.core.model.emi.EmiResult]
+ * - `principal <= 0` or `tenureMonths <= 0` → returns a zero [EmiResult]
  *   (caller doesn't have to guard before rendering).
  * - `annualRatePercent == 0` → falls back to `principal / tenureMonths`
  *   (no interest accrues).
  */
-fun computeEmi(principal: Double, annualRatePercent: Double, tenureMonths: Int): org.mifos.core.model.emi.EmiResult {
+fun computeEmi(principal: Double, annualRatePercent: Double, tenureMonths: Int): EmiResult {
     if (principal <= 0.0 || tenureMonths <= 0) {
-        return _root_ide_package_.org.mifos.core.model.emi.EmiResult(
+        return EmiResult(
             emi = 0.0,
             totalPayment = 0.0,
             totalInterest = 0.0,
@@ -53,7 +53,7 @@ fun computeEmi(principal: Double, annualRatePercent: Double, tenureMonths: Int):
         principal * monthlyRate * factor / (factor - 1.0)
     }
     val totalPayment = emi * tenureMonths
-    return _root_ide_package_.org.mifos.core.model.emi.EmiResult(
+    return EmiResult(
         emi = emi,
         totalPayment = totalPayment,
         totalInterest = totalPayment - principal,

@@ -13,7 +13,7 @@ import org.mifos.core.database.crypto.entity.CoinMarketEntity
 import org.mifos.core.model.crypto.CoinMarket
 import kotlin.time.Clock
 
-fun org.mifos.core.model.crypto.CoinMarket.toEntity(page: Int): CoinMarketEntity = CoinMarketEntity(
+fun CoinMarket.toEntity(page: Int): CoinMarketEntity = CoinMarketEntity(
     id = id,
     symbol = symbol,
     name = name,
@@ -28,8 +28,8 @@ fun org.mifos.core.model.crypto.CoinMarket.toEntity(page: Int): CoinMarketEntity
     fetchedAt = Clock.System.now().toEpochMilliseconds(),
 )
 
-fun CoinMarketEntity.toDomain(): org.mifos.core.model.crypto.CoinMarket =
-    _root_ide_package_.org.mifos.core.model.crypto.CoinMarket(
+fun CoinMarketEntity.toDomain(): CoinMarket =
+    CoinMarket(
         id = id,
         symbol = symbol,
         name = name,

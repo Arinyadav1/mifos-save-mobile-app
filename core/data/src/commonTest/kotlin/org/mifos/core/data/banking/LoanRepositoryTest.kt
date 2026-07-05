@@ -8,12 +8,13 @@
  * See See https://github.com/openMF/kmp-project-template/blob/main/LICENSE
  */
 package org.mifos.core.data.banking
-
 import app.cash.turbine.test
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import kotlinx.datetime.LocalDate
 import org.mifos.core.data.banking.impl.LoanRepositoryImpl
+import org.mifos.core.model.banking.Loan
+import org.mifos.core.model.banking.LoanKind
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
@@ -116,12 +117,12 @@ class LoanRepositoryTest {
 
     private fun sampleLoan(
         id: String,
-        kind: org.mifos.core.model.banking.LoanKind = _root_ide_package_.org.mifos.core.model.banking.LoanKind.MORTGAGE,
+        kind: LoanKind = LoanKind.MORTGAGE,
         principal: Double = 250_000.0,
         principalRemaining: Double = 200_000.0,
         monthlyPayment: Double = 1_580.17,
         nextDueDate: LocalDate = LocalDate(2026, 6, 1),
-    ): org.mifos.core.model.banking.Loan = _root_ide_package_.org.mifos.core.model.banking.Loan(
+    ): Loan = Loan(
         id = id,
         name = "Loan $id",
         kind = kind,

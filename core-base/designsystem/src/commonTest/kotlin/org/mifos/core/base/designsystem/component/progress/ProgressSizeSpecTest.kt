@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright 2026 Mifos Initiative
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
@@ -9,13 +9,11 @@
  */
 package org.mifos.core.base.designsystem.component.progress
 
-import mifos.core.base.designsystem.component.progress.ProgressSize
-import mifos.core.base.designsystem.component.progress.ProgressSizeSpec
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
 /**
- * Pure-function tests for [mifos.core.base.designsystem.component.progress.ProgressSizeSpec]. The renderer reads these dp pairs at
+ * Pure-function tests for [ProgressSizeSpec]. The renderer reads these dp pairs at
  * render time — these tests guard the canonical (diameter, stroke) mapping.
  */
 class ProgressSizeSpecTest {

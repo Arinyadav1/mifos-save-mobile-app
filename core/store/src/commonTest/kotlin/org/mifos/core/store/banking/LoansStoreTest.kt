@@ -11,9 +11,9 @@ package org.mifos.core.store.banking
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import mifos.core.database.banking.dao.LoanDao
-import mifos.core.database.banking.entity.LoanEntity
-import mifos.core.store.banking.impl.provideLoansStore
+import org.mifos.core.database.banking.dao.LoanDao
+import org.mifos.core.database.banking.entity.LoanEntity
+import org.mifos.core.store.banking.impl.provideLoansStore
 import kotlin.test.Test
 import kotlin.test.assertNotNull
 

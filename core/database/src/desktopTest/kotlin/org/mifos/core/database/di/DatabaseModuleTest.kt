@@ -9,11 +9,11 @@
  */
 package org.mifos.core.database.di
 
-import mifos.core.database.AppDatabase
 import org.koin.core.context.startKoin
 import org.koin.core.context.stopKoin
 import org.koin.test.KoinTest
 import org.koin.test.get
+import org.mifos.core.database.AppDatabase
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
