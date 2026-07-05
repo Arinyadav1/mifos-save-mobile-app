@@ -13,8 +13,8 @@ import androidx.room3.Room
 import androidx.sqlite.driver.bundled.BundledSQLiteDriver
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.test.runTest
-import mifos.core.database.AppDatabase
-import mifos.core.database.infra.entity.FetchedAtEntity
+import org.mifos.core.database.AppDatabase
+import org.mifos.core.database.infra.entity.FetchedAtEntity
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test

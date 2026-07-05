@@ -26,7 +26,7 @@ class AffordabilityCalculatorTest {
     @Test
     fun maxEmiIsTheGapBetweenDtiCeilingAndExistingObligations() {
         // 40 % of 10 000 = 4 000. Existing obligations 1 000 → headroom 3 000.
-        val result = _root_ide_package_.org.mifos.core.domain.calc.maxAffordableLoan(
+        val result = maxAffordableLoan(
             monthlyIncome = 10_000.0,
             monthlyObligations = 1_000.0,
             dtiRatio = 0.4,
@@ -39,7 +39,7 @@ class AffordabilityCalculatorTest {
     @Test
     fun maxEmiIsZeroWhenObligationsAlreadyExceedDtiCeiling() {
         // 50 % obligations on a 40 % DTI ceiling → no headroom for additional EMI.
-        val result = _root_ide_package_.org.mifos.core.domain.calc.maxAffordableLoan(
+        val result = maxAffordableLoan(
             monthlyIncome = 5_000.0,
             monthlyObligations = 2_500.0,
             dtiRatio = 0.4,
@@ -54,7 +54,7 @@ class AffordabilityCalculatorTest {
     fun maxPrincipalRoundTripsThroughComputeEmi() {
         val rate = 6.5
         val tenure = 360
-        val result = _root_ide_package_.org.mifos.core.domain.calc.maxAffordableLoan(
+        val result = maxAffordableLoan(
             monthlyIncome = 10_000.0,
             monthlyObligations = 1_000.0,
             dtiRatio = 0.4,
@@ -62,7 +62,7 @@ class AffordabilityCalculatorTest {
             tenureMonths = tenure,
         )
         // Round-trip the principal through computeEmi — should land at ~maxEmi.
-        val emiForResult = _root_ide_package_.org.mifos.core.domain.calc.computeEmi(
+        val emiForResult = computeEmi(
             result.maxPrincipal,
             rate,
             tenure,
@@ -72,7 +72,7 @@ class AffordabilityCalculatorTest {
 
     @Test
     fun rationaleSummarisesTheCeilingArithmetic() {
-        val result = _root_ide_package_.org.mifos.core.domain.calc.maxAffordableLoan(
+        val result = maxAffordableLoan(
             monthlyIncome = 8_000.0,
             monthlyObligations = 1_200.0,
             dtiRatio = 0.4,
@@ -84,7 +84,7 @@ class AffordabilityCalculatorTest {
 
     @Test
     fun zeroIncomeReturnsZeroResult() {
-        val result = _root_ide_package_.org.mifos.core.domain.calc.maxAffordableLoan(
+        val result = maxAffordableLoan(
             monthlyIncome = 0.0,
             monthlyObligations = 0.0,
             dtiRatio = 0.4,
@@ -97,7 +97,7 @@ class AffordabilityCalculatorTest {
 
     @Test
     fun negativeOrZeroTenureReturnsZeroPrincipal() {
-        val result = _root_ide_package_.org.mifos.core.domain.calc.maxAffordableLoan(
+        val result = maxAffordableLoan(
             monthlyIncome = 10_000.0,
             monthlyObligations = 1_000.0,
             dtiRatio = 0.4,
@@ -110,7 +110,7 @@ class AffordabilityCalculatorTest {
     @Test
     fun dtiRatioIsClampedToValidRange() {
         // 1.5 should clamp to 1.0 (full income available).
-        val a = _root_ide_package_.org.mifos.core.domain.calc.maxAffordableLoan(
+        val a = maxAffordableLoan(
             10_000.0,
             0.0,
             dtiRatio = 1.5,
@@ -118,7 +118,7 @@ class AffordabilityCalculatorTest {
             tenureMonths = 120,
         )
         // -0.1 should clamp to 0.0 → no affordability.
-        val b = _root_ide_package_.org.mifos.core.domain.calc.maxAffordableLoan(
+        val b = maxAffordableLoan(
             10_000.0,
             0.0,
             dtiRatio = -0.1,

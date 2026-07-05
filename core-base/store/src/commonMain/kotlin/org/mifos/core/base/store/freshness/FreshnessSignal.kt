@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright 2025 Mifos Initiative
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
@@ -30,7 +30,7 @@ data class FreshnessSignal(
     val lastSyncedAt: Instant?,
     val ttl: Duration,
     val lastError: Throwable?,
-    val band: org.mifos.core.base.store.freshness.FreshnessBand,
+    val band: FreshnessBand,
 ) {
     companion object {
         /**
@@ -39,14 +39,14 @@ data class FreshnessSignal(
          * as the default in `ScreenState.Content.freshnessSignal`.
          *
          * The `ttl` argument has no effect on the resulting band (which is always
-         * [org.mifos.core.base.store.freshness.FreshnessBand.Initial]); it defaults to 24 hours so the resulting signal
+         * [FreshnessBand.Initial]); it defaults to 24 hours so the resulting signal
          * is a safe fallback if a consumer later reads it without a real TTL bound.
          */
         fun initial(ttl: Duration = 24.hours): FreshnessSignal = FreshnessSignal(
             lastSyncedAt = null,
             ttl = ttl,
             lastError = null,
-            band = _root_ide_package_.org.mifos.core.base.store.freshness.FreshnessBand.Initial,
+            band = FreshnessBand.Initial,
         )
     }
 }

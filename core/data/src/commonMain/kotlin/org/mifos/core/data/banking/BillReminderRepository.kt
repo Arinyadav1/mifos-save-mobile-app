@@ -22,7 +22,7 @@ import org.mifos.core.model.banking.BillReminder
 interface BillReminderRepository {
 
     /** Observe every bill reminder (enabled and disabled), day-of-month order. */
-    fun observeAll(): Flow<List<org.mifos.core.model.banking.BillReminder>>
+    fun observeAll(): Flow<List<BillReminder>>
 
     /**
      * Observe enabled bill reminders whose `dueDay` falls within the next
@@ -32,22 +32,22 @@ interface BillReminderRepository {
      *
      * @param maxDays Lookahead horizon (inclusive). `0` returns reminders due today.
      */
-    fun observeUpcoming(maxDays: Int): Flow<List<org.mifos.core.model.banking.BillReminder>>
+    fun observeUpcoming(maxDays: Int): Flow<List<BillReminder>>
 
     /** Observe a single bill reminder. Emits `null` after deletion. */
-    fun observeById(id: String): Flow<org.mifos.core.model.banking.BillReminder?>
+    fun observeById(id: String): Flow<BillReminder?>
 
     /** One-shot read. */
-    suspend fun getById(id: String): org.mifos.core.model.banking.BillReminder?
+    suspend fun getById(id: String): BillReminder?
 
     /** Insert-or-replace. Idempotent. */
-    suspend fun upsert(bill: org.mifos.core.model.banking.BillReminder)
+    suspend fun upsert(bill: BillReminder)
 
     /** Delete by id. No-op if absent. */
     suspend fun delete(id: String)
 
     /**
-     * Sum of [org.mifos.core.model.banking.BillReminder.amount] across upcoming reminders within the same
+     * Sum of [BillReminder.amount] across upcoming reminders within the same
      * window semantics as [observeUpcoming]. Powers the dashboard
      * "Due in next X days" tile.
      */

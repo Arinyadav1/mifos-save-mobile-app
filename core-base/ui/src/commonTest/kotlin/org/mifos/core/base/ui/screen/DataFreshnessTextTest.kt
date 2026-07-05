@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright 2025 Mifos Initiative
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
@@ -35,46 +35,46 @@ class DataFreshnessTextTest {
     @Test
     fun formatDurationAgo_secondsBucket_isJustNow() {
         assertEquals("just now",
-            _root_ide_package_.mifos.core.base.ui.screen.formatDurationAgo(0.seconds)
+            formatDurationAgo(0.seconds)
         )
         assertEquals("just now",
-            _root_ide_package_.mifos.core.base.ui.screen.formatDurationAgo(30.seconds)
+            formatDurationAgo(30.seconds)
         )
         assertEquals("just now",
-            _root_ide_package_.mifos.core.base.ui.screen.formatDurationAgo(59.seconds)
+            formatDurationAgo(59.seconds)
         )
     }
 
     @Test
     fun formatDurationAgo_minutesBucket_showsM() {
         assertEquals("1m ago",
-            _root_ide_package_.mifos.core.base.ui.screen.formatDurationAgo(1.minutes)
+            formatDurationAgo(1.minutes)
         )
         assertEquals("5m ago",
-            _root_ide_package_.mifos.core.base.ui.screen.formatDurationAgo(5.minutes)
+            formatDurationAgo(5.minutes)
         )
         assertEquals("59m ago",
-            _root_ide_package_.mifos.core.base.ui.screen.formatDurationAgo(59.minutes)
+            formatDurationAgo(59.minutes)
         )
     }
 
     @Test
     fun formatDurationAgo_hoursBucket_showsH() {
         assertEquals("1h ago",
-            _root_ide_package_.mifos.core.base.ui.screen.formatDurationAgo(1.hours)
+            formatDurationAgo(1.hours)
         )
         assertEquals("23h ago",
-            _root_ide_package_.mifos.core.base.ui.screen.formatDurationAgo(23.hours)
+            formatDurationAgo(23.hours)
         )
     }
 
     @Test
     fun formatDurationAgo_daysBucket_showsD() {
         assertEquals("1d ago",
-            _root_ide_package_.mifos.core.base.ui.screen.formatDurationAgo(1.days)
+            formatDurationAgo(1.days)
         )
         assertEquals("7d ago",
-            _root_ide_package_.mifos.core.base.ui.screen.formatDurationAgo(7.days)
+            formatDurationAgo(7.days)
         )
     }
 
@@ -107,14 +107,14 @@ class DataFreshnessTextTest {
     @Test
     fun buildUpdatingText_nullFetchedAt_isRefreshing() {
         assertEquals("Refreshing…",
-            _root_ide_package_.mifos.core.base.ui.screen.buildUpdatingText(fetchedAt = null)
+            buildUpdatingText(fetchedAt = null)
         )
     }
 
     @Test
     fun buildUpdatingText_recentFetch_showsLastUpdated() {
         val twoMinutesAgo = Clock.System.now() - 2.minutes
-        val text = _root_ide_package_.mifos.core.base.ui.screen.buildUpdatingText(twoMinutesAgo)
+        val text = buildUpdatingText(twoMinutesAgo)
         assertEquals("Refreshing · Last updated 2m ago", text)
     }
 }

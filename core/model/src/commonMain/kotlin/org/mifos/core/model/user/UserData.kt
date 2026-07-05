@@ -14,10 +14,10 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class UserData(
     val activeUserId: String,
-    val themeBrand: org.mifos.core.model.user.ThemeBrand,
-    val darkThemeConfig: org.mifos.core.model.user.DarkThemeConfig,
+    val themeBrand: ThemeBrand,
+    val darkThemeConfig: DarkThemeConfig,
     val useDynamicColor: Boolean,
-    val appLanguage: org.mifos.core.model.user.LanguageConfig,
+    val appLanguage: LanguageConfig,
     val showOnboarding: Boolean,
     val firstTimeUser: Boolean,
     val isAuthenticated: Boolean,
@@ -31,10 +31,10 @@ data class UserData(
         val DEFAULT = UserData(
             activeUserId = "",
             passcode = "1234",
-            themeBrand = _root_ide_package_.org.mifos.core.model.user.ThemeBrand.DEFAULT,
-            darkThemeConfig = _root_ide_package_.org.mifos.core.model.user.DarkThemeConfig.FOLLOW_SYSTEM,
+            themeBrand = ThemeBrand.DEFAULT,
+            darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM,
             useDynamicColor = false,
-            appLanguage = _root_ide_package_.org.mifos.core.model.user.LanguageConfig.DEFAULT,
+            appLanguage = LanguageConfig.DEFAULT,
             isAuthenticated = true,
             isUnlocked = true,
             isPasscodeEnabled = false,

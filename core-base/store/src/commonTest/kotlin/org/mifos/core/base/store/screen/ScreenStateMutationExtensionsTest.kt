@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright 2025 Mifos Initiative
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
@@ -11,8 +11,8 @@ package org.mifos.core.base.store.screen
 
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.runTest
-import mifos.core.base.store.submit.SubmitHandler
-import mifos.core.base.store.submit.SubmitState
+import org.mifos.core.base.store.submit.SubmitHandler
+import org.mifos.core.base.store.submit.SubmitState
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse

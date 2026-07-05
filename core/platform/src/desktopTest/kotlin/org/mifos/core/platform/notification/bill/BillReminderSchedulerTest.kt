@@ -27,7 +27,7 @@ import kotlin.test.assertEquals
 class BillReminderSchedulerTest {
 
     private val scheduler =
-        _root_ide_package_.org.mifos.core.platform.notification.bill.BillReminderScheduler()
+        BillReminderScheduler()
 
     @Test
     fun scheduleCompletesForFutureInstant() = runTest {
@@ -67,13 +67,13 @@ class BillReminderSchedulerTest {
 
     @Test
     fun billReminderScheduleEqualityIsValueBased() {
-        val a = _root_ide_package_.org.mifos.core.platform.notification.bill.BillReminderSchedule(
+        val a = BillReminderSchedule(
             "id",
             "T",
             "B",
             1_700_000_000_000L,
         )
-        val b = _root_ide_package_.org.mifos.core.platform.notification.bill.BillReminderSchedule(
+        val b = BillReminderSchedule(
             "id",
             "T",
             "B",

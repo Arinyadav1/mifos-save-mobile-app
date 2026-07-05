@@ -11,9 +11,9 @@ package org.mifos.core.store.banking
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import mifos.core.database.banking.dao.BillReminderDao
-import mifos.core.database.banking.entity.BillReminderEntity
-import mifos.core.store.banking.impl.provideBillRemindersStore
+import org.mifos.core.database.banking.dao.BillReminderDao
+import org.mifos.core.database.banking.entity.BillReminderEntity
+import org.mifos.core.store.banking.impl.provideBillRemindersStore
 import kotlin.test.Test
 import kotlin.test.assertNotNull
 

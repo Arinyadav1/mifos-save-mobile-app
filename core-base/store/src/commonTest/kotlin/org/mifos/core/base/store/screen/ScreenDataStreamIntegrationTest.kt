@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright 2025 Mifos Initiative
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
@@ -13,12 +13,13 @@ import app.cash.turbine.test
 import io.github.mobilebytelabs.kmptoolkit.networkmonitor.NetworkInfo
 import io.github.mobilebytelabs.kmptoolkit.networkmonitor.NetworkStatus
 import io.github.mobilebytelabs.kmptoolkit.networkmonitor.NetworkType
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import org.mobilenativefoundation.store.store5.Fetcher
 import org.mobilenativefoundation.store.store5.StoreBuilder
-import mifos.core.base.store.fixtures.FakeNetworkMonitor
-import mifos.core.base.store.infra.FakeFetchedAtRepository
+import org.mifos.core.base.store.fixtures.FakeNetworkMonitor
+import org.mifos.core.base.store.infra.FakeFetchedAtRepository
 import kotlin.test.Test
 import kotlin.test.assertIs
 import kotlin.test.assertTrue
@@ -133,6 +134,7 @@ class ScreenDataStreamIntegrationTest {
 
     // ─── T4: reconnect triggers state refresh ────────────────────────────────
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun reconnect_triggers_refresh_after_offline() = runTest {
         val store = StoreBuilder

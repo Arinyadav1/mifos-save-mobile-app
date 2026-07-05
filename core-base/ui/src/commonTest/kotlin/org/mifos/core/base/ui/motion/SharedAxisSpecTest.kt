@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright 2026 Mifos Initiative
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
@@ -10,9 +10,8 @@
 package org.mifos.core.base.ui.motion
 
 import kotlin.test.Test
-import kotlin.test.assertEquals
 import kotlin.test.assertTrue
-import mifos.core.base.designsystem.theme.Motion
+import org.mifos.core.base.designsystem.theme.Motion
 
 /**
  * Asserts the duration-symmetry invariant for shared-axis-X transitions.
@@ -28,11 +27,11 @@ class SharedAxisSpecTest {
 
     @Test
     fun forwardEnterAndExitSlideDurationsMustBeEqual() {
-        _root_ide_package_.kotlin.test.assertEquals(
-            _root_ide_package_.mifos.core.base.ui.motion.SharedAxisSpec.enterForwardSlideMs(
+        kotlin.test.assertEquals(
+            SharedAxisSpec.enterForwardSlideMs(
                 defaultMotion
             ),
-            _root_ide_package_.mifos.core.base.ui.motion.SharedAxisSpec.exitForwardSlideMs(
+            SharedAxisSpec.exitForwardSlideMs(
                 defaultMotion
             ),
             "forward enter/exit slide durations must be symmetric — asymmetry produces nav blink",
@@ -41,11 +40,11 @@ class SharedAxisSpecTest {
 
     @Test
     fun forwardEnterAndExitFadeDurationsMustBeEqual() {
-        _root_ide_package_.kotlin.test.assertEquals(
-            _root_ide_package_.mifos.core.base.ui.motion.SharedAxisSpec.enterForwardFadeMs(
+        kotlin.test.assertEquals(
+            SharedAxisSpec.enterForwardFadeMs(
                 defaultMotion
             ),
-            _root_ide_package_.mifos.core.base.ui.motion.SharedAxisSpec.exitForwardFadeMs(
+            SharedAxisSpec.exitForwardFadeMs(
                 defaultMotion
             ),
             "forward enter/exit fade durations must be symmetric — asymmetry produces nav blink",
@@ -54,11 +53,11 @@ class SharedAxisSpecTest {
 
     @Test
     fun backEnterAndExitSlideDurationsMustBeEqual() {
-        _root_ide_package_.kotlin.test.assertEquals(
-            _root_ide_package_.mifos.core.base.ui.motion.SharedAxisSpec.enterBackSlideMs(
+        kotlin.test.assertEquals(
+            SharedAxisSpec.enterBackSlideMs(
                 defaultMotion
             ),
-            _root_ide_package_.mifos.core.base.ui.motion.SharedAxisSpec.exitBackSlideMs(
+            SharedAxisSpec.exitBackSlideMs(
                 defaultMotion
             ),
             "back enter/exit slide durations must be symmetric — asymmetry produces nav blink",
@@ -67,11 +66,11 @@ class SharedAxisSpecTest {
 
     @Test
     fun backEnterAndExitFadeDurationsMustBeEqual() {
-        _root_ide_package_.kotlin.test.assertEquals(
-            _root_ide_package_.mifos.core.base.ui.motion.SharedAxisSpec.enterBackFadeMs(
+        kotlin.test.assertEquals(
+            SharedAxisSpec.enterBackFadeMs(
                 defaultMotion
             ),
-            _root_ide_package_.mifos.core.base.ui.motion.SharedAxisSpec.exitBackFadeMs(defaultMotion),
+            SharedAxisSpec.exitBackFadeMs(defaultMotion),
             "back enter/exit fade durations must be symmetric — asymmetry produces nav blink",
         )
     }
@@ -79,7 +78,7 @@ class SharedAxisSpecTest {
     @Test
     fun isSymmetricReturnsTrueForDefaultMotion() {
         assertTrue(
-            _root_ide_package_.mifos.core.base.ui.motion.SharedAxisSpec.isSymmetric(defaultMotion),
+            SharedAxisSpec.isSymmetric(defaultMotion),
             "default Motion() must satisfy duration symmetry — " +
                 "failure indicates a recurrence of the 2026-05-27 nav-blink bug",
         )

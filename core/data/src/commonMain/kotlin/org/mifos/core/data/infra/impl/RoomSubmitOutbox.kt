@@ -16,7 +16,6 @@ import kotlinx.serialization.json.Json
 import org.mifos.core.base.store.submit.SubmitOutbox
 import org.mifos.core.base.store.submit.SubmitOutboxEntry
 import org.mifos.core.base.store.submit.SubmitOutboxStatus
-import org.mifos.core.database.infra.dao.DraftDao
 import org.mifos.core.database.infra.entity.DraftEntity
 
 /**
@@ -50,7 +49,7 @@ class RoomSubmitOutbox<P>(
             dao.updatePayload(existing.id, json.encodeToString(serializer, payload), nowMs)
             return existing.id
         }
-        val entity = _root_ide_package_.org.mifos.core.database.infra.entity.DraftEntity(
+        val entity = DraftEntity(
             formKey = formKey,
             uniqueKey = null,
             payloadJson = json.encodeToString(serializer, payload),
@@ -68,7 +67,7 @@ class RoomSubmitOutbox<P>(
             dao.updatePayload(existing.id, json.encodeToString(serializer, payload), nowMs)
             return existing.id
         }
-        val entity = _root_ide_package_.org.mifos.core.database.infra.entity.DraftEntity(
+        val entity = DraftEntity(
             formKey = formKey,
             uniqueKey = uniqueKey,
             payloadJson = json.encodeToString(serializer, payload),
@@ -109,7 +108,7 @@ class RoomSubmitOutbox<P>(
 
     override suspend fun deleteAll() = dao.deleteAll()
 
-    private fun org.mifos.core.database.infra.entity.DraftEntity.toEntry(): SubmitOutboxEntry<P>? = runCatching {
+    private fun DraftEntity.toEntry(): SubmitOutboxEntry<P>? = runCatching {
         SubmitOutboxEntry(
             id = id,
             formKey = formKey,

@@ -11,9 +11,9 @@ package org.mifos.core.store.alerts
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import mifos.core.database.alerts.AlertDao
-import mifos.core.database.alerts.AlertEntity
-import mifos.core.store.alerts.impl.provideAlertsStore
+import org.mifos.core.database.alerts.AlertDao
+import org.mifos.core.database.alerts.AlertEntity
+import org.mifos.core.store.alerts.impl.provideAlertsStore
 import kotlin.test.Test
 import kotlin.test.assertNotNull
 

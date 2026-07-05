@@ -11,8 +11,8 @@ package cmp.android.app
 
 import org.mifos.core.model.user.DarkThemeConfig
 
-fun org.mifos.core.model.user.DarkThemeConfig.isDarkMode(isSystemDarkMode: Boolean): Boolean = when (this) {
-    _root_ide_package_.org.mifos.core.model.user.DarkThemeConfig.FOLLOW_SYSTEM -> isSystemDarkMode
-    _root_ide_package_.org.mifos.core.model.user.DarkThemeConfig.DARK -> true
-    _root_ide_package_.org.mifos.core.model.user.DarkThemeConfig.LIGHT -> false
+fun DarkThemeConfig.isDarkMode(isSystemDarkMode: Boolean): Boolean = when (this) {
+    DarkThemeConfig.FOLLOW_SYSTEM -> isSystemDarkMode
+    DarkThemeConfig.DARK -> true
+    DarkThemeConfig.LIGHT -> false
 }

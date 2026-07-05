@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright 2025 Mifos Initiative
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
@@ -10,11 +10,11 @@
 package org.mifos.core.base.store.infra
 
 import io.github.mobilebytelabs.kmptoolkit.networkmonitor.NetworkInfo
-import mifos.core.base.store.freshness.FreshnessBand
-import mifos.core.base.store.screen.DataFreshness
-import mifos.core.base.store.screen.ScreenState
-import mifos.core.base.store.screen.DataOrigin
-import mifos.core.base.store.screen.StoreData
+import org.mifos.core.base.store.freshness.FreshnessBand
+import org.mifos.core.base.store.screen.DataFreshness
+import org.mifos.core.base.store.screen.ScreenState
+import org.mifos.core.base.store.screen.DataOrigin
+import org.mifos.core.base.store.screen.StoreData
 import io.github.mobilebytelabs.kmptoolkit.networkmonitor.NetworkStatus
 import io.github.mobilebytelabs.kmptoolkit.networkmonitor.NetworkType
 import kotlin.test.Test
@@ -79,7 +79,7 @@ class DecisionEngineTest {
 
     @Test
     fun `no data + Available + IOException = NoNetwork`() {
-        val data = emptyStoreData(error = _root_ide_package_.org.mifos.core.base.store.infra.FakeIOException(
+        val data = emptyStoreData(error = FakeIOException(
             "timeout"
         )
         )
@@ -89,7 +89,7 @@ class DecisionEngineTest {
 
     @Test
     fun `no data + Unavailable + IOException = NoNetwork`() {
-        val data = emptyStoreData(error = _root_ide_package_.org.mifos.core.base.store.infra.FakeIOException(
+        val data = emptyStoreData(error = FakeIOException(
             "no route"
         )
         )
@@ -144,7 +144,7 @@ class DecisionEngineTest {
 
     @Test
     fun `has data + error refresh failed = Content STALE`() {
-        val data = dataStoreData("stale", error = _root_ide_package_.org.mifos.core.base.store.infra.FakeIOException(
+        val data = dataStoreData("stale", error = FakeIOException(
             "refresh failed"
         )
         )
@@ -165,7 +165,7 @@ class DecisionEngineTest {
 
     @Test
     fun `network error - IOException direct = NoNetwork`() {
-        val data = emptyStoreData(error = _root_ide_package_.org.mifos.core.base.store.infra.FakeIOException(
+        val data = emptyStoreData(error = FakeIOException(
             "connection reset"
         )
         )
@@ -176,7 +176,7 @@ class DecisionEngineTest {
     @Test
     fun `network error - IOException as cause = NoNetwork`() {
         val data = emptyStoreData(error = RuntimeException("wrapped",
-            _root_ide_package_.org.mifos.core.base.store.infra.FakeIOException("cause")
+            FakeIOException("cause")
         ))
         val result = DecisionEngine.decide(data, available)
         assertIs<ScreenState.NoNetwork>(result)

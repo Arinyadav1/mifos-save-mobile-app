@@ -132,7 +132,7 @@ fun KptTheme(
         typography = mifosTypography,
     )
 
-    val screenStateDefaults = _root_ide_package_.org.mifos.core.store.appScreenStateDefaults()
+    val screenStateDefaults = appScreenStateDefaults()
     val financeColors = if (darkTheme) darkFinanceColors() else lightFinanceColors()
 
     KptMaterialTheme(theme = themeProvider) {

@@ -24,7 +24,6 @@ import io.ktor.serialization.kotlinx.json.json
 import io.ktor.utils.io.ByteReadChannel
 import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.json.Json
-import mifos.core.network.economic.api.createFredApi
 import kotlin.collections.get
 import kotlin.test.Test
 import kotlin.test.assertEquals

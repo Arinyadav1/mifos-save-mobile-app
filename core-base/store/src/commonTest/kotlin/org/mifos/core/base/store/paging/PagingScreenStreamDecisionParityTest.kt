@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright 2025 Mifos Initiative
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
@@ -10,11 +10,11 @@
 package org.mifos.core.base.store.paging
 
 import io.github.mobilebytelabs.kmptoolkit.networkmonitor.NetworkInfo
-import mifos.core.base.store.infra.DecisionEngine
-import mifos.core.base.store.screen.DataFreshness
-import mifos.core.base.store.screen.DataOrigin
-import mifos.core.base.store.screen.StoreData
-import mifos.core.base.store.screen.ScreenState
+import org.mifos.core.base.store.infra.DecisionEngine
+import org.mifos.core.base.store.screen.DataFreshness
+import org.mifos.core.base.store.screen.DataOrigin
+import org.mifos.core.base.store.screen.StoreData
+import org.mifos.core.base.store.screen.ScreenState
 import io.github.mobilebytelabs.kmptoolkit.networkmonitor.NetworkStatus
 import io.github.mobilebytelabs.kmptoolkit.networkmonitor.NetworkType
 import kotlin.test.Test
@@ -116,7 +116,7 @@ class PagingScreenStreamDecisionParityTest {
         // flow (asScreenStream) and is the correct UX (network-shaped errors get
         // NoNetwork treatment, not generic "Something went wrong").
         val ioError =
-            _root_ide_package_.org.mifos.core.base.store.paging.FakeIOExceptionForPaging("connection reset")
+            FakeIOExceptionForPaging("connection reset")
         val result = decideForPaging(
             emptyList(), available, isInitialLoading = false, error = ioError,
         )

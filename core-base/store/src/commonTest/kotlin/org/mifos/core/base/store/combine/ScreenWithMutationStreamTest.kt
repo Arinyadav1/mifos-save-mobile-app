@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright 2026 Mifos Initiative
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
@@ -10,15 +10,15 @@
 package org.mifos.core.base.store.combine
 
 import app.cash.turbine.test
+import internal.ScreenWithMutationStreamImpl
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
-import mifos.core.base.store.combine.internal.ScreenWithMutationStreamImpl
-import mifos.core.base.store.screen.DataFreshness
-import mifos.core.base.store.screen.ScreenState
-import mifos.core.base.store.submit.SubmitState
-import mifos.core.base.store.submit.submitHandler
+import org.mifos.core.base.store.screen.DataFreshness
+import org.mifos.core.base.store.screen.ScreenState
+import org.mifos.core.base.store.submit.SubmitState
+import org.mifos.core.base.store.submit.submitHandler
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertIs

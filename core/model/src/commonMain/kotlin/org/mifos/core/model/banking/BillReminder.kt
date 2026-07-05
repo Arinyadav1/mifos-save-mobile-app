@@ -26,7 +26,7 @@ import kotlinx.serialization.Serializable
  * @property amount Expected charge amount.
  * @property dueDay Day-of-month the bill is due (1-31). For months without
  *   that day (e.g. day 31 in February), the dashboard clamps to month-end.
- * @property recurrence How often the bill repeats; [org.mifos.core.model.banking.Recurrence.ONCE] for
+ * @property recurrence How often the bill repeats; [Recurrence.ONCE] for
  *   single-occurrence bills.
  * @property category Coarse category used for grouping in the dashboard.
  * @property enabled Whether the reminder fires; disabled reminders persist
@@ -42,8 +42,8 @@ data class BillReminder(
     val name: String,
     val amount: Double,
     val dueDay: Int,
-    val recurrence: org.mifos.core.model.banking.Recurrence,
-    val category: org.mifos.core.model.banking.BillCategory,
+    val recurrence: Recurrence,
+    val category: BillCategory,
     val enabled: Boolean = true,
     val reminderDaysBefore: Int = 1,
     val createdAtMs: Long,

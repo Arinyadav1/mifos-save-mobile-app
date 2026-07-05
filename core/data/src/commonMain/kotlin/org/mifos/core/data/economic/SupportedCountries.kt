@@ -9,6 +9,7 @@
  */
 package org.mifos.core.data.economic
 
+import Country
 import org.mifos.core.model.economic.Country
 
 /**
@@ -20,7 +21,7 @@ import org.mifos.core.model.economic.Country
  *   are most likely to demo against. This gives the screen a useful default
  *   experience without bundling the full ~250-country World Bank catalogue.
  * - Codes are ISO 3166-1 alpha-2, the form the toolkit standardises on (see
- *   [org.mifos.core.model.economic.MacroIndicator]). The World Bank API
+ *   [MacroIndicator]). The World Bank API
  *   accepts alpha-2 directly.
  *
  * Future enhancement: dynamic loading via the World Bank `/v2/country`
@@ -30,158 +31,158 @@ import org.mifos.core.model.economic.Country
 object SupportedCountries {
 
     /** Curated G20-plus list — alphabetised by display name for stable UX. */
-    val list: List<org.mifos.core.model.economic.Country> = listOf(
-        _root_ide_package_.org.mifos.core.model.economic.Country(
+    val list: List<Country> = listOf(
+        Country(
             code = "AR",
             name = "Argentina",
             flagEmoji = "🇦🇷",
         ),
-        _root_ide_package_.org.mifos.core.model.economic.Country(
+        Country(
             code = "AU",
             name = "Australia",
             flagEmoji = "🇦🇺",
         ),
-        _root_ide_package_.org.mifos.core.model.economic.Country(
+        Country(
             code = "BR",
             name = "Brazil",
             flagEmoji = "🇧🇷",
         ),
-        _root_ide_package_.org.mifos.core.model.economic.Country(
+        Country(
             code = "CA",
             name = "Canada",
             flagEmoji = "🇨🇦",
         ),
-        _root_ide_package_.org.mifos.core.model.economic.Country(
+        Country(
             code = "CN",
             name = "China",
             flagEmoji = "🇨🇳",
         ),
-        _root_ide_package_.org.mifos.core.model.economic.Country(
+        Country(
             code = "EG",
             name = "Egypt",
             flagEmoji = "🇪🇬",
         ),
-        _root_ide_package_.org.mifos.core.model.economic.Country(
+        Country(
             code = "FR",
             name = "France",
             flagEmoji = "🇫🇷",
         ),
-        _root_ide_package_.org.mifos.core.model.economic.Country(
+        Country(
             code = "DE",
             name = "Germany",
             flagEmoji = "🇩🇪",
         ),
-        _root_ide_package_.org.mifos.core.model.economic.Country(
+        Country(
             code = "IN",
             name = "India",
             flagEmoji = "🇮🇳",
         ),
-        _root_ide_package_.org.mifos.core.model.economic.Country(
+        Country(
             code = "ID",
             name = "Indonesia",
             flagEmoji = "🇮🇩",
         ),
-        _root_ide_package_.org.mifos.core.model.economic.Country(
+        Country(
             code = "IT",
             name = "Italy",
             flagEmoji = "🇮🇹",
         ),
-        _root_ide_package_.org.mifos.core.model.economic.Country(
+        Country(
             code = "JP",
             name = "Japan",
             flagEmoji = "🇯🇵",
         ),
-        _root_ide_package_.org.mifos.core.model.economic.Country(
+        Country(
             code = "KE",
             name = "Kenya",
             flagEmoji = "🇰🇪",
         ),
-        _root_ide_package_.org.mifos.core.model.economic.Country(
+        Country(
             code = "KR",
             name = "Korea, Rep.",
             flagEmoji = "🇰🇷",
         ),
-        _root_ide_package_.org.mifos.core.model.economic.Country(
+        Country(
             code = "MX",
             name = "Mexico",
             flagEmoji = "🇲🇽",
         ),
-        _root_ide_package_.org.mifos.core.model.economic.Country(
+        Country(
             code = "NG",
             name = "Nigeria",
             flagEmoji = "🇳🇬",
         ),
-        _root_ide_package_.org.mifos.core.model.economic.Country(
+        Country(
             code = "PK",
             name = "Pakistan",
             flagEmoji = "🇵🇰",
         ),
-        _root_ide_package_.org.mifos.core.model.economic.Country(
+        Country(
             code = "PH",
             name = "Philippines",
             flagEmoji = "🇵🇭",
         ),
-        _root_ide_package_.org.mifos.core.model.economic.Country(
+        Country(
             code = "PL",
             name = "Poland",
             flagEmoji = "🇵🇱",
         ),
-        _root_ide_package_.org.mifos.core.model.economic.Country(
+        Country(
             code = "RU",
             name = "Russian Federation",
             flagEmoji = "🇷🇺",
         ),
-        _root_ide_package_.org.mifos.core.model.economic.Country(
+        Country(
             code = "SA",
             name = "Saudi Arabia",
             flagEmoji = "🇸🇦",
         ),
-        _root_ide_package_.org.mifos.core.model.economic.Country(
+        Country(
             code = "SG",
             name = "Singapore",
             flagEmoji = "🇸🇬",
         ),
-        _root_ide_package_.org.mifos.core.model.economic.Country(
+        Country(
             code = "ZA",
             name = "South Africa",
             flagEmoji = "🇿🇦",
         ),
-        _root_ide_package_.org.mifos.core.model.economic.Country(
+        Country(
             code = "ES",
             name = "Spain",
             flagEmoji = "🇪🇸",
         ),
-        _root_ide_package_.org.mifos.core.model.economic.Country(
+        Country(
             code = "SE",
             name = "Sweden",
             flagEmoji = "🇸🇪",
         ),
-        _root_ide_package_.org.mifos.core.model.economic.Country(
+        Country(
             code = "CH",
             name = "Switzerland",
             flagEmoji = "🇨🇭",
         ),
-        _root_ide_package_.org.mifos.core.model.economic.Country(
+        Country(
             code = "TR",
             name = "Turkiye",
             flagEmoji = "🇹🇷",
         ),
-        _root_ide_package_.org.mifos.core.model.economic.Country(
+        Country(
             code = "AE",
             name = "United Arab Emirates",
             flagEmoji = "🇦🇪",
         ),
-        _root_ide_package_.org.mifos.core.model.economic.Country(
+        Country(
             code = "GB",
             name = "United Kingdom",
             flagEmoji = "🇬🇧",
         ),
-        _root_ide_package_.org.mifos.core.model.economic.Country(
+        Country(
             code = "US",
             name = "United States",
             flagEmoji = "🇺🇸",
         ),
-        _root_ide_package_.org.mifos.core.model.economic.Country(
+        Country(
             code = "VN",
             name = "Vietnam",
             flagEmoji = "🇻🇳",
@@ -189,13 +190,13 @@ object SupportedCountries {
     )
 
     /** Backing index keyed on uppercase ISO code for O(1) [findByCode]. */
-    private val byCode: Map<String, org.mifos.core.model.economic.Country> = list.associateBy { it.code }
+    private val byCode: Map<String, Country> = list.associateBy { it.code }
 
     /**
      * Lookup a country by ISO code. Case-insensitive — the picker, intent
      * deeplinks, or saved navigation args may all carry mixed case.
      */
-    fun findByCode(code: String): org.mifos.core.model.economic.Country? = byCode[code.trim().uppercase()]
+    fun findByCode(code: String): Country? = byCode[code.trim().uppercase()]
 
     /**
      * Filter the list by a free-text query. Matches a country's ISO code as a
@@ -204,7 +205,7 @@ object SupportedCountries {
      * An empty (or whitespace-only) query returns the full list — typical
      * picker behavior so the screen renders before the user types anything.
      */
-    fun search(query: String): List<org.mifos.core.model.economic.Country> {
+    fun search(query: String): List<Country> {
         val trimmed = query.trim()
         if (trimmed.isEmpty()) return list
         val upper = trimmed.uppercase()
