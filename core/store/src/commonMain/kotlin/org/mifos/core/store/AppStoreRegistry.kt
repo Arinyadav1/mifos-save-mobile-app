@@ -44,7 +44,6 @@ import kotlin.time.Duration.Companion.minutes
  * qualifier-name collisions across feature modules.
  */
 object AppStoreRegistry : StoreRegistry() {
-    val ExchangeRates = store("exchangeRates")
     val RateHistory = store("rateHistory")
     val CoinMarkets = store("coinMarkets")
     val CoinDetail = store("coinDetail")
