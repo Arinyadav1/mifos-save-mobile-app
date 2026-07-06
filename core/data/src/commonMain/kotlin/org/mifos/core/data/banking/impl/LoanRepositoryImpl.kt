@@ -77,8 +77,8 @@ internal class LoanRepositoryImpl(
     }
 }
 
-private fun org.mifos.core.database.banking.entity.LoanEntity.toDomain(): org.mifos.core.model.banking.Loan =
-    _root_ide_package_.org.mifos.core.model.banking.Loan(
+private fun org.mifos.core.database.banking.entity.LoanEntity.toDomain(): Loan =
+    Loan(
         id = id,
         name = name,
         kind = kind,
@@ -94,8 +94,8 @@ private fun org.mifos.core.database.banking.entity.LoanEntity.toDomain(): org.mi
         updatedAtMs = updatedAtMs,
     )
 
-private fun org.mifos.core.model.banking.Loan.toEntity(): org.mifos.core.database.banking.entity.LoanEntity =
-    _root_ide_package_.org.mifos.core.database.banking.entity.LoanEntity(
+private fun Loan.toEntity(): org.mifos.core.database.banking.entity.LoanEntity =
+    org.mifos.core.database.banking.entity.LoanEntity(
         id = id,
         name = name,
         kind = kind,

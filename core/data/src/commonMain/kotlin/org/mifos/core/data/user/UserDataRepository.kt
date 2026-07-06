@@ -25,25 +25,25 @@ import org.mifos.core.model.user.UserData
  */
 interface UserDataRepository {
 
-    val userData: StateFlow<org.mifos.core.model.user.UserData>
+    val userData: StateFlow<UserData>
 
     val authToken: String?
 
     val passcode: String
 
-    val observeLanguage: Flow<org.mifos.core.model.user.LanguageConfig>
+    val observeLanguage: Flow<LanguageConfig>
 
-    val observeDarkThemeConfig: Flow<org.mifos.core.model.user.DarkThemeConfig>
+    val observeDarkThemeConfig: Flow<DarkThemeConfig>
 
     val observeDynamicColorPreference: Flow<Boolean>
 
     val observeScreenCapturePreference: Flow<Boolean>
 
-    suspend fun setLanguage(language: org.mifos.core.model.user.LanguageConfig)
+    suspend fun setLanguage(language: LanguageConfig)
 
-    suspend fun setThemeBrand(themeBrand: org.mifos.core.model.user.ThemeBrand)
+    suspend fun setThemeBrand(themeBrand: ThemeBrand)
 
-    suspend fun setDarkThemeConfig(darkThemeConfig: org.mifos.core.model.user.DarkThemeConfig)
+    suspend fun setDarkThemeConfig(darkThemeConfig: DarkThemeConfig)
 
     suspend fun setDynamicColorPreference(useDynamicColor: Boolean)
 
