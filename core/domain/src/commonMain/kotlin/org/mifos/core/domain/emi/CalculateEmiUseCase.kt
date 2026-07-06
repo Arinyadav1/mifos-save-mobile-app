@@ -31,7 +31,7 @@ fun calculateEmi(principal: Double, annualRatePercent: Double, tenureMonths: Int
         principal * monthlyRate * factor / (factor - 1)
     }
     val totalPayment = emi * tenureMonths
-    return _root_ide_package_.org.mifos.core.model.emi.EmiResult(
+    return EmiResult(
         emi = emi,
         totalPayment = totalPayment,
         totalInterest = totalPayment - principal,

@@ -16,7 +16,7 @@ import org.mifos.core.model.currency.RateHistory
 import org.mifos.core.model.currency.RatePoint
 import kotlin.time.Clock
 
-fun org.mifos.core.model.currency.RateHistory.toEntity(): RateHistoryEntity = RateHistoryEntity(
+fun RateHistory.toEntity(): RateHistoryEntity = RateHistoryEntity(
     fromCurrency = from,
     toCurrency = to,
     startDate = startDate,
@@ -25,12 +25,12 @@ fun org.mifos.core.model.currency.RateHistory.toEntity(): RateHistoryEntity = Ra
     fetchedAt = Clock.System.now().toEpochMilliseconds(),
 )
 
-fun RateHistoryEntity.toDomain(): org.mifos.core.model.currency.RateHistory =
-    _root_ide_package_.org.mifos.core.model.currency.RateHistory(
+fun RateHistoryEntity.toDomain(): RateHistory =
+    RateHistory(
         from = fromCurrency,
         to = toCurrency,
         startDate = startDate,
         endDate = endDate,
         rates = Json.decodeFromString<List<RatePointPair>>(ratesJson)
-            .map { _root_ide_package_.org.mifos.core.model.currency.RatePoint(it.date, it.value) },
+            .map { RatePoint(it.date, it.value) },
     )

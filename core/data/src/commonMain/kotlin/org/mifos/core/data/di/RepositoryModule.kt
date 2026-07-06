@@ -8,7 +8,6 @@
  * See See https://github.com/openMF/kmp-project-template/blob/main/LICENSE
  */
 package org.mifos.core.data.di
-
 import io.github.mobilebytelabs.kmptoolkit.networkmonitor.NetworkMonitorProvider
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -50,6 +49,7 @@ import org.mifos.core.datastore.di.DatastoreModule
 import org.mifos.core.model.alerts.PriceAlert
 import org.mifos.core.model.banking.BillReminder
 import org.mifos.core.model.banking.Loan
+import org.mifos.core.model.banking.LoanCalcScenario
 import org.mifos.core.network.di.NetworkModule
 import org.mifos.core.store.AppStoreRegistry
 import org.mifos.core.store.AppStoreRegistry.ExchangeRates
@@ -103,8 +103,8 @@ val DataModule = module {
     single<SubmitOutbox<BillReminder>>(qualifier = OutboxQualifiers.BillReminder) {
         RoomSubmitOutbox(dao = get(), serializer = BillReminder.serializer())
     }
-    single<SubmitOutbox<org.mifos.core.model.banking.LoanCalcScenario>>(qualifier = OutboxQualifiers.LoanCalcScenario) {
-        RoomSubmitOutbox(dao = get(), serializer = org.mifos.core.model.banking.LoanCalcScenario.serializer())
+    single<SubmitOutbox<LoanCalcScenario>>(qualifier = OutboxQualifiers.LoanCalcScenario) {
+        RoomSubmitOutbox(dao = get(), serializer = LoanCalcScenario.serializer())
     }
 
     // OfflineSubmitSyncer eagerly retries pending drafts when connectivity

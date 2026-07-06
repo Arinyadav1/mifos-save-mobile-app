@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright 2026 Mifos Initiative
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
@@ -16,8 +16,8 @@ import io.github.mobilebytelabs.kmptoolkit.networkmonitor.NetworkType
 import kotlinx.coroutines.test.runTest
 import org.mobilenativefoundation.store.store5.Fetcher
 import org.mobilenativefoundation.store.store5.StoreBuilder
-import mifos.core.base.store.fixtures.FakeNetworkMonitor
-import mifos.core.base.store.infra.FakeFetchedAtRepository
+import org.mifos.core.base.store.fixtures.FakeNetworkMonitor
+import org.mifos.core.base.store.infra.FakeFetchedAtRepository
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertIs

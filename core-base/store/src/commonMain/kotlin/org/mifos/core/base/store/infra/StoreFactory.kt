@@ -9,6 +9,7 @@
  */
 package org.mifos.core.base.store.infra
 
+import internal.ScreenWithMutationStreamImpl
 import io.github.mobilebytelabs.kmptoolkit.networkmonitor.NetworkMonitor
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
@@ -26,7 +27,6 @@ import org.mobilenativefoundation.store.store5.StoreBuilder
 import org.mobilenativefoundation.store.store5.Updater
 import org.mobilenativefoundation.store.store5.Validator
 import org.mifos.core.base.store.combine.ScreenWithMutationStream
-import org.mifos.core.base.store.combine.internal.ScreenWithMutationStreamImpl
 import org.mifos.core.base.store.screen.FetchPolicy
 import org.mifos.core.base.store.screen.asScreenStream
 import org.mifos.core.base.store.submit.SubmitHandler

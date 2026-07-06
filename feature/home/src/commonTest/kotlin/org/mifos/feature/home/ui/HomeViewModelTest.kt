@@ -23,27 +23,27 @@ import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import kotlinx.datetime.LocalDate
-import mifos.core.base.store.screen.DataFreshness
-import mifos.core.base.store.screen.ExperimentalScreenDataStreamTestingApi
-import mifos.core.base.store.screen.FetchPolicy
-import mifos.core.base.store.screen.ScreenDataStream
-import mifos.core.base.store.screen.ScreenState
-import mifos.core.base.store.screen.screenDataStreamForTesting
-import mifos.core.data.banking.BillReminderRepository
-import mifos.core.data.banking.LoanRepository
-import mifos.core.data.currency.CurrencyRepository
-import mifos.core.data.economic.EconomicRatesRepository
-import mifos.core.model.banking.BillCategory
-import mifos.core.model.banking.BillReminder
-import mifos.core.model.banking.Loan
-import mifos.core.model.banking.LoanKind
-import mifos.core.model.banking.Recurrence
-import mifos.core.model.currency.ExchangeRates
-import mifos.core.model.currency.RateHistory
-import mifos.core.model.currency.RateHistoryKey
-import mifos.core.model.economic.InterestRateSeries
-import mifos.core.model.economic.RateObservation
-import mifos.core.store.economic.impl.InterestRateSeriesKey
+import org.mifos.core.base.store.screen.DataFreshness
+import org.mifos.core.base.store.screen.ExperimentalScreenDataStreamTestingApi
+import org.mifos.core.base.store.screen.FetchPolicy
+import org.mifos.core.base.store.screen.ScreenDataStream
+import org.mifos.core.base.store.screen.ScreenState
+import org.mifos.core.base.store.screen.screenDataStreamForTesting
+import org.mifos.core.data.banking.BillReminderRepository
+import org.mifos.core.data.banking.LoanRepository
+import org.mifos.core.data.currency.CurrencyRepository
+import org.mifos.core.data.economic.EconomicRatesRepository
+import org.mifos.core.model.banking.BillCategory
+import org.mifos.core.model.banking.BillReminder
+import org.mifos.core.model.banking.Loan
+import org.mifos.core.model.banking.LoanKind
+import org.mifos.core.model.banking.Recurrence
+import org.mifos.core.model.currency.ExchangeRates
+import org.mifos.core.model.currency.RateHistory
+import org.mifos.core.model.currency.RateHistoryKey
+import org.mifos.core.model.economic.InterestRateSeries
+import org.mifos.core.model.economic.RateObservation
+import org.mifos.core.store.economic.impl.InterestRateSeriesKey
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -146,7 +146,7 @@ class HomeViewModelTest {
         val content = state.bills as? ScreenState.Content<List<BillReminder>>
         assertNotNull(content)
         assertEquals(listOf("b1", "b2"), content.data.map { it.id })
-        _root_ide_package_.kotlin.test.assertEquals(
+        assertEquals(
             HomeViewModel.Companion.UPCOMING_BILLS_WINDOW_DAYS,
             bills.lastRequestedWindow,
             "Home widget must request the 7-day window per design.",

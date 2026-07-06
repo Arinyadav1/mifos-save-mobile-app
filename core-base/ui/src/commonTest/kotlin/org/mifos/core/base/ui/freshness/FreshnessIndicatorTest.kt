@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright 2025 Mifos Initiative
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
@@ -12,9 +12,9 @@ package org.mifos.core.base.ui.freshness
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
-import mifos.core.base.store.error.ErrorCategory
-import mifos.core.base.store.freshness.FreshnessBand
-import mifos.core.base.ui.freshness.toLongMessage
+import org.mifos.core.base.store.error.ErrorCategory
+import org.mifos.core.base.store.freshness.FreshnessBand
+import toLongMessage
 
 /**
  * Locks the pure-helper contracts inside `FreshnessIndicator.kt`:
@@ -33,51 +33,51 @@ class FreshnessIndicatorTest {
 
     @Test
     fun `Fresh band uses Neutral tint`() {
-        val v = _root_ide_package_.mifos.core.base.ui.freshness.freshnessVisualFor(
+        val v = freshnessVisualFor(
             FreshnessBand.Fresh,
             errorCategory = null
         )
-        assertEquals(_root_ide_package_.mifos.core.base.ui.freshness.FreshnessTint.Neutral, v.tint)
+        assertEquals(FreshnessTint.Neutral, v.tint)
     }
 
     @Test
     fun `Stale band uses Tertiary tint`() {
-        val v = _root_ide_package_.mifos.core.base.ui.freshness.freshnessVisualFor(
+        val v = freshnessVisualFor(
             FreshnessBand.Stale,
             errorCategory = null
         )
-        assertEquals(_root_ide_package_.mifos.core.base.ui.freshness.FreshnessTint.Tertiary, v.tint)
+        assertEquals(FreshnessTint.Tertiary, v.tint)
     }
 
     @Test
     fun `VeryStale + error uses Error tint`() {
-        val v = _root_ide_package_.mifos.core.base.ui.freshness.freshnessVisualFor(
+        val v = freshnessVisualFor(
             FreshnessBand.VeryStale,
             errorCategory = ErrorCategory.Network
         )
-        assertEquals(_root_ide_package_.mifos.core.base.ui.freshness.FreshnessTint.Error, v.tint)
+        assertEquals(FreshnessTint.Error, v.tint)
     }
 
     @Test
     fun `VeryStale without error (pure age-based) uses Tertiary tint`() {
         // Age > 3*ttl with no last error — show the warning icon but stay tertiary;
         // not an error condition, just heavily stale.
-        val v = _root_ide_package_.mifos.core.base.ui.freshness.freshnessVisualFor(
+        val v = freshnessVisualFor(
             FreshnessBand.VeryStale,
             errorCategory = null
         )
-        assertEquals(_root_ide_package_.mifos.core.base.ui.freshness.FreshnessTint.Tertiary, v.tint)
+        assertEquals(FreshnessTint.Tertiary, v.tint)
     }
 
     @Test
     fun `Initial band maps to Neutral but FreshnessIndicator returns early on Initial`() {
         // Defensive mapping — composable returns early before using this value,
         // but the pure helper still resolves it to a sensible neutral default.
-        val v = _root_ide_package_.mifos.core.base.ui.freshness.freshnessVisualFor(
+        val v = freshnessVisualFor(
             FreshnessBand.Initial,
             errorCategory = null
         )
-        assertEquals(_root_ide_package_.mifos.core.base.ui.freshness.FreshnessTint.Neutral, v.tint)
+        assertEquals(FreshnessTint.Neutral, v.tint)
     }
 
     // === freshnessTooltipTitle ===
@@ -86,7 +86,7 @@ class FreshnessIndicatorTest {
     fun `Fresh tooltip title shows Updated ageText`() {
         assertEquals(
             "Updated 2m ago",
-            _root_ide_package_.mifos.core.base.ui.freshness.freshnessTooltipTitle(
+            freshnessTooltipTitle(
                 FreshnessBand.Fresh,
                 ageText = "2m ago",
                 errorCategory = null
@@ -98,7 +98,7 @@ class FreshnessIndicatorTest {
     fun `Stale tooltip title shows Updated ageText`() {
         assertEquals(
             "Updated 8m ago",
-            _root_ide_package_.mifos.core.base.ui.freshness.freshnessTooltipTitle(
+            freshnessTooltipTitle(
                 FreshnessBand.Stale,
                 ageText = "8m ago",
                 errorCategory = null
@@ -110,7 +110,7 @@ class FreshnessIndicatorTest {
     fun `VeryStale with error tooltip title prefixes error short-message`() {
         assertEquals(
             "No network · 5m ago",
-            _root_ide_package_.mifos.core.base.ui.freshness.freshnessTooltipTitle(
+            freshnessTooltipTitle(
                 FreshnessBand.VeryStale,
                 ageText = "5m ago",
                 errorCategory = ErrorCategory.Network,
@@ -122,7 +122,7 @@ class FreshnessIndicatorTest {
     fun `VeryStale without error tooltip title falls back to Updated ageText`() {
         assertEquals(
             "Updated 25m ago",
-            _root_ide_package_.mifos.core.base.ui.freshness.freshnessTooltipTitle(
+            freshnessTooltipTitle(
                 FreshnessBand.VeryStale,
                 ageText = "25m ago",
                 errorCategory = null
@@ -135,7 +135,7 @@ class FreshnessIndicatorTest {
     @Test
     fun `Fresh body is empty (PlainTooltip shows title only)`() {
         assertEquals("",
-            _root_ide_package_.mifos.core.base.ui.freshness.freshnessTooltipBody(
+            freshnessTooltipBody(
                 FreshnessBand.Fresh,
                 errorCategory = null
             )
@@ -144,7 +144,7 @@ class FreshnessIndicatorTest {
 
     @Test
     fun `Stale body suggests refresh action`() {
-        val body = _root_ide_package_.mifos.core.base.ui.freshness.freshnessTooltipBody(
+        val body = freshnessTooltipBody(
             FreshnessBand.Stale,
             errorCategory = null
         )
@@ -153,7 +153,7 @@ class FreshnessIndicatorTest {
 
     @Test
     fun `VeryStale with error body uses ErrorCategory toLongMessage`() {
-        val body = _root_ide_package_.mifos.core.base.ui.freshness.freshnessTooltipBody(
+        val body = freshnessTooltipBody(
             FreshnessBand.VeryStale,
             errorCategory = ErrorCategory.Network
         )
@@ -162,7 +162,7 @@ class FreshnessIndicatorTest {
 
     @Test
     fun `VeryStale without error body provides generic fallback`() {
-        val body = _root_ide_package_.mifos.core.base.ui.freshness.freshnessTooltipBody(
+        val body = freshnessTooltipBody(
             FreshnessBand.VeryStale,
             errorCategory = null
         )

@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright 2025 Mifos Initiative
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
@@ -14,14 +14,14 @@ import kotlin.time.ExperimentalTime
 import kotlin.time.Instant
 
 /**
- * Pure computation of [org.mifos.core.base.store.freshness.FreshnessBand] from time + last-error inputs only.
+ * Pure computation of [FreshnessBand] from time + last-error inputs only.
  *
  * Decision table (first match wins):
- *  1. `lastSyncedAt == null && lastError == null` → [org.mifos.core.base.store.freshness.FreshnessBand.Initial]
- *  2. `lastError != null`                         → [org.mifos.core.base.store.freshness.FreshnessBand.VeryStale]
- *  3. `age <= ttl`                                → [org.mifos.core.base.store.freshness.FreshnessBand.Fresh]
- *  4. `age <= ttl * 3`                            → [org.mifos.core.base.store.freshness.FreshnessBand.Stale]
- *  5. else                                        → [org.mifos.core.base.store.freshness.FreshnessBand.VeryStale]
+ *  1. `lastSyncedAt == null && lastError == null` → [FreshnessBand.Initial]
+ *  2. `lastError != null`                         → [FreshnessBand.VeryStale]
+ *  3. `age <= ttl`                                → [FreshnessBand.Fresh]
+ *  4. `age <= ttl * 3`                            → [FreshnessBand.Stale]
+ *  5. else                                        → [FreshnessBand.VeryStale]
  *
  * **No NetworkMonitor input.** Network state is rendered separately by
  * `ConnectivityBanner`; freshness is purely "how old is the data".
@@ -33,15 +33,15 @@ object FreshnessBands {
         lastSyncedAt: Instant?,
         ttl: Duration,
         lastError: Throwable?,
-    ): org.mifos.core.base.store.freshness.FreshnessBand = when {
-        lastError != null -> _root_ide_package_.org.mifos.core.base.store.freshness.FreshnessBand.VeryStale
-        lastSyncedAt == null -> _root_ide_package_.org.mifos.core.base.store.freshness.FreshnessBand.Initial
+    ): FreshnessBand = when {
+        lastError != null -> FreshnessBand.VeryStale
+        lastSyncedAt == null -> FreshnessBand.Initial
         else -> {
             val age = now - lastSyncedAt
             when {
-                age <= ttl -> _root_ide_package_.org.mifos.core.base.store.freshness.FreshnessBand.Fresh
-                age <= ttl * 3 -> _root_ide_package_.org.mifos.core.base.store.freshness.FreshnessBand.Stale
-                else -> _root_ide_package_.org.mifos.core.base.store.freshness.FreshnessBand.VeryStale
+                age <= ttl -> FreshnessBand.Fresh
+                age <= ttl * 3 -> FreshnessBand.Stale
+                else -> FreshnessBand.VeryStale
             }
         }
     }

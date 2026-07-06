@@ -16,8 +16,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import kotlinx.datetime.LocalDate
-import mifos.core.database.AppDatabase
-import mifos.core.database.banking.entity.LoanEntity
+import org.mifos.core.database.AppDatabase
+import org.mifos.core.database.banking.entity.LoanEntity
 import org.mifos.core.model.banking.LoanKind
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
@@ -153,18 +153,18 @@ class LoanDaoTest {
     @Test
     fun allLoanKindsRoundTripThroughTypeConverters() = runTest {
         // Locks BankingTypeConverters against future enum-rename regressions.
-        _root_ide_package_.org.mifos.core.model.banking.LoanKind.entries.forEachIndexed { idx, kind ->
+        LoanKind.entries.forEachIndexed { idx, kind ->
             dao.upsert(mortgage(id = "kind-$idx", kind = kind))
         }
         val rows = dao.observeAll().first()
         val storedKinds = rows.map { it.kind }.toSet()
-        assertTrue(storedKinds.containsAll(_root_ide_package_.org.mifos.core.model.banking.LoanKind.entries.toSet()))
+        assertTrue(storedKinds.containsAll(LoanKind.entries.toSet()))
         assertNotNull(rows.first().kind)
     }
 
     private fun mortgage(
         id: String,
-        kind: org.mifos.core.model.banking.LoanKind = _root_ide_package_.org.mifos.core.model.banking.LoanKind.MORTGAGE,
+        kind: LoanKind = LoanKind.MORTGAGE,
         principal: Double = 250_000.0,
         nextDue: LocalDate = LocalDate(2026, 6, 1),
         createdAtMs: Long = 1_000L,

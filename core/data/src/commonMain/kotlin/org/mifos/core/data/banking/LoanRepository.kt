@@ -23,28 +23,28 @@ import org.mifos.core.model.banking.Loan
 interface LoanRepository {
 
     /** Observe all loans, soonest-due first. */
-    fun observeAll(): Flow<List<org.mifos.core.model.banking.Loan>>
+    fun observeAll(): Flow<List<Loan>>
 
     /** Observe a single loan. Emits `null` after deletion. */
-    fun observeById(id: String): Flow<org.mifos.core.model.banking.Loan?>
+    fun observeById(id: String): Flow<Loan?>
 
     /** One-shot read. `null` if the loan was never saved or has been deleted. */
-    suspend fun getById(id: String): org.mifos.core.model.banking.Loan?
+    suspend fun getById(id: String): Loan?
 
-    /** Insert-or-replace by [org.mifos.core.model.banking.Loan.id]. Idempotent. */
-    suspend fun upsert(loan: org.mifos.core.model.banking.Loan)
+    /** Insert-or-replace by [Loan.id]. Idempotent. */
+    suspend fun upsert(loan: Loan)
 
     /** Delete by id. No-op if absent. */
     suspend fun delete(id: String)
 
     /**
-     * Sum of every loan's [org.mifos.core.model.banking.Loan.monthlyPayment]. Useful for the dashboard
+     * Sum of every loan's [Loan.monthlyPayment]. Useful for the dashboard
      * "Total Monthly EMI" tile. Emits whenever any loan changes.
      */
     fun observeTotalMonthlyEmi(): Flow<Double>
 
     /**
-     * Sum of every loan's [org.mifos.core.model.banking.Loan.principalRemaining]. Useful for the dashboard
+     * Sum of every loan's [Loan.principalRemaining]. Useful for the dashboard
      * "Total Outstanding" tile. Emits whenever any loan changes.
      */
     fun observeTotalPrincipalRemaining(): Flow<Double>

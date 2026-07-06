@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright 2025 Mifos Initiative
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
@@ -9,16 +9,16 @@
  */
 package org.mifos.core.base.store.paging
 
-import mifos.core.base.store.error.OfflineException
-import org.mifos.core.base.store.fixtures.FakeNetworkMonitor
-import org.mifos.core.base.store.infra.FakeFetchedAtRepository
-import mifos.core.base.store.screen.ScreenState
+import org.mifos.core.base.store.error.OfflineException
+import org.mifos.core.base.store.screen.ScreenState
 import io.github.mobilebytelabs.kmptoolkit.networkmonitor.NetworkInfo
 import io.github.mobilebytelabs.kmptoolkit.networkmonitor.NetworkStatus
 import io.github.mobilebytelabs.kmptoolkit.networkmonitor.NetworkType
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
+import org.mifos.core.base.store.fixtures.FakeNetworkMonitor
+import org.mifos.core.base.store.infra.FakeFetchedAtRepository
 import org.mifos.core.base.store.paging.firstNonNullValue
 import org.mobilenativefoundation.store.store5.Fetcher
 import org.mobilenativefoundation.store.store5.StoreBuilder
@@ -44,7 +44,7 @@ class PagingScreenStreamOfflineTest {
     @Test
     fun loadNextPage_offline_setsOfflineException() = runTest {
         val networkMonitor =
-            _root_ide_package_.org.mifos.core.base.store.fixtures.FakeNetworkMonitor(NetworkStatus.Unavailable)
+            FakeNetworkMonitor(NetworkStatus.Unavailable)
         val failingStore = StoreBuilder
             .from<PageKey, List<String>>(
                 fetcher = Fetcher.of { _ -> throw RuntimeException("network down") },
@@ -52,7 +52,7 @@ class PagingScreenStreamOfflineTest {
             .build()
         val stream = failingStore.asPagingScreenStream(
             networkMonitor = networkMonitor,
-            fetchedAtRepository = _root_ide_package_.org.mifos.core.base.store.infra.FakeFetchedAtRepository(),
+            fetchedAtRepository = FakeFetchedAtRepository(),
             cacheKey = "test:offline-fail",
             scope = backgroundScope,
             pageSize = 5,
@@ -73,7 +73,7 @@ class PagingScreenStreamOfflineTest {
     @Test
     fun loadNextPage_online_propagatesOriginalError() = runTest {
         val networkMonitor =
-            _root_ide_package_.org.mifos.core.base.store.fixtures.FakeNetworkMonitor(
+            FakeNetworkMonitor(
                 NetworkStatus.Available(onlineInfo)
             )
         val originalError = IllegalStateException("server fault")
@@ -84,7 +84,7 @@ class PagingScreenStreamOfflineTest {
             .build()
         val stream = failingStore.asPagingScreenStream(
             networkMonitor = networkMonitor,
-            fetchedAtRepository = _root_ide_package_.org.mifos.core.base.store.infra.FakeFetchedAtRepository(),
+            fetchedAtRepository = FakeFetchedAtRepository(),
             cacheKey = "test:offline-fail",
             scope = backgroundScope,
             pageSize = 5,
@@ -106,7 +106,7 @@ class PagingScreenStreamOfflineTest {
     fun loadInitialPage_online_succeedsThroughFetcher() = runTest {
         // Sanity check that the offline-guard refactor didn't break the happy path.
         val networkMonitor =
-            _root_ide_package_.org.mifos.core.base.store.fixtures.FakeNetworkMonitor(
+            FakeNetworkMonitor(
                 NetworkStatus.Available(onlineInfo)
             )
         val store = StoreBuilder
@@ -116,7 +116,7 @@ class PagingScreenStreamOfflineTest {
             .build()
         val stream = store.asPagingScreenStream(
             networkMonitor = networkMonitor,
-            fetchedAtRepository = _root_ide_package_.org.mifos.core.base.store.infra.FakeFetchedAtRepository(),
+            fetchedAtRepository = FakeFetchedAtRepository(),
             cacheKey = "test:happy-path",
             scope = backgroundScope,
             pageSize = 3,
@@ -135,7 +135,7 @@ class PagingScreenStreamOfflineTest {
         // BEFORE calling store.loadPage, setting OfflineException so the UI can
         // render the no-network treatment and the spinner can hide.
         val networkMonitor =
-            _root_ide_package_.org.mifos.core.base.store.fixtures.FakeNetworkMonitor(NetworkStatus.Unavailable)
+            FakeNetworkMonitor(NetworkStatus.Unavailable)
         var fetcherCalls = 0
         val store = StoreBuilder
             .from<PageKey, List<String>>(
@@ -147,7 +147,7 @@ class PagingScreenStreamOfflineTest {
             .build()
         val stream = store.asPagingScreenStream(
             networkMonitor = networkMonitor,
-            fetchedAtRepository = _root_ide_package_.org.mifos.core.base.store.infra.FakeFetchedAtRepository(),
+            fetchedAtRepository = FakeFetchedAtRepository(),
             cacheKey = "test:happy-path",
             scope = backgroundScope,
             pageSize = 3,

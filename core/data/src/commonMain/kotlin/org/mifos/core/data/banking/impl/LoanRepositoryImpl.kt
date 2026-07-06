@@ -15,6 +15,7 @@ import kotlinx.coroutines.flow.map
 import org.mifos.core.base.database.invalidation.daoFlow
 import org.mifos.core.base.database.invalidation.notifyingWrite
 import org.mifos.core.data.banking.LoanRepository
+import org.mifos.core.database.banking.entity.LoanEntity
 import org.mifos.core.model.banking.Loan
 import org.mobilenativefoundation.store.store5.Store
 import org.mobilenativefoundation.store.store5.StoreReadRequest
@@ -33,21 +34,21 @@ import org.mobilenativefoundation.store.store5.StoreReadResponse
  * recipe, and removal plan.
  */
 internal class LoanRepositoryImpl(
-    private val loansStore: Store<Unit, List<org.mifos.core.database.banking.entity.LoanEntity>>,
+    private val loansStore: Store<Unit, List<LoanEntity>>,
     private val loanDao: org.mifos.core.database.banking.dao.LoanDao,
 ) : LoanRepository {
 
-    override fun observeAll(): Flow<List<org.mifos.core.model.banking.Loan>> =
+    override fun observeAll(): Flow<List<Loan>> =
         loansStore.stream(StoreReadRequest.cached(Unit, refresh = false))
-            .filterIsInstance<StoreReadResponse.Data<List<org.mifos.core.database.banking.entity.LoanEntity>>>()
+            .filterIsInstance<StoreReadResponse.Data<List<LoanEntity>>>()
             .map { response -> response.value.map { it.toDomain() } }
 
-    override fun observeById(id: String): Flow<org.mifos.core.model.banking.Loan?> =
+    override fun observeById(id: String): Flow<Loan?> =
         daoFlow(LOANS_TABLE) { loanDao.observeById(id) }.map { it?.toDomain() }
 
-    override suspend fun getById(id: String): org.mifos.core.model.banking.Loan? = loanDao.getById(id)?.toDomain()
+    override suspend fun getById(id: String): Loan? = loanDao.getById(id)?.toDomain()
 
-    override suspend fun upsert(loan: org.mifos.core.model.banking.Loan) {
+    override suspend fun upsert(loan: Loan) {
         notifyingWrite(LOANS_TABLE) {
             loanDao.upsert(loan.toEntity())
         }
@@ -72,12 +73,12 @@ internal class LoanRepositoryImpl(
     override fun observeCount(): Flow<Int> = daoFlow(LOANS_TABLE) { loanDao.count() }
 
     private companion object {
-        /** Room `@Entity(tableName = …)` for [org.mifos.core.database.banking.entity.LoanEntity]. */
+        /** Room `@Entity(tableName = …)` for [LoanEntity]. */
         const val LOANS_TABLE = "banking_loans"
     }
 }
 
-private fun org.mifos.core.database.banking.entity.LoanEntity.toDomain(): Loan =
+private fun LoanEntity.toDomain(): Loan =
     Loan(
         id = id,
         name = name,
@@ -94,8 +95,8 @@ private fun org.mifos.core.database.banking.entity.LoanEntity.toDomain(): Loan =
         updatedAtMs = updatedAtMs,
     )
 
-private fun Loan.toEntity(): org.mifos.core.database.banking.entity.LoanEntity =
-    org.mifos.core.database.banking.entity.LoanEntity(
+private fun Loan.toEntity(): LoanEntity =
+    LoanEntity(
         id = id,
         name = name,
         kind = kind,

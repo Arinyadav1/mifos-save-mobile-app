@@ -9,7 +9,6 @@
  */
 package org.mifos.core.data.infra.impl
 
-import org.mifos.core.database.infra.dao.BookkeeperDao
 import org.mifos.core.database.infra.entity.BookkeeperEntity
 import org.mobilenativefoundation.store.store5.Bookkeeper
 
@@ -32,7 +31,7 @@ class RoomBookkeeper<Key : Any>(
 
     override suspend fun setLastFailedSync(key: Key, timestamp: Long): Boolean {
         dao.upsert(
-            _root_ide_package_.org.mifos.core.database.infra.entity.BookkeeperEntity(
+            BookkeeperEntity(
                 key = keySerializer(
                     key,
                 ),

@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright 2025 Mifos Initiative
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
@@ -27,13 +27,13 @@ class FakeFetchedAtRepositoryTest {
 
     @Test
     fun read_unknownKey_returnsNull() = runTest {
-        val repo = _root_ide_package_.org.mifos.core.base.store.infra.FakeFetchedAtRepository()
+        val repo = FakeFetchedAtRepository()
         assertNull(repo.read("never-written"))
     }
 
     @Test
     fun write_thenRead_roundTrips() = runTest {
-        val repo = _root_ide_package_.org.mifos.core.base.store.infra.FakeFetchedAtRepository()
+        val repo = FakeFetchedAtRepository()
         val now = Clock.System.now()
         repo.write("k", now)
         assertEquals(now, repo.read("k"))
@@ -41,7 +41,7 @@ class FakeFetchedAtRepositoryTest {
 
     @Test
     fun write_overwritesPreviousValue() = runTest {
-        val repo = _root_ide_package_.org.mifos.core.base.store.infra.FakeFetchedAtRepository()
+        val repo = FakeFetchedAtRepository()
         repo.write("k", Clock.System.now() - 5.minutes)
         val newer = Clock.System.now()
         repo.write("k", newer)
@@ -50,7 +50,7 @@ class FakeFetchedAtRepositoryTest {
 
     @Test
     fun differentKeys_isolated() = runTest {
-        val repo = _root_ide_package_.org.mifos.core.base.store.infra.FakeFetchedAtRepository()
+        val repo = FakeFetchedAtRepository()
         val a = Clock.System.now()
         val b = a - 10.minutes
         repo.write("alpha", a)

@@ -42,7 +42,7 @@ import kotlinx.serialization.Serializable
 data class Loan(
     val id: String,
     val name: String,
-    val kind: org.mifos.core.model.banking.LoanKind,
+    val kind: LoanKind,
     val principal: Double,
     val principalRemaining: Double,
     val annualRatePercent: Double,

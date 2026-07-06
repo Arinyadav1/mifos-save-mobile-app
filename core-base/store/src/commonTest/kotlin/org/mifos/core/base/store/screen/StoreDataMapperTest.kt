@@ -351,7 +351,7 @@ class StoreDataMapperNoFallbackTest {
             assertTrue(item.isEmpty)
             assertFalse(item.isRefreshing)
             assertNotNull(item.error)
-            assertEquals("network", item.error?.message)
+            assertEquals("network", item.error.message)
             awaitComplete()
         }
     }

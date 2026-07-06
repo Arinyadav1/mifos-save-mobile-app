@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright 2025 Mifos Initiative
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
@@ -9,8 +9,8 @@
  */
 package org.mifos.core.base.store.submit
 
-import mifos.core.base.store.screen.DataFreshness
-import mifos.core.base.store.screen.ScreenState
+import org.mifos.core.base.store.screen.DataFreshness
+import org.mifos.core.base.store.screen.ScreenState
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
