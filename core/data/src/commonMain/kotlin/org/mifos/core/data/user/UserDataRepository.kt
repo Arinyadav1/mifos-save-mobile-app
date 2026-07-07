@@ -29,6 +29,8 @@ interface UserDataRepository {
 
     val authToken: String?
 
+    val role: String?
+
     val passcode: String
 
     val observeLanguage: Flow<LanguageConfig>
@@ -58,6 +60,10 @@ interface UserDataRepository {
     suspend fun setShowOnboarding(showOnboarding: Boolean)
 
     suspend fun setFirstTimeState(firstTimeState: Boolean)
+
+    suspend fun setToken(token: String)
+
+    suspend fun setRole(userRole: String)
 
     suspend fun setPasscode(passcode: String)
 

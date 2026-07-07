@@ -55,4 +55,9 @@ enum class NetworkError {
      * An unknown or unexpected error occurred, used as a fallback when the specific cause is not identifiable.
      */
     UNKNOWN,
+
+    /**
+     * A network unavailable error occurred, used as a fallback when the network not available.
+     */
+    NETWORK_UNAVAILABLE
 }

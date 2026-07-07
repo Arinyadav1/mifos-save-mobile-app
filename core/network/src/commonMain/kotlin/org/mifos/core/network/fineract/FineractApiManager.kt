@@ -10,8 +10,10 @@
 package org.mifos.core.network.fineract
 
 import de.jensklingenberg.ktorfit.Ktorfit
+import org.mifos.core.network.fineract.auth.apis.createAuthApi
 
-@Suppress("UnusedPrivateProperty")
 class FineractApiManager(
     private val ktorfit: Ktorfit,
-)
+) {
+    val authApi by lazy { ktorfit.createAuthApi() }
+}

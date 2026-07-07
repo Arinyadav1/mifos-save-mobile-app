@@ -23,6 +23,7 @@ data class UserData(
     val isAuthenticated: Boolean,
     val isUnlocked: Boolean,
     val passcode: String,
+    val token: String,
     val enableScreenCapture: Boolean,
     val isPasscodeEnabled: Boolean,
     val isBiometricsEnabled: Boolean,
@@ -36,14 +37,15 @@ data class UserData(
             darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM,
             useDynamicColor = false,
             appLanguage = LanguageConfig.DEFAULT,
-            isAuthenticated = true,
-            isUnlocked = true,
+            isAuthenticated = false,
+            isUnlocked = false,
             isPasscodeEnabled = false,
             isBiometricsEnabled = false,
             showOnboarding = false,
             firstTimeUser = false,
             enableScreenCapture = false,
             userRole = "",
+            token = "",
         )
     }
 }

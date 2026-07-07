@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 Mifos Initiative
+ * Copyright 2026 Mifos Initiative
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -7,7 +7,7 @@
  *
  * See See https://github.com/openMF/kmp-project-template/blob/main/LICENSE
  */
-package cmp.navigation.authenticatednavbar
+package cmp.navigation.adminnavbar
 
 import androidx.compose.ui.graphics.vector.ImageVector
 import cmp.navigation.generated.resources.Res
@@ -21,9 +21,9 @@ import org.mifos.feature.home.HomeDestination
 import org.mifos.feature.home.HomeRoute
 import org.mifos.feature.profile.ProfileRoute
 
-sealed class AuthenticatedNavBarTabItem : NavigationItem {
+sealed class AdminNavBarTabItem : NavigationItem {
 
-    data object HomeTab : AuthenticatedNavBarTabItem() {
+    data object HomeTab : AdminNavBarTabItem() {
         override val selectedIcon: ImageVector
             get() = AppIcons.HomeBoarder
         override val icon: ImageVector
@@ -37,10 +37,10 @@ sealed class AuthenticatedNavBarTabItem : NavigationItem {
         override val startDestinationRoute: String
             get() = HomeRoute.toObjectNavigationRoute()
         override val testTag: String
-            get() = "HomeTab"
+            get() = "AdminHomeTab"
     }
 
-    data object ProfileTab : AuthenticatedNavBarTabItem() {
+    data object ProfileTab : AdminNavBarTabItem() {
         override val selectedIcon: ImageVector
             get() = AppIcons.ProfileBoarder
         override val icon: ImageVector
@@ -54,6 +54,6 @@ sealed class AuthenticatedNavBarTabItem : NavigationItem {
         override val startDestinationRoute: String
             get() = ProfileRoute.toObjectNavigationRoute()
         override val testTag: String
-            get() = "ProfileTab"
+            get() = "AdminProfileTab"
     }
 }

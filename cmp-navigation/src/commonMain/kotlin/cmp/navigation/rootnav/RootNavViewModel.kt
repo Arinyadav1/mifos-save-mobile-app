@@ -16,8 +16,8 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import org.mifos.core.base.ui.viewmodel.BaseViewModel
+import org.mifos.core.common.Constants
 import org.mifos.core.data.user.UserDataRepository
-import org.mifos.core.model.user.AuthState
 import org.mifos.core.model.user.UserData
 
 class RootNavViewModel(
@@ -29,7 +29,6 @@ class RootNavViewModel(
     init {
         userDataRepository.userData.map { userData ->
             UserStateUpdateReceive(
-                authState = AuthState.Authenticated("sample-token"),
                 userData = userData,
             )
         }.onEach(::handleAction)
@@ -45,19 +44,18 @@ class RootNavViewModel(
     private fun handleUserStateUpdateReceive(action: UserStateUpdateReceive) {
         val userData = action.userData
 
-        // TODO:: Configure this based on the user state
         val updatedRootNavState = when {
             userData.firstTimeUser -> RootNavState.ShowOnboarding
 
-            !userData.isAuthenticated -> RootNavState.Auth
+            !userData.isAuthenticated || !userData.isUnlocked -> RootNavState.Auth
 
-            userData.passcode.isEmpty() -> RootNavState.UserLocked
-
-            userData.isUnlocked -> {
-                RootNavState.UserUnlocked(userData.activeUserId)
+            else -> {
+                if (userData.userRole == Constants.SELF_SERVICE_USER) {
+                    RootNavState.MemberUnlocked(userData.activeUserId)
+                } else {
+                    RootNavState.AdminUnlocked(userData.activeUserId)
+                }
             }
-
-            else -> RootNavState.UserLocked
         }
 
         mutableStateFlow.update { updatedRootNavState }
@@ -73,7 +71,11 @@ sealed class RootNavState {
 
     data object UserLocked : RootNavState()
 
-    data class UserUnlocked(
+    data class MemberUnlocked(
+        val activeUserId: String,
+    ) : RootNavState()
+
+    data class AdminUnlocked(
         val activeUserId: String,
     ) : RootNavState()
 }
@@ -83,8 +85,7 @@ sealed class RootNavAction {
     sealed class Internal {
 
         data class UserStateUpdateReceive(
-            val authState: org.mifos.core.model.user.AuthState,
-            val userData: org.mifos.core.model.user.UserData,
+            val userData: UserData,
         ) : RootNavAction()
     }
 }

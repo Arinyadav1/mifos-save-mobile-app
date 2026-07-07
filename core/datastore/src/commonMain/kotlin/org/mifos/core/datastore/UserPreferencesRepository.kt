@@ -29,6 +29,8 @@ interface UserPreferencesRepository {
 
     val authToken: String?
 
+    val role: String?
+
     val passcode: String
 
     val observeLanguage: Flow<LanguageConfig>
@@ -62,6 +64,10 @@ interface UserPreferencesRepository {
     suspend fun setPasscode(passcode: String)
 
     suspend fun setScreenCapturePreference(isScreenCaptureEnabled: Boolean)
+
+    suspend fun setToken(token: String)
+
+    suspend fun setRole(userRole: String)
 
     suspend fun clearUserData()
 }

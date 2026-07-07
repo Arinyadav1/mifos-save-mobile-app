@@ -30,7 +30,7 @@ import org.mifos.core.base.designsystem.core.KptTypography
 
 @Immutable
 data class KptColorSchemeImpl(
-    override val primary: Color = Color(0xFF6750A4),
+    override val primary: Color = Color(0xFF3A608F),
     override val onPrimary: Color = Color(0xFFFFFFFF),
     override val primaryContainer: Color = Color(0xFFEADDFF),
     override val onPrimaryContainer: Color = Color(0xFF21005D),
@@ -257,7 +257,7 @@ class KptThemeBuilder {
 
 @ComponentDsl
 class KptColorSchemeBuilder {
-    var primary: Color = Color(0xFF6750A4)
+    var primary: Color = Color(0xFF3A608F)
     var onPrimary: Color = Color(0xFFFFFFFF)
     var primaryContainer: Color = Color(0xFFEADDFF)
     var onPrimaryContainer: Color = Color(0xFF21005D)

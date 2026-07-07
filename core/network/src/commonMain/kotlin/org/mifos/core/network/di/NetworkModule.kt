@@ -11,6 +11,7 @@ package org.mifos.core.network.di
 
 import org.koin.dsl.module
 import org.mifos.core.datastore.UserPreferencesRepository
+import org.mifos.core.network.DataManager
 import org.mifos.core.network.fineract.FineractApiManager
 import org.mifos.core.network.selfService.SelfServiceApiManager
 import org.mifos.core.network.utils.ApiConfig
@@ -33,6 +34,13 @@ val NetworkModule = module {
                 userPreferencesRepository = get<UserPreferencesRepository>(),
                 baseUrl = ApiConfig.SELF_SERVICE.baseUrl,
             ),
+        )
+    }
+
+    single {
+        DataManager(
+            get<SelfServiceApiManager>(),
+            get<FineractApiManager>(),
         )
     }
 }

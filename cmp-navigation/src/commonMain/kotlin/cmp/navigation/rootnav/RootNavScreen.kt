@@ -30,13 +30,17 @@ import androidx.navigation.NavDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.navOptions
-import cmp.navigation.authenticated.AuthenticatedGraphRoute
-import cmp.navigation.authenticated.authenticatedGraph
-import cmp.navigation.authenticated.navigateToAuthenticatedGraph
+import cmp.navigation.authenticated.AdminAuthenticatedGraphRoute
+import cmp.navigation.authenticated.MemberAuthenticatedGraphRoute
+import cmp.navigation.authenticated.adminAuthenticatedGraph
+import cmp.navigation.authenticated.memberAuthenticatedGraph
+import cmp.navigation.authenticated.navigateToAdminAuthenticatedGraph
+import cmp.navigation.authenticated.navigateToMemberAuthenticatedGraph
 import cmp.navigation.splash.SplashRoute
 import cmp.navigation.splash.navigateToSplash
 import cmp.navigation.splash.splashDestination
 import cmp.navigation.ui.rememberKptNavController
+import cmp.navigation.utils.toObjectKClassNavigationRoute
 import cmp.navigation.utils.toObjectNavigationRoute
 import org.koin.compose.viewmodel.koinViewModel
 import org.mifos.core.base.designsystem.theme.motion
@@ -44,6 +48,9 @@ import org.mifos.core.base.ui.KptConnectivityBanner
 import org.mifos.core.base.ui.util.NonNullEnterTransitionProvider
 import org.mifos.core.base.ui.util.NonNullExitTransitionProvider
 import org.mifos.core.base.ui.util.RootTransitionProviders
+import org.mifos.feature.auth.navigation.AuthGraphRoute
+import org.mifos.feature.auth.navigation.authGraph
+import org.mifos.feature.auth.navigation.navigateToAuthGraph
 import kotlin.concurrent.atomics.AtomicReference
 import kotlin.concurrent.atomics.ExperimentalAtomicApi
 
@@ -97,8 +104,12 @@ fun RootNavScreen(
             ) {
                 splashDestination()
 //            onboardingDestination()
-//            authNavGraph(navController)
-                authenticatedGraph()
+                authGraph(
+                    onSignUpTypeScreen = {},
+                    onForgetPasswordScreen = {},
+                )
+                memberAuthenticatedGraph()
+                adminAuthenticatedGraph()
 //            userUnlockDestination()
             }
         }
@@ -108,11 +119,12 @@ fun RootNavScreen(
         // SetLanguageRoute
         RootNavState.ShowOnboarding -> ""
         // AuthGraphRoute
-        RootNavState.Auth -> ""
-        RootNavState.Splash -> SplashRoute
+        RootNavState.Auth -> AuthGraphRoute::class.toObjectKClassNavigationRoute()
+        RootNavState.Splash -> SplashRoute::class.toObjectKClassNavigationRoute()
         // UserUnlockRoute.Standard
         RootNavState.UserLocked -> ""
-        is RootNavState.UserUnlocked -> AuthenticatedGraphRoute
+        is RootNavState.MemberUnlocked -> MemberAuthenticatedGraphRoute::class.toObjectKClassNavigationRoute()
+        is RootNavState.AdminUnlocked -> AdminAuthenticatedGraphRoute::class.toObjectKClassNavigationRoute()
     }
     val currentRoute = navController.currentDestination?.rootLevelRoute()
 
@@ -120,7 +132,7 @@ fun RootNavScreen(
     // death. In this case, the NavHost already restores state, so we don't have to navigate.
     // However, if the route is correct but the underlying state is different, we should still
     // proceed in order to get a fresh version of that route.
-    if (currentRoute == targetRoute.toObjectNavigationRoute() &&
+    if (currentRoute == targetRoute &&
         previousStateReference.load() == state
     ) {
         previousStateReference.store(state)
@@ -149,14 +161,19 @@ fun RootNavScreen(
     LaunchedEffect(state) {
         when (state) {
             RootNavState.Splash -> navController.navigateToSplash(rootNavOptions)
-            // navController.navigateToAuthGraph(rootNavOptions)
-            RootNavState.Auth -> {}
+            RootNavState.Auth -> navController.navigateToAuthGraph(rootNavOptions)
             // navController.navigateToSetLanguage(rootNavOptions)
             RootNavState.ShowOnboarding -> {}
             // navController.navigateToUserUnlock(rootNavOptions)
             RootNavState.UserLocked -> {}
-            is RootNavState.UserUnlocked -> navController.navigateToAuthenticatedGraph(
+            is RootNavState.MemberUnlocked -> navController.navigateToMemberAuthenticatedGraph(
                 navOptions = rootNavOptions,
+                (state as RootNavState.MemberUnlocked).activeUserId,
+            )
+
+            is RootNavState.AdminUnlocked -> navController.navigateToAdminAuthenticatedGraph(
+                navOptions = rootNavOptions,
+                (state as RootNavState.AdminUnlocked).activeUserId,
             )
         }
     }

@@ -95,14 +95,16 @@ class UserPreferencesRepositoryImpl(
             else -> UserData.DEFAULT
         }
     }
-
     private val _userData = MutableStateFlow(loadCombinedUserData())
 
     override val userData: StateFlow<UserData>
         get() = _userData.asStateFlow()
 
-    override val authToken: String?
-        get() = null
+    override val authToken: String
+        get() = _userData.value.token
+
+    override val role: String
+        get() = _userData.value.userRole
 
     override val passcode: String
         get() = _userData.value.passcode
@@ -161,10 +163,15 @@ class UserPreferencesRepositoryImpl(
     override suspend fun setScreenCapturePreference(isScreenCaptureEnabled: Boolean) =
         updatePreference { it.copy(enableScreenCapture = isScreenCaptureEnabled) }
 
+    override suspend fun setToken(token: String) =
+        updatePreference { it.copy(token = token) }
+
+    override suspend fun setRole(userRole: String) =
+        updatePreference { it.copy(userRole = userRole) }
+
     override suspend fun clearUserData() {
         setIsAuthenticated(false)
-        // TODO:: Uncomment this line when Unlocked Screen is Present
-        // setIsUnlocked(false)
+        setIsUnlocked(false)
     }
 }
 

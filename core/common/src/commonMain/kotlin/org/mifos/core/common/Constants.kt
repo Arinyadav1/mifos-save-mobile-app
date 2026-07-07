@@ -9,4 +9,6 @@
  */
 package org.mifos.core.common
 
-object Constants
+object Constants {
+    const val SELF_SERVICE_USER = "Self Service User"
+}
