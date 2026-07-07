@@ -26,14 +26,6 @@ import org.mifos.core.data.banking.BillReminderRepository
 import org.mifos.core.data.banking.LoanRepository
 import org.mifos.core.data.banking.impl.BillReminderRepositoryImpl
 import org.mifos.core.data.banking.impl.LoanRepositoryImpl
-import org.mifos.core.data.crypto.CryptoRepository
-import org.mifos.core.data.crypto.impl.CryptoRepositoryImpl
-import org.mifos.core.data.currency.CurrencyRepository
-import org.mifos.core.data.currency.impl.CurrencyRepositoryImpl
-import org.mifos.core.data.economic.EconomicRatesRepository
-import org.mifos.core.data.economic.MacroIndicatorsRepository
-import org.mifos.core.data.economic.impl.EconomicRatesRepositoryImpl
-import org.mifos.core.data.economic.impl.MacroIndicatorsRepositoryImpl
 import org.mifos.core.data.infra.NetworkMonitor
 import org.mifos.core.data.infra.impl.RoomFetchedAtRepository
 import org.mifos.core.data.infra.impl.RoomSubmitOutbox
@@ -52,8 +44,6 @@ import org.mifos.core.model.banking.Loan
 import org.mifos.core.model.banking.LoanCalcScenario
 import org.mifos.core.network.di.NetworkModule
 import org.mifos.core.store.AppStoreRegistry
-import org.mifos.core.store.AppStoreRegistry.ExchangeRates
-import org.mifos.core.store.AppStoreRegistry.RateHistory
 
 val DataModule = module {
     includes(platformModule, CommonModule, DatabaseModule, DatastoreModule, NetworkModule)
@@ -144,40 +134,6 @@ val DataModule = module {
     }
 
     single<UserLogoutManager> { UserLogoutManagerImpl(get(), get(), get()) }
-
-    // Fintech Repositories
-    single<CurrencyRepository> {
-        CurrencyRepositoryImpl(
-            exchangeRatesStore = get(ExchangeRates),
-            rateHistoryStore = get(RateHistory),
-            networkMonitor = get(),
-            fetchedAtRepository = get(),
-        )
-    }
-    single<CryptoRepository> {
-        CryptoRepositoryImpl(
-            coinMarketsStore = get(AppStoreRegistry.CoinMarkets),
-            coinDetailStore = get(AppStoreRegistry.CoinDetail),
-            networkMonitor = get(),
-            fetchedAtRepository = get(),
-        )
-    }
-
-    // Economic Repositories (Banking Utility Toolkit — FRED + World Bank)
-    single<EconomicRatesRepository> {
-        EconomicRatesRepositoryImpl(
-            interestRateSeriesStore = get(AppStoreRegistry.InterestRateSeries),
-            networkMonitor = get(),
-            fetchedAtRepository = get(),
-        )
-    }
-    single<MacroIndicatorsRepository> {
-        MacroIndicatorsRepositoryImpl(
-            macroIndicatorStore = get(AppStoreRegistry.MacroIndicator),
-            networkMonitor = get(),
-            fetchedAtRepository = get(),
-        )
-    }
 
     // Price alerts — Store-backed (OFFLINE_LOCAL_ONLY archetype).
     // AlertsStore is the source of truth; AlertDao is the write target.

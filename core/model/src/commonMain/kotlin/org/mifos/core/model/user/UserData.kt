@@ -26,6 +26,7 @@ data class UserData(
     val enableScreenCapture: Boolean,
     val isPasscodeEnabled: Boolean,
     val isBiometricsEnabled: Boolean,
+    val userRole: String,
 ) {
     companion object {
         val DEFAULT = UserData(
@@ -42,6 +43,7 @@ data class UserData(
             showOnboarding = false,
             firstTimeUser = false,
             enableScreenCapture = false,
+            userRole = "",
         )
     }
 }
