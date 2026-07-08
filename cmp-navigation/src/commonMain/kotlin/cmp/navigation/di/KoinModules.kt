@@ -10,7 +10,8 @@
 package cmp.navigation.di
 
 import cmp.navigation.AppViewModel
-import cmp.navigation.authenticatednavbar.AuthenticatedNavbarNavigationViewModel
+import cmp.navigation.adminnavbar.AdminNavbarNavigationViewModel
+import cmp.navigation.authenticatednavbar.MemberNavbarNavigationViewModel
 import cmp.navigation.rootnav.RootNavViewModel
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
@@ -23,6 +24,7 @@ import org.mifos.core.data.di.DataModule
 import org.mifos.core.database.di.DatabaseModule
 import org.mifos.core.datastore.di.DatastoreModule
 import org.mifos.core.store.di.appStoreModule
+import org.mifos.feature.auth.di.AuthModule
 import org.mifos.feature.home.di.HomeModule
 
 object KoinModules {
@@ -38,13 +40,15 @@ object KoinModules {
         includes(platformModule)
 
         viewModelOf(::AppViewModel)
-        viewModelOf(::AuthenticatedNavbarNavigationViewModel)
+        viewModelOf(::MemberNavbarNavigationViewModel)
+        viewModelOf(::AdminNavbarNavigationViewModel)
         viewModelOf(::RootNavViewModel)
     }
 
     private val featureModule = module {
         includes(
             HomeModule,
+            AuthModule,
         )
     }
 

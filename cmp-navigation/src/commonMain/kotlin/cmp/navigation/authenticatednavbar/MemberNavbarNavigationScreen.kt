@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 Mifos Initiative
+ * Copyright 2026 Mifos Initiative
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -45,26 +45,26 @@ import org.mifos.feature.profile.navigateToProfile
 import org.mifos.feature.profile.profileDestination
 
 @Composable
-internal fun AuthenticatedNavbarNavigationScreen(
+internal fun MemberNavbarNavigationScreen(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberKptNavController(
-        name = "AuthenticatedNavbarScreen",
+        name = "MemberNavbarScreen",
     ),
-    viewModel: AuthenticatedNavbarNavigationViewModel = koinViewModel(),
+    viewModel: MemberNavbarNavigationViewModel = koinViewModel(),
 ) {
     val analyticsHelper = rememberAnalyticsHelper()
 
     EventsEffect(eventFlow = viewModel.eventFlow) { event ->
         navController.apply {
             when (event) {
-                AuthenticatedNavBarEvent.NavigateToHomeScreen -> {
+                MemberNavBarEvent.NavigateToHomeScreen -> {
                     analyticsHelper.logDestinationChanged(event.tab.startDestinationRoute)
                     navigateToTabOrRoot(tabToNavigateTo = event.tab) {
                         navigateToHome(navOptions = it)
                     }
                 }
 
-                AuthenticatedNavBarEvent.NavigateToProfileScreen -> {
+                MemberNavBarEvent.NavigateToProfileScreen -> {
                     analyticsHelper.logDestinationChanged(event.tab.startDestinationRoute)
                     navigateToTabOrRoot(tabToNavigateTo = event.tab) {
                         navigateToProfile(navOptions = it)
@@ -74,7 +74,7 @@ internal fun AuthenticatedNavbarNavigationScreen(
         }
     }
 
-    AuthenticatedNavbarNavigationScreenContent(
+    MemberNavbarNavigationScreenContent(
         navController = navController,
         modifier = modifier,
         onAction = remember(viewModel) {
@@ -84,16 +84,16 @@ internal fun AuthenticatedNavbarNavigationScreen(
 }
 
 @Composable
-internal fun AuthenticatedNavbarNavigationScreenContent(
+internal fun MemberNavbarNavigationScreenContent(
     navController: NavHostController,
     modifier: Modifier = Modifier,
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
-    onAction: (AuthenticatedNavBarAction) -> Unit,
+    onAction: (MemberNavBarAction) -> Unit,
 ) {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val navigationItems = persistentListOf<NavigationItem>(
-        AuthenticatedNavBarTabItem.HomeTab,
-        AuthenticatedNavBarTabItem.ProfileTab,
+        MemberNavBarTabItem.HomeTab,
+        MemberNavBarTabItem.ProfileTab,
     )
 
     KptRootScaffold(
@@ -105,12 +105,12 @@ internal fun AuthenticatedNavbarNavigationScreenContent(
             },
             onNavigationClick = { navigationItem ->
                 when (navigationItem) {
-                    is AuthenticatedNavBarTabItem.HomeTab -> {
-                        onAction(AuthenticatedNavBarAction.HomeTabClick)
+                    is MemberNavBarTabItem.HomeTab -> {
+                        onAction(MemberNavBarAction.HomeTabClick)
                     }
 
-                    is AuthenticatedNavBarTabItem.ProfileTab -> {
-                        onAction(AuthenticatedNavBarAction.SettingsTabClick)
+                    is MemberNavBarTabItem.ProfileTab -> {
+                        onAction(MemberNavBarAction.SettingsTabClick)
                     }
                 }
             },
@@ -123,31 +123,23 @@ internal fun AuthenticatedNavbarNavigationScreenContent(
         },
         modifier = modifier,
     ) {
-        // Because this Scaffold has a bottom navigation bar, the NavHost will:
-        // - consume the vertical navigation bar insets.
-        // - consume the IME insets.
-        // Snapshot motion tokens once so the non-Composable enterTransition lambdas capture
-        // theme-resolved values rather than the hardcoded fallbacks.
         val motion = MaterialTheme.motion
         NavHost(
             navController = navController,
             startDestination = HomeDestination,
-            // Sibling navigation (bottom-nav tab switch) uses M3 fade-through pattern.
             enterTransition = RootTransitionProviders.Kpt.Enter.fadeThrough(motion),
             exitTransition = RootTransitionProviders.Kpt.Exit.fadeThrough(motion),
             popEnterTransition = RootTransitionProviders.Kpt.Enter.fadeThrough(motion),
             popExitTransition = RootTransitionProviders.Kpt.Exit.fadeThrough(motion),
         ) {
-            // TOP LEVEL DESTINATIONS
             homeGraph()
-
             profileDestination()
         }
     }
 }
 
 private fun NavController.navigateToTabOrRoot(
-    tabToNavigateTo: AuthenticatedNavBarTabItem,
+    tabToNavigateTo: MemberNavBarTabItem,
     navigate: (NavOptions) -> Unit,
 ) {
     if (tabToNavigateTo.startDestinationRoute == currentDestination?.route) {

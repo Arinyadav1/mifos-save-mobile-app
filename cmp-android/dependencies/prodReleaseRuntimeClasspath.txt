@@ -17,10 +17,12 @@
 :core:database
 :core:datastore
 :core:designsystem
+:core:domain
 :core:model
 :core:network
 :core:store
 :core:ui
+:feature:auth
 :feature:home
 :feature:profile
 androidx.activity:activity-compose:1.13.0

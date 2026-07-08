@@ -31,6 +31,7 @@ fun ktorfitProvider(
                         HttpHeaders.Accept to ContentType.Application.Json.toString(),
                         HttpHeaders.Authorization to "Basic ${userPreferencesRepository.authToken}",
                     ),
+                    loggableHosts = listOf(ApiConfig.ENDPOINT),
                 ),
             ),
         )

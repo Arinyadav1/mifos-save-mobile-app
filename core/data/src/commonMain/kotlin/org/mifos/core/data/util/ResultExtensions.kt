@@ -65,6 +65,11 @@ fun NetworkError.toThrowable(): Throwable = when (this) {
         networkError = this,
         message = "Something unexpected happened. Please try again.",
     )
+
+    NetworkError.NETWORK_UNAVAILABLE -> RemoteException(
+        networkError = this,
+        message = "No stable network connection available",
+    )
 }
 
 /**

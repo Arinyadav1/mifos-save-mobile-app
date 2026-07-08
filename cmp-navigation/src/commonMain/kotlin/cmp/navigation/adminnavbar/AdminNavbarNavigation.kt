@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 Mifos Initiative
+ * Copyright 2026 Mifos Initiative
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -9,7 +9,7 @@
  */
 @file:Suppress("MatchingDeclarationName")
 
-package cmp.navigation.authenticatednavbar
+package cmp.navigation.adminnavbar
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
@@ -18,14 +18,14 @@ import kotlinx.serialization.Serializable
 import org.mifos.core.base.ui.nav.composableWithStayTransitions
 
 @Serializable
-data object AuthenticatedNavbarRoute
+data object AdminNavbarRoute
 
-internal fun NavController.navigateToAuthenticatedNavBar(navOptions: NavOptions? = null) {
-    navigate(route = AuthenticatedNavbarRoute, navOptions = navOptions)
+internal fun NavController.navigateToAdminAuthenticatedNavBar(navOptions: NavOptions? = null) {
+    navigate(route = AdminNavbarRoute, navOptions = navOptions)
 }
 
-internal fun NavGraphBuilder.authenticatedNavbarGraph() {
-    composableWithStayTransitions<AuthenticatedNavbarRoute> {
-        AuthenticatedNavbarNavigationScreen()
+internal fun NavGraphBuilder.adminAuthenticatedNavbarGraph() {
+    composableWithStayTransitions<AdminNavbarRoute> {
+        AdminNavbarNavigationScreen()
     }
 }

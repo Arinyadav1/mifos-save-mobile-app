@@ -31,6 +31,7 @@ kotlin {
             implementation(projects.core.analytics)
 
             implementation(projects.coreBase.common)
+            implementation(projects.coreBase.store)
             implementation(projects.coreBase.network)
             api(projects.core.store)
 

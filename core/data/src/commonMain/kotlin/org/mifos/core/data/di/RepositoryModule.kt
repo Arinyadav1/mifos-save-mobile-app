@@ -8,6 +8,7 @@
  * See See https://github.com/openMF/kmp-project-template/blob/main/LICENSE
  */
 package org.mifos.core.data.di
+
 import io.github.mobilebytelabs.kmptoolkit.networkmonitor.NetworkMonitorProvider
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -22,6 +23,8 @@ import org.mifos.core.base.store.submit.OfflineSubmitSyncer
 import org.mifos.core.base.store.submit.SubmitOutbox
 import org.mifos.core.data.alerts.AlertsRepository
 import org.mifos.core.data.alerts.impl.AlertsRepositoryImpl
+import org.mifos.core.data.auth.Authentication
+import org.mifos.core.data.auth.impl.AuthenticationImpl
 import org.mifos.core.data.banking.BillReminderRepository
 import org.mifos.core.data.banking.LoanRepository
 import org.mifos.core.data.banking.impl.BillReminderRepositoryImpl
@@ -166,6 +169,8 @@ val DataModule = module {
         syncer.start()
         syncer
     }
+
+    single { AuthenticationImpl(get(), get(), get()) } bind Authentication::class
 }
 
 expect val platformModule: Module

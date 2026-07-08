@@ -12,11 +12,11 @@ package cmp.navigation.rootnav
 import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -30,13 +30,17 @@ import androidx.navigation.NavDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.navOptions
-import cmp.navigation.authenticated.AuthenticatedGraphRoute
-import cmp.navigation.authenticated.authenticatedGraph
-import cmp.navigation.authenticated.navigateToAuthenticatedGraph
+import cmp.navigation.authenticated.AdminAuthenticatedGraphRoute
+import cmp.navigation.authenticated.MemberAuthenticatedGraphRoute
+import cmp.navigation.authenticated.adminAuthenticatedGraph
+import cmp.navigation.authenticated.memberAuthenticatedGraph
+import cmp.navigation.authenticated.navigateToAdminAuthenticatedGraph
+import cmp.navigation.authenticated.navigateToMemberAuthenticatedGraph
 import cmp.navigation.splash.SplashRoute
 import cmp.navigation.splash.navigateToSplash
 import cmp.navigation.splash.splashDestination
 import cmp.navigation.ui.rememberKptNavController
+import cmp.navigation.utils.toObjectKClassNavigationRoute
 import cmp.navigation.utils.toObjectNavigationRoute
 import org.koin.compose.viewmodel.koinViewModel
 import org.mifos.core.base.designsystem.theme.motion
@@ -44,6 +48,9 @@ import org.mifos.core.base.ui.KptConnectivityBanner
 import org.mifos.core.base.ui.util.NonNullEnterTransitionProvider
 import org.mifos.core.base.ui.util.NonNullExitTransitionProvider
 import org.mifos.core.base.ui.util.RootTransitionProviders
+import org.mifos.feature.auth.navigation.AuthGraphRoute
+import org.mifos.feature.auth.navigation.authGraph
+import org.mifos.feature.auth.navigation.navigateToAuthGraph
 import kotlin.concurrent.atomics.AtomicReference
 import kotlin.concurrent.atomics.ExperimentalAtomicApi
 
@@ -73,18 +80,26 @@ fun RootNavScreen(
     val noEnter = RootTransitionProviders.Kpt.Enter.none
     val noExit = RootTransitionProviders.Kpt.Exit.none
 
-    // Column layout: connectivity stripe always sits above the NavHost.
-    // The stripe's outer Box unconditionally claims statusBarsPadding() space so the
-    // NavHost below it never sees the status-bar inset — inner TopAppBars start flush
-    // against the stripe without double-padding. This covers ALL authenticated routes
-    // (including Settings, Loans, etc.) without per-screen wiring.
-    Column(modifier = modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)) {
-        KptConnectivityBanner()
+    // Layout configuration:
+    // For unauthenticated screens (Splash and Auth/Login), we draw NavHost in fullscreen
+    // so overlays (like SubmitProgressOverlay loading screen) and splash can draw behind the status/top bar.
+    // For authenticated screens, we apply statusBarsPadding and consume the insets globally
+    // so inner TopAppBars start flush against the stripe without double-padding.
+    val isAuthOrSplash = state == RootNavState.Splash || state == RootNavState.Auth
+
+    Box(modifier = modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)) {
         Box(
             modifier = Modifier
-                .fillMaxWidth()
-                .weight(1f)
-                .consumeWindowInsets(WindowInsets.statusBars),
+                .fillMaxSize()
+                .then(
+                    if (isAuthOrSplash) {
+                        Modifier
+                    } else {
+                        Modifier
+                            .padding(WindowInsets.statusBars.asPaddingValues())
+                            .consumeWindowInsets(WindowInsets.statusBars)
+                    },
+                ),
         ) {
             NavHost(
                 navController = navController,
@@ -97,10 +112,18 @@ fun RootNavScreen(
             ) {
                 splashDestination()
 //            onboardingDestination()
-//            authNavGraph(navController)
-                authenticatedGraph()
+                authGraph(
+                    onSignUpTypeScreen = {},
+                    onForgetPasswordScreen = {},
+                )
+                memberAuthenticatedGraph()
+                adminAuthenticatedGraph()
 //            userUnlockDestination()
             }
+        }
+
+        if (!isAuthOrSplash) {
+            KptConnectivityBanner()
         }
     }
 
@@ -108,11 +131,12 @@ fun RootNavScreen(
         // SetLanguageRoute
         RootNavState.ShowOnboarding -> ""
         // AuthGraphRoute
-        RootNavState.Auth -> ""
-        RootNavState.Splash -> SplashRoute
+        RootNavState.Auth -> AuthGraphRoute::class.toObjectKClassNavigationRoute()
+        RootNavState.Splash -> SplashRoute::class.toObjectKClassNavigationRoute()
         // UserUnlockRoute.Standard
         RootNavState.UserLocked -> ""
-        is RootNavState.UserUnlocked -> AuthenticatedGraphRoute
+        is RootNavState.MemberUnlocked -> MemberAuthenticatedGraphRoute::class.toObjectKClassNavigationRoute()
+        is RootNavState.AdminUnlocked -> AdminAuthenticatedGraphRoute::class.toObjectKClassNavigationRoute()
     }
     val currentRoute = navController.currentDestination?.rootLevelRoute()
 
@@ -120,7 +144,7 @@ fun RootNavScreen(
     // death. In this case, the NavHost already restores state, so we don't have to navigate.
     // However, if the route is correct but the underlying state is different, we should still
     // proceed in order to get a fresh version of that route.
-    if (currentRoute == targetRoute.toObjectNavigationRoute() &&
+    if (currentRoute == targetRoute &&
         previousStateReference.load() == state
     ) {
         previousStateReference.store(state)
@@ -149,14 +173,19 @@ fun RootNavScreen(
     LaunchedEffect(state) {
         when (state) {
             RootNavState.Splash -> navController.navigateToSplash(rootNavOptions)
-            // navController.navigateToAuthGraph(rootNavOptions)
-            RootNavState.Auth -> {}
+            RootNavState.Auth -> navController.navigateToAuthGraph(rootNavOptions)
             // navController.navigateToSetLanguage(rootNavOptions)
             RootNavState.ShowOnboarding -> {}
             // navController.navigateToUserUnlock(rootNavOptions)
             RootNavState.UserLocked -> {}
-            is RootNavState.UserUnlocked -> navController.navigateToAuthenticatedGraph(
+            is RootNavState.MemberUnlocked -> navController.navigateToMemberAuthenticatedGraph(
                 navOptions = rootNavOptions,
+                (state as RootNavState.MemberUnlocked).activeUserId,
+            )
+
+            is RootNavState.AdminUnlocked -> navController.navigateToAdminAuthenticatedGraph(
+                navOptions = rootNavOptions,
+                (state as RootNavState.AdminUnlocked).activeUserId,
             )
         }
     }

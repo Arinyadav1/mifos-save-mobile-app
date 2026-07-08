@@ -21,8 +21,12 @@ import org.mifos.core.model.user.UserData
 class UserDataRepositoryImpl(
     private val preferencesRepository: UserPreferencesRepository,
 ) : UserDataRepository {
+
     override val userData: StateFlow<UserData>
         get() = preferencesRepository.userData
+
+    override val role: String?
+        get() = preferencesRepository.role
 
     override val authToken: String?
         get() = preferencesRepository.authToken
@@ -68,6 +72,14 @@ class UserDataRepositoryImpl(
 
     override suspend fun setFirstTimeState(firstTimeState: Boolean) =
         preferencesRepository.setFirstTimeState(firstTimeState)
+
+    override suspend fun setToken(token: String) {
+        preferencesRepository.setToken(token)
+    }
+
+    override suspend fun setRole(userRole: String) {
+        preferencesRepository.setRole(userRole)
+    }
 
     override suspend fun setPasscode(passcode: String) = preferencesRepository.setPasscode(passcode)
 

@@ -78,7 +78,7 @@ fun <R> SubmitProgressOverlay(
 ) {
     SubmitProgressOverlay(
         visible = state is SubmitState.Submitting,
-        modifier = modifier,
+        modifier = modifier.fillMaxSize(),
         scrimColor = scrimColor,
     )
 }

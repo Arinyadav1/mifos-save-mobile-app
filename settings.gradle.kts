@@ -117,6 +117,7 @@ include(":core:ui")
 
 include(":feature:home")
 include(":feature:profile")
+include(":feature:auth")
 
 include(":core-base:analytics")
 include(":core-base:common")
