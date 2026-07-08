@@ -9,5 +9,17 @@
     See https://github.com/openMF/kmp-project-template/blob/main/LICENSE
 -->
 <resources>
-
+    <string name="feature_auth_mifos_save_logo_desc">Mifos Save Logo</string>
+    <string name="feature_auth_username">Username</string>
+    <string name="feature_auth_enter_username">Enter your username</string>
+    <string name="feature_auth_password">Password</string>
+    <string name="feature_auth_enter_password">Enter your password</string>
+    <string name="feature_auth_forgot_password">Forgot Password?</string>
+    <string name="feature_auth_sign_in">Sign In</string>
+    <string name="feature_auth_new_to_mifos_save">New to Mifos Save? </string>
+    <string name="feature_auth_create_account">Create account</string>
+    <string name="feature_auth_mifos_save_app_title">MIFOS SAVE</string>
+    <string name="feature_auth_welcome_title">Welcome</string>
+    <string name="feature_auth_sign_in_subtitle">Sign in to your account</string>
+    <string name="feature_auth_mifos_save_version">Mifos Save v</string>
 </resources>

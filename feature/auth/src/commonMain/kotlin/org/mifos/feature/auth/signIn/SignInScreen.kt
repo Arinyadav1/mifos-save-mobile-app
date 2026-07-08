@@ -35,6 +35,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.mifos.core.base.designsystem.component.KptButton
 import org.mifos.core.base.designsystem.theme.KptTheme
@@ -42,6 +43,19 @@ import org.mifos.core.base.ui.effects.EventsEffect
 import org.mifos.core.base.ui.submit.MutationScreenContent
 import org.mifos.core.ui.input.KptTextField
 import org.mifos.feature.auth.generated.resources.Res
+import org.mifos.feature.auth.generated.resources.feature_auth_create_account
+import org.mifos.feature.auth.generated.resources.feature_auth_enter_password
+import org.mifos.feature.auth.generated.resources.feature_auth_enter_username
+import org.mifos.feature.auth.generated.resources.feature_auth_forgot_password
+import org.mifos.feature.auth.generated.resources.feature_auth_mifos_save_app_title
+import org.mifos.feature.auth.generated.resources.feature_auth_mifos_save_logo_desc
+import org.mifos.feature.auth.generated.resources.feature_auth_mifos_save_version
+import org.mifos.feature.auth.generated.resources.feature_auth_new_to_mifos_save
+import org.mifos.feature.auth.generated.resources.feature_auth_password
+import org.mifos.feature.auth.generated.resources.feature_auth_sign_in
+import org.mifos.feature.auth.generated.resources.feature_auth_sign_in_subtitle
+import org.mifos.feature.auth.generated.resources.feature_auth_username
+import org.mifos.feature.auth.generated.resources.feature_auth_welcome_title
 import org.mifos.feature.auth.generated.resources.mifos_save_logo
 
 @Composable
@@ -73,22 +87,23 @@ internal fun SignInScreenContent(
     modifier: Modifier = Modifier,
     onAction: (SignInAction) -> Unit,
 ) {
-    Scaffold(
-        containerColor = KptTheme.colorScheme.surface,
-        modifier = modifier.fillMaxSize().padding(KptTheme.spacing.md),
-    ) { paddingValues ->
-        MutationScreenContent(
-            screenState = state.screenState,
-            submitState = state.submitState,
-            onRetry = {
-                onAction(SignInAction.SingIn)
-            },
-            onSubmitted = {},
-            modifier = Modifier.padding(paddingValues).fillMaxSize(),
-        ) { _, _ ->
+    MutationScreenContent(
+        screenState = state.screenState,
+        submitState = state.submitState,
+        onRetry = {
+            onAction(SignInAction.SingIn)
+        },
+        onSubmitted = {},
+        modifier = modifier.fillMaxSize(),
+    ) { _, _ ->
+        Scaffold(
+            containerColor = KptTheme.colorScheme.surface,
+            modifier = Modifier.fillMaxSize().padding(KptTheme.spacing.md),
+        ) { paddingValues ->
             SignInContent(
                 state = state,
                 onAction = onAction,
+                modifier = Modifier.padding(paddingValues),
             )
         }
     }
@@ -100,7 +115,6 @@ fun SignInContent(
     modifier: Modifier = Modifier,
     onAction: (SignInAction) -> Unit,
 ) {
-    val enabled = state.canInteract
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -112,7 +126,7 @@ fun SignInContent(
 
         Image(
             painter = painterResource(Res.drawable.mifos_save_logo),
-            contentDescription = "Mifos Save Logo",
+            contentDescription = stringResource(Res.string.feature_auth_mifos_save_logo_desc),
             modifier = Modifier.size(80.dp),
         )
 
@@ -127,9 +141,8 @@ fun SignInContent(
             onValueChange = {
                 onAction(SignInAction.ChangeUsername(it))
             },
-            label = "Username",
-            placeholder = "Enter your username",
-            enabled = enabled,
+            label = stringResource(Res.string.feature_auth_username),
+            placeholder = stringResource(Res.string.feature_auth_enter_username),
             errorText = state.errorUsername,
         )
 
@@ -145,19 +158,24 @@ fun SignInContent(
             onTogglePasswordVisibility = {
                 onAction(SignInAction.TogglePasswordVisibility)
             },
-            label = "Password",
-            placeholder = "Enter your password",
-            enabled = enabled,
+            label = stringResource(Res.string.feature_auth_password),
+            placeholder = stringResource(Res.string.feature_auth_enter_password),
             errorText = state.errorPassword,
         )
 
         Spacer(modifier = Modifier.height(KptTheme.spacing.md))
 
-        ForgotPassword(
-            enabled = enabled,
-            onClick = {
-            },
-        )
+        Box(
+            modifier = Modifier.fillMaxWidth(),
+            contentAlignment = Alignment.CenterEnd,
+        ) {
+            Text(
+                text = stringResource(Res.string.feature_auth_forgot_password),
+                modifier = Modifier.clickable(onClick = {}),
+                color = KptTheme.colorScheme.primary,
+                fontWeight = FontWeight.Bold,
+            )
+        }
 
         Spacer(modifier = Modifier.height(KptTheme.spacing.xl))
 
@@ -165,7 +183,7 @@ fun SignInContent(
             onClick = {
                 onAction(SignInAction.SingIn)
             },
-            enabled = enabled,
+            enabled = state.isButtonEnabled,
             colors = ButtonDefaults.buttonColors(
                 containerColor = KptTheme.colorScheme.primary,
             ),
@@ -173,26 +191,29 @@ fun SignInContent(
                 .fillMaxWidth()
                 .height(56.dp),
         ) {
-            Text("Sign In")
+            Text(stringResource(Res.string.feature_auth_sign_in))
         }
 
         Spacer(modifier = Modifier.height(KptTheme.spacing.lg))
 
         SignUpSelection(
-            enabled = enabled,
-            onClick = {
-            },
+            onClick = {},
         )
 
         Spacer(modifier = Modifier.height(KptTheme.spacing.xxl))
 
-        VersionText()
+        // the version will be change in dynamically later
+        Text(
+            text = stringResource(Res.string.feature_auth_mifos_save_version) + "1.0.0",
+            color = KptTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.38f),
+            style = KptTheme.typography.bodySmall,
+            modifier = Modifier.padding(bottom = KptTheme.spacing.md),
+        )
     }
 }
 
 @Composable
 private fun SignUpSelection(
-    enabled: Boolean,
     onClick: () -> Unit,
 ) {
     Row(
@@ -200,53 +221,17 @@ private fun SignUpSelection(
         horizontalArrangement = Arrangement.Center,
     ) {
         Text(
-            text = "New to Mifos Save? ",
+            text = stringResource(Res.string.feature_auth_new_to_mifos_save),
             color = KptTheme.colorScheme.onSurfaceVariant,
         )
 
         Text(
-            text = "Create account",
-            color = if (enabled) {
-                KptTheme.colorScheme.primary
-            } else {
-                KptTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.38f)
-            },
+            text = stringResource(Res.string.feature_auth_create_account),
+            color = KptTheme.colorScheme.primary,
             fontWeight = FontWeight.Bold,
-            modifier = if (enabled) Modifier.clickable(onClick = onClick) else Modifier,
+            modifier = Modifier.clickable(onClick = onClick),
         )
     }
-}
-
-@Composable
-private fun ForgotPassword(
-    enabled: Boolean,
-    onClick: () -> Unit,
-) {
-    Box(
-        modifier = Modifier.fillMaxWidth(),
-        contentAlignment = Alignment.CenterEnd,
-    ) {
-        Text(
-            text = "Forgot Password?",
-            modifier = if (enabled) Modifier.clickable(onClick = onClick) else Modifier,
-            color = if (enabled) {
-                KptTheme.colorScheme.primary
-            } else {
-                KptTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.38f)
-            },
-            fontWeight = FontWeight.Bold,
-        )
-    }
-}
-
-@Composable
-private fun VersionText() {
-    Text(
-        text = "Mifos Save v1.0.0",
-        color = KptTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.38f),
-        style = KptTheme.typography.bodySmall,
-        modifier = Modifier.padding(bottom = KptTheme.spacing.md),
-    )
 }
 
 @Composable
@@ -256,7 +241,7 @@ private fun HeaderSection(modifier: Modifier = Modifier) {
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(
-            text = "MIFOS SAVE",
+            text = stringResource(Res.string.feature_auth_mifos_save_app_title),
             style = KptTheme.typography.labelLarge.copy(
                 fontWeight = FontWeight.Bold,
                 color = KptTheme.colorScheme.onSurfaceVariant,
@@ -267,7 +252,7 @@ private fun HeaderSection(modifier: Modifier = Modifier) {
         Spacer(modifier = Modifier.height(KptTheme.spacing.sm))
 
         Text(
-            text = "Welcome",
+            text = stringResource(Res.string.feature_auth_welcome_title),
             style = KptTheme.typography.headlineLarge.copy(
                 fontWeight = FontWeight.ExtraBold,
                 color = KptTheme.colorScheme.onSurface,
@@ -277,7 +262,7 @@ private fun HeaderSection(modifier: Modifier = Modifier) {
         Spacer(modifier = Modifier.height(KptTheme.spacing.sm))
 
         Text(
-            text = "Sign in to your account",
+            text = stringResource(Res.string.feature_auth_sign_in_subtitle),
             style = KptTheme.typography.bodyLarge.copy(
                 color = KptTheme.colorScheme.onSurfaceVariant,
             ),

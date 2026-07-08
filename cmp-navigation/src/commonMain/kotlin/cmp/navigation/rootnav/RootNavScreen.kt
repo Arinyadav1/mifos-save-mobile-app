@@ -12,11 +12,11 @@ package cmp.navigation.rootnav
 import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -80,18 +80,26 @@ fun RootNavScreen(
     val noEnter = RootTransitionProviders.Kpt.Enter.none
     val noExit = RootTransitionProviders.Kpt.Exit.none
 
-    // Column layout: connectivity stripe always sits above the NavHost.
-    // The stripe's outer Box unconditionally claims statusBarsPadding() space so the
-    // NavHost below it never sees the status-bar inset — inner TopAppBars start flush
-    // against the stripe without double-padding. This covers ALL authenticated routes
-    // (including Settings, Loans, etc.) without per-screen wiring.
-    Column(modifier = modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)) {
-        KptConnectivityBanner()
+    // Layout configuration:
+    // For unauthenticated screens (Splash and Auth/Login), we draw NavHost in fullscreen
+    // so overlays (like SubmitProgressOverlay loading screen) and splash can draw behind the status/top bar.
+    // For authenticated screens, we apply statusBarsPadding and consume the insets globally
+    // so inner TopAppBars start flush against the stripe without double-padding.
+    val isAuthOrSplash = state == RootNavState.Splash || state == RootNavState.Auth
+
+    Box(modifier = modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)) {
         Box(
             modifier = Modifier
-                .fillMaxWidth()
-                .weight(1f)
-                .consumeWindowInsets(WindowInsets.statusBars),
+                .fillMaxSize()
+                .then(
+                    if (isAuthOrSplash) {
+                        Modifier
+                    } else {
+                        Modifier
+                            .padding(WindowInsets.statusBars.asPaddingValues())
+                            .consumeWindowInsets(WindowInsets.statusBars)
+                    },
+                ),
         ) {
             NavHost(
                 navController = navController,
@@ -112,6 +120,10 @@ fun RootNavScreen(
                 adminAuthenticatedGraph()
 //            userUnlockDestination()
             }
+        }
+
+        if (!isAuthOrSplash) {
+            KptConnectivityBanner()
         }
     }
 

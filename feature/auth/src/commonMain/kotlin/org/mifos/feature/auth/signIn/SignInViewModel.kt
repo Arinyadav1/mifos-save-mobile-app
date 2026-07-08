@@ -56,7 +56,6 @@ class SignInViewModel(
     private fun handleFineractSignInResult(action: SignInAction.Internal.ReceiveFineractSignInResult) {
         when (val result = action.fineractSignInResult) {
             is ScreenState.Content -> {
-                print("Fineract ARIN")
                 val data = result.data
                 viewModelScope.launch {
                     data.roles.firstOrNull()?.name?.let { userDataRepository.setRole(it) }
@@ -80,7 +79,6 @@ class SignInViewModel(
     private fun handleSelfSignInResult(action: SignInAction.Internal.ReceiveSelfSignInResult) {
         when (val result = action.selfSignInResult) {
             is ScreenState.Content -> {
-                print("Self ARIN")
                 val data = result.data
                 viewModelScope.launch {
                     data.roles.firstOrNull()?.name?.let { userDataRepository.setRole(it) }
@@ -95,10 +93,10 @@ class SignInViewModel(
                 }
             }
             is ScreenState.Error -> {
-                print("Self ARIN ${result.error.message}")
                 mutableStateFlow.update {
                     it.copy(
                         screenState = ScreenState.Error(result.error),
+                        submitState = SubmitState.Idle,
                     )
                 }
             }
@@ -106,6 +104,7 @@ class SignInViewModel(
                 mutableStateFlow.update {
                     it.copy(
                         screenState = ScreenState.NoNetwork(),
+                        submitState = SubmitState.Idle,
                     )
                 }
             }
@@ -113,6 +112,7 @@ class SignInViewModel(
                 mutableStateFlow.update {
                     it.copy(
                         screenState = ScreenState.Unauthenticated,
+                        submitState = SubmitState.Idle,
                     )
                 }
             }
@@ -120,6 +120,7 @@ class SignInViewModel(
                 mutableStateFlow.update {
                     it.copy(
                         screenState = ScreenState.Empty,
+                        submitState = SubmitState.Idle,
                     )
                 }
             }
@@ -184,8 +185,11 @@ data class SignInState(
     val errorUsername: String? = null,
     val errorPassword: String? = null,
 ) {
-    val canInteract: Boolean
-        get() = screenState is ScreenState.Content && submitState !is SubmitState.Submitting
+    val isButtonEnabled =
+        username.isNotBlank() &&
+            password.isNotBlank() &&
+            errorUsername == null &&
+            errorPassword == null
 }
 
 sealed interface SignInEvent {
