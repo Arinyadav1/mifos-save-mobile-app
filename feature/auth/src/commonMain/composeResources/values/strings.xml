@@ -22,4 +22,12 @@
     <string name="feature_auth_welcome_title">Welcome</string>
     <string name="feature_auth_sign_in_subtitle">Sign in to your account</string>
     <string name="feature_auth_mifos_save_version">Mifos Save v</string>
+    <string name="feature_auth_account_type_choose">Choose your account type to get started.</string>
+    <string name="feature_auth_account_type_admin">Admin Account</string>
+    <string name="feature_auth_account_type_admin_desc">For field staff, branch managers &amp; supervisors</string>
+    <string name="feature_auth_account_type_member">Member Account</string>
+    <string name="feature_auth_account_type_member_desc">For microfinance group members &amp; borrowers</string>
+    <string name="feature_auth_already_have_account">Already have an account? </string>
+    <string name="feature_auth_log_in">Log in</string>
+    <string name="feature_auth_create_account_title">Create Account</string>
 </resources>

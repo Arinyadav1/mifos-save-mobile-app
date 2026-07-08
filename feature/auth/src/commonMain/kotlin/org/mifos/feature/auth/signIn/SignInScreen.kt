@@ -61,7 +61,7 @@ import org.mifos.feature.auth.generated.resources.mifos_save_logo
 @Composable
 fun SignInScreen(
     onForgetPasswordScreen: () -> Unit,
-    onSignUpTypeScreen: () -> Unit,
+    onAccountTypeScreen: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: SignInViewModel = koinViewModel(),
 ) {
@@ -69,7 +69,7 @@ fun SignInScreen(
 
     EventsEffect(viewModel.eventFlow) { event ->
         when (event) {
-            SignInEvent.NavigateToSignUpTypeScreen -> onSignUpTypeScreen()
+            SignInEvent.NavigateToAccountTypeScreen -> onAccountTypeScreen()
             SignInEvent.NavigateToForgetPasswordScreen -> onForgetPasswordScreen()
         }
     }
@@ -197,7 +197,7 @@ fun SignInContent(
         Spacer(modifier = Modifier.height(KptTheme.spacing.lg))
 
         SignUpSelection(
-            onClick = {},
+            onClick = { onAction(SignInAction.NavigateToAccountTypeScreen) },
         )
 
         Spacer(modifier = Modifier.height(KptTheme.spacing.xxl))

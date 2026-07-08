@@ -164,10 +164,12 @@ class SignInViewModel(
             is SignInAction.Internal.ReceiveSelfSignInResult -> {
                 handleSelfSignInResult(action)
             }
-            SignInAction.ResetSubmitState -> {
-                mutableStateFlow.update {
-                    it.copy(submitState = SubmitState.Idle)
-                }
+            SignInAction.NavigateToAccountTypeScreen -> {
+                sendEvent(SignInEvent.NavigateToAccountTypeScreen)
+            }
+
+            SignInAction.NavigateToForgetPasswordScreen -> {
+                sendEvent(SignInEvent.NavigateToForgetPasswordScreen)
             }
         }
     }
@@ -193,7 +195,7 @@ data class SignInState(
 }
 
 sealed interface SignInEvent {
-    object NavigateToSignUpTypeScreen : SignInEvent
+    object NavigateToAccountTypeScreen : SignInEvent
     object NavigateToForgetPasswordScreen : SignInEvent
 }
 
@@ -202,7 +204,8 @@ sealed interface SignInAction {
     data class ChangePassword(val value: String) : SignInAction
     data object TogglePasswordVisibility : SignInAction
     data object SingIn : SignInAction
-    data object ResetSubmitState : SignInAction
+    data object NavigateToAccountTypeScreen : SignInAction
+    data object NavigateToForgetPasswordScreen : SignInAction
 
     sealed interface Internal : SignInAction {
         data class ReceiveSelfSignInResult(

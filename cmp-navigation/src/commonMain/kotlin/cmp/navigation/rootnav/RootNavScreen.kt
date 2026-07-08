@@ -49,8 +49,8 @@ import org.mifos.core.base.ui.util.NonNullEnterTransitionProvider
 import org.mifos.core.base.ui.util.NonNullExitTransitionProvider
 import org.mifos.core.base.ui.util.RootTransitionProviders
 import org.mifos.feature.auth.navigation.AuthGraphRoute
-import org.mifos.feature.auth.navigation.authGraph
-import org.mifos.feature.auth.navigation.navigateToAuthGraph
+import org.mifos.feature.auth.navigation.authNavigationGraph
+import org.mifos.feature.auth.signIn.navigateToSignInScreen
 import kotlin.concurrent.atomics.AtomicReference
 import kotlin.concurrent.atomics.ExperimentalAtomicApi
 
@@ -112,9 +112,8 @@ fun RootNavScreen(
             ) {
                 splashDestination()
 //            onboardingDestination()
-                authGraph(
-                    onSignUpTypeScreen = {},
-                    onForgetPasswordScreen = {},
+                authNavigationGraph(
+                    navController = navController,
                 )
                 memberAuthenticatedGraph()
                 adminAuthenticatedGraph()
@@ -173,7 +172,7 @@ fun RootNavScreen(
     LaunchedEffect(state) {
         when (state) {
             RootNavState.Splash -> navController.navigateToSplash(rootNavOptions)
-            RootNavState.Auth -> navController.navigateToAuthGraph(rootNavOptions)
+            RootNavState.Auth -> navController.navigateToSignInScreen()
             // navController.navigateToSetLanguage(rootNavOptions)
             RootNavState.ShowOnboarding -> {}
             // navController.navigateToUserUnlock(rootNavOptions)
