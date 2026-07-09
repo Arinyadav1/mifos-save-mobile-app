@@ -422,3 +422,8 @@ object KptTheme {
 fun kptTheme(block: KptThemeBuilder.() -> Unit): KptThemeProvider {
     return KptThemeBuilder().apply(block).build()
 }
+
+object KptAppColors {
+    val blueDark = Color(0xFF1A437E)
+    val blueLight = Color(0xFFD3E4FF)
+}

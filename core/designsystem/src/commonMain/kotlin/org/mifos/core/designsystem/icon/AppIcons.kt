@@ -50,6 +50,7 @@ import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.Lock
 import androidx.compose.material.icons.outlined.Notifications
+import androidx.compose.material.icons.outlined.PersonAdd
 import androidx.compose.material.icons.outlined.QrCodeScanner
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material.icons.outlined.Share
@@ -127,6 +128,7 @@ object AppIcons {
     val CalenderMonth = Icons.Filled.CalendarMonth
     val OutlinedDoneAll = Icons.Outlined.DoneAll
     val Person = Icons.Filled.Person
+    val PersonAdd = Icons.Outlined.PersonAdd
     val Badge = Icons.Filled.Badge
     val DataInfo = Icons.Filled.Description
     val Scan = Icons.Outlined.QrCodeScanner
