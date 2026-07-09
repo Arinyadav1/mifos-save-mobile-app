@@ -15,17 +15,12 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.filled.PersonAdd
-import androidx.compose.material.icons.outlined.PersonAdd
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -33,13 +28,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import org.jetbrains.compose.resources.stringResource
 import org.mifos.core.base.designsystem.component.KptCard
 import org.mifos.core.base.designsystem.component.KptTopAppBar
+import org.mifos.core.base.designsystem.theme.KptAppColors
 import org.mifos.core.base.designsystem.theme.KptTheme
 import org.mifos.core.designsystem.icon.AppIcons
+import org.mifos.core.ui.HorizontalSpacer
+import org.mifos.core.ui.VerticalSpacer
 import org.mifos.core.ui.scaffold.KptScaffold
 import org.mifos.feature.auth.generated.resources.Res
 import org.mifos.feature.auth.generated.resources.feature_auth_account_type_admin
@@ -75,25 +72,25 @@ fun AccountTypeScreen(
                 .padding(horizontal = KptTheme.spacing.lg)
                 .verticalScroll(rememberScrollState()),
         ) {
-            Spacer(modifier = Modifier.height(KptTheme.spacing.md))
+            VerticalSpacer(KptTheme.spacing.md)
 
             // Light blue background matching mockup
             Box(
                 modifier = Modifier
                     .size(KptTheme.spacing.xxl)
                     .clip(KptTheme.shapes.large)
-                    .background(Color(0xFFD3E4FF)),
+                    .background(KptAppColors.blueLight),
                 contentAlignment = Alignment.Center,
             ) {
                 Icon(
                     imageVector = AppIcons.PersonAdd,
                     contentDescription = null,
-                    tint = Color(0xFF1A437E),
+                    tint = KptAppColors.blueDark,
                     modifier = Modifier.size(KptTheme.spacing.xl),
                 )
             }
 
-            Spacer(modifier = Modifier.height(KptTheme.spacing.lg))
+            VerticalSpacer(KptTheme.spacing.lg)
 
             // Title and Subtitle
             Text(
@@ -104,7 +101,7 @@ fun AccountTypeScreen(
                 ),
             )
 
-            Spacer(modifier = Modifier.height(KptTheme.spacing.xs))
+            VerticalSpacer(KptTheme.spacing.xs)
 
             Text(
                 text = stringResource(Res.string.feature_auth_account_type_choose),
@@ -113,7 +110,7 @@ fun AccountTypeScreen(
                 ),
             )
 
-            Spacer(modifier = Modifier.height(KptTheme.spacing.xl))
+            VerticalSpacer(KptTheme.spacing.xl)
 
             // Admin Account Card
             SelectionCard(
@@ -122,7 +119,7 @@ fun AccountTypeScreen(
                 onClick = onAdminCreateAccountScreen,
             )
 
-            Spacer(modifier = Modifier.height(KptTheme.spacing.md))
+            VerticalSpacer(KptTheme.spacing.md)
 
             // Member Account Card
             SelectionCard(
@@ -131,7 +128,7 @@ fun AccountTypeScreen(
                 onClick = onMemberCreateAccountScreen,
             )
 
-            Spacer(modifier = Modifier.height(KptTheme.spacing.lg))
+            VerticalSpacer(KptTheme.spacing.lg)
 
             // Bottom Prompt
             Row(
@@ -163,7 +160,6 @@ fun SelectionCard(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    // Admin Account Card
     KptCard(
         colors = CardDefaults.cardColors(
             containerColor = KptTheme.colorScheme.primary,
@@ -190,7 +186,7 @@ fun SelectionCard(
                         color = KptTheme.colorScheme.background,
                     ),
                 )
-                Spacer(modifier = Modifier.height(KptTheme.spacing.xs))
+                VerticalSpacer(KptTheme.spacing.xs)
                 Text(
                     text = description,
                     style = KptTheme.typography.bodyMedium.copy(
@@ -199,7 +195,7 @@ fun SelectionCard(
                 )
             }
 
-            Spacer(modifier = Modifier.width(KptTheme.spacing.md))
+            HorizontalSpacer(KptTheme.spacing.md)
 
             Icon(
                 imageVector = AppIcons.ArrowRight,

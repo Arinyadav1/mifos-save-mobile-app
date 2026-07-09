@@ -15,7 +15,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -41,6 +40,7 @@ import org.mifos.core.base.designsystem.component.KptButton
 import org.mifos.core.base.designsystem.theme.KptTheme
 import org.mifos.core.base.ui.effects.EventsEffect
 import org.mifos.core.base.ui.submit.MutationScreenContent
+import org.mifos.core.ui.VerticalSpacer
 import org.mifos.core.ui.input.KptTextField
 import org.mifos.feature.auth.generated.resources.Res
 import org.mifos.feature.auth.generated.resources.feature_auth_create_account
@@ -122,7 +122,7 @@ fun SignInContent(
             .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Spacer(modifier = Modifier.height(KptTheme.spacing.xxl))
+        VerticalSpacer(KptTheme.spacing.xxl)
 
         Image(
             painter = painterResource(Res.drawable.mifos_save_logo),
@@ -130,11 +130,11 @@ fun SignInContent(
             modifier = Modifier.size(80.dp),
         )
 
-        Spacer(modifier = Modifier.height(KptTheme.spacing.lg))
+        VerticalSpacer(KptTheme.spacing.lg)
 
         HeaderSection()
 
-        Spacer(modifier = Modifier.height(KptTheme.spacing.xl))
+        VerticalSpacer(KptTheme.spacing.xl)
 
         KptTextField(
             value = state.username,
@@ -146,7 +146,7 @@ fun SignInContent(
             errorText = state.errorUsername,
         )
 
-        Spacer(modifier = Modifier.height(KptTheme.spacing.lg))
+        VerticalSpacer(KptTheme.spacing.lg)
 
         KptTextField(
             value = state.password,
@@ -163,7 +163,7 @@ fun SignInContent(
             errorText = state.errorPassword,
         )
 
-        Spacer(modifier = Modifier.height(KptTheme.spacing.md))
+        VerticalSpacer(KptTheme.spacing.md)
 
         Box(
             modifier = Modifier.fillMaxWidth(),
@@ -177,7 +177,7 @@ fun SignInContent(
             )
         }
 
-        Spacer(modifier = Modifier.height(KptTheme.spacing.xl))
+        VerticalSpacer(KptTheme.spacing.xl)
 
         KptButton(
             onClick = {
@@ -194,13 +194,13 @@ fun SignInContent(
             Text(stringResource(Res.string.feature_auth_sign_in))
         }
 
-        Spacer(modifier = Modifier.height(KptTheme.spacing.lg))
+        VerticalSpacer(KptTheme.spacing.lg)
 
         SignUpSelection(
             onClick = { onAction(SignInAction.NavigateToAccountTypeScreen) },
         )
 
-        Spacer(modifier = Modifier.height(KptTheme.spacing.xxl))
+        VerticalSpacer(KptTheme.spacing.xxl)
 
         // the version will be change in dynamically later
         Text(
@@ -249,7 +249,7 @@ private fun HeaderSection(modifier: Modifier = Modifier) {
             ),
         )
 
-        Spacer(modifier = Modifier.height(KptTheme.spacing.sm))
+        VerticalSpacer(KptTheme.spacing.sm)
 
         Text(
             text = stringResource(Res.string.feature_auth_welcome_title),
@@ -259,7 +259,7 @@ private fun HeaderSection(modifier: Modifier = Modifier) {
             ),
         )
 
-        Spacer(modifier = Modifier.height(KptTheme.spacing.sm))
+        VerticalSpacer(KptTheme.spacing.sm)
 
         Text(
             text = stringResource(Res.string.feature_auth_sign_in_subtitle),
