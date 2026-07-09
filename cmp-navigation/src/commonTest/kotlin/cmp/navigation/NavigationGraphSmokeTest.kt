@@ -9,7 +9,7 @@
  */
 package cmp.navigation
 
-import cmp.navigation.authenticatednavbar.AuthenticatedNavBarTabItem
+import cmp.navigation.authenticatedMemberNavBar.AuthenticatedNavBarTabItem
 import kotlinx.serialization.serializer
 import org.mifos.feature.bills.navigation.AddOrEditBillReminderRoute
 import org.mifos.feature.bills.navigation.BillRemindersListRoute

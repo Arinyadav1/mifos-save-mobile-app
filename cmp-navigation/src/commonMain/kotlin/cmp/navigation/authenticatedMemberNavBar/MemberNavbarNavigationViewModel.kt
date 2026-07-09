@@ -7,7 +7,7 @@
  *
  * See See https://github.com/openMF/kmp-project-template/blob/main/LICENSE
  */
-package cmp.navigation.authenticatednavbar
+package cmp.navigation.authenticatedMemberNavBar
 
 import org.mifos.core.base.ui.viewmodel.BaseViewModel
 

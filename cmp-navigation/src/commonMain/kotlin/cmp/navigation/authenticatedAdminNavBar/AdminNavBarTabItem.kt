@@ -7,23 +7,23 @@
  *
  * See See https://github.com/openMF/kmp-project-template/blob/main/LICENSE
  */
-package cmp.navigation.authenticatednavbar
+package cmp.navigation.authenticatedAdminNavBar
 
 import androidx.compose.ui.graphics.vector.ImageVector
 import cmp.navigation.generated.resources.Res
+import cmp.navigation.generated.resources.groups
 import cmp.navigation.generated.resources.home
-import cmp.navigation.generated.resources.profile
+import cmp.navigation.generated.resources.meetings
 import cmp.navigation.utils.toObjectNavigationRoute
 import org.jetbrains.compose.resources.StringResource
 import org.mifos.core.designsystem.icon.AppIcons
 import org.mifos.core.ui.NavigationItem
 import org.mifos.feature.home.HomeDestination
 import org.mifos.feature.home.HomeRoute
-import org.mifos.feature.profile.ProfileRoute
 
-sealed class MemberNavBarTabItem : NavigationItem {
+sealed class AdminNavBarTabItem : NavigationItem {
 
-    data object HomeTab : MemberNavBarTabItem() {
+    data object HomeTab : AdminNavBarTabItem() {
         override val selectedIcon: ImageVector
             get() = AppIcons.HomeBoarder
         override val icon: ImageVector
@@ -37,23 +37,40 @@ sealed class MemberNavBarTabItem : NavigationItem {
         override val startDestinationRoute: String
             get() = HomeRoute.toObjectNavigationRoute()
         override val testTag: String
-            get() = "MemberHomeTab"
+            get() = "AdminHomeTab"
     }
 
-    data object ProfileTab : MemberNavBarTabItem() {
+    data object GroupsTab : AdminNavBarTabItem() {
         override val selectedIcon: ImageVector
-            get() = AppIcons.ProfileBoarder
+            get() = AppIcons.GroupsBoarder
         override val icon: ImageVector
-            get() = AppIcons.Profile
+            get() = AppIcons.Groups
         override val labelRes: StringResource
-            get() = Res.string.profile
+            get() = Res.string.groups
         override val contentDescriptionRes: StringResource
-            get() = Res.string.profile
+            get() = Res.string.groups
         override val graphRoute: String
-            get() = ProfileRoute.toObjectNavigationRoute()
+            get() = ""
         override val startDestinationRoute: String
-            get() = ProfileRoute.toObjectNavigationRoute()
+            get() = ""
         override val testTag: String
-            get() = "MemberProfileTab"
+            get() = "AdminGroupsTab"
+    }
+
+    data object MeetingsTab : AdminNavBarTabItem() {
+        override val selectedIcon: ImageVector
+            get() = AppIcons.MeetingsBoarder
+        override val icon: ImageVector
+            get() = AppIcons.Meetings
+        override val labelRes: StringResource
+            get() = Res.string.meetings
+        override val contentDescriptionRes: StringResource
+            get() = Res.string.meetings
+        override val graphRoute: String
+            get() = ""
+        override val startDestinationRoute: String
+            get() = ""
+        override val testTag: String
+            get() = "AdminMeetingsTab"
     }
 }
