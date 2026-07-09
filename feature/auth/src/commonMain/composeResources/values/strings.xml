@@ -14,6 +14,11 @@
     <string name="feature_auth_enter_username">Enter your username</string>
     <string name="feature_auth_password">Password</string>
     <string name="feature_auth_enter_password">Enter your password</string>
+    <string name="feature_auth_password_required">Password is required</string>
+    <string name="feature_auth_passwords_do_not_match">Passwords do not match</string>
+    <string name="feature_auth_confirm_password_required">Confirm password is required</string>
+    <string name="feature_auth_password_too_long">Password is too long. Maximum length is 128 characters.</string>
+    <string name="feature_auth_password_empty">Password cannot be empty.</string>
     <string name="feature_auth_forgot_password">Forgot Password?</string>
     <string name="feature_auth_sign_in">Sign In</string>
     <string name="feature_auth_new_to_mifos_save">New to Mifos Save? </string>
@@ -28,6 +33,30 @@
     <string name="feature_auth_account_type_member">Member Account</string>
     <string name="feature_auth_account_type_member_desc">For microfinance group members &amp; borrowers</string>
     <string name="feature_auth_already_have_account">Already have an account? </string>
-    <string name="feature_auth_log_in">Log in</string>
     <string name="feature_auth_create_account_title">Create Account</string>
+
+    <!-- Create Member Account Screen strings -->
+    <string name="feature_auth_create_account_subtitle">Fill in your details to get started</string>
+    <string name="feature_auth_verification_method">Verification Method</string>
+    <string name="feature_auth_email">Email</string>
+    <string name="feature_auth_phone_number">Phone Number</string>
+    <string name="feature_auth_first_name_label">First Name *</string>
+    <string name="feature_auth_first_name_placeholder">Sarah</string>
+    <string name="feature_auth_middle_name_label">Middle Name</string>
+    <string name="feature_auth_middle_name_placeholder">Enter middle name (optional)</string>
+    <string name="feature_auth_last_name_label">Last Name *</string>
+    <string name="feature_auth_last_name_placeholder">Nair</string>
+    <string name="feature_auth_username_label">Username *</string>
+    <string name="feature_auth_username_placeholder">Enter a username</string>
+    <string name="feature_auth_email_label">Email Address *</string>
+    <string name="feature_auth_email_placeholder">sarah@mifos.org</string>
+    <string name="feature_auth_mobile_number_label">Mobile Number *</string>
+    <string name="feature_auth_mobile_number_optional_label">Mobile Number</string>
+    <string name="feature_auth_mobile_number_placeholder">e.g. 9027899544</string>
+    <string name="feature_auth_external_id_label">External ID</string>
+    <string name="feature_auth_external_id_placeholder">Enter external ID (optional)</string>
+    <string name="feature_auth_password_label">Password *</string>
+    <string name="feature_auth_password_placeholder">Create a password</string>
+    <string name="feature_auth_confirm_password_label">Confirm Password *</string>
+    <string name="feature_auth_confirm_password_placeholder">Repeat your password</string>
 </resources>

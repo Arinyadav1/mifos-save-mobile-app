@@ -7,11 +7,14 @@
  *
  * See See https://github.com/openMF/kmp-project-template/blob/main/LICENSE
  */
-package org.mifos.core.network.utils
+package org.mifos.core.model.economic
 
-object ApiEndPoints {
-    // This class contains all the Constants for API End Points
-    const val AUTHENTICATION = "authentication"
-    const val REGISTRATION = "registration"
-    const val CLIENT_USER = "client-user"
-}
+data class Currency(
+    val code: String? = null,
+    val name: String? = null,
+    val decimalPlaces: Int = 0,
+    val inMultiplesOf: Double = 0.0,
+    val displaySymbol: String? = null,
+    val nameCode: String? = null,
+    val displayLabel: String? = null,
+)

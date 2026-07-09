@@ -7,11 +7,14 @@
  *
  * See See https://github.com/openMF/kmp-project-template/blob/main/LICENSE
  */
-package org.mifos.core.network.utils
+package org.mifos.core.model.error
 
-object ApiEndPoints {
-    // This class contains all the Constants for API End Points
-    const val AUTHENTICATION = "authentication"
-    const val REGISTRATION = "registration"
-    const val CLIENT_USER = "client-user"
-}
+import kotlinx.serialization.Serializable
+
+@Serializable
+data class Errors(
+    val developerMessage: String? = null,
+    val defaultUserMessage: String? = null,
+    val userMessageGlobalisationCode: String? = null,
+    val parameterName: String? = null,
+)

@@ -29,11 +29,15 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.text.withStyle
 import org.mifos.core.base.designsystem.theme.KptTheme
 import org.mifos.core.designsystem.icon.AppIcons
 
@@ -103,8 +107,28 @@ fun KptTextField(
 
     Column(modifier = modifier) {
         if (label != null) {
+            val asteriskColor = KptTheme.colorScheme.error
+            val labelText = remember(label, asteriskColor) {
+                if (label.endsWith(" *")) {
+                    buildAnnotatedString {
+                        append(label.substringBeforeLast(" *"))
+                        withStyle(SpanStyle(color = asteriskColor)) {
+                            append(" *")
+                        }
+                    }
+                } else if (label.endsWith("*")) {
+                    buildAnnotatedString {
+                        append(label.substringBeforeLast("*"))
+                        withStyle(SpanStyle(color = asteriskColor)) {
+                            append("*")
+                        }
+                    }
+                } else {
+                    AnnotatedString(label)
+                }
+            }
             Text(
-                text = label,
+                text = labelText,
                 style = KptTheme.typography.bodyMedium.copy(
                     fontWeight = FontWeight.SemiBold,
                     color = if (enabled) {
