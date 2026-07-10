@@ -46,14 +46,14 @@ import org.mifos.feature.auth.generated.resources.feature_auth_account_type_memb
 import org.mifos.feature.auth.generated.resources.feature_auth_account_type_member_desc
 import org.mifos.feature.auth.generated.resources.feature_auth_already_have_account
 import org.mifos.feature.auth.generated.resources.feature_auth_create_account_title
-import org.mifos.feature.auth.generated.resources.feature_auth_log_in
+import org.mifos.feature.auth.generated.resources.feature_auth_sign_in
 
 @Composable
 fun AccountTypeScreen(
     onBackClick: () -> Unit,
     onAdminCreateAccountScreen: () -> Unit,
     onMemberCreateAccountScreen: () -> Unit,
-    onLoginClick: () -> Unit,
+    onSignInClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     KptScaffold(
@@ -95,7 +95,7 @@ fun AccountTypeScreen(
             // Title and Subtitle
             Text(
                 text = stringResource(Res.string.feature_auth_create_account_title),
-                style = KptTheme.typography.headlineMedium.copy(
+                style = KptTheme.typography.headlineLarge.copy(
                     fontWeight = FontWeight.ExtraBold,
                     color = KptTheme.colorScheme.onSurface,
                 ),
@@ -116,7 +116,7 @@ fun AccountTypeScreen(
             SelectionCard(
                 title = stringResource(Res.string.feature_auth_account_type_admin),
                 description = stringResource(Res.string.feature_auth_account_type_admin_desc),
-                onClick = onAdminCreateAccountScreen,
+                onClick = { onAdminCreateAccountScreen() },
             )
 
             VerticalSpacer(KptTheme.spacing.md)
@@ -125,7 +125,7 @@ fun AccountTypeScreen(
             SelectionCard(
                 title = stringResource(Res.string.feature_auth_account_type_member),
                 description = stringResource(Res.string.feature_auth_account_type_member_desc),
-                onClick = onMemberCreateAccountScreen,
+                onClick = { onMemberCreateAccountScreen() },
             )
 
             VerticalSpacer(KptTheme.spacing.lg)
@@ -142,11 +142,11 @@ fun AccountTypeScreen(
                     style = KptTheme.typography.bodyLarge,
                 )
                 Text(
-                    text = stringResource(Res.string.feature_auth_log_in),
+                    text = stringResource(Res.string.feature_auth_sign_in),
                     color = KptTheme.colorScheme.primary,
                     fontWeight = FontWeight.SemiBold,
                     style = KptTheme.typography.bodyLarge,
-                    modifier = Modifier.clickable(onClick = onLoginClick),
+                    modifier = Modifier.clickable(onClick = onSignInClick),
                 )
             }
         }

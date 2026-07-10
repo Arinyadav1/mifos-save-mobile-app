@@ -10,9 +10,12 @@
 package org.mifos.core.data.auth
 
 import org.mifos.core.base.store.screen.ScreenState
+import org.mifos.core.model.auth.RegistrationRequest
+import org.mifos.core.model.auth.RegistrationResult
 import org.mifos.core.model.auth.User
 
 interface Authentication {
     suspend fun signInSelf(username: String, password: String): ScreenState<User>
     suspend fun signInFineract(username: String, password: String): ScreenState<User>
+    suspend fun registerMember(request: RegistrationRequest): ScreenState<RegistrationResult>
 }

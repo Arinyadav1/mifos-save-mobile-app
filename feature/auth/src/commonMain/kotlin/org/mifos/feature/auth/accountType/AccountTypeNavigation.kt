@@ -24,14 +24,14 @@ fun NavGraphBuilder.accountTypeDestination(
     onBackClick: () -> Unit,
     onAdminCreateAccountScreen: () -> Unit,
     onMemberCreateAccountScreen: () -> Unit,
-    onLoginClick: () -> Unit,
+    onSignInClick: () -> Unit,
 ) {
     composableWithStayTransitions<AccountTypeRoute> {
         AccountTypeScreen(
             onBackClick = onBackClick,
             onAdminCreateAccountScreen = onAdminCreateAccountScreen,
             onMemberCreateAccountScreen = onMemberCreateAccountScreen,
-            onLoginClick = onLoginClick,
+            onSignInClick = onSignInClick,
         )
     }
 }

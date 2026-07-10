@@ -17,7 +17,10 @@ import androidx.navigation.navigation
 import kotlinx.serialization.Serializable
 import org.mifos.feature.auth.accountType.accountTypeDestination
 import org.mifos.feature.auth.accountType.navigateToAccountTypeScreen
+import org.mifos.feature.auth.createMemberAccount.createMemberAccountDestination
+import org.mifos.feature.auth.createMemberAccount.navigateToCreateMemberAccountScreen
 import org.mifos.feature.auth.signIn.LoginRoute
+import org.mifos.feature.auth.signIn.navigateToSignInScreen
 import org.mifos.feature.auth.signIn.signInDestination
 
 @Serializable
@@ -35,9 +38,14 @@ fun NavGraphBuilder.authNavigationGraph(
         )
         accountTypeDestination(
             onBackClick = navController::popBackStack,
-            onMemberCreateAccountScreen = {},
+            onMemberCreateAccountScreen = navController::navigateToCreateMemberAccountScreen,
             onAdminCreateAccountScreen = {},
-            onLoginClick = navController::popBackStack,
+            onSignInClick = navController::popBackStack,
+        )
+        createMemberAccountDestination(
+            onBackClick = navController::popBackStack,
+            onNavigateToOtpVerification = {},
+            onNavigateToSignIn = navController::navigateToSignInScreen,
         )
     }
 }

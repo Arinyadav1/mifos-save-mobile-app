@@ -11,11 +11,15 @@ package org.mifos.core.network.selfService.auth.apis
 
 import de.jensklingenberg.ktorfit.http.Body
 import de.jensklingenberg.ktorfit.http.POST
+import io.ktor.client.statement.HttpResponse
 import org.mifos.core.network.commonDto.CredentialsRequestDto
-import org.mifos.core.network.commonDto.UserResponseDto
+import org.mifos.core.network.commonDto.RegistrationRequestDto
 import org.mifos.core.network.utils.ApiEndPoints
 
 interface AuthApi {
     @POST(ApiEndPoints.AUTHENTICATION)
-    suspend fun authenticate(@Body credentialsRequestDto: CredentialsRequestDto): UserResponseDto
+    suspend fun authenticate(@Body credentialsRequestDto: CredentialsRequestDto): HttpResponse
+
+    @POST("${ApiEndPoints.REGISTRATION}/${ApiEndPoints.CLIENT_USER}")
+    suspend fun register(@Body request: RegistrationRequestDto): HttpResponse
 }

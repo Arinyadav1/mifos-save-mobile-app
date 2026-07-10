@@ -21,6 +21,7 @@ fun Int.toPasswordStrengthOrNull(): PasswordStrength? = when (this) {
     3 -> PasswordStrength.LEVEL_3
     4 -> PasswordStrength.LEVEL_4
     5 -> PasswordStrength.LEVEL_5
+    6 -> PasswordStrength.LEVEL_6
     else -> null
 }
 
@@ -35,4 +36,5 @@ fun PasswordStrength.toInt(): Int = when (this) {
     PasswordStrength.LEVEL_3 -> 3
     PasswordStrength.LEVEL_4 -> 4
     PasswordStrength.LEVEL_5 -> 5
+    PasswordStrength.LEVEL_6 -> 6
 }

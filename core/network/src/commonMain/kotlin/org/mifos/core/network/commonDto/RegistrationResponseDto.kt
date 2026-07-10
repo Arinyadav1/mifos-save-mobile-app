@@ -7,11 +7,13 @@
  *
  * See See https://github.com/openMF/kmp-project-template/blob/main/LICENSE
  */
-package org.mifos.core.network.utils
+package org.mifos.core.network.commonDto
 
-object ApiEndPoints {
-    // This class contains all the Constants for API End Points
-    const val AUTHENTICATION = "authentication"
-    const val REGISTRATION = "registration"
-    const val CLIENT_USER = "client-user"
-}
+import kotlinx.serialization.Serializable
+
+@Serializable
+data class RegistrationResponseDto(
+    val officeId: Long? = null,
+    val clientId: Long? = null,
+    val resourceId: Long? = null,
+)

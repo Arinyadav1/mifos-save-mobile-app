@@ -9,15 +9,24 @@
  */
 package org.mifos.core.data.auth.impl
 
+import io.ktor.client.statement.bodyAsText
+import io.ktor.http.isSuccess
+import kotlinx.serialization.json.Json
 import org.mifos.core.base.common.manager.DispatcherManager
 import org.mifos.core.base.store.screen.ScreenState
 import org.mifos.core.data.auth.Authentication
 import org.mifos.core.data.infra.NetworkMonitor
+import org.mifos.core.data.mapper.auth.toDto
 import org.mifos.core.data.mapper.auth.toModel
+import org.mifos.core.data.util.extractErrorMessage
 import org.mifos.core.data.util.runAsDataState
+import org.mifos.core.model.auth.RegistrationRequest
+import org.mifos.core.model.auth.RegistrationResult
 import org.mifos.core.model.auth.User
 import org.mifos.core.network.DataManager
 import org.mifos.core.network.commonDto.CredentialsRequestDto
+import org.mifos.core.network.commonDto.RegistrationResponseDto
+import org.mifos.core.network.commonDto.UserResponseDto
 
 class AuthenticationImpl(
     private val dataManager: DataManager,
@@ -33,9 +42,16 @@ class AuthenticationImpl(
             networkMonitor,
             dispatcher.io,
         ) {
-            dataManager.self.authApi.authenticate(
+            val response = dataManager.self.authApi.authenticate(
                 CredentialsRequestDto(username, password),
-            ).toModel()
+            )
+            if (!response.status.isSuccess()) {
+                val errorMessage = extractErrorMessage(response)
+                throw Exception(errorMessage)
+            }
+            val json = Json { ignoreUnknownKeys = true }
+            val responseText = response.bodyAsText()
+            json.decodeFromString<UserResponseDto>(responseText).toModel()
         }
     }
 
@@ -47,9 +63,35 @@ class AuthenticationImpl(
             networkMonitor,
             dispatcher.io,
         ) {
-            dataManager.fineract.authApi.authenticate(
+            val response = dataManager.fineract.authApi.authenticate(
                 CredentialsRequestDto(username, password),
-            ).toModel()
+            )
+            if (!response.status.isSuccess()) {
+                val errorMessage = extractErrorMessage(response)
+                throw Exception(errorMessage)
+            }
+            val json = Json { ignoreUnknownKeys = true }
+            val responseText = response.bodyAsText()
+            json.decodeFromString<UserResponseDto>(responseText).toModel()
+        }
+    }
+
+    override suspend fun registerMember(
+        request: RegistrationRequest,
+    ): ScreenState<RegistrationResult> {
+        return runAsDataState(
+            networkMonitor,
+            dispatcher.io,
+        ) {
+            val response = dataManager.self.authApi.register(request.toDto())
+
+            if (!response.status.isSuccess()) {
+                val errorMessage = extractErrorMessage(response)
+                throw Exception(errorMessage)
+            }
+            val json = Json { ignoreUnknownKeys = true }
+            val responseText = response.bodyAsText()
+            json.decodeFromString<RegistrationResponseDto>(responseText).toModel()
         }
     }
 }
