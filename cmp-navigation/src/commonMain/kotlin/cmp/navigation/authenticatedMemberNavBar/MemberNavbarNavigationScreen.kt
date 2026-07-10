@@ -7,7 +7,7 @@
  *
  * See See https://github.com/openMF/kmp-project-template/blob/main/LICENSE
  */
-package cmp.navigation.adminnavbar
+package cmp.navigation.authenticatedMemberNavBar
 
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.material3.MaterialTheme
@@ -45,26 +45,26 @@ import org.mifos.feature.profile.navigateToProfile
 import org.mifos.feature.profile.profileDestination
 
 @Composable
-internal fun AdminNavbarNavigationScreen(
+internal fun MemberNavbarNavigationScreen(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberKptNavController(
-        name = "AdminNavbarScreen",
+        name = "MemberNavbarScreen",
     ),
-    viewModel: AdminNavbarNavigationViewModel = koinViewModel(),
+    viewModel: MemberNavbarNavigationViewModel = koinViewModel(),
 ) {
     val analyticsHelper = rememberAnalyticsHelper()
 
     EventsEffect(eventFlow = viewModel.eventFlow) { event ->
         navController.apply {
             when (event) {
-                AdminNavBarEvent.NavigateToHomeScreen -> {
+                MemberNavBarEvent.NavigateToHomeScreen -> {
                     analyticsHelper.logDestinationChanged(event.tab.startDestinationRoute)
                     navigateToTabOrRoot(tabToNavigateTo = event.tab) {
                         navigateToHome(navOptions = it)
                     }
                 }
 
-                AdminNavBarEvent.NavigateToProfileScreen -> {
+                MemberNavBarEvent.NavigateToProfileScreen -> {
                     analyticsHelper.logDestinationChanged(event.tab.startDestinationRoute)
                     navigateToTabOrRoot(tabToNavigateTo = event.tab) {
                         navigateToProfile(navOptions = it)
@@ -74,7 +74,7 @@ internal fun AdminNavbarNavigationScreen(
         }
     }
 
-    AdminNavbarNavigationScreenContent(
+    MemberNavbarNavigationScreenContent(
         navController = navController,
         modifier = modifier,
         onAction = remember(viewModel) {
@@ -84,16 +84,16 @@ internal fun AdminNavbarNavigationScreen(
 }
 
 @Composable
-internal fun AdminNavbarNavigationScreenContent(
+internal fun MemberNavbarNavigationScreenContent(
     navController: NavHostController,
     modifier: Modifier = Modifier,
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
-    onAction: (AdminNavBarAction) -> Unit,
+    onAction: (MemberNavBarAction) -> Unit,
 ) {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val navigationItems = persistentListOf<NavigationItem>(
-        AdminNavBarTabItem.HomeTab,
-        AdminNavBarTabItem.ProfileTab,
+        MemberNavBarTabItem.HomeTab,
+        MemberNavBarTabItem.ProfileTab,
     )
 
     KptRootScaffold(
@@ -105,12 +105,12 @@ internal fun AdminNavbarNavigationScreenContent(
             },
             onNavigationClick = { navigationItem ->
                 when (navigationItem) {
-                    is AdminNavBarTabItem.HomeTab -> {
-                        onAction(AdminNavBarAction.HomeTabClick)
+                    is MemberNavBarTabItem.HomeTab -> {
+                        onAction(MemberNavBarAction.HomeTabClick)
                     }
 
-                    is AdminNavBarTabItem.ProfileTab -> {
-                        onAction(AdminNavBarAction.SettingsTabClick)
+                    is MemberNavBarTabItem.ProfileTab -> {
+                        onAction(MemberNavBarAction.SettingsTabClick)
                     }
                 }
             },
@@ -139,7 +139,7 @@ internal fun AdminNavbarNavigationScreenContent(
 }
 
 private fun NavController.navigateToTabOrRoot(
-    tabToNavigateTo: AdminNavBarTabItem,
+    tabToNavigateTo: MemberNavBarTabItem,
     navigate: (NavOptions) -> Unit,
 ) {
     if (tabToNavigateTo.startDestinationRoute == currentDestination?.route) {

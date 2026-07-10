@@ -42,10 +42,12 @@ import androidx.compose.material.icons.filled.Share
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material.icons.outlined.AccountCircle
+import androidx.compose.material.icons.outlined.CalendarMonth
 import androidx.compose.material.icons.outlined.Cancel
 import androidx.compose.material.icons.outlined.DeleteOutline
 import androidx.compose.material.icons.outlined.DoneAll
 import androidx.compose.material.icons.outlined.Edit
+import androidx.compose.material.icons.outlined.Group
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.Lock
@@ -61,7 +63,9 @@ import androidx.compose.material.icons.outlined.WbSunny
 import androidx.compose.material.icons.rounded.AccountBalance
 import androidx.compose.material.icons.rounded.AccountCircle
 import androidx.compose.material.icons.rounded.Add
+import androidx.compose.material.icons.rounded.CalendarMonth
 import androidx.compose.material.icons.rounded.Contacts
+import androidx.compose.material.icons.rounded.Group
 import androidx.compose.material.icons.rounded.Home
 import androidx.compose.material.icons.rounded.Info
 import androidx.compose.material.icons.rounded.MoreVert
@@ -95,6 +99,10 @@ object AppIcons {
     val FinanceBoarder = Icons.Rounded.Wallet
     val Profile = Icons.Outlined.AccountCircle
     val ProfileBoarder = Icons.Rounded.AccountCircle
+    val Groups = Icons.Outlined.Group
+    val GroupsBoarder = Icons.Rounded.Group
+    val Meetings = Icons.Outlined.CalendarMonth
+    val MeetingsBoarder = Icons.Rounded.CalendarMonth
     val MoreVert = Icons.Rounded.MoreVert
     val Search = Icons.Rounded.Search
     val Add = Icons.Rounded.Add

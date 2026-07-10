@@ -10,8 +10,8 @@
 package cmp.navigation.di
 
 import cmp.navigation.AppViewModel
-import cmp.navigation.adminnavbar.AdminNavbarNavigationViewModel
-import cmp.navigation.authenticatednavbar.MemberNavbarNavigationViewModel
+import cmp.navigation.authenticatedAdminNavBar.AdminNavbarNavigationViewModel
+import cmp.navigation.authenticatedMemberNavBar.MemberNavbarNavigationViewModel
 import cmp.navigation.rootnav.RootNavViewModel
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module

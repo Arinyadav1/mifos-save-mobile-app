@@ -7,7 +7,7 @@
  *
  * See See https://github.com/openMF/kmp-project-template/blob/main/LICENSE
  */
-package cmp.navigation.adminnavbar
+package cmp.navigation.authenticatedAdminNavBar
 
 import org.mifos.core.base.ui.viewmodel.BaseViewModel
 
@@ -18,8 +18,9 @@ internal class AdminNavbarNavigationViewModel :
 
     override fun handleAction(action: AdminNavBarAction) {
         when (action) {
-            AdminNavBarAction.SettingsTabClick -> handleSettingsTabClicked()
             AdminNavBarAction.HomeTabClick -> handleHomeTabClicked()
+            AdminNavBarAction.GroupsTabClick -> handleGroupsTabClicked()
+            AdminNavBarAction.MeetingsTabClick -> handleMeetingsTabClicked()
             is AdminNavBarAction.Internal -> handleInternalAction(action)
         }
     }
@@ -35,15 +36,21 @@ internal class AdminNavbarNavigationViewModel :
         sendEvent(AdminNavBarEvent.NavigateToHomeScreen)
     }
 
-    private fun handleSettingsTabClicked() {
-        sendEvent(AdminNavBarEvent.NavigateToProfileScreen)
+    private fun handleGroupsTabClicked() {
+        sendEvent(AdminNavBarEvent.NavigateToGroupsScreen)
+    }
+
+    private fun handleMeetingsTabClicked() {
+        sendEvent(AdminNavBarEvent.NavigateToMeetingsScreen)
     }
 }
 
 internal sealed class AdminNavBarAction {
     data object HomeTabClick : AdminNavBarAction()
 
-    data object SettingsTabClick : AdminNavBarAction()
+    data object GroupsTabClick : AdminNavBarAction()
+
+    data object MeetingsTabClick : AdminNavBarAction()
 
     sealed class Internal : AdminNavBarAction() {
         data class UserStateUpdateReceive(
@@ -60,7 +67,11 @@ internal sealed class AdminNavBarEvent {
         override val tab: AdminNavBarTabItem = AdminNavBarTabItem.HomeTab
     }
 
-    data object NavigateToProfileScreen : AdminNavBarEvent() {
-        override val tab: AdminNavBarTabItem = AdminNavBarTabItem.ProfileTab
+    data object NavigateToGroupsScreen : AdminNavBarEvent() {
+        override val tab: AdminNavBarTabItem = AdminNavBarTabItem.GroupsTab
+    }
+
+    data object NavigateToMeetingsScreen : AdminNavBarEvent() {
+        override val tab: AdminNavBarTabItem = AdminNavBarTabItem.MeetingsTab
     }
 }

@@ -13,6 +13,8 @@
     <string name="home">Inicio</string>
     <string name="profile">Perfil</string>
     <string name="settings">Configuración</string>
+    <string name="groups">Grupos</string>
+    <string name="meetings">Reuniones</string>
     <string name="not_connected">⚠️ No estás conectado a Internet</string>
 
     <!-- ===== Screen-state default copy ===== -->

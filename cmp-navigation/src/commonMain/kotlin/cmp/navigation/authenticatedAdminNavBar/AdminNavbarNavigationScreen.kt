@@ -7,7 +7,7 @@
  *
  * See See https://github.com/openMF/kmp-project-template/blob/main/LICENSE
  */
-package cmp.navigation.authenticatednavbar
+package cmp.navigation.authenticatedAdminNavBar
 
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.material3.MaterialTheme
@@ -41,40 +41,43 @@ import org.mifos.core.ui.NavigationItem
 import org.mifos.feature.home.HomeDestination
 import org.mifos.feature.home.homeGraph
 import org.mifos.feature.home.navigateToHome
-import org.mifos.feature.profile.navigateToProfile
-import org.mifos.feature.profile.profileDestination
 
 @Composable
-internal fun MemberNavbarNavigationScreen(
+internal fun AdminNavbarNavigationScreen(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberKptNavController(
-        name = "MemberNavbarScreen",
+        name = "AdminNavbarScreen",
     ),
-    viewModel: MemberNavbarNavigationViewModel = koinViewModel(),
+    viewModel: AdminNavbarNavigationViewModel = koinViewModel(),
 ) {
     val analyticsHelper = rememberAnalyticsHelper()
 
     EventsEffect(eventFlow = viewModel.eventFlow) { event ->
         navController.apply {
             when (event) {
-                MemberNavBarEvent.NavigateToHomeScreen -> {
+                AdminNavBarEvent.NavigateToHomeScreen -> {
                     analyticsHelper.logDestinationChanged(event.tab.startDestinationRoute)
                     navigateToTabOrRoot(tabToNavigateTo = event.tab) {
                         navigateToHome(navOptions = it)
                     }
                 }
 
-                MemberNavBarEvent.NavigateToProfileScreen -> {
+                AdminNavBarEvent.NavigateToGroupsScreen -> {
                     analyticsHelper.logDestinationChanged(event.tab.startDestinationRoute)
                     navigateToTabOrRoot(tabToNavigateTo = event.tab) {
-                        navigateToProfile(navOptions = it)
+                    }
+                }
+
+                AdminNavBarEvent.NavigateToMeetingsScreen -> {
+                    analyticsHelper.logDestinationChanged(event.tab.startDestinationRoute)
+                    navigateToTabOrRoot(tabToNavigateTo = event.tab) {
                     }
                 }
             }
         }
     }
 
-    MemberNavbarNavigationScreenContent(
+    AdminNavbarNavigationScreenContent(
         navController = navController,
         modifier = modifier,
         onAction = remember(viewModel) {
@@ -84,16 +87,17 @@ internal fun MemberNavbarNavigationScreen(
 }
 
 @Composable
-internal fun MemberNavbarNavigationScreenContent(
+internal fun AdminNavbarNavigationScreenContent(
     navController: NavHostController,
     modifier: Modifier = Modifier,
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
-    onAction: (MemberNavBarAction) -> Unit,
+    onAction: (AdminNavBarAction) -> Unit,
 ) {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val navigationItems = persistentListOf<NavigationItem>(
-        MemberNavBarTabItem.HomeTab,
-        MemberNavBarTabItem.ProfileTab,
+        AdminNavBarTabItem.HomeTab,
+        AdminNavBarTabItem.GroupsTab,
+        AdminNavBarTabItem.MeetingsTab,
     )
 
     KptRootScaffold(
@@ -105,12 +109,16 @@ internal fun MemberNavbarNavigationScreenContent(
             },
             onNavigationClick = { navigationItem ->
                 when (navigationItem) {
-                    is MemberNavBarTabItem.HomeTab -> {
-                        onAction(MemberNavBarAction.HomeTabClick)
+                    is AdminNavBarTabItem.HomeTab -> {
+                        onAction(AdminNavBarAction.HomeTabClick)
                     }
 
-                    is MemberNavBarTabItem.ProfileTab -> {
-                        onAction(MemberNavBarAction.SettingsTabClick)
+                    is AdminNavBarTabItem.GroupsTab -> {
+                        onAction(AdminNavBarAction.GroupsTabClick)
+                    }
+
+                    is AdminNavBarTabItem.MeetingsTab -> {
+                        onAction(AdminNavBarAction.MeetingsTabClick)
                     }
                 }
             },
@@ -133,13 +141,12 @@ internal fun MemberNavbarNavigationScreenContent(
             popExitTransition = RootTransitionProviders.Kpt.Exit.fadeThrough(motion),
         ) {
             homeGraph()
-            profileDestination()
         }
     }
 }
 
 private fun NavController.navigateToTabOrRoot(
-    tabToNavigateTo: MemberNavBarTabItem,
+    tabToNavigateTo: AdminNavBarTabItem,
     navigate: (NavOptions) -> Unit,
 ) {
     if (tabToNavigateTo.startDestinationRoute == currentDestination?.route) {

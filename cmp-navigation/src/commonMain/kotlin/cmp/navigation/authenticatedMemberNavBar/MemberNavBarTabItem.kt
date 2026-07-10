@@ -7,7 +7,7 @@
  *
  * See See https://github.com/openMF/kmp-project-template/blob/main/LICENSE
  */
-package cmp.navigation.adminnavbar
+package cmp.navigation.authenticatedMemberNavBar
 
 import androidx.compose.ui.graphics.vector.ImageVector
 import cmp.navigation.generated.resources.Res
@@ -21,9 +21,9 @@ import org.mifos.feature.home.HomeDestination
 import org.mifos.feature.home.HomeRoute
 import org.mifos.feature.profile.ProfileRoute
 
-sealed class AdminNavBarTabItem : NavigationItem {
+sealed class MemberNavBarTabItem : NavigationItem {
 
-    data object HomeTab : AdminNavBarTabItem() {
+    data object HomeTab : MemberNavBarTabItem() {
         override val selectedIcon: ImageVector
             get() = AppIcons.HomeBoarder
         override val icon: ImageVector
@@ -37,10 +37,10 @@ sealed class AdminNavBarTabItem : NavigationItem {
         override val startDestinationRoute: String
             get() = HomeRoute.toObjectNavigationRoute()
         override val testTag: String
-            get() = "AdminHomeTab"
+            get() = "MemberHomeTab"
     }
 
-    data object ProfileTab : AdminNavBarTabItem() {
+    data object ProfileTab : MemberNavBarTabItem() {
         override val selectedIcon: ImageVector
             get() = AppIcons.ProfileBoarder
         override val icon: ImageVector
@@ -54,6 +54,6 @@ sealed class AdminNavBarTabItem : NavigationItem {
         override val startDestinationRoute: String
             get() = ProfileRoute.toObjectNavigationRoute()
         override val testTag: String
-            get() = "AdminProfileTab"
+            get() = "MemberProfileTab"
     }
 }
