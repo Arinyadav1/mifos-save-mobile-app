@@ -64,8 +64,8 @@ fun KptRootScaffold(
     floatingActionButtonPosition: FabPosition = FabPosition.End,
     navigationData: ScaffoldNavigationData? = null,
     pullToRefreshState: KptPullToRefreshState = rememberKptPullToRefreshState(),
-    containerColor: Color = Color.White,
-    contentColor: Color = Color.Black,
+    containerColor: Color = KptTheme.colorScheme.surface,
+    contentColor: Color = KptTheme.colorScheme.onSurface,
     contentWindowInsets: WindowInsets = ScaffoldDefaults
         .contentWindowInsets
         .only(WindowInsetsSides.Horizontal),

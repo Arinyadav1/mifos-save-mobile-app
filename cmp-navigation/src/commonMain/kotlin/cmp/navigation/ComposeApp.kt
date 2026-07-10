@@ -9,6 +9,7 @@
  */
 package cmp.navigation
 
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -18,6 +19,7 @@ import cmp.navigation.rootnav.RootNavScreen
 import org.koin.compose.viewmodel.koinViewModel
 import org.mifos.core.base.ui.effects.EventsEffect
 import org.mifos.core.designsystem.theme.KptTheme
+import org.mifos.core.model.user.DarkThemeConfig
 
 @Composable
 fun ComposeApp(
@@ -44,8 +46,14 @@ fun ComposeApp(
         }
     }
 
+    val darkTheme = when (uiState.darkThemeConfig) {
+        DarkThemeConfig.FOLLOW_SYSTEM -> isSystemInDarkTheme()
+        DarkThemeConfig.DARK -> true
+        DarkThemeConfig.LIGHT -> false
+    }
+
     KptTheme(
-        darkTheme = uiState.darkTheme,
+        darkTheme = darkTheme,
         androidTheme = uiState.isAndroidTheme,
         useDynamicColor = uiState.isDynamicColorsEnabled,
     ) {

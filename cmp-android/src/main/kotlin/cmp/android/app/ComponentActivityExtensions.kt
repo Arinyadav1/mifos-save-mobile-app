@@ -57,8 +57,7 @@ fun ComponentActivity.setupEdgeToEdge(appThemeFlow: Flow<org.mifos.core.model.us
                     val style = SystemBarStyle.auto(
                         darkScrim = SCRIM_COLOR,
                         lightScrim = SCRIM_COLOR,
-                        // Disabling Dark Mode for this app
-                        detectDarkMode = { false },
+                        detectDarkMode = { isDarkMode },
                     )
                     enableEdgeToEdge(statusBarStyle = style, navigationBarStyle = style)
                 }

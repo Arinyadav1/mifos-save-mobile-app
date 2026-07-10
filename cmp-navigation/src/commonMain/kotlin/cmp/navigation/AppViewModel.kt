@@ -28,7 +28,7 @@ class AppViewModel(
     private val garbageCollectionManager: GarbageCollectionManager,
 ) : BaseViewModel<AppState, AppEvent, AppAction>(
     initialState = AppState(
-        darkTheme = false,
+        darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM,
         isAndroidTheme = false,
         isDynamicColorsEnabled = false,
         isScreenCaptureAllowed = false,
@@ -86,7 +86,7 @@ class AppViewModel(
 
     private fun handleAppThemeUpdated(action: AppAction.Internal.ThemeUpdate) {
         mutableStateFlow.update {
-            it.copy(darkTheme = action.theme == DarkThemeConfig.DARK)
+            it.copy(darkThemeConfig = action.theme)
         }
         sendEvent(AppEvent.UpdateAppTheme(osValue = action.theme.osValue))
     }
@@ -110,7 +110,7 @@ class AppViewModel(
 }
 
 data class AppState(
-    val darkTheme: Boolean,
+    val darkThemeConfig: DarkThemeConfig,
     val isAndroidTheme: Boolean,
     val isDynamicColorsEnabled: Boolean,
     val isScreenCaptureAllowed: Boolean,
