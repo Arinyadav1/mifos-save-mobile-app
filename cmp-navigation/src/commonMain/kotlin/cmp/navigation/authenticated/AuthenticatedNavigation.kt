@@ -15,10 +15,10 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.navigation
-import cmp.navigation.adminnavbar.AdminNavbarRoute
-import cmp.navigation.adminnavbar.adminAuthenticatedNavbarGraph
-import cmp.navigation.authenticatednavbar.MemberNavbarRoute
-import cmp.navigation.authenticatednavbar.memberAuthenticatedNavbarGraph
+import cmp.navigation.authenticatedAdminNavBar.AdminNavbarRoute
+import cmp.navigation.authenticatedAdminNavBar.adminAuthenticatedNavbarGraph
+import cmp.navigation.authenticatedMemberNavBar.MemberNavbarRoute
+import cmp.navigation.authenticatedMemberNavBar.memberAuthenticatedNavbarGraph
 import kotlinx.serialization.Serializable
 
 @Serializable

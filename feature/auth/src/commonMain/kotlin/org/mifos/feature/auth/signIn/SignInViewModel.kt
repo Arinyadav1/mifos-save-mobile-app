@@ -171,6 +171,17 @@ class SignInViewModel(
             SignInAction.NavigateToForgetPasswordScreen -> {
                 sendEvent(SignInEvent.NavigateToForgetPasswordScreen)
             }
+
+            SignInAction.Retry -> {
+                mutableStateFlow.update {
+                    it.copy(
+                        screenState = ScreenState.Content(
+                            data = Unit,
+                            freshness = DataFreshness.FRESH,
+                        ),
+                    )
+                }
+            }
         }
     }
 }
@@ -206,6 +217,7 @@ sealed interface SignInAction {
     data object SingIn : SignInAction
     data object NavigateToAccountTypeScreen : SignInAction
     data object NavigateToForgetPasswordScreen : SignInAction
+    data object Retry : SignInAction
 
     sealed interface Internal : SignInAction {
         data class ReceiveSelfSignInResult(

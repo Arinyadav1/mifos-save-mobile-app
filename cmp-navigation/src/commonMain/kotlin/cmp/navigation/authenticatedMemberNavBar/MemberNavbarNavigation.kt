@@ -9,7 +9,7 @@
  */
 @file:Suppress("MatchingDeclarationName")
 
-package cmp.navigation.authenticatednavbar
+package cmp.navigation.authenticatedMemberNavBar
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder

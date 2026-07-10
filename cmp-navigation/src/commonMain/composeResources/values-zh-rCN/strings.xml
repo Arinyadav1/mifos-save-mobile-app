@@ -13,6 +13,8 @@
     <string name="home">主页</string>
     <string name="profile">个人资料</string>
     <string name="settings">设置</string>
+    <string name="groups">群组</string>
+    <string name="meetings">会议</string>
     <string name="not_connected">⚠️ 您未连接到互联网</string>
 
     <!-- ===== Screen-state default copy ===== -->
