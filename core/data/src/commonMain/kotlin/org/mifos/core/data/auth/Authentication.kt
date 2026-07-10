@@ -18,4 +18,5 @@ interface Authentication {
     suspend fun signInSelf(username: String, password: String): ScreenState<User>
     suspend fun signInFineract(username: String, password: String): ScreenState<User>
     suspend fun registerMember(request: RegistrationRequest): ScreenState<RegistrationResult>
+    suspend fun confirmClientUser(verificationToken: String): ScreenState<Unit>
 }

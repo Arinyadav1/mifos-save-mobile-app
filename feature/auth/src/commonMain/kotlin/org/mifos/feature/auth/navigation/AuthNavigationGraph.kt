@@ -22,6 +22,9 @@ import org.mifos.feature.auth.createMemberAccount.navigateToCreateMemberAccountS
 import org.mifos.feature.auth.signIn.LoginRoute
 import org.mifos.feature.auth.signIn.navigateToSignInScreen
 import org.mifos.feature.auth.signIn.signInDestination
+import org.mifos.feature.auth.verifyOtp.VerifyOtpFlow
+import org.mifos.feature.auth.verifyOtp.navigateToVerifyOtpScreen
+import org.mifos.feature.auth.verifyOtp.verifyOtpDestination
 
 @Serializable
 data object AuthGraphRoute
@@ -44,8 +47,19 @@ fun NavGraphBuilder.authNavigationGraph(
         )
         createMemberAccountDestination(
             onBackClick = navController::popBackStack,
-            onNavigateToOtpVerification = {},
+            onNavigateToOtpVerification = { isEmail ->
+                navController.navigateToVerifyOtpScreen(
+                    flow = VerifyOtpFlow.MEMBER_ACCOUNT_VERIFY,
+                    isEmail = isEmail,
+                )
+            },
             onNavigateToSignIn = navController::navigateToSignInScreen,
+        )
+        verifyOtpDestination(
+            onBackClick = navController::popBackStack,
+            onVerificationSuccess = {
+                navController.navigateToSignInScreen()
+            },
         )
     }
 }

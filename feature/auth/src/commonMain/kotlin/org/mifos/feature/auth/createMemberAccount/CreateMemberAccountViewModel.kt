@@ -65,9 +65,12 @@ class CreateMemberAccountViewModel(
             )
 
             CreateMemberAccountAction.NavigateToBack -> sendEvent(CreateMemberAccountEvent.NavigateToBack)
-            CreateMemberAccountAction.NavigateToOtpVerification -> sendEvent(
-                CreateMemberAccountEvent.NavigateToOtpVerification,
-            )
+            CreateMemberAccountAction.NavigateToOtpVerification -> {
+                val isEmail = state.authenticationMode == AuthenticationMode.EMAIL
+                sendEvent(
+                    CreateMemberAccountEvent.NavigateToOtpVerification(isEmail),
+                )
+            }
 
             CreateMemberAccountAction.NavigateToSignIn -> sendEvent(CreateMemberAccountEvent.NavigateToSignIn)
             CreateMemberAccountAction.Retry -> {
@@ -273,7 +276,8 @@ class CreateMemberAccountViewModel(
                 mutableStateFlow.update {
                     it.copy(submitState = SubmitState.Submitted(result.data))
                 }
-                sendEvent(CreateMemberAccountEvent.NavigateToOtpVerification)
+                val isEmail = state.authenticationMode == AuthenticationMode.EMAIL
+                sendEvent(CreateMemberAccountEvent.NavigateToOtpVerification(isEmail))
             }
 
             is ScreenState.Error -> {
@@ -319,7 +323,7 @@ class CreateMemberAccountViewModel(
 
 enum class AuthenticationMode(val value: String) {
     EMAIL("email"),
-    PHONE("phone"),
+    PHONE("sms"),
 }
 
 data class CreateMemberAccountState(
@@ -402,7 +406,7 @@ sealed interface CreateMemberAccountAction {
 }
 
 sealed interface CreateMemberAccountEvent {
-    data object NavigateToOtpVerification : CreateMemberAccountEvent
+    data class NavigateToOtpVerification(val isEmail: Boolean) : CreateMemberAccountEvent
     data object NavigateToSignIn : CreateMemberAccountEvent
     data object NavigateToBack : CreateMemberAccountEvent
 }

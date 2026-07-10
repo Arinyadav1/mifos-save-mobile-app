@@ -76,7 +76,7 @@ import org.mifos.feature.auth.generated.resources.feature_auth_verification_meth
 @Composable
 fun CreateMemberAccountScreen(
     onBackClick: () -> Unit,
-    onNavigateToOtpVerification: () -> Unit,
+    onNavigateToOtpVerification: (isEmail: Boolean) -> Unit,
     onNavigateToSignIn: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: CreateMemberAccountViewModel = koinViewModel(),
@@ -85,7 +85,7 @@ fun CreateMemberAccountScreen(
 
     EventsEffect(viewModel.eventFlow) { event ->
         when (event) {
-            is CreateMemberAccountEvent.NavigateToOtpVerification -> onNavigateToOtpVerification()
+            is CreateMemberAccountEvent.NavigateToOtpVerification -> onNavigateToOtpVerification(event.isEmail)
             CreateMemberAccountEvent.NavigateToSignIn -> onNavigateToSignIn()
             CreateMemberAccountEvent.NavigateToBack -> onBackClick()
         }
