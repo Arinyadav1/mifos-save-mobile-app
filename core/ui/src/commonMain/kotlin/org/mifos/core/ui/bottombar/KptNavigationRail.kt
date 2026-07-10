@@ -27,6 +27,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
+import org.mifos.core.base.designsystem.theme.KptTheme
 import org.mifos.core.ui.NavigationItem
 
 @Composable
@@ -38,7 +39,7 @@ fun KptNavigationRail(
     windowInsets: WindowInsets = NavigationRailDefaults.windowInsets,
 ) {
     Surface(
-        color = Color.White,
+        color = KptTheme.colorScheme.surface,
         contentColor = Color.Unspecified,
         modifier = modifier,
     ) {
