@@ -143,7 +143,7 @@ private fun MinimumCharacterCount(
         targetValue = if (minimumRequirementMet) {
             strongColor
         } else {
-            KptTheme.colorScheme.surfaceDim
+            KptTheme.colorScheme.onSurfaceVariant
         },
         label = "minimumCharacterCountColor",
     )
