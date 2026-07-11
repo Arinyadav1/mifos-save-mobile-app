@@ -7,7 +7,7 @@
  *
  * See See https://github.com/openMF/kmp-project-template/blob/main/LICENSE
  */
-package org.mifos.core.network.commonDto
+package org.mifos.core.network.selfService.auth.dto
 
 import kotlinx.serialization.Serializable
 

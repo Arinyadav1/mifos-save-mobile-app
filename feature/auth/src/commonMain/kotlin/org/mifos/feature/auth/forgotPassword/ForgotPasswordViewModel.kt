@@ -83,6 +83,7 @@ class ForgotPasswordViewModel(
                 }
                 sendEvent(
                     ForgotPasswordEvent.NavigateToOtpVerification(
+                        username = state.username,
                         isEmail = state.authenticationMode == AuthenticationMode.EMAIL,
                     ),
                 )
@@ -137,7 +138,7 @@ data class ForgotPasswordState(
 
 sealed interface ForgotPasswordEvent {
     data object NavigateBack : ForgotPasswordEvent
-    data class NavigateToOtpVerification(val isEmail: Boolean) : ForgotPasswordEvent
+    data class NavigateToOtpVerification(val username: String, val isEmail: Boolean) : ForgotPasswordEvent
     data object NavigateToSignIn : ForgotPasswordEvent
 }
 

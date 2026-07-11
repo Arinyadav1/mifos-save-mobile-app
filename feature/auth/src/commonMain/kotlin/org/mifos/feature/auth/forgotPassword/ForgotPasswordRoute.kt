@@ -19,7 +19,7 @@ data object ForgotPasswordRoute
 
 fun NavGraphBuilder.forgotPasswordDestination(
     onBackClick: () -> Unit,
-    onNavigateToOtpVerification: (isEmail: Boolean) -> Unit,
+    onNavigateToOtpVerification: (username: String, isEmail: Boolean) -> Unit,
     onSignInClick: () -> Unit,
 ) {
     composableWithStayTransitions<ForgotPasswordRoute> {

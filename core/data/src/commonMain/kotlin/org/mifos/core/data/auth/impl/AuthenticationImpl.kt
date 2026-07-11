@@ -24,11 +24,12 @@ import org.mifos.core.model.auth.ConfirmClientUserRequest
 import org.mifos.core.model.auth.PasswordResetRequest
 import org.mifos.core.model.auth.RegistrationRequest
 import org.mifos.core.model.auth.RegistrationResult
+import org.mifos.core.model.auth.RenewPasswordRequest
 import org.mifos.core.model.auth.SignInRequest
 import org.mifos.core.model.auth.User
 import org.mifos.core.network.DataManager
-import org.mifos.core.network.commonDto.RegistrationResponseDto
 import org.mifos.core.network.commonDto.UserResponseDto
+import org.mifos.core.network.selfService.auth.dto.RegistrationResponseDto
 
 class AuthenticationImpl(
     private val dataManager: DataManager,
@@ -121,6 +122,23 @@ class AuthenticationImpl(
         ) {
             val response = dataManager.self.authApi.requestPasswordReset(
                 passwordResetRequest.toDto(),
+            )
+            if (!response.status.isSuccess()) {
+                val errorMessage = extractErrorMessage(response)
+                throw Exception(errorMessage)
+            }
+        }
+    }
+
+    override suspend fun renewPassword(
+        renewPasswordRequest: RenewPasswordRequest,
+    ): ScreenState<Unit> {
+        return runAsDataState(
+            networkMonitor,
+            dispatcher.io,
+        ) {
+            val response = dataManager.self.authApi.renewPassword(
+                renewPasswordRequest.toDto(),
             )
             if (!response.status.isSuccess()) {
                 val errorMessage = extractErrorMessage(response)

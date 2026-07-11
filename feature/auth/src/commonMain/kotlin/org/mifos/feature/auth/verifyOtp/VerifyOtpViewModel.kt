@@ -24,9 +24,16 @@ import org.mifos.core.base.store.submit.SubmitState
 import org.mifos.core.base.ui.viewmodel.BaseViewModel
 import org.mifos.core.data.auth.Authentication
 import org.mifos.core.model.auth.ConfirmClientUserRequest
+import org.mifos.core.model.auth.PasswordResetRequest
+import org.mifos.core.model.auth.RenewPasswordRequest
+import org.mifos.core.ui.utils.PasswordChecker
+import org.mifos.core.ui.utils.PasswordStrength
+import org.mifos.core.ui.utils.PasswordStrengthResult
+import org.mifos.feature.auth.createMemberAccount.AuthenticationMode
 import org.mifos.feature.auth.generated.resources.Res
 import org.mifos.feature.auth.generated.resources.feature_auth_error_resend_failed
 import org.mifos.feature.auth.generated.resources.feature_auth_error_verification_failed
+import org.mifos.feature.auth.generated.resources.feature_auth_passwords_do_not_match
 import kotlin.time.Duration.Companion.milliseconds
 
 class VerifyOtpViewModel(
@@ -45,6 +52,7 @@ class VerifyOtpViewModel(
             it.copy(
                 flow = route.flow,
                 isEmail = route.isEmail,
+                username = route.username,
             )
         }
 
@@ -55,30 +63,118 @@ class VerifyOtpViewModel(
 
     override fun handleAction(action: VerifyOtpAction) {
         when (action) {
-            is VerifyOtpAction.OtpChanged -> {
-                if (action.value.length <= 6 && action.value.all { it.isDigit() }) {
-                    mutableStateFlow.update {
-                        it.copy(otpCode = action.value, errorMessage = null)
-                    }
-                }
-            }
+            is VerifyOtpAction.OtpChanged -> handleOtpChanged(action.value)
+            is VerifyOtpAction.ChangePassword -> handlePasswordChanged(action.value)
+            is VerifyOtpAction.ChangeConfirmPassword -> handleConfirmPasswordChanged(action.value)
+            VerifyOtpAction.TogglePasswordVisibility -> togglePasswordVisibility()
+            VerifyOtpAction.ToggleConfirmPasswordVisibility -> toggleConfirmPasswordVisibility()
             VerifyOtpAction.VerifyOtp -> submitOtp()
             VerifyOtpAction.ResendOtp -> resendOtp()
             VerifyOtpAction.BackClicked -> sendEvent(VerifyOtpEvent.NavigateBack)
-            VerifyOtpAction.Retry -> {
-                mutableStateFlow.update {
-                    it.copy(
-                        screenState = ScreenState.Content(Unit, DataFreshness.FRESH),
-                        submitState = SubmitState.Idle,
-                    )
-                }
-            }
-            VerifyOtpAction.DismissSuccessDialog -> {
-                mutableStateFlow.update { it.copy(showSuccessDialog = false) }
-                sendEvent(VerifyOtpEvent.VerificationSuccess)
-            }
+            VerifyOtpAction.Retry -> handleRetry()
+            VerifyOtpAction.DismissSuccessDialog -> handleDismissSuccessDialog()
             is VerifyOtpAction.Internal.ReceiveVerificationResult -> handleVerificationResult(action.result)
             is VerifyOtpAction.Internal.ReceiveResendResult -> handleResendResult(action.result)
+        }
+    }
+
+    private fun handleOtpChanged(value: String) {
+        if (value.length <= 6 && value.all { it.isDigit() }) {
+            mutableStateFlow.update {
+                it.copy(otpCode = value, errorMessage = null)
+            }
+        }
+    }
+
+    private fun handleRetry() {
+        mutableStateFlow.update {
+            it.copy(
+                screenState = ScreenState.Content(Unit, DataFreshness.FRESH),
+                submitState = SubmitState.Idle,
+            )
+        }
+    }
+
+    private fun handleDismissSuccessDialog() {
+        mutableStateFlow.update { it.copy(showSuccessDialog = false) }
+        sendEvent(VerifyOtpEvent.VerificationSuccess)
+    }
+
+    private fun handlePasswordChanged(value: String) {
+        if (value.isEmpty()) {
+            mutableStateFlow.update {
+                it.copy(
+                    password = value,
+                    passwordStrengthState = PasswordStrength.LEVEL_0,
+                    passwordFeedback = emptyList(),
+                    errorPassword = null,
+                )
+            }
+        } else {
+            viewModelScope.launch {
+                val result: PasswordStrengthResult =
+                    PasswordChecker.getPasswordStrengthResult(value)
+                val feedback = PasswordChecker.getPasswordFeedback(value)
+
+                when (result) {
+                    is PasswordStrengthResult.Error -> {
+                        mutableStateFlow.update {
+                            it.copy(
+                                errorPassword = result.message,
+                                passwordStrengthState = PasswordStrength.LEVEL_0,
+                            )
+                        }
+                    }
+
+                    is PasswordStrengthResult.Success -> {
+                        mutableStateFlow.update {
+                            it.copy(
+                                passwordFeedback = feedback,
+                                passwordStrengthState = result.passwordStrength,
+                                errorPassword = null,
+                            )
+                        }
+                    }
+                }
+            }
+        }
+        mutableStateFlow.update {
+            val confirmError = if (it.confirmPassword.isNotEmpty() && value != it.confirmPassword) {
+                Res.string.feature_auth_passwords_do_not_match
+            } else {
+                null
+            }
+            it.copy(
+                password = value,
+                errorConfirmPassword = confirmError,
+                submitState = SubmitState.Idle,
+            )
+        }
+    }
+
+    private fun handleConfirmPasswordChanged(value: String) {
+        mutableStateFlow.update {
+            val error = when {
+                value != it.password -> Res.string.feature_auth_passwords_do_not_match
+                else -> null
+            }
+            it.copy(
+                confirmPassword = value,
+                errorConfirmPassword = error,
+                submitState = SubmitState.Idle,
+            )
+        }
+    }
+
+    private fun togglePasswordVisibility() {
+        mutableStateFlow.update {
+            it.copy(isPasswordVisible = !it.isPasswordVisible)
+        }
+    }
+
+    private fun toggleConfirmPasswordVisibility() {
+        mutableStateFlow.update {
+            it.copy(isConfirmPasswordVisible = !it.isConfirmPasswordVisible)
         }
     }
 
@@ -112,8 +208,13 @@ class VerifyOtpViewModel(
                     ScreenState.Content(Unit, DataFreshness.FRESH)
                 }
                 VerifyOtpFlow.RESET_PASSWORD_VERIFY -> {
-                    delay(1000.milliseconds)
-                    ScreenState.Content(Unit, DataFreshness.FRESH)
+                    authentication.renewPassword(
+                        RenewPasswordRequest(
+                            externalAuthenticationToken = state.otpCode,
+                            password = state.password,
+                            repeatPassword = state.confirmPassword,
+                        ),
+                    )
                 }
             }
             sendAction(VerifyOtpAction.Internal.ReceiveVerificationResult(result))
@@ -148,8 +249,16 @@ class VerifyOtpViewModel(
         if (!state.isResendEnabled) return
         mutableStateFlow.update { it.copy(submitState = SubmitState.Submitting()) }
         viewModelScope.launch {
-            delay(1000.milliseconds)
-            val result = ScreenState.Content(Unit, DataFreshness.FRESH)
+            val result = authentication.requestPasswordReset(
+                PasswordResetRequest(
+                    username = state.username,
+                    authenticationMode = if (state.isEmail) {
+                        AuthenticationMode.EMAIL.value
+                    } else {
+                        AuthenticationMode.PHONE.value
+                    },
+                ),
+            )
             sendAction(VerifyOtpAction.Internal.ReceiveResendResult(result))
         }
     }
@@ -190,6 +299,7 @@ enum class VerifyOtpFlow {
 data class VerifyOtpState(
     val flow: VerifyOtpFlow = VerifyOtpFlow.MEMBER_ACCOUNT_VERIFY,
     val isEmail: Boolean = true,
+    val username: String = "",
     val otpCode: String = "",
     val timerSeconds: Int = 45,
     val isResendEnabled: Boolean = false,
@@ -197,13 +307,34 @@ data class VerifyOtpState(
     val submitState: SubmitState<Unit> = SubmitState.Idle,
     val errorMessage: StringResource? = null,
     val showSuccessDialog: Boolean = false,
+    val password: String = "",
+    val confirmPassword: String = "",
+    val passwordFeedback: List<String> = emptyList(),
+    val passwordStrengthState: PasswordStrength = PasswordStrength.LEVEL_0,
+    val isPasswordVisible: Boolean = false,
+    val isConfirmPasswordVisible: Boolean = false,
+    val errorPassword: String? = null,
+    val errorConfirmPassword: StringResource? = null,
 ) {
     val isVerifyEnabled: Boolean
-        get() = otpCode.length == 6 && submitState !is SubmitState.Submitting
+        get() = if (flow == VerifyOtpFlow.RESET_PASSWORD_VERIFY) {
+            otpCode.length == 6 &&
+                password.isNotEmpty() &&
+                confirmPassword.isNotEmpty() &&
+                errorPassword == null &&
+                errorConfirmPassword == null &&
+                submitState !is SubmitState.Submitting
+        } else {
+            otpCode.length == 6 && submitState !is SubmitState.Submitting
+        }
 }
 
 sealed interface VerifyOtpAction {
     data class OtpChanged(val value: String) : VerifyOtpAction
+    data class ChangePassword(val value: String) : VerifyOtpAction
+    data class ChangeConfirmPassword(val value: String) : VerifyOtpAction
+    data object TogglePasswordVisibility : VerifyOtpAction
+    data object ToggleConfirmPasswordVisibility : VerifyOtpAction
     data object VerifyOtp : VerifyOtpAction
     data object ResendOtp : VerifyOtpAction
     data object BackClicked : VerifyOtpAction
