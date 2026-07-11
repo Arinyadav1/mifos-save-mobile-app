@@ -171,7 +171,7 @@ fun SignInContent(
         ) {
             Text(
                 text = stringResource(Res.string.feature_auth_forgot_password),
-                modifier = Modifier.clickable(onClick = {}),
+                modifier = Modifier.clickable(onClick = { onAction(SignInAction.NavigateToForgetPasswordScreen) }),
                 color = KptTheme.colorScheme.primary,
                 fontWeight = FontWeight.Bold,
             )

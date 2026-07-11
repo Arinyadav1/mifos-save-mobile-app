@@ -7,9 +7,7 @@
  *
  * See See https://github.com/openMF/kmp-project-template/blob/main/LICENSE
  */
-@file:Suppress("MatchingDeclarationName")
-
-package org.mifos.feature.auth.verifyOtp
+package org.mifos.feature.auth.createMemberAccount
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
@@ -17,31 +15,22 @@ import kotlinx.serialization.Serializable
 import org.mifos.core.base.ui.nav.composableWithStayTransitions
 
 @Serializable
-data class VerifyOtpRoute(
-    val flow: VerifyOtpFlow,
-    val isEmail: Boolean = true,
-)
+data object CreateMemberAccountRoute
 
-fun NavGraphBuilder.verifyOtpDestination(
+fun NavGraphBuilder.createMemberAccountDestination(
     onBackClick: () -> Unit,
-    onVerificationSuccess: () -> Unit,
+    onNavigateToOtpVerification: (isEmail: Boolean) -> Unit,
+    onNavigateToSignIn: () -> Unit,
 ) {
-    composableWithStayTransitions<VerifyOtpRoute> {
-        VerifyOtpScreen(
+    composableWithStayTransitions<CreateMemberAccountRoute> {
+        CreateMemberAccountScreen(
             onBackClick = onBackClick,
-            onVerificationSuccess = onVerificationSuccess,
+            onNavigateToOtpVerification = onNavigateToOtpVerification,
+            onNavigateToSignIn = onNavigateToSignIn,
         )
     }
 }
 
-fun NavController.navigateToVerifyOtpScreen(
-    flow: VerifyOtpFlow,
-    isEmail: Boolean = true,
-) {
-    this.navigate(
-        route = VerifyOtpRoute(
-            flow = flow,
-            isEmail = isEmail,
-        ),
-    )
+fun NavController.navigateToCreateMemberAccountScreen() {
+    this.navigate(route = CreateMemberAccountRoute)
 }

@@ -10,13 +10,17 @@
 package org.mifos.core.data.auth
 
 import org.mifos.core.base.store.screen.ScreenState
+import org.mifos.core.model.auth.ConfirmClientUserRequest
+import org.mifos.core.model.auth.PasswordResetRequest
 import org.mifos.core.model.auth.RegistrationRequest
 import org.mifos.core.model.auth.RegistrationResult
+import org.mifos.core.model.auth.SignInRequest
 import org.mifos.core.model.auth.User
 
 interface Authentication {
-    suspend fun signInSelf(username: String, password: String): ScreenState<User>
-    suspend fun signInFineract(username: String, password: String): ScreenState<User>
-    suspend fun registerMember(request: RegistrationRequest): ScreenState<RegistrationResult>
-    suspend fun confirmClientUser(verificationToken: String): ScreenState<Unit>
+    suspend fun signInSelf(signInRequest: SignInRequest): ScreenState<User>
+    suspend fun signInFineract(signInRequest: SignInRequest): ScreenState<User>
+    suspend fun registerMember(registrationRequest: RegistrationRequest): ScreenState<RegistrationResult>
+    suspend fun confirmClientUser(confirmClientUserRequest: ConfirmClientUserRequest): ScreenState<Unit>
+    suspend fun requestPasswordReset(passwordResetRequest: PasswordResetRequest): ScreenState<Unit>
 }

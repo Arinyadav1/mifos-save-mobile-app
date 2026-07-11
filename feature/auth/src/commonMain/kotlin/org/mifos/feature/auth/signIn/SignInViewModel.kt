@@ -20,6 +20,7 @@ import org.mifos.core.data.auth.Authentication
 import org.mifos.core.data.user.UserDataRepository
 import org.mifos.core.domain.validate.passwordValidate
 import org.mifos.core.domain.validate.usernameValidate
+import org.mifos.core.model.auth.SignInRequest
 import org.mifos.core.model.auth.User
 
 class SignInViewModel(
@@ -33,8 +34,10 @@ class SignInViewModel(
         }
         viewModelScope.launch {
             val result = authentication.signInSelf(
-                username = state.username,
-                password = state.password,
+                SignInRequest(
+                    username = state.username,
+                    password = state.password,
+                ),
             )
             sendAction(SignInAction.Internal.ReceiveSelfSignInResult(result))
         }
@@ -46,8 +49,10 @@ class SignInViewModel(
         }
         viewModelScope.launch {
             val result = authentication.signInFineract(
-                username = state.username,
-                password = state.password,
+                SignInRequest(
+                    username = state.username,
+                    password = state.password,
+                ),
             )
             sendAction(SignInAction.Internal.ReceiveFineractSignInResult(result))
         }

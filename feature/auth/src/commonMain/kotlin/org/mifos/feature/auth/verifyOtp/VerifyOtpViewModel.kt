@@ -23,6 +23,7 @@ import org.mifos.core.base.store.screen.ScreenState
 import org.mifos.core.base.store.submit.SubmitState
 import org.mifos.core.base.ui.viewmodel.BaseViewModel
 import org.mifos.core.data.auth.Authentication
+import org.mifos.core.model.auth.ConfirmClientUserRequest
 import org.mifos.feature.auth.generated.resources.Res
 import org.mifos.feature.auth.generated.resources.feature_auth_error_resend_failed
 import org.mifos.feature.auth.generated.resources.feature_auth_error_verification_failed
@@ -103,7 +104,9 @@ class VerifyOtpViewModel(
         viewModelScope.launch {
             val result = when (state.flow) {
                 VerifyOtpFlow.MEMBER_ACCOUNT_VERIFY -> {
-                    authentication.confirmClientUser(state.otpCode)
+                    authentication.confirmClientUser(
+                        ConfirmClientUserRequest(verificationToken = state.otpCode),
+                    )
                 }
                 VerifyOtpFlow.ADMIN_ACCOUNT_VERIFY -> {
                     ScreenState.Content(Unit, DataFreshness.FRESH)

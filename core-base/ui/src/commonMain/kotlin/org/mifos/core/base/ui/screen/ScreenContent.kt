@@ -314,6 +314,7 @@ fun DefaultErrorContent(
                 text = title,
                 style = MaterialTheme.typography.titleMedium,
                 textAlign = TextAlign.Center,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
             )
             Spacer(Modifier.height(spacing.xs))
         }
