@@ -7,8 +7,6 @@
  *
  * See See https://github.com/openMF/kmp-project-template/blob/main/LICENSE
  */
-@file:Suppress("MatchingDeclarationName")
-
 package org.mifos.feature.auth.signIn
 
 import androidx.navigation.NavController
@@ -18,13 +16,13 @@ import org.mifos.core.base.ui.nav.composableWithStayTransitions
 import org.mifos.feature.auth.navigation.AuthGraphRoute
 
 @Serializable
-data object LoginRoute
+data object SignInRoute
 
 fun NavGraphBuilder.signInDestination(
     onForgetPasswordScreen: () -> Unit,
     onSignUpTypeScreen: () -> Unit,
 ) {
-    composableWithStayTransitions<LoginRoute> {
+    composableWithStayTransitions<SignInRoute> {
         SignInScreen(
             onForgetPasswordScreen = { onForgetPasswordScreen() },
             onAccountTypeScreen = { onSignUpTypeScreen() },

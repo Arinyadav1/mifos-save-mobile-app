@@ -20,12 +20,13 @@ import org.mifos.core.data.mapper.auth.toDto
 import org.mifos.core.data.mapper.auth.toModel
 import org.mifos.core.data.util.extractErrorMessage
 import org.mifos.core.data.util.runAsDataState
+import org.mifos.core.model.auth.ConfirmClientUserRequest
+import org.mifos.core.model.auth.PasswordResetRequest
 import org.mifos.core.model.auth.RegistrationRequest
 import org.mifos.core.model.auth.RegistrationResult
+import org.mifos.core.model.auth.SignInRequest
 import org.mifos.core.model.auth.User
 import org.mifos.core.network.DataManager
-import org.mifos.core.network.commonDto.ConfirmClientUserRequestDto
-import org.mifos.core.network.commonDto.CredentialsRequestDto
 import org.mifos.core.network.commonDto.RegistrationResponseDto
 import org.mifos.core.network.commonDto.UserResponseDto
 
@@ -36,15 +37,14 @@ class AuthenticationImpl(
 ) : Authentication {
 
     override suspend fun signInSelf(
-        username: String,
-        password: String,
+        signInRequest: SignInRequest,
     ): ScreenState<User> {
         return runAsDataState(
             networkMonitor,
             dispatcher.io,
         ) {
             val response = dataManager.self.authApi.authenticate(
-                CredentialsRequestDto(username, password),
+                signInRequest.toDto(),
             )
             if (!response.status.isSuccess()) {
                 val errorMessage = extractErrorMessage(response)
@@ -57,15 +57,14 @@ class AuthenticationImpl(
     }
 
     override suspend fun signInFineract(
-        username: String,
-        password: String,
+        signInRequest: SignInRequest,
     ): ScreenState<User> {
         return runAsDataState(
             networkMonitor,
             dispatcher.io,
         ) {
             val response = dataManager.fineract.authApi.authenticate(
-                CredentialsRequestDto(username, password),
+                signInRequest.toDto(),
             )
             if (!response.status.isSuccess()) {
                 val errorMessage = extractErrorMessage(response)
@@ -78,13 +77,13 @@ class AuthenticationImpl(
     }
 
     override suspend fun registerMember(
-        request: RegistrationRequest,
+        registrationRequest: RegistrationRequest,
     ): ScreenState<RegistrationResult> {
         return runAsDataState(
             networkMonitor,
             dispatcher.io,
         ) {
-            val response = dataManager.self.authApi.register(request.toDto())
+            val response = dataManager.self.authApi.register(registrationRequest.toDto())
 
             if (!response.status.isSuccess()) {
                 val errorMessage = extractErrorMessage(response)
@@ -97,14 +96,31 @@ class AuthenticationImpl(
     }
 
     override suspend fun confirmClientUser(
-        verificationToken: String,
+        confirmClientUserRequest: ConfirmClientUserRequest,
     ): ScreenState<Unit> {
         return runAsDataState(
             networkMonitor,
             dispatcher.io,
         ) {
             val response = dataManager.self.authApi.confirmClientUser(
-                ConfirmClientUserRequestDto(verificationToken),
+                confirmClientUserRequest.toDto(),
+            )
+            if (!response.status.isSuccess()) {
+                val errorMessage = extractErrorMessage(response)
+                throw Exception(errorMessage)
+            }
+        }
+    }
+
+    override suspend fun requestPasswordReset(
+        passwordResetRequest: PasswordResetRequest,
+    ): ScreenState<Unit> {
+        return runAsDataState(
+            networkMonitor,
+            dispatcher.io,
+        ) {
+            val response = dataManager.self.authApi.requestPasswordReset(
+                passwordResetRequest.toDto(),
             )
             if (!response.status.isSuccess()) {
                 val errorMessage = extractErrorMessage(response)

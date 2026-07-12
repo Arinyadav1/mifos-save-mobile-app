@@ -7,8 +7,6 @@
  *
  * See See https://github.com/openMF/kmp-project-template/blob/main/LICENSE
  */
-@file:Suppress("MatchingDeclarationName")
-
 package org.mifos.feature.auth.navigation
 
 import androidx.navigation.NavGraphBuilder
@@ -19,7 +17,9 @@ import org.mifos.feature.auth.accountType.accountTypeDestination
 import org.mifos.feature.auth.accountType.navigateToAccountTypeScreen
 import org.mifos.feature.auth.createMemberAccount.createMemberAccountDestination
 import org.mifos.feature.auth.createMemberAccount.navigateToCreateMemberAccountScreen
-import org.mifos.feature.auth.signIn.LoginRoute
+import org.mifos.feature.auth.forgotPassword.forgotPasswordDestination
+import org.mifos.feature.auth.forgotPassword.navigateToForgotPasswordScreen
+import org.mifos.feature.auth.signIn.SignInRoute
 import org.mifos.feature.auth.signIn.navigateToSignInScreen
 import org.mifos.feature.auth.signIn.signInDestination
 import org.mifos.feature.auth.verifyOtp.VerifyOtpFlow
@@ -33,11 +33,23 @@ fun NavGraphBuilder.authNavigationGraph(
     navController: NavHostController,
 ) {
     navigation<AuthGraphRoute>(
-        startDestination = LoginRoute,
+        startDestination = SignInRoute,
     ) {
         signInDestination(
-            onForgetPasswordScreen = {},
+            onForgetPasswordScreen = navController::navigateToForgotPasswordScreen,
             onSignUpTypeScreen = navController::navigateToAccountTypeScreen,
+        )
+        forgotPasswordDestination(
+            onBackClick = navController::popBackStack,
+            onNavigateToOtpVerification = { isEmail ->
+                navController.navigateToVerifyOtpScreen(
+                    flow = VerifyOtpFlow.RESET_PASSWORD_VERIFY,
+                    isEmail = isEmail,
+                )
+            },
+            onSignInClick = {
+                navController.navigateToSignInScreen()
+            },
         )
         accountTypeDestination(
             onBackClick = navController::popBackStack,

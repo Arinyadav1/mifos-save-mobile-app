@@ -12,6 +12,7 @@ package org.mifos.feature.auth.di
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
 import org.mifos.feature.auth.createMemberAccount.CreateMemberAccountViewModel
+import org.mifos.feature.auth.forgotPassword.ForgotPasswordViewModel
 import org.mifos.feature.auth.signIn.SignInViewModel
 import org.mifos.feature.auth.verifyOtp.VerifyOtpViewModel
 
@@ -19,4 +20,5 @@ val AuthModule = module {
     viewModelOf(::SignInViewModel)
     viewModelOf(::CreateMemberAccountViewModel)
     viewModelOf(::VerifyOtpViewModel)
+    viewModelOf(::ForgotPasswordViewModel)
 }

@@ -14,6 +14,7 @@ import de.jensklingenberg.ktorfit.http.POST
 import io.ktor.client.statement.HttpResponse
 import org.mifos.core.network.commonDto.ConfirmClientUserRequestDto
 import org.mifos.core.network.commonDto.CredentialsRequestDto
+import org.mifos.core.network.commonDto.PasswordResetRequestDto
 import org.mifos.core.network.commonDto.RegistrationRequestDto
 import org.mifos.core.network.utils.ApiEndPoints
 
@@ -26,4 +27,7 @@ interface AuthApi {
 
     @POST("${ApiEndPoints.REGISTRATION}/${ApiEndPoints.CLIENT_USER}/confirm")
     suspend fun confirmClientUser(@Body request: ConfirmClientUserRequestDto): HttpResponse
+
+    @POST("${ApiEndPoints.PASSWORD}/${ApiEndPoints.REQUEST}")
+    suspend fun requestPasswordReset(@Body request: PasswordResetRequestDto): HttpResponse
 }

@@ -77,4 +77,13 @@
     <string name="feature_auth_otp_success_account_message">Your account has been successfully created. You can now sign in to access your account.</string>
     <string name="feature_auth_otp_success_reset_title">Password Reset Successful</string>
     <string name="feature_auth_otp_success_reset_message">Your password has been successfully reset. You can now sign in with your new credentials.</string>
+
+    <!-- Forgot Password Screen strings -->
+    <string name="feature_auth_forgot_password_desc">Enter your username and choose where you\u0027d like to receive your OTP.</string>
+    <string name="feature_auth_receive_otp_via">Receive OTP via</string>
+    <string name="feature_auth_forgot_password_email_option">Email</string>
+    <string name="feature_auth_forgot_password_phone_option">Phone</string>
+    <string name="feature_auth_send_otp">Send OTP</string>
+    <string name="feature_auth_remember_password_question">Remember your password? </string>
+    <string name="feature_auth_username_required">Username is required.</string>
 </resources>

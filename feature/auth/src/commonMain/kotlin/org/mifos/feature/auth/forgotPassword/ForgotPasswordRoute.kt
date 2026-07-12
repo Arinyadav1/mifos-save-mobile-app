@@ -7,9 +7,7 @@
  *
  * See See https://github.com/openMF/kmp-project-template/blob/main/LICENSE
  */
-@file:Suppress("MatchingDeclarationName")
-
-package org.mifos.feature.auth.createMemberAccount
+package org.mifos.feature.auth.forgotPassword
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
@@ -17,22 +15,22 @@ import kotlinx.serialization.Serializable
 import org.mifos.core.base.ui.nav.composableWithStayTransitions
 
 @Serializable
-data object CreateMemberAccountRoute
+data object ForgotPasswordRoute
 
-fun NavGraphBuilder.createMemberAccountDestination(
+fun NavGraphBuilder.forgotPasswordDestination(
     onBackClick: () -> Unit,
     onNavigateToOtpVerification: (isEmail: Boolean) -> Unit,
-    onNavigateToSignIn: () -> Unit,
+    onSignInClick: () -> Unit,
 ) {
-    composableWithStayTransitions<CreateMemberAccountRoute> {
-        CreateMemberAccountScreen(
+    composableWithStayTransitions<ForgotPasswordRoute> {
+        ForgotPasswordScreen(
             onBackClick = onBackClick,
             onNavigateToOtpVerification = onNavigateToOtpVerification,
-            onNavigateToSignIn = onNavigateToSignIn,
+            onSignInClick = onSignInClick,
         )
     }
 }
 
-fun NavController.navigateToCreateMemberAccountScreen() {
-    this.navigate(route = CreateMemberAccountRoute)
+fun NavController.navigateToForgotPasswordScreen() {
+    this.navigate(route = ForgotPasswordRoute)
 }

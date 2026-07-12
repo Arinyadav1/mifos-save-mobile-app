@@ -14,4 +14,6 @@ object ApiEndPoints {
     const val AUTHENTICATION = "authentication"
     const val REGISTRATION = "registration"
     const val CLIENT_USER = "client-user"
+    const val PASSWORD = "password"
+    const val REQUEST = "request"
 }
