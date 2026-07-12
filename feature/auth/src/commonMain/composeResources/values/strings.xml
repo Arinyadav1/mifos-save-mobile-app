@@ -59,4 +59,22 @@
     <string name="feature_auth_password_placeholder">Create a password</string>
     <string name="feature_auth_confirm_password_label">Confirm Password *</string>
     <string name="feature_auth_confirm_password_placeholder">Repeat your password</string>
+
+    <!-- Verify OTP Screen strings -->
+    <string name="feature_auth_verify_otp_title">Verify OTP</string>
+    <string name="feature_auth_verify_otp_button">Verify OTP</string>
+    <string name="feature_auth_otp_sent_to_prefix">We sent a 6-digit verification code to</string>
+    <string name="feature_auth_resend_timer">Resend in %s</string>
+    <string name="feature_auth_resend_otp">Resend OTP</string>
+    <string name="feature_auth_registered_email_address">your registered email address</string>
+    <string name="feature_auth_registered_mobile_number">your registered mobile number</string>
+    <string name="feature_auth_error_verification_failed">Verification failed. Please check your OTP and try again.</string>
+    <string name="feature_auth_error_resend_failed">Failed to resend OTP</string>
+    <string name="feature_auth_otp_success_dialog_title">Verification Successful</string>
+    <string name="feature_auth_otp_success_dialog_message">Your OTP has been successfully verified. You can now sign in to access your account.</string>
+    <string name="feature_auth_otp_success_dialog_button">Go to Sign In</string>
+    <string name="feature_auth_otp_success_account_title">Account Created</string>
+    <string name="feature_auth_otp_success_account_message">Your account has been successfully created. You can now sign in to access your account.</string>
+    <string name="feature_auth_otp_success_reset_title">Password Reset Successful</string>
+    <string name="feature_auth_otp_success_reset_message">Your password has been successfully reset. You can now sign in with your new credentials.</string>
 </resources>

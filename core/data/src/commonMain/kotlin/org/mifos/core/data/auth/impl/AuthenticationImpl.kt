@@ -24,6 +24,7 @@ import org.mifos.core.model.auth.RegistrationRequest
 import org.mifos.core.model.auth.RegistrationResult
 import org.mifos.core.model.auth.User
 import org.mifos.core.network.DataManager
+import org.mifos.core.network.commonDto.ConfirmClientUserRequestDto
 import org.mifos.core.network.commonDto.CredentialsRequestDto
 import org.mifos.core.network.commonDto.RegistrationResponseDto
 import org.mifos.core.network.commonDto.UserResponseDto
@@ -92,6 +93,23 @@ class AuthenticationImpl(
             val json = Json { ignoreUnknownKeys = true }
             val responseText = response.bodyAsText()
             json.decodeFromString<RegistrationResponseDto>(responseText).toModel()
+        }
+    }
+
+    override suspend fun confirmClientUser(
+        verificationToken: String,
+    ): ScreenState<Unit> {
+        return runAsDataState(
+            networkMonitor,
+            dispatcher.io,
+        ) {
+            val response = dataManager.self.authApi.confirmClientUser(
+                ConfirmClientUserRequestDto(verificationToken),
+            )
+            if (!response.status.isSuccess()) {
+                val errorMessage = extractErrorMessage(response)
+                throw Exception(errorMessage)
+            }
         }
     }
 }

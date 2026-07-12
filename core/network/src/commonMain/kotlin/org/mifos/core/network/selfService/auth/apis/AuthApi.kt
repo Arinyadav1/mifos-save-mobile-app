@@ -12,6 +12,7 @@ package org.mifos.core.network.selfService.auth.apis
 import de.jensklingenberg.ktorfit.http.Body
 import de.jensklingenberg.ktorfit.http.POST
 import io.ktor.client.statement.HttpResponse
+import org.mifos.core.network.commonDto.ConfirmClientUserRequestDto
 import org.mifos.core.network.commonDto.CredentialsRequestDto
 import org.mifos.core.network.commonDto.RegistrationRequestDto
 import org.mifos.core.network.utils.ApiEndPoints
@@ -22,4 +23,7 @@ interface AuthApi {
 
     @POST("${ApiEndPoints.REGISTRATION}/${ApiEndPoints.CLIENT_USER}")
     suspend fun register(@Body request: RegistrationRequestDto): HttpResponse
+
+    @POST("${ApiEndPoints.REGISTRATION}/${ApiEndPoints.CLIENT_USER}/confirm")
+    suspend fun confirmClientUser(@Body request: ConfirmClientUserRequestDto): HttpResponse
 }
