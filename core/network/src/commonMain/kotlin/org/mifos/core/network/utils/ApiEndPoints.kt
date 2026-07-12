@@ -16,4 +16,6 @@ object ApiEndPoints {
     const val CLIENT_USER = "client-user"
     const val PASSWORD = "password"
     const val REQUEST = "request"
+    const val CONFIRM = "confirm"
+    const val RENEW = "renew"
 }

@@ -10,7 +10,7 @@
 package org.mifos.core.data.mapper.auth
 
 import org.mifos.core.model.auth.PasswordResetRequest
-import org.mifos.core.network.commonDto.PasswordResetRequestDto
+import org.mifos.core.network.selfService.auth.dto.PasswordResetRequestDto
 
 fun PasswordResetRequest.toDto(): PasswordResetRequestDto =
     PasswordResetRequestDto(

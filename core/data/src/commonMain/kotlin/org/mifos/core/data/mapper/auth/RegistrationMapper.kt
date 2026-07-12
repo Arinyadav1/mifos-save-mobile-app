@@ -11,8 +11,8 @@ package org.mifos.core.data.mapper.auth
 
 import org.mifos.core.model.auth.RegistrationRequest
 import org.mifos.core.model.auth.RegistrationResult
-import org.mifos.core.network.commonDto.RegistrationRequestDto
-import org.mifos.core.network.commonDto.RegistrationResponseDto
+import org.mifos.core.network.selfService.auth.dto.RegistrationRequestDto
+import org.mifos.core.network.selfService.auth.dto.RegistrationResponseDto
 
 fun RegistrationRequest.toDto(): RegistrationRequestDto =
     RegistrationRequestDto(

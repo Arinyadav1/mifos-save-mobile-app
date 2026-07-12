@@ -18,6 +18,7 @@ import org.mifos.core.base.ui.nav.composableWithStayTransitions
 data class VerifyOtpRoute(
     val flow: VerifyOtpFlow,
     val isEmail: Boolean = true,
+    val username: String = "",
 )
 
 fun NavGraphBuilder.verifyOtpDestination(
@@ -35,11 +36,13 @@ fun NavGraphBuilder.verifyOtpDestination(
 fun NavController.navigateToVerifyOtpScreen(
     flow: VerifyOtpFlow,
     isEmail: Boolean = true,
+    username: String = "",
 ) {
     this.navigate(
         route = VerifyOtpRoute(
             flow = flow,
             isEmail = isEmail,
+            username = username,
         ),
     )
 }

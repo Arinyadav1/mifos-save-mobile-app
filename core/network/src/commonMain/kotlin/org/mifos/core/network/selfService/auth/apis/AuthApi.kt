@@ -12,10 +12,11 @@ package org.mifos.core.network.selfService.auth.apis
 import de.jensklingenberg.ktorfit.http.Body
 import de.jensklingenberg.ktorfit.http.POST
 import io.ktor.client.statement.HttpResponse
-import org.mifos.core.network.commonDto.ConfirmClientUserRequestDto
 import org.mifos.core.network.commonDto.CredentialsRequestDto
-import org.mifos.core.network.commonDto.PasswordResetRequestDto
-import org.mifos.core.network.commonDto.RegistrationRequestDto
+import org.mifos.core.network.selfService.auth.dto.ConfirmClientUserRequestDto
+import org.mifos.core.network.selfService.auth.dto.PasswordResetRequestDto
+import org.mifos.core.network.selfService.auth.dto.RegistrationRequestDto
+import org.mifos.core.network.selfService.auth.dto.RenewPasswordRequestDto
 import org.mifos.core.network.utils.ApiEndPoints
 
 interface AuthApi {
@@ -25,9 +26,12 @@ interface AuthApi {
     @POST("${ApiEndPoints.REGISTRATION}/${ApiEndPoints.CLIENT_USER}")
     suspend fun register(@Body request: RegistrationRequestDto): HttpResponse
 
-    @POST("${ApiEndPoints.REGISTRATION}/${ApiEndPoints.CLIENT_USER}/confirm")
+    @POST("${ApiEndPoints.REGISTRATION}/${ApiEndPoints.CLIENT_USER}/${ApiEndPoints.CONFIRM}")
     suspend fun confirmClientUser(@Body request: ConfirmClientUserRequestDto): HttpResponse
 
     @POST("${ApiEndPoints.PASSWORD}/${ApiEndPoints.REQUEST}")
     suspend fun requestPasswordReset(@Body request: PasswordResetRequestDto): HttpResponse
+
+    @POST("${ApiEndPoints.PASSWORD}/${ApiEndPoints.RENEW}")
+    suspend fun renewPassword(@Body request: RenewPasswordRequestDto): HttpResponse
 }

@@ -9,10 +9,12 @@
  */
 package org.mifos.core.data.mapper.auth
 
-import org.mifos.core.model.auth.ConfirmClientUserRequest
-import org.mifos.core.network.selfService.auth.dto.ConfirmClientUserRequestDto
+import org.mifos.core.model.auth.RenewPasswordRequest
+import org.mifos.core.network.selfService.auth.dto.RenewPasswordRequestDto
 
-fun ConfirmClientUserRequest.toDto(): ConfirmClientUserRequestDto =
-    ConfirmClientUserRequestDto(
-        verificationToken = verificationToken,
+fun RenewPasswordRequest.toDto(): RenewPasswordRequestDto =
+    RenewPasswordRequestDto(
+        externalAuthenticationToken = externalAuthenticationToken,
+        password = password,
+        repeatPassword = repeatPassword,
     )

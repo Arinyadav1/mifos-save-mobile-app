@@ -86,4 +86,9 @@
     <string name="feature_auth_send_otp">Send OTP</string>
     <string name="feature_auth_remember_password_question">Remember your password? </string>
     <string name="feature_auth_username_required">Username is required.</string>
+    <string name="feature_auth_new_password_label">New Password</string>
+    <string name="feature_auth_new_password_placeholder">Enter new password</string>
+    <string name="feature_auth_confirm_password_label_no_star">Confirm Password</string>
+    <string name="feature_auth_re_enter_password_placeholder">Re-enter new password</string>
+    <string name="feature_auth_set_new_password_button">Set New Password</string>
 </resources>

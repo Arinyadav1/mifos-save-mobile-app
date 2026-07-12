@@ -66,7 +66,7 @@ import org.mifos.feature.auth.generated.resources.feature_auth_username
 @Composable
 fun ForgotPasswordScreen(
     onBackClick: () -> Unit,
-    onNavigateToOtpVerification: (isEmail: Boolean) -> Unit,
+    onNavigateToOtpVerification: (username: String, isEmail: Boolean) -> Unit,
     onSignInClick: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: ForgotPasswordViewModel = koinViewModel(),
@@ -77,7 +77,9 @@ fun ForgotPasswordScreen(
         when (event) {
             ForgotPasswordEvent.NavigateBack -> onBackClick()
             ForgotPasswordEvent.NavigateToSignIn -> onSignInClick()
-            is ForgotPasswordEvent.NavigateToOtpVerification -> onNavigateToOtpVerification(event.isEmail)
+            is ForgotPasswordEvent.NavigateToOtpVerification -> {
+                onNavigateToOtpVerification(event.username, event.isEmail)
+            }
         }
     }
 

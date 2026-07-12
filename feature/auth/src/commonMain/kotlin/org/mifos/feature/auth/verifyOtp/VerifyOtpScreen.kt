@@ -52,18 +52,27 @@ import org.mifos.core.base.ui.effects.EventsEffect
 import org.mifos.core.base.ui.submit.MutationScreenContent
 import org.mifos.core.ui.HorizontalSpacer
 import org.mifos.core.ui.VerticalSpacer
+import org.mifos.core.ui.input.KptTextField
 import org.mifos.core.ui.scaffold.KptScaffold
+import org.mifos.core.ui.utils.CombinedPasswordErrorCard
+import org.mifos.core.ui.utils.PasswordChecker
+import org.mifos.core.ui.utils.PasswordStrengthIndicator
 import org.mifos.feature.auth.generated.resources.Res
+import org.mifos.feature.auth.generated.resources.feature_auth_confirm_password_label_no_star
+import org.mifos.feature.auth.generated.resources.feature_auth_new_password_label
+import org.mifos.feature.auth.generated.resources.feature_auth_new_password_placeholder
 import org.mifos.feature.auth.generated.resources.feature_auth_otp_sent_to_prefix
 import org.mifos.feature.auth.generated.resources.feature_auth_otp_success_account_message
 import org.mifos.feature.auth.generated.resources.feature_auth_otp_success_account_title
 import org.mifos.feature.auth.generated.resources.feature_auth_otp_success_dialog_button
 import org.mifos.feature.auth.generated.resources.feature_auth_otp_success_reset_message
 import org.mifos.feature.auth.generated.resources.feature_auth_otp_success_reset_title
+import org.mifos.feature.auth.generated.resources.feature_auth_re_enter_password_placeholder
 import org.mifos.feature.auth.generated.resources.feature_auth_registered_email_address
 import org.mifos.feature.auth.generated.resources.feature_auth_registered_mobile_number
 import org.mifos.feature.auth.generated.resources.feature_auth_resend_otp
 import org.mifos.feature.auth.generated.resources.feature_auth_resend_timer
+import org.mifos.feature.auth.generated.resources.feature_auth_set_new_password_button
 import org.mifos.feature.auth.generated.resources.feature_auth_verify_otp_button
 import org.mifos.feature.auth.generated.resources.feature_auth_verify_otp_title
 
@@ -155,9 +164,75 @@ internal fun VerifyOtpScreenContent(
                         )
                     }
 
-                    Spacer(modifier = Modifier.weight(1f))
+                    // Password and Confirm Password fields (RESET_PASSWORD_VERIFY flow only)
+                    if (state.flow == VerifyOtpFlow.RESET_PASSWORD_VERIFY) {
+                        VerticalSpacer(KptTheme.spacing.lg)
 
-                    // Verify Button
+                        // New Password
+                        KptTextField(
+                            value = state.password,
+                            onValueChange = { onAction(VerifyOtpAction.ChangePassword(it)) },
+                            label = stringResource(Res.string.feature_auth_new_password_label),
+                            placeholder = stringResource(Res.string.feature_auth_new_password_placeholder),
+                            isPassword = true,
+                            isPasswordVisible = state.isPasswordVisible,
+                            onTogglePasswordVisibility = {
+                                onAction(VerifyOtpAction.TogglePasswordVisibility)
+                            },
+                            errorText = state.errorPassword,
+                        )
+
+                        val passwordStrength = PasswordChecker.getPasswordStrength(state.password)
+                        val hasError = state.errorPassword != null || state.passwordFeedback.isNotEmpty()
+
+                        if (state.password.isNotEmpty() && !hasError) {
+                            PasswordStrengthIndicator(
+                                state = passwordStrength,
+                                currentCharacterCount = state.password.length,
+                                minimumCharacterCount = 8,
+                                modifier = Modifier.fillMaxWidth().padding(vertical = KptTheme.spacing.xs),
+                            )
+                        }
+
+                        if (hasError && state.password.isNotEmpty()) {
+                            CombinedPasswordErrorCard(
+                                passwordStrengthState = passwordStrength,
+                                currentCharacterCount = state.password.length,
+                                minimumCharacterCount = 8,
+                                errorText = state.errorPassword,
+                                errors = state.passwordFeedback,
+                                modifier = Modifier.fillMaxWidth().padding(vertical = KptTheme.spacing.xs),
+                            )
+                        }
+
+                        VerticalSpacer(KptTheme.spacing.md)
+
+                        // Confirm Password
+                        KptTextField(
+                            value = state.confirmPassword,
+                            onValueChange = { onAction(VerifyOtpAction.ChangeConfirmPassword(it)) },
+                            label = stringResource(Res.string.feature_auth_confirm_password_label_no_star),
+                            placeholder = stringResource(Res.string.feature_auth_re_enter_password_placeholder),
+                            isPassword = true,
+                            isPasswordVisible = state.isConfirmPasswordVisible,
+                            onTogglePasswordVisibility = {
+                                onAction(VerifyOtpAction.ToggleConfirmPasswordVisibility)
+                            },
+                            errorText = state.errorConfirmPassword?.let { stringResource(it) },
+                            modifier = Modifier.fillMaxWidth(),
+                        )
+                    }
+
+                    Spacer(modifier = Modifier.weight(1f))
+                    VerticalSpacer(KptTheme.spacing.lg)
+
+                    // Verify / Set New Password Button
+                    val buttonText = if (state.flow == VerifyOtpFlow.RESET_PASSWORD_VERIFY) {
+                        Res.string.feature_auth_set_new_password_button
+                    } else {
+                        Res.string.feature_auth_verify_otp_button
+                    }
+
                     KptButton(
                         onClick = { onAction(VerifyOtpAction.VerifyOtp) },
                         enabled = state.isVerifyEnabled,
@@ -168,7 +243,7 @@ internal fun VerifyOtpScreenContent(
                             .fillMaxWidth()
                             .height(56.dp),
                     ) {
-                        Text(text = stringResource(Res.string.feature_auth_verify_otp_button))
+                        Text(text = stringResource(buttonText))
                     }
 
                     VerticalSpacer(KptTheme.spacing.xl)

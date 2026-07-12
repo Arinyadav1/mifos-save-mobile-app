@@ -41,16 +41,18 @@ fun NavGraphBuilder.authNavigationGraph(
         )
         forgotPasswordDestination(
             onBackClick = navController::popBackStack,
-            onNavigateToOtpVerification = { isEmail ->
+            onNavigateToOtpVerification = { username, isEmail ->
                 navController.navigateToVerifyOtpScreen(
                     flow = VerifyOtpFlow.RESET_PASSWORD_VERIFY,
                     isEmail = isEmail,
+                    username = username,
                 )
             },
             onSignInClick = {
                 navController.navigateToSignInScreen()
             },
         )
+
         accountTypeDestination(
             onBackClick = navController::popBackStack,
             onMemberCreateAccountScreen = navController::navigateToCreateMemberAccountScreen,
