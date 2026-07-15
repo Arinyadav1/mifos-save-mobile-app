@@ -37,10 +37,10 @@ import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.mifos.core.base.designsystem.component.KptButton
+import org.mifos.core.base.designsystem.component.VerticalSpacer
 import org.mifos.core.base.designsystem.theme.KptTheme
 import org.mifos.core.base.ui.effects.EventsEffect
 import org.mifos.core.base.ui.submit.MutationScreenContent
-import org.mifos.core.ui.VerticalSpacer
 import org.mifos.core.ui.input.KptTextField
 import org.mifos.feature.auth.generated.resources.Res
 import org.mifos.feature.auth.generated.resources.feature_auth_create_account

@@ -30,13 +30,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import org.jetbrains.compose.resources.stringResource
+import org.mifos.core.base.designsystem.component.HorizontalSpacer
 import org.mifos.core.base.designsystem.component.KptCard
 import org.mifos.core.base.designsystem.component.KptTopAppBar
+import org.mifos.core.base.designsystem.component.VerticalSpacer
 import org.mifos.core.base.designsystem.theme.KptAppColors
 import org.mifos.core.base.designsystem.theme.KptTheme
 import org.mifos.core.designsystem.icon.AppIcons
-import org.mifos.core.ui.HorizontalSpacer
-import org.mifos.core.ui.VerticalSpacer
 import org.mifos.core.ui.scaffold.KptScaffold
 import org.mifos.feature.auth.generated.resources.Res
 import org.mifos.feature.auth.generated.resources.feature_auth_account_type_admin
