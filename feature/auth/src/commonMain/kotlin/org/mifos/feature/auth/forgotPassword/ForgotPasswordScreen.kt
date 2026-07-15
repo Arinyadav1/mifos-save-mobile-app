@@ -39,15 +39,15 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
+import org.mifos.core.base.designsystem.component.HorizontalSpacer
 import org.mifos.core.base.designsystem.component.KptButton
 import org.mifos.core.base.designsystem.component.KptTopAppBar
+import org.mifos.core.base.designsystem.component.VerticalSpacer
 import org.mifos.core.base.designsystem.theme.KptAppColors
 import org.mifos.core.base.designsystem.theme.KptTheme
 import org.mifos.core.base.ui.effects.EventsEffect
 import org.mifos.core.base.ui.submit.MutationScreenContent
 import org.mifos.core.designsystem.icon.AppIcons
-import org.mifos.core.base.designsystem.component.HorizontalSpacer
-import org.mifos.core.base.designsystem.component.VerticalSpacer
 import org.mifos.core.ui.input.KptTextField
 import org.mifos.core.ui.scaffold.KptScaffold
 import org.mifos.feature.auth.createMemberAccount.AuthenticationMode
