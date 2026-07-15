@@ -20,11 +20,9 @@ import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBars
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -35,7 +33,6 @@ import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Tune
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -43,13 +40,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import org.mifos.core.base.designsystem.component.HorizontalSpacer
+import org.mifos.core.base.designsystem.component.VerticalSpacer
 import org.mifos.core.base.designsystem.theme.KptTheme
 import org.mifos.core.designsystem.theme.KptTheme
 
@@ -75,41 +73,41 @@ fun KptHeader(
     windowInsets: WindowInsets = WindowInsets.statusBars,
     content: @Composable (ColumnScope.() -> Unit)? = null,
 ) {
+    val color = KptTheme.colorScheme.onPrimary.copy(alpha = 0.05f)
+
     Column(
         modifier = modifier
             .fillMaxWidth()
             .background(color = KptTheme.colorScheme.primary)
             .drawBehind {
-                // Ambient concentric circles centered in the top-right corner to match the mockup design
                 val circleCenter = Offset(size.width * 0.95f, 0f)
                 drawCircle(
-                    color = Color.White.copy(alpha = 0.05f),
+                    color = color,
                     radius = 70.dp.toPx(),
                     center = circleCenter,
                 )
                 drawCircle(
-                    color = Color.White.copy(alpha = 0.04f),
+                    color = color,
                     radius = 110.dp.toPx(),
                     center = circleCenter,
                 )
                 drawCircle(
-                    color = Color.White.copy(alpha = 0.03f),
+                    color = color,
                     radius = 150.dp.toPx(),
                     center = circleCenter,
                 )
             }
             .windowInsetsPadding(windowInsets)
-            .padding(horizontal = 16.dp)
-            .padding(top = 16.dp, bottom = 24.dp),
+            .padding(horizontal = KptTheme.spacing.lg)
+            .padding(top = KptTheme.spacing.lg, bottom = KptTheme.spacing.xl),
     ) {
-        // Top app bar section
         Row(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             if (navigationIcon != null) {
                 navigationIcon()
-                Spacer(modifier = Modifier.width(12.dp))
+                HorizontalSpacer(width = KptTheme.spacing.md)
             }
 
             Spacer(modifier = Modifier.weight(1f))
@@ -124,24 +122,18 @@ fun KptHeader(
             }
         }
 
-        // Title section below top bar
         if (title != null) {
-            Spacer(modifier = Modifier.height(16.dp))
+            VerticalSpacer(height = KptTheme.spacing.lg)
             title()
         }
 
-        // Generic custom content body section
         if (content != null) {
-            Spacer(modifier = Modifier.height(16.dp))
+            VerticalSpacer(height = KptTheme.spacing.lg)
             content()
         }
     }
 }
 
-/**
- * A profile info helper component for the [KptHeader].
- * Typically placed in the `navigationIcon` slot to display the active user's details.
- */
 @Composable
 fun KptHeaderProfile(
     avatarText: String,
@@ -154,31 +146,29 @@ fun KptHeaderProfile(
         modifier = modifier.clickable(onClick = onProfileClick),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        // Rounded Profile Circle
         Box(
             modifier = Modifier
                 .size(44.dp)
                 .clip(CircleShape)
-                .background(Color.White.copy(alpha = 0.15f)),
+                .background(KptTheme.colorScheme.onPrimary.copy(alpha = 0.15f)),
             contentAlignment = Alignment.Center,
         ) {
             Text(
                 text = avatarText,
-                style = MaterialTheme.typography.titleMedium.copy(
+                style = KptTheme.typography.titleMedium.copy(
                     fontWeight = FontWeight.Bold,
-                    color = Color.White,
+                    color = KptTheme.colorScheme.onPrimary,
                 ),
             )
         }
 
-        Spacer(modifier = Modifier.width(10.dp))
+        HorizontalSpacer(width = KptTheme.spacing.sm)
 
-        // Profile Greeting Texts
         Column {
             Text(
                 text = greeting,
-                style = MaterialTheme.typography.bodySmall.copy(
-                    color = Color.White.copy(alpha = 0.7f),
+                style = KptTheme.typography.bodySmall.copy(
+                    color = KptTheme.colorScheme.onPrimary.copy(alpha = 0.7f),
                     fontSize = 12.sp,
                 ),
                 maxLines = 1,
@@ -186,9 +176,9 @@ fun KptHeaderProfile(
             )
             Text(
                 text = name,
-                style = MaterialTheme.typography.titleMedium.copy(
+                style = KptTheme.typography.titleMedium.copy(
                     fontWeight = FontWeight.Bold,
-                    color = Color.White,
+                    color = KptTheme.colorScheme.onPrimary,
                     fontSize = 16.sp,
                 ),
                 maxLines = 1,
@@ -198,9 +188,6 @@ fun KptHeaderProfile(
     }
 }
 
-/**
- * A standard circular back button helper component for the [KptHeader].
- */
 @Composable
 fun KptHeaderBackButton(
     onClick: () -> Unit,
@@ -210,23 +197,19 @@ fun KptHeaderBackButton(
         modifier = modifier
             .size(44.dp)
             .clip(CircleShape)
-            .background(Color.White.copy(alpha = 0.15f))
+            .background(KptTheme.colorScheme.onPrimary.copy(alpha = 0.15f))
             .clickable(onClick = onClick),
         contentAlignment = Alignment.Center,
     ) {
         Icon(
             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
             contentDescription = "Back",
-            tint = Color.White,
-            modifier = Modifier.size(24.dp),
+            tint = KptTheme.colorScheme.onPrimary,
+            modifier = Modifier.size(KptTheme.spacing.xl),
         )
     }
 }
 
-/**
- * A generic circular action button helper component for the [KptHeader] actions slot.
- * Can display a notification badge / dot in the top-right corner.
- */
 @Composable
 fun KptHeaderActionButton(
     icon: ImageVector,
@@ -238,30 +221,28 @@ fun KptHeaderActionButton(
     Box(
         modifier = modifier.size(44.dp),
     ) {
-        // Main circular button
         Box(
             modifier = Modifier
                 .size(44.dp)
                 .clip(CircleShape)
-                .background(Color.White.copy(alpha = 0.15f))
+                .background(KptTheme.colorScheme.onPrimary.copy(alpha = 0.15f))
                 .clickable(onClick = onClick),
             contentAlignment = Alignment.Center,
         ) {
             Icon(
                 imageVector = icon,
                 contentDescription = contentDescription,
-                tint = Color.White,
+                tint = KptTheme.colorScheme.onPrimary,
                 modifier = Modifier.size(22.dp),
             )
         }
 
-        // Notification badge red dot
         if (showBadge) {
             Box(
                 modifier = Modifier
-                    .size(8.dp)
+                    .size(KptTheme.spacing.sm)
                     .clip(CircleShape)
-                    .background(Color(0xFFE53935))
+                    .background(KptTheme.colorScheme.error)
                     .align(Alignment.TopEnd)
                     .padding(1.dp),
             )
@@ -269,9 +250,6 @@ fun KptHeaderActionButton(
     }
 }
 
-/**
- * A generic pill-shaped button helper component (e.g. "+ New Group").
- */
 @Composable
 fun KptHeaderPillButton(
     text: String,
@@ -279,19 +257,12 @@ fun KptHeaderPillButton(
     modifier: Modifier = Modifier,
     icon: ImageVector? = null,
 ) {
-    val isLight = KptTheme.colorScheme.background.red > 0.5f
-    val brandDarkColor = if (isLight) {
-        KptTheme.colorScheme.onPrimaryContainer
-    } else {
-        KptTheme.colorScheme.primaryContainer
-    }
-
     Row(
         modifier = modifier
             .clip(CircleShape)
-            .background(Color.White)
+            .background(KptTheme.colorScheme.surface)
             .clickable(onClick = onClick)
-            .padding(horizontal = 16.dp, vertical = 10.dp),
+            .padding(horizontal = KptTheme.spacing.lg, vertical = 10.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center,
     ) {
@@ -299,25 +270,22 @@ fun KptHeaderPillButton(
             Icon(
                 imageVector = icon,
                 contentDescription = null,
-                tint = brandDarkColor,
-                modifier = Modifier.size(16.dp),
+                tint = KptTheme.colorScheme.primary,
+                modifier = Modifier.size(KptTheme.spacing.lg),
             )
-            Spacer(modifier = Modifier.width(6.dp))
+            HorizontalSpacer(width = KptTheme.spacing.xs)
         }
 
         Text(
             text = text,
-            style = MaterialTheme.typography.labelLarge.copy(
+            style = KptTheme.typography.labelLarge.copy(
                 fontWeight = FontWeight.Bold,
-                color = brandDarkColor,
+                color = KptTheme.colorScheme.primary,
             ),
         )
     }
 }
 
-/**
- * A text header layout helper component for displaying a title and subtitle.
- */
 @Composable
 fun KptHeaderTitle(
     title: String,
@@ -328,8 +296,8 @@ fun KptHeaderTitle(
         if (subtitle != null) {
             Text(
                 text = subtitle,
-                style = MaterialTheme.typography.bodySmall.copy(
-                    color = Color.White.copy(alpha = 0.6f),
+                style = KptTheme.typography.bodySmall.copy(
+                    color = KptTheme.colorScheme.onPrimary.copy(alpha = 0.6f),
                     fontWeight = FontWeight.SemiBold,
                     fontSize = 11.sp,
                 ),
@@ -340,9 +308,9 @@ fun KptHeaderTitle(
 
         Text(
             text = title,
-            style = MaterialTheme.typography.headlineMedium.copy(
+            style = KptTheme.typography.headlineMedium.copy(
                 fontWeight = FontWeight.Bold,
-                color = Color.White,
+                color = KptTheme.colorScheme.onPrimary,
                 fontSize = 28.sp,
             ),
             maxLines = 1,
@@ -351,10 +319,6 @@ fun KptHeaderTitle(
     }
 }
 
-/**
- * A generic statistics card helper component.
- * Displays a label and value inside a semi-transparent slate card.
- */
 @Composable
 fun KptHeaderStatsCard(
     label: String,
@@ -364,9 +328,9 @@ fun KptHeaderStatsCard(
 ) {
     Box(
         modifier = modifier
-            .clip(RoundedCornerShape(16.dp))
-            .background(Color.White.copy(alpha = 0.08f))
-            .padding(horizontal = 12.dp, vertical = 12.dp),
+            .clip(RoundedCornerShape(KptTheme.spacing.md))
+            .background(KptTheme.colorScheme.onPrimary.copy(alpha = 0.08f))
+            .padding(horizontal = KptTheme.spacing.md, vertical = KptTheme.spacing.sm),
     ) {
         Column(
             modifier = Modifier.fillMaxWidth(),
@@ -375,9 +339,9 @@ fun KptHeaderStatsCard(
             if (isValueAbove) {
                 Text(
                     text = value,
-                    style = MaterialTheme.typography.titleMedium.copy(
+                    style = KptTheme.typography.titleMedium.copy(
                         fontWeight = FontWeight.Bold,
-                        color = Color.White,
+                        color = KptTheme.colorScheme.onPrimary,
                         fontSize = 18.sp,
                     ),
                     maxLines = 1,
@@ -385,8 +349,8 @@ fun KptHeaderStatsCard(
                 )
                 Text(
                     text = label,
-                    style = MaterialTheme.typography.bodySmall.copy(
-                        color = Color.White.copy(alpha = 0.6f),
+                    style = KptTheme.typography.bodySmall.copy(
+                        color = KptTheme.colorScheme.onPrimary.copy(alpha = 0.6f),
                         fontSize = 11.sp,
                     ),
                     maxLines = 1,
@@ -395,8 +359,8 @@ fun KptHeaderStatsCard(
             } else {
                 Text(
                     text = label.uppercase(),
-                    style = MaterialTheme.typography.bodySmall.copy(
-                        color = Color.White.copy(alpha = 0.5f),
+                    style = KptTheme.typography.bodySmall.copy(
+                        color = KptTheme.colorScheme.onPrimary.copy(alpha = 0.5f),
                         fontWeight = FontWeight.SemiBold,
                         fontSize = 10.sp,
                     ),
@@ -405,9 +369,9 @@ fun KptHeaderStatsCard(
                 )
                 Text(
                     text = value,
-                    style = MaterialTheme.typography.titleLarge.copy(
+                    style = KptTheme.typography.titleLarge.copy(
                         fontWeight = FontWeight.Bold,
-                        color = Color.White,
+                        color = KptTheme.colorScheme.onPrimary,
                         fontSize = 18.sp,
                     ),
                     maxLines = 1,
@@ -437,7 +401,7 @@ fun KptDashboardHeaderPreview() {
                     showBadge = true,
                     contentDescription = "Notifications",
                 )
-                Spacer(modifier = Modifier.width(8.dp))
+                HorizontalSpacer(width = KptTheme.spacing.sm)
                 KptHeaderActionButton(
                     icon = Icons.Default.Settings,
                     onClick = {},
@@ -445,7 +409,6 @@ fun KptDashboardHeaderPreview() {
                 )
             },
             content = {
-                // Stats Card Row
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -488,7 +451,7 @@ fun KptGroupsHeaderPreview() {
                     icon = Icons.Default.Add,
                     onClick = {},
                 )
-                Spacer(modifier = Modifier.width(8.dp))
+                HorizontalSpacer(width = KptTheme.spacing.sm)
                 KptHeaderActionButton(
                     icon = Icons.Default.Tune,
                     onClick = {},
@@ -502,7 +465,6 @@ fun KptGroupsHeaderPreview() {
                 )
             },
             content = {
-                // Four Stats Cards Row
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.spacedBy(6.dp),

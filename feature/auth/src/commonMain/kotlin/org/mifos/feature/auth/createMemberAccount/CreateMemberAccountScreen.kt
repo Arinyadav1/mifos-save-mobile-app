@@ -38,8 +38,8 @@ import org.mifos.core.base.designsystem.component.KptTopAppBar
 import org.mifos.core.base.designsystem.theme.KptTheme
 import org.mifos.core.base.ui.effects.EventsEffect
 import org.mifos.core.base.ui.submit.MutationScreenContent
-import org.mifos.core.ui.HorizontalSpacer
-import org.mifos.core.ui.VerticalSpacer
+import org.mifos.core.base.designsystem.component.HorizontalSpacer
+import org.mifos.core.base.designsystem.component.VerticalSpacer
 import org.mifos.core.ui.input.KptTextField
 import org.mifos.core.ui.scaffold.KptScaffold
 import org.mifos.core.ui.utils.CombinedPasswordErrorCard

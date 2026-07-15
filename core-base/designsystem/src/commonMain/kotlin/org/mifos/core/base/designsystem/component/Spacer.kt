@@ -7,7 +7,7 @@
  *
  * See See https://github.com/openMF/kmp-project-template/blob/main/LICENSE
  */
-package org.mifos.core.ui
+package org.mifos.core.base.designsystem.component
 
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
