@@ -10,6 +10,7 @@
 package org.mifos.core.network.utils
 
 import de.jensklingenberg.ktorfit.Ktorfit
+import io.ktor.client.plugins.defaultRequest
 import io.ktor.http.ContentType
 import io.ktor.http.HttpHeaders
 import org.mifos.core.base.network.httpClient
@@ -22,18 +23,24 @@ fun ktorfitProvider(
 ): Ktorfit {
     return Ktorfit.Builder()
         .httpClient(
-            client = httpClient(
+            client = httpClient {
                 setupDefaultHttpClient(
                     baseUrl = baseUrl,
                     defaultHeaders = mapOf(
                         "Fineract-Platform-TenantId" to ApiConfig.SELF_SERVICE.tenant,
                         HttpHeaders.ContentType to ContentType.Application.Json.toString(),
                         HttpHeaders.Accept to ContentType.Application.Json.toString(),
-                        HttpHeaders.Authorization to "Basic ${userPreferencesRepository.authToken}",
                     ),
                     loggableHosts = listOf(ApiConfig.ENDPOINT),
-                ),
-            ),
+                ).invoke(this)
+
+                defaultRequest {
+                    val token = userPreferencesRepository.authToken
+                    if (!token.isNullOrBlank()) {
+                        headers[HttpHeaders.Authorization] = "Basic $token"
+                    }
+                }
+            },
         )
         .build()
 }
