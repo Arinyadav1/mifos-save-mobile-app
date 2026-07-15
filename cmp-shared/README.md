@@ -21,7 +21,7 @@ graph LR
     :feature:settings["settings"]
     :feature:faq["faq"]
     :feature:editpassword["editpassword"]
-    :feature:profile["profile"]
+    :feature:group["group"]
     :feature:history["history"]
     :feature:payments["payments"]
     :feature:finance["finance"]
@@ -53,7 +53,7 @@ graph LR
   :mifospay-shared --> :feature:settings
   :mifospay-shared --> :feature:faq
   :mifospay-shared --> :feature:editpassword
-  :mifospay-shared --> :feature:profile
+  :mifospay-shared --> :feature:group
   :mifospay-shared --> :feature:history
   :mifospay-shared --> :feature:payments
   :mifospay-shared --> :feature:finance

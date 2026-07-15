@@ -18,6 +18,8 @@ import cmp.navigation.utils.toObjectNavigationRoute
 import org.jetbrains.compose.resources.StringResource
 import org.mifos.core.designsystem.icon.AppIcons
 import org.mifos.core.ui.NavigationItem
+import org.mifos.feature.groups.groupDashboard.GroupDashboardRoute
+import org.mifos.feature.groups.navigation.GroupsGraphRoute
 import org.mifos.feature.home.HomeDestination
 import org.mifos.feature.home.HomeRoute
 
@@ -50,9 +52,9 @@ sealed class AdminNavBarTabItem : NavigationItem {
         override val contentDescriptionRes: StringResource
             get() = Res.string.groups
         override val graphRoute: String
-            get() = ""
+            get() = GroupsGraphRoute.toObjectNavigationRoute()
         override val startDestinationRoute: String
-            get() = ""
+            get() = GroupDashboardRoute.toObjectNavigationRoute()
         override val testTag: String
             get() = "AdminGroupsTab"
     }

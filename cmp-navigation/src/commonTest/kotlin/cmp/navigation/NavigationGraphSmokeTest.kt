@@ -9,7 +9,7 @@
  */
 package cmp.navigation
 
-import cmp.navigation.authenticatedMemberNavBar.AuthenticatedNavBarTabItem
+import cmp.navigation.authenticatedMemberNavBar.MemberNavBarTabItem
 import kotlinx.serialization.serializer
 import org.mifos.feature.bills.navigation.AddOrEditBillReminderRoute
 import org.mifos.feature.bills.navigation.BillRemindersListRoute
@@ -23,6 +23,8 @@ import org.mifos.feature.currencyrates.navigation.CurrencyRatesGraphRoute
 import org.mifos.feature.currencyrates.navigation.CurrencyRatesRoute
 import org.mifos.feature.currencyrates.navigation.RateHistoryRoute
 import org.mifos.feature.emicalculator.navigation.EmiCalculatorRoute
+import org.mifos.feature.groups.groupDashboard.GroupDashboardRoute
+import org.mifos.feature.groups.navigation.GroupsGraphRoute
 import org.mifos.feature.loans.navigation.AddOrEditLoanRoute
 import org.mifos.feature.loans.navigation.LoanDetailRoute
 import org.mifos.feature.loans.navigation.LoansGraphRoute
@@ -70,6 +72,7 @@ class NavigationGraphSmokeTest {
         CurrencyRatesGraphRoute,
         CalculatorsGraphRoute,
         MacroGraphRoute,
+        GroupsGraphRoute,
 
         // Leaf screens with no args
         BillRemindersListRoute,
@@ -81,6 +84,7 @@ class NavigationGraphSmokeTest {
         AffordabilityCalculatorRoute,
         LoanComparisonRoute,
         CountryPickerRoute,
+        GroupDashboardRoute,
     )
 
     @Test
@@ -126,6 +130,7 @@ class NavigationGraphSmokeTest {
         assertNotNull(serializer<CurrencyRatesGraphRoute>())
         assertNotNull(serializer<CalculatorsGraphRoute>())
         assertNotNull(serializer<MacroGraphRoute>())
+        assertNotNull(serializer<GroupsGraphRoute>())
 
         assertNotNull(serializer<BillRemindersListRoute>())
         assertNotNull(serializer<PersonalLoansListRoute>())
@@ -136,6 +141,7 @@ class NavigationGraphSmokeTest {
         assertNotNull(serializer<AffordabilityCalculatorRoute>())
         assertNotNull(serializer<LoanComparisonRoute>())
         assertNotNull(serializer<CountryPickerRoute>())
+        assertNotNull(serializer<GroupDashboardRoute>())
 
         assertNotNull(serializer<AddOrEditBillReminderRoute>())
         assertNotNull(serializer<AddOrEditLoanRoute>())
@@ -149,14 +155,14 @@ class NavigationGraphSmokeTest {
     @Test
     fun bottomNavTabsHaveStableTestTagsAndNonBlankRoutes() {
         val tabs = listOf(
-            AuthenticatedNavBarTabItem.HomeTab,
-            AuthenticatedNavBarTabItem.ProfileTab,
+            MemberNavBarTabItem.HomeTab,
+            MemberNavBarTabItem.GroupsTab,
         )
 
         // Locked test tags — instrumentation tests + analytics depend on these.
         // Renaming requires updating both the test suite and any dashboards.
-        assertEquals("HomeTab", AuthenticatedNavBarTabItem.HomeTab.testTag)
-        assertEquals("ProfileTab", AuthenticatedNavBarTabItem.ProfileTab.testTag)
+        assertEquals("MemberHomeTab", MemberNavBarTabItem.HomeTab.testTag)
+        assertEquals("MemberGroupsTab", MemberNavBarTabItem.GroupsTab.testTag)
 
         // Every tab declares non-blank graphRoute + startDestinationRoute so the
         // bottom bar doesn't crash with "destination not found" on first tap.
@@ -182,7 +188,7 @@ class NavigationGraphSmokeTest {
         // If you intentionally add or remove a route, update this count + the
         // `parameterlessRoutes` list above. Catches accidental nav-graph
         // shrinkage / silent module drop after a refactor.
-        val expectedCount = 15
+        val expectedCount = 17
         assertEquals(
             expectedCount,
             parameterlessRoutes.size,
