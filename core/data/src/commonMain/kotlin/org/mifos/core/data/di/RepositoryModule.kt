@@ -23,12 +23,14 @@ import org.mifos.core.base.store.submit.OfflineSubmitSyncer
 import org.mifos.core.base.store.submit.SubmitOutbox
 import org.mifos.core.data.alerts.AlertsRepository
 import org.mifos.core.data.alerts.impl.AlertsRepositoryImpl
-import org.mifos.core.data.auth.Authentication
-import org.mifos.core.data.auth.impl.AuthenticationImpl
+import org.mifos.core.data.auth.AuthenticationRepository
+import org.mifos.core.data.auth.impl.AuthenticationRepositoryImpl
 import org.mifos.core.data.banking.BillReminderRepository
 import org.mifos.core.data.banking.LoanRepository
 import org.mifos.core.data.banking.impl.BillReminderRepositoryImpl
 import org.mifos.core.data.banking.impl.LoanRepositoryImpl
+import org.mifos.core.data.group.GroupRepository
+import org.mifos.core.data.group.impl.GroupRepositoryImpl
 import org.mifos.core.data.infra.NetworkMonitor
 import org.mifos.core.data.infra.impl.RoomFetchedAtRepository
 import org.mifos.core.data.infra.impl.RoomSubmitOutbox
@@ -170,7 +172,19 @@ val DataModule = module {
         syncer
     }
 
-    single { AuthenticationImpl(get(), get(), get()) } bind Authentication::class
+    single {
+        AuthenticationRepositoryImpl(
+            get(),
+            get(),
+            get(),
+        )
+    } bind AuthenticationRepository::class
+
+    single {
+        GroupRepositoryImpl(
+            get(),
+        )
+    } bind GroupRepository::class
 }
 
 expect val platformModule: Module

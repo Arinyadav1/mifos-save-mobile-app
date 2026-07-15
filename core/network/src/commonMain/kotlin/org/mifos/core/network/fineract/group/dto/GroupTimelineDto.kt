@@ -1,0 +1,28 @@
+/*
+ * Copyright 2026 Mifos Initiative
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ *
+ * See See https://github.com/openMF/kmp-project-template/blob/main/LICENSE
+ */
+package org.mifos.core.network.fineract.group.dto
+
+import kotlinx.serialization.Serializable
+
+@Serializable
+data class GroupTimelineDto(
+    val submittedOnDate: List<Int>? = null,
+    val submittedByUsername: String? = null,
+    val submittedByFirstname: String? = null,
+    val submittedByLastname: String? = null,
+    val activatedOnDate: List<Int>? = null,
+    val activatedByUsername: String? = null,
+    val activatedByFirstname: String? = null,
+    val activatedByLastname: String? = null,
+    val closedOnDate: List<Int>? = null,
+    val closedByUsername: String? = null,
+    val closedByFirstname: String? = null,
+    val closedByLastname: String? = null,
+)

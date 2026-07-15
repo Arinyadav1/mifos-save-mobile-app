@@ -14,7 +14,7 @@ import io.ktor.http.isSuccess
 import kotlinx.serialization.json.Json
 import org.mifos.core.base.common.manager.DispatcherManager
 import org.mifos.core.base.store.screen.ScreenState
-import org.mifos.core.data.auth.Authentication
+import org.mifos.core.data.auth.AuthenticationRepository
 import org.mifos.core.data.infra.NetworkMonitor
 import org.mifos.core.data.mapper.auth.toDto
 import org.mifos.core.data.mapper.auth.toModel
@@ -31,11 +31,11 @@ import org.mifos.core.network.DataManager
 import org.mifos.core.network.commonDto.UserResponseDto
 import org.mifos.core.network.selfService.auth.dto.RegistrationResponseDto
 
-class AuthenticationImpl(
+class AuthenticationRepositoryImpl(
     private val dataManager: DataManager,
     private val networkMonitor: NetworkMonitor,
     private val dispatcher: DispatcherManager,
-) : Authentication {
+) : AuthenticationRepository {
 
     override suspend fun signInSelf(
         signInRequest: SignInRequest,

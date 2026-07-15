@@ -16,7 +16,7 @@ import org.mifos.core.base.store.screen.DataFreshness
 import org.mifos.core.base.store.screen.ScreenState
 import org.mifos.core.base.store.submit.SubmitState
 import org.mifos.core.base.ui.viewmodel.BaseViewModel
-import org.mifos.core.data.auth.Authentication
+import org.mifos.core.data.auth.AuthenticationRepository
 import org.mifos.core.data.user.UserDataRepository
 import org.mifos.core.domain.validate.passwordValidate
 import org.mifos.core.domain.validate.usernameValidate
@@ -24,7 +24,7 @@ import org.mifos.core.model.auth.SignInRequest
 import org.mifos.core.model.auth.User
 
 class SignInViewModel(
-    private val authentication: Authentication,
+    private val authenticationRepository: AuthenticationRepository,
     private val userDataRepository: UserDataRepository,
 ) : BaseViewModel<SignInState, SignInEvent, SignInAction>(SignInState()) {
 
@@ -33,7 +33,7 @@ class SignInViewModel(
             it.copy(submitState = SubmitState.Submitting())
         }
         viewModelScope.launch {
-            val result = authentication.signInSelf(
+            val result = authenticationRepository.signInSelf(
                 SignInRequest(
                     username = state.username,
                     password = state.password,
@@ -48,7 +48,7 @@ class SignInViewModel(
             it.copy(submitState = SubmitState.Submitting())
         }
         viewModelScope.launch {
-            val result = authentication.signInFineract(
+            val result = authenticationRepository.signInFineract(
                 SignInRequest(
                     username = state.username,
                     password = state.password,

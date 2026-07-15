@@ -17,13 +17,13 @@ import org.mifos.core.base.store.screen.DataFreshness
 import org.mifos.core.base.store.screen.ScreenState
 import org.mifos.core.base.store.submit.SubmitState
 import org.mifos.core.base.ui.viewmodel.BaseViewModel
-import org.mifos.core.data.auth.Authentication
+import org.mifos.core.data.auth.AuthenticationRepository
 import org.mifos.core.model.auth.PasswordResetRequest
 import org.mifos.core.ui.utils.TextFieldsValidator
 import org.mifos.feature.auth.createMemberAccount.AuthenticationMode
 
 class ForgotPasswordViewModel(
-    private val authentication: Authentication,
+    private val authenticationRepository: AuthenticationRepository,
 ) : BaseViewModel<ForgotPasswordState, ForgotPasswordEvent, ForgotPasswordAction>(ForgotPasswordState()) {
 
     override fun handleAction(action: ForgotPasswordAction) {
@@ -65,7 +65,7 @@ class ForgotPasswordViewModel(
             it.copy(submitState = SubmitState.Submitting())
         }
         viewModelScope.launch {
-            val result = authentication.requestPasswordReset(
+            val result = authenticationRepository.requestPasswordReset(
                 PasswordResetRequest(
                     username = state.username,
                     authenticationMode = state.authenticationMode.value,

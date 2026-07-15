@@ -7,12 +7,13 @@
  *
  * See See https://github.com/openMF/kmp-project-template/blob/main/LICENSE
  */
-package org.mifos.feature.groups.di
+package org.mifos.core.network.commonDto
 
-import org.koin.core.module.dsl.viewModelOf
-import org.koin.dsl.module
-import org.mifos.feature.groups.groupDashboard.GroupDashboardViewModel
+import kotlinx.serialization.Serializable
+import org.mifos.core.network.fineract.group.dto.GroupDto
 
-val GroupsModule = module {
-    viewModelOf(::GroupDashboardViewModel)
-}
+@Serializable
+data class PageResponseDto(
+    val totalFilteredRecords: Int = 0,
+    val pageItems: List<GroupDto> = emptyList(),
+)

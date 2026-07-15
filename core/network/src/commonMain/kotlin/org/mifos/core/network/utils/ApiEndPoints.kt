@@ -18,4 +18,5 @@ object ApiEndPoints {
     const val REQUEST = "request"
     const val CONFIRM = "confirm"
     const val RENEW = "renew"
+    const val GROUPS = "groups"
 }

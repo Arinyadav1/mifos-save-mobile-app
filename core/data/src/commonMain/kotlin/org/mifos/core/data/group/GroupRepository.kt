@@ -7,12 +7,12 @@
  *
  * See See https://github.com/openMF/kmp-project-template/blob/main/LICENSE
  */
-package org.mifos.feature.groups.di
+package org.mifos.core.data.group
 
-import org.koin.core.module.dsl.viewModelOf
-import org.koin.dsl.module
-import org.mifos.feature.groups.groupDashboard.GroupDashboardViewModel
+import org.mifos.core.base.store.paging.PageKey
+import org.mifos.core.model.group.Group
+import org.mobilenativefoundation.store.store5.Store
 
-val GroupsModule = module {
-    viewModelOf(::GroupDashboardViewModel)
+interface GroupRepository {
+    fun listOfGroupPaging(): Store<PageKey, List<Group>>
 }

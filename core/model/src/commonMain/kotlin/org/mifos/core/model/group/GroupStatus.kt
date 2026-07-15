@@ -7,12 +7,10 @@
  *
  * See See https://github.com/openMF/kmp-project-template/blob/main/LICENSE
  */
-package org.mifos.feature.groups.di
+package org.mifos.core.model.group
 
-import org.koin.core.module.dsl.viewModelOf
-import org.koin.dsl.module
-import org.mifos.feature.groups.groupDashboard.GroupDashboardViewModel
-
-val GroupsModule = module {
-    viewModelOf(::GroupDashboardViewModel)
-}
+data class GroupStatus(
+    val id: Long,
+    val code: String?,
+    val value: String?,
+)

@@ -20,7 +20,11 @@ data object GroupDashboardRoute
 
 fun NavGraphBuilder.groupDashboardDestination() {
     composableWithStayTransitions<GroupDashboardRoute> {
-        GroupDashboardScreen()
+        GroupDashboardScreen(
+            onBackClick = {},
+            onNewGroupClick = {},
+            onGroupClick = {},
+        )
     }
 }
 

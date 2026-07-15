@@ -22,7 +22,7 @@ import org.mifos.core.base.store.screen.DataFreshness
 import org.mifos.core.base.store.screen.ScreenState
 import org.mifos.core.base.store.submit.SubmitState
 import org.mifos.core.base.ui.viewmodel.BaseViewModel
-import org.mifos.core.data.auth.Authentication
+import org.mifos.core.data.auth.AuthenticationRepository
 import org.mifos.core.model.auth.ConfirmClientUserRequest
 import org.mifos.core.model.auth.PasswordResetRequest
 import org.mifos.core.model.auth.RenewPasswordRequest
@@ -38,7 +38,7 @@ import kotlin.time.Duration.Companion.milliseconds
 
 class VerifyOtpViewModel(
     savedStateHandle: SavedStateHandle,
-    private val authentication: Authentication,
+    private val authenticationRepository: AuthenticationRepository,
 ) : BaseViewModel<VerifyOtpState, VerifyOtpEvent, VerifyOtpAction>(
     VerifyOtpState(),
 ) {
@@ -200,7 +200,7 @@ class VerifyOtpViewModel(
         viewModelScope.launch {
             val result = when (state.flow) {
                 VerifyOtpFlow.MEMBER_ACCOUNT_VERIFY -> {
-                    authentication.confirmClientUser(
+                    authenticationRepository.confirmClientUser(
                         ConfirmClientUserRequest(verificationToken = state.otpCode),
                     )
                 }
@@ -208,7 +208,7 @@ class VerifyOtpViewModel(
                     ScreenState.Content(Unit, DataFreshness.FRESH)
                 }
                 VerifyOtpFlow.RESET_PASSWORD_VERIFY -> {
-                    authentication.renewPassword(
+                    authenticationRepository.renewPassword(
                         RenewPasswordRequest(
                             externalAuthenticationToken = state.otpCode,
                             password = state.password,
@@ -249,7 +249,7 @@ class VerifyOtpViewModel(
         if (!state.isResendEnabled) return
         mutableStateFlow.update { it.copy(submitState = SubmitState.Submitting()) }
         viewModelScope.launch {
-            val result = authentication.requestPasswordReset(
+            val result = authenticationRepository.requestPasswordReset(
                 PasswordResetRequest(
                     username = state.username,
                     authenticationMode = if (state.isEmail) {

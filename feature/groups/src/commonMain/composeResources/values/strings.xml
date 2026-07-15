@@ -9,5 +9,14 @@
     See https://github.com/openMF/kmp-project-template/blob/main/LICENSE
 -->
 <resources>
-
+    <string name="feature_groups_new_group">New Group</string>
+    <string name="feature_groups_filters">Filters</string>
+    <string name="feature_groups_groups_title">Groups</string>
+    <string name="feature_groups_mifos_save">MIFOS SAVE</string>
+    <string name="feature_groups_total">Total</string>
+    <string name="feature_groups_active">Active</string>
+    <string name="feature_groups_pending">Pending</string>
+    <string name="feature_groups_closed">Closed</string>
+    <string name="feature_groups_search_groups">Search groups...</string>
+    <string name="feature_groups_search_desc">Search</string>
 </resources>
