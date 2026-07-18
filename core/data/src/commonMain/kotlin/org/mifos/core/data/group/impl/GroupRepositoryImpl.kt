@@ -20,6 +20,7 @@ import org.mifos.core.data.infra.NetworkMonitor
 import org.mifos.core.data.mapper.group.toModel
 import org.mifos.core.data.util.asScreenStateFlow
 import org.mifos.core.model.group.Group
+import org.mifos.core.model.group.GroupAccounts
 import org.mifos.core.network.DataManager
 import org.mobilenativefoundation.store.store5.Fetcher
 import org.mobilenativefoundation.store.store5.Store
@@ -47,6 +48,17 @@ class GroupRepositoryImpl(
     override fun getGroupDetails(groupId: Long): Flow<ScreenState<Group>> {
         return dataManager.fineract.groupApi
             .getGroupDetails(groupId)
+            .asScreenStateFlow(
+                networkMonitor = networkMonitor,
+                dispatcher = dispatcher.io,
+            ) { dto ->
+                dto.toModel()
+            }
+    }
+
+    override fun getGroupAccounts(groupId: Long, fields: String): Flow<ScreenState<GroupAccounts>> {
+        return dataManager.fineract.groupApi
+            .getGroupAccounts(groupId, fields)
             .asScreenStateFlow(
                 networkMonitor = networkMonitor,
                 dispatcher = dispatcher.io,

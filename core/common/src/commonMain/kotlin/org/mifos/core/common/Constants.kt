@@ -11,4 +11,5 @@ package org.mifos.core.common
 
 object Constants {
     const val SELF_SERVICE_USER = "Self Service User"
+    const val MEMBER_SAVINGS_ACCOUNTS = "memberSavingsAccounts"
 }

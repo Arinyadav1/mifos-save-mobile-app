@@ -14,6 +14,7 @@ import de.jensklingenberg.ktorfit.http.Path
 import de.jensklingenberg.ktorfit.http.Query
 import kotlinx.coroutines.flow.Flow
 import org.mifos.core.network.commonDto.PageResponseDto
+import org.mifos.core.network.fineract.group.dto.GroupAccountsDto
 import org.mifos.core.network.fineract.group.dto.GroupDto
 import org.mifos.core.network.utils.ApiEndPoints
 
@@ -30,4 +31,10 @@ interface GroupApi {
         @Path("groupId") groupId: Long,
         @Query("associations") associations: String = "clientMembers",
     ): Flow<GroupDto>
+
+    @GET("${ApiEndPoints.GROUPS}/{groupId}/${ApiEndPoints.ACCOUNTS}")
+    fun getGroupAccounts(
+        @Path("groupId") groupId: Long,
+        @Query("fields") fields: String,
+    ): Flow<GroupAccountsDto>
 }

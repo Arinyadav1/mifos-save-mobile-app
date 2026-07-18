@@ -46,4 +46,8 @@
     <string name="feature_groups_remove_members_confirm_desc">Are you sure you want to remove the selected member(s)?</string>
     <string name="feature_groups_empty_members_message">No members found in this group.</string>
     <string name="feature_groups_add_members">Add Members</string>
+    <string name="feature_groups_savings_list_title">GROUP SAVINGS</string>
+    <string name="feature_groups_search_savings">Search savings...</string>
+    <string name="feature_groups_empty_savings_message">No savings accounts found in this group.</string>
+    <string name="feature_groups_new_savings">New Savings</string>
 </resources>

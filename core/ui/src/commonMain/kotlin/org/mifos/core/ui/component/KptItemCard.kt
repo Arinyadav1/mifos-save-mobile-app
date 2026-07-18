@@ -40,6 +40,7 @@ import org.mifos.core.designsystem.icon.AppIcons
 import org.mifos.core.designsystem.theme.elevation
 import org.mifos.core.designsystem.theme.spacing
 import org.mifos.core.model.group.Group
+import org.mifos.core.model.group.SavingsAccount
 
 data class SubRowItem(
     val icon: ImageVector,
@@ -162,5 +163,19 @@ val Group.statusChipIntent: StatusChipIntent
         active -> StatusChipIntent.Success
         status?.code?.contains("pending", ignoreCase = true) == true -> StatusChipIntent.Warning
         status?.code?.contains("closed", ignoreCase = true) == true -> StatusChipIntent.Neutral
+        else -> StatusChipIntent.Info
+    }
+
+/**
+ * Maps a [SavingsAccount]'s status to the appropriate [StatusChipIntent] for visual styling.
+ */
+val org.mifos.core.model.group.SavingsAccount.statusChipIntent: StatusChipIntent
+    get() = when {
+        status?.active == true -> StatusChipIntent.Success
+        status?.submittedAndPendingApproval == true ||
+            status?.approved == true -> StatusChipIntent.Warning
+        status?.closed == true ||
+            status?.rejected == true ||
+            status?.withdrawnByApplicant == true -> StatusChipIntent.Neutral
         else -> StatusChipIntent.Info
     }

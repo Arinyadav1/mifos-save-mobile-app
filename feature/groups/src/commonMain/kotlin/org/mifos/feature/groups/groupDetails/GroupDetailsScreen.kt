@@ -67,6 +67,7 @@ import org.mifos.feature.groups.generated.resources.feature_groups_total_saving
 fun GroupDetailsScreen(
     onBackClick: () -> Unit,
     onMembersClick: (Long) -> Unit,
+    onSavingsClick: (Long) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: GroupDetailsViewModel = koinViewModel(),
 ) {
@@ -80,7 +81,7 @@ fun GroupDetailsScreen(
             }
 
             GroupDetailsEvent.NavigateToSavings -> {
-                /* TODO: navigate to savings */
+                onSavingsClick(viewModel.groupId)
             }
 
             GroupDetailsEvent.NavigateToMeetings -> {
