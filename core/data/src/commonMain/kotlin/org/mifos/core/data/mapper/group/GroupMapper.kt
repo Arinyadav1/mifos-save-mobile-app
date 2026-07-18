@@ -10,9 +10,15 @@
 package org.mifos.core.data.mapper.group
 
 import kotlinx.datetime.LocalDate
+import org.mifos.core.model.group.ClientMember
+import org.mifos.core.model.group.ClientStatus
+import org.mifos.core.model.group.ClientTimeline
 import org.mifos.core.model.group.Group
 import org.mifos.core.model.group.GroupStatus
 import org.mifos.core.model.group.GroupTimeline
+import org.mifos.core.network.fineract.group.dto.ClientMemberDto
+import org.mifos.core.network.fineract.group.dto.ClientStatusDto
+import org.mifos.core.network.fineract.group.dto.ClientTimelineDto
 import org.mifos.core.network.fineract.group.dto.GroupDto
 import org.mifos.core.network.fineract.group.dto.GroupStatusDto
 import org.mifos.core.network.fineract.group.dto.GroupTimelineDto
@@ -28,6 +34,7 @@ fun GroupDto.toModel(): Group =
         officeId = officeId,
         officeName = officeName,
         timeline = timeline?.toModel(),
+        clientMembers = clientMembers?.map { it.toModel() },
     )
 
 fun GroupStatusDto.toModel(): GroupStatus =
@@ -51,6 +58,44 @@ fun GroupTimelineDto.toModel(): GroupTimeline =
         closedByUsername = closedByUsername,
         closedByFirstname = closedByFirstname,
         closedByLastname = closedByLastname,
+    )
+
+fun ClientMemberDto.toModel(): ClientMember =
+    ClientMember(
+        id = id,
+        accountNo = accountNo,
+        externalId = externalId,
+        status = status?.toModel(),
+        active = active,
+        activationDate = activationDate.toLocalDateOrNull(),
+        firstname = firstname,
+        lastname = lastname,
+        displayName = displayName,
+        mobileNo = mobileNo,
+        emailAddress = emailAddress,
+        isStaff = isStaff,
+        officeId = officeId,
+        officeName = officeName,
+        timeline = timeline?.toModel(),
+    )
+
+fun ClientStatusDto.toModel(): ClientStatus =
+    ClientStatus(
+        id = id,
+        code = code,
+        value = value,
+    )
+
+fun ClientTimelineDto.toModel(): ClientTimeline =
+    ClientTimeline(
+        submittedOnDate = submittedOnDate.toLocalDateOrNull(),
+        submittedByUsername = submittedByUsername,
+        submittedByFirstname = submittedByFirstname,
+        submittedByLastname = submittedByLastname,
+        activatedOnDate = activatedOnDate.toLocalDateOrNull(),
+        activatedByUsername = activatedByUsername,
+        activatedByFirstname = activatedByFirstname,
+        activatedByLastname = activatedByLastname,
     )
 
 private fun List<Int>?.toLocalDateOrNull(): LocalDate? {

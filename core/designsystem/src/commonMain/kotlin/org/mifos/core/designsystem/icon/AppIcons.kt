@@ -50,12 +50,15 @@ import androidx.compose.material.icons.outlined.DeleteOutline
 import androidx.compose.material.icons.outlined.DoneAll
 import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material.icons.outlined.Group
+import androidx.compose.material.icons.outlined.Groups
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.Lock
 import androidx.compose.material.icons.outlined.Notifications
+import androidx.compose.material.icons.outlined.Payments
 import androidx.compose.material.icons.outlined.PersonAdd
 import androidx.compose.material.icons.outlined.QrCodeScanner
+import androidx.compose.material.icons.outlined.Savings
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material.icons.outlined.Visibility
@@ -101,11 +104,16 @@ object AppIcons {
     val FinanceBoarder = Icons.Rounded.Wallet
     val Profile = Icons.Outlined.AccountCircle
     val ProfileBoarder = Icons.Rounded.AccountCircle
-    val Groups = Icons.Outlined.Group
+    val Group = Icons.Outlined.Group
+    val Groups = Icons.Outlined.Groups
     val GroupsBoarder = Icons.Rounded.Group
     val Meetings = Icons.Outlined.CalendarMonth
     val MeetingsBoarder = Icons.Rounded.CalendarMonth
     val MoreVert = Icons.Rounded.MoreVert
+    val Savings = Icons.Outlined.Savings
+    val Loans = Icons.Outlined.Wallet
+    val Glim = Icons.Outlined.Payments
+    val Gsim = Icons.Rounded.AccountBalance
     val Search = Icons.Rounded.Search
     val Add = Icons.Rounded.Add
     val Back = Icons.AutoMirrored.Outlined.ArrowBack

@@ -10,9 +10,11 @@
 package org.mifos.core.network.fineract.group.apis
 
 import de.jensklingenberg.ktorfit.http.GET
+import de.jensklingenberg.ktorfit.http.Path
 import de.jensklingenberg.ktorfit.http.Query
 import kotlinx.coroutines.flow.Flow
 import org.mifos.core.network.commonDto.PageResponseDto
+import org.mifos.core.network.fineract.group.dto.GroupDto
 import org.mifos.core.network.utils.ApiEndPoints
 
 interface GroupApi {
@@ -22,4 +24,10 @@ interface GroupApi {
         @Query("offset") offset: Int,
         @Query("limit") limit: Int,
     ): Flow<PageResponseDto>
+
+    @GET("${ApiEndPoints.GROUPS}/{groupId}")
+    fun getGroupDetails(
+        @Path("groupId") groupId: Long,
+        @Query("associations") associations: String = "clientMembers",
+    ): Flow<GroupDto>
 }

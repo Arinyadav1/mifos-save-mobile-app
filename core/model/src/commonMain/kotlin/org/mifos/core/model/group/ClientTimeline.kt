@@ -11,15 +11,13 @@ package org.mifos.core.model.group
 
 import kotlinx.datetime.LocalDate
 
-data class Group(
-    val id: Long,
-    val accountNo: String?,
-    val name: String?,
-    val status: GroupStatus?,
-    val active: Boolean,
-    val activationDate: LocalDate?,
-    val officeId: Long,
-    val officeName: String?,
-    val timeline: GroupTimeline?,
-    val clientMembers: List<ClientMember>? = null,
+data class ClientTimeline(
+    val submittedOnDate: LocalDate?,
+    val submittedByUsername: String?,
+    val submittedByFirstname: String?,
+    val submittedByLastname: String?,
+    val activatedOnDate: LocalDate?,
+    val activatedByUsername: String?,
+    val activatedByFirstname: String?,
+    val activatedByLastname: String?,
 )

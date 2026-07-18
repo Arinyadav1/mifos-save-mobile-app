@@ -12,15 +12,13 @@ package org.mifos.core.network.fineract.group.dto
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class GroupDto(
-    val id: Long = 0,
-    val accountNo: String? = null,
-    val name: String? = null,
-    val status: GroupStatusDto? = null,
-    val active: Boolean = false,
-    val activationDate: List<Int>? = null,
-    val officeId: Long = 0,
-    val officeName: String? = null,
-    val timeline: GroupTimelineDto? = null,
-    val clientMembers: List<ClientMemberDto>? = null,
+data class ClientTimelineDto(
+    val submittedOnDate: List<Int>? = null,
+    val submittedByUsername: String? = null,
+    val submittedByFirstname: String? = null,
+    val submittedByLastname: String? = null,
+    val activatedOnDate: List<Int>? = null,
+    val activatedByUsername: String? = null,
+    val activatedByFirstname: String? = null,
+    val activatedByLastname: String? = null,
 )

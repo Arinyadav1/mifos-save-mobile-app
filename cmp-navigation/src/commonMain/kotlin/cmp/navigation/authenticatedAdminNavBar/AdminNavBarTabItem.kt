@@ -46,7 +46,7 @@ sealed class AdminNavBarTabItem : NavigationItem {
         override val selectedIcon: ImageVector
             get() = AppIcons.GroupsBoarder
         override val icon: ImageVector
-            get() = AppIcons.Groups
+            get() = AppIcons.Group
         override val labelRes: StringResource
             get() = Res.string.groups
         override val contentDescriptionRes: StringResource

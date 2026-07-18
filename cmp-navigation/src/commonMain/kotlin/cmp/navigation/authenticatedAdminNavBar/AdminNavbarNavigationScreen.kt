@@ -144,7 +144,7 @@ internal fun AdminNavbarNavigationScreenContent(
             popExitTransition = RootTransitionProviders.Kpt.Exit.fadeThrough(motion),
         ) {
             homeGraph()
-            groupsNavigationGraph()
+            groupsNavigationGraph(navController = navController)
         }
     }
 }

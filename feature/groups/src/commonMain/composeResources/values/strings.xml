@@ -19,4 +19,23 @@
     <string name="feature_groups_closed">Closed</string>
     <string name="feature_groups_search_groups">Search groups...</string>
     <string name="feature_groups_search_desc">Search</string>
+    <string name="feature_groups_details_title">GROUP DETAILS</string>
+    <string name="feature_groups_overview_title">OVERVIEW</string>
+    <string name="feature_groups_account_no">Account No</string>
+    <string name="feature_groups_activation_date">Activation Date</string>
+    <string name="feature_groups_submitted_date">Submitted Date</string>
+    <string name="feature_groups_office_name">Office Name</string>
+    <string name="feature_groups_active_loan">Active Loan</string>
+    <string name="feature_groups_total_saving">Total Saving</string>
+    <string name="feature_groups_explore_title">EXPLORE</string>
+    <string name="feature_groups_loans">Loans</string>
+    <string name="feature_groups_savings">Savings</string>
+    <string name="feature_groups_meetings">Meetings</string>
+    <string name="feature_groups_glim">GLIM</string>
+    <string name="feature_groups_gsim">GSIM</string>
+    <string name="feature_groups_members">Members</string>
+    <string name="feature_groups_members_stat">Members</string>
+    <string name="feature_groups_loans_stat">Loans</string>
+    <string name="feature_groups_outstanding_stat">Outstanding</string>
+    <string name="feature_groups_repayment_stat">Repayment</string>
 </resources>

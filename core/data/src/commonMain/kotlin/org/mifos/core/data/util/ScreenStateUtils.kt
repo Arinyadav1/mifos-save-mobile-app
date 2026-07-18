@@ -20,7 +20,11 @@ package org.mifos.core.data.util
  */
 
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.withContext
 import org.mifos.core.base.common.DataState
 import org.mifos.core.base.store.screen.DataFreshness
@@ -97,3 +101,35 @@ suspend fun <T> runAsDataState(
     }
     return runAsDataState(context, block)
 }
+
+/**
+ * Transforms a [Flow] into a Flow of [ScreenState].
+ * Checks for connectivity using networkMonitor, executes context switching,
+ * handles loaders, and maps the result to [ScreenState.Content] or [ScreenState.Error].
+ */
+fun <T, R> Flow<T>.asScreenStateFlow(
+    networkMonitor: NetworkMonitor,
+    dispatcher: CoroutineDispatcher,
+    transform: (T) -> R,
+): Flow<ScreenState<R>> = flow {
+    if (!networkMonitor.isOnline.first()) {
+        emit(ScreenState.NoNetwork(true))
+        return@flow
+    }
+    emit(ScreenState.Loading)
+    collect { value ->
+        emit(ScreenState.Content(transform(value), DataFreshness.FRESH))
+    }
+}
+    .flowOn(dispatcher)
+    .catch { e ->
+        emit(ScreenState.Error(e))
+    }
+
+/**
+ * Overload of [asScreenStateFlow] without a transform function.
+ */
+fun <T> Flow<T>.asScreenStateFlow(
+    networkMonitor: NetworkMonitor,
+    dispatcher: CoroutineDispatcher,
+): Flow<ScreenState<T>> = asScreenStateFlow(networkMonitor, dispatcher) { it }

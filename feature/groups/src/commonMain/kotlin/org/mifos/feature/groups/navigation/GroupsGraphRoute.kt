@@ -9,19 +9,31 @@
  */
 package org.mifos.feature.groups.navigation
 
+import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.navigation
 import kotlinx.serialization.Serializable
 import org.mifos.feature.groups.groupDashboard.GroupDashboardRoute
 import org.mifos.feature.groups.groupDashboard.groupDashboardDestination
+import org.mifos.feature.groups.groupDetails.groupDetailsDestination
+import org.mifos.feature.groups.groupDetails.navigateToGroupDetails
 
 @Serializable
 data object GroupsGraphRoute
 
-fun NavGraphBuilder.groupsNavigationGraph() {
+fun NavGraphBuilder.groupsNavigationGraph(navController: NavController) {
     navigation<GroupsGraphRoute>(
         startDestination = GroupDashboardRoute,
     ) {
-        groupDashboardDestination()
+        groupDashboardDestination(
+            onGroupClick = { groupId ->
+                navController.navigateToGroupDetails(groupId)
+            },
+        )
+        groupDetailsDestination(
+            onBackClick = {
+                navController.popBackStack()
+            },
+        )
     }
 }
