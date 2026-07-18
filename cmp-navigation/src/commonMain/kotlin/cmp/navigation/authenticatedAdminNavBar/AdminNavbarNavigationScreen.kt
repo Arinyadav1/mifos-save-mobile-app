@@ -38,6 +38,8 @@ import org.mifos.core.base.designsystem.theme.motion
 import org.mifos.core.base.ui.effects.EventsEffect
 import org.mifos.core.base.ui.util.RootTransitionProviders
 import org.mifos.core.ui.NavigationItem
+import org.mifos.feature.groups.groupDashboard.navigateToGroupDashboard
+import org.mifos.feature.groups.navigation.groupsNavigationGraph
 import org.mifos.feature.home.HomeDestination
 import org.mifos.feature.home.homeGraph
 import org.mifos.feature.home.navigateToHome
@@ -65,6 +67,7 @@ internal fun AdminNavbarNavigationScreen(
                 AdminNavBarEvent.NavigateToGroupsScreen -> {
                     analyticsHelper.logDestinationChanged(event.tab.startDestinationRoute)
                     navigateToTabOrRoot(tabToNavigateTo = event.tab) {
+                        navigateToGroupDashboard(navOptions = it)
                     }
                 }
 
@@ -141,6 +144,7 @@ internal fun AdminNavbarNavigationScreenContent(
             popExitTransition = RootTransitionProviders.Kpt.Exit.fadeThrough(motion),
         ) {
             homeGraph()
+            groupsNavigationGraph()
         }
     }
 }

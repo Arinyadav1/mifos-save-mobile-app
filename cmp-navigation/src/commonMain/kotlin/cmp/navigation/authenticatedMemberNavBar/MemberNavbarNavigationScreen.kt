@@ -41,8 +41,6 @@ import org.mifos.core.ui.NavigationItem
 import org.mifos.feature.home.HomeDestination
 import org.mifos.feature.home.homeGraph
 import org.mifos.feature.home.navigateToHome
-import org.mifos.feature.profile.navigateToProfile
-import org.mifos.feature.profile.profileDestination
 
 @Composable
 internal fun MemberNavbarNavigationScreen(
@@ -61,13 +59,6 @@ internal fun MemberNavbarNavigationScreen(
                     analyticsHelper.logDestinationChanged(event.tab.startDestinationRoute)
                     navigateToTabOrRoot(tabToNavigateTo = event.tab) {
                         navigateToHome(navOptions = it)
-                    }
-                }
-
-                MemberNavBarEvent.NavigateToProfileScreen -> {
-                    analyticsHelper.logDestinationChanged(event.tab.startDestinationRoute)
-                    navigateToTabOrRoot(tabToNavigateTo = event.tab) {
-                        navigateToProfile(navOptions = it)
                     }
                 }
             }
@@ -93,7 +84,6 @@ internal fun MemberNavbarNavigationScreenContent(
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val navigationItems = persistentListOf<NavigationItem>(
         MemberNavBarTabItem.HomeTab,
-        MemberNavBarTabItem.ProfileTab,
     )
 
     KptRootScaffold(
@@ -107,10 +97,6 @@ internal fun MemberNavbarNavigationScreenContent(
                 when (navigationItem) {
                     is MemberNavBarTabItem.HomeTab -> {
                         onAction(MemberNavBarAction.HomeTabClick)
-                    }
-
-                    is MemberNavBarTabItem.ProfileTab -> {
-                        onAction(MemberNavBarAction.SettingsTabClick)
                     }
                 }
             },
@@ -133,7 +119,6 @@ internal fun MemberNavbarNavigationScreenContent(
             popExitTransition = RootTransitionProviders.Kpt.Exit.fadeThrough(motion),
         ) {
             homeGraph()
-            profileDestination()
         }
     }
 }

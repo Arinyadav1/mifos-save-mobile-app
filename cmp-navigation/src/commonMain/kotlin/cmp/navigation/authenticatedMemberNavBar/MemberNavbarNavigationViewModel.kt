@@ -18,7 +18,6 @@ internal class MemberNavbarNavigationViewModel :
 
     override fun handleAction(action: MemberNavBarAction) {
         when (action) {
-            MemberNavBarAction.SettingsTabClick -> handleSettingsTabClicked()
             MemberNavBarAction.HomeTabClick -> handleHomeTabClicked()
             is MemberNavBarAction.Internal -> handleInternalAction(action)
         }
@@ -34,17 +33,10 @@ internal class MemberNavbarNavigationViewModel :
     private fun handleHomeTabClicked() {
         sendEvent(MemberNavBarEvent.NavigateToHomeScreen)
     }
-
-    private fun handleSettingsTabClicked() {
-        sendEvent(MemberNavBarEvent.NavigateToProfileScreen)
-    }
 }
 
 internal sealed class MemberNavBarAction {
     data object HomeTabClick : MemberNavBarAction()
-
-    data object SettingsTabClick : MemberNavBarAction()
-
     sealed class Internal : MemberNavBarAction() {
         data class UserStateUpdateReceive(
             val userState: org.mifos.core.model.user.UserData?,
@@ -58,9 +50,5 @@ internal sealed class MemberNavBarEvent {
 
     data object NavigateToHomeScreen : MemberNavBarEvent() {
         override val tab: MemberNavBarTabItem = MemberNavBarTabItem.HomeTab
-    }
-
-    data object NavigateToProfileScreen : MemberNavBarEvent() {
-        override val tab: MemberNavBarTabItem = MemberNavBarTabItem.ProfileTab
     }
 }

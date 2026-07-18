@@ -18,7 +18,7 @@ import org.mifos.core.model.auth.RenewPasswordRequest
 import org.mifos.core.model.auth.SignInRequest
 import org.mifos.core.model.auth.User
 
-interface Authentication {
+interface AuthenticationRepository {
     suspend fun signInSelf(signInRequest: SignInRequest): ScreenState<User>
     suspend fun signInFineract(signInRequest: SignInRequest): ScreenState<User>
     suspend fun registerMember(registrationRequest: RegistrationRequest): ScreenState<RegistrationResult>

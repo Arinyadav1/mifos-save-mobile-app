@@ -54,8 +54,8 @@ private fun resolveChipColors(intent: StatusChipIntent): Pair<Color, Color> {
     val cs = MaterialTheme.colorScheme
     val f = MaterialTheme.finance
     return when (intent) {
-        StatusChipIntent.Success -> cs.secondaryContainer to cs.onSecondaryContainer
-        StatusChipIntent.Warning -> cs.tertiaryContainer to cs.onTertiaryContainer
+        StatusChipIntent.Success -> f.moneyPositiveContainer to f.moneyPositive
+        StatusChipIntent.Warning -> f.urgencyUpcoming.copy(alpha = 0.15f) to f.urgencyToday
         StatusChipIntent.Danger -> f.moneyNegativeContainer to f.urgencyOverdue
         StatusChipIntent.Info -> cs.primaryContainer to cs.onPrimaryContainer
         StatusChipIntent.Neutral -> cs.surfaceContainerHighest to cs.onSurfaceVariant

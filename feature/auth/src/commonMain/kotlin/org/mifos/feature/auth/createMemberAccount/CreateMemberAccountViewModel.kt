@@ -18,7 +18,7 @@ import org.mifos.core.base.store.screen.ScreenState
 import org.mifos.core.base.store.submit.SubmitState
 import org.mifos.core.base.ui.viewmodel.BaseViewModel
 import org.mifos.core.common.formatDate
-import org.mifos.core.data.auth.Authentication
+import org.mifos.core.data.auth.AuthenticationRepository
 import org.mifos.core.model.auth.RegistrationRequest
 import org.mifos.core.model.auth.RegistrationResult
 import org.mifos.core.ui.utils.EmailValidationResult
@@ -33,7 +33,7 @@ import org.mifos.feature.auth.generated.resources.feature_auth_passwords_do_not_
 import kotlin.time.Clock
 
 class CreateMemberAccountViewModel(
-    private val authentication: Authentication,
+    private val authenticationRepository: AuthenticationRepository,
 ) : BaseViewModel<CreateMemberAccountState, CreateMemberAccountEvent, CreateMemberAccountAction>(
     CreateMemberAccountState(),
 ) {
@@ -265,7 +265,7 @@ class CreateMemberAccountViewModel(
         }
 
         viewModelScope.launch {
-            val result = authentication.registerMember(request)
+            val result = authenticationRepository.registerMember(request)
             sendAction(CreateMemberAccountAction.Internal.ReceiveRegistrationResult(result))
         }
     }

@@ -99,7 +99,7 @@ fun KptHeader(
             }
             .windowInsetsPadding(windowInsets)
             .padding(horizontal = KptTheme.spacing.lg)
-            .padding(top = KptTheme.spacing.lg, bottom = KptTheme.spacing.xl),
+            .padding(top = KptTheme.spacing.md, bottom = KptTheme.spacing.lg),
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -205,7 +205,6 @@ fun KptHeaderBackButton(
             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
             contentDescription = "Back",
             tint = KptTheme.colorScheme.onPrimary,
-            modifier = Modifier.size(KptTheme.spacing.xl),
         )
     }
 }

@@ -42,5 +42,6 @@ fun ktorfitProvider(
                 }
             },
         )
+        .converterFactories(FlowConverterFactory())
         .build()
 }

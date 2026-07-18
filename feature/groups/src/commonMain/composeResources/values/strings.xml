@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2026 Mifos Initiative
+
+    This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0.
+    If a copy of the MPL was not distributed with this file,
+    You can obtain one at https://mozilla.org/MPL/2.0/.
+
+    See https://github.com/openMF/kmp-project-template/blob/main/LICENSE
+-->
+<resources>
+    <string name="feature_groups_new_group">New Group</string>
+    <string name="feature_groups_filters">Filters</string>
+    <string name="feature_groups_groups_title">Groups</string>
+    <string name="feature_groups_mifos_save">MIFOS SAVE</string>
+    <string name="feature_groups_total">Total</string>
+    <string name="feature_groups_active">Active</string>
+    <string name="feature_groups_pending">Pending</string>
+    <string name="feature_groups_closed">Closed</string>
+    <string name="feature_groups_search_groups">Search groups...</string>
+    <string name="feature_groups_search_desc">Search</string>
+</resources>

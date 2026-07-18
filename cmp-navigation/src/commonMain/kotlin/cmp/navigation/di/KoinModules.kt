@@ -25,6 +25,7 @@ import org.mifos.core.database.di.DatabaseModule
 import org.mifos.core.datastore.di.DatastoreModule
 import org.mifos.core.store.di.appStoreModule
 import org.mifos.feature.auth.di.AuthModule
+import org.mifos.feature.groups.di.GroupsModule
 import org.mifos.feature.home.di.HomeModule
 
 object KoinModules {
@@ -49,6 +50,7 @@ object KoinModules {
         includes(
             HomeModule,
             AuthModule,
+            GroupsModule,
         )
     }
 
