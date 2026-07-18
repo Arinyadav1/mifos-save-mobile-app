@@ -66,6 +66,7 @@ import org.mifos.feature.groups.generated.resources.feature_groups_total_saving
 @Composable
 fun GroupDetailsScreen(
     onBackClick: () -> Unit,
+    onMembersClick: (Long) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: GroupDetailsViewModel = koinViewModel(),
 ) {
@@ -95,7 +96,7 @@ fun GroupDetailsScreen(
             }
 
             GroupDetailsEvent.NavigateToMembers -> {
-                /* TODO: navigate to members */
+                onMembersClick(viewModel.groupId)
             }
         }
     }
@@ -180,7 +181,7 @@ internal fun GroupDetailsScreenContent(
                         .fillMaxSize()
                         .verticalScroll(rememberScrollState())
                         .padding(horizontal = KptTheme.spacing.md)
-                        .padding(bottom = KptTheme.spacing.xl),
+                        .padding(bottom = KptTheme.spacing.xl, top = KptTheme.spacing.sm),
                     verticalArrangement = Arrangement.spacedBy(KptTheme.spacing.md),
                 ) {
                     SectionHeader(
@@ -205,8 +206,8 @@ internal fun GroupDetailsScreenContent(
                                 group.officeName
                                     ?: "—"
                                 ),
-                            stringResource(Res.string.feature_groups_active_loan) to "-",
-                            stringResource(Res.string.feature_groups_total_saving) to "-",
+                            stringResource(Res.string.feature_groups_active_loan) to "—",
+                            stringResource(Res.string.feature_groups_total_saving) to "—",
                         ),
                     )
 

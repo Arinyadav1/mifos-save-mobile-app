@@ -13,8 +13,10 @@ import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
 import org.mifos.feature.groups.groupDashboard.GroupDashboardViewModel
 import org.mifos.feature.groups.groupDetails.GroupDetailsViewModel
+import org.mifos.feature.groups.groupMembersList.GroupMembersListViewModel
 
 val GroupsModule = module {
     viewModelOf(::GroupDashboardViewModel)
     viewModelOf(::GroupDetailsViewModel)
+    viewModelOf(::GroupMembersListViewModel)
 }

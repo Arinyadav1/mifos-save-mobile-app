@@ -74,7 +74,7 @@ fun KptExploreCard(
             Text(
                 text = title,
                 style = KptTheme.typography.titleMedium.copy(
-                    fontWeight = FontWeight.SemiBold,
+                    fontWeight = FontWeight.Normal,
                 ),
                 color = KptTheme.colorScheme.onSurface,
                 modifier = Modifier.weight(1f),

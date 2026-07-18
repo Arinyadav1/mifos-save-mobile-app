@@ -33,6 +33,11 @@ class GroupDetailsViewModel(
     }
 
     private fun loadGroupDetails() {
+        mutableStateFlow.update {
+            it.copy(
+                screenState = ScreenState.Loading,
+            )
+        }
         viewModelScope.launch {
             groupRepository.getGroupDetails(groupId)
                 .collect { screenState ->
