@@ -290,6 +290,7 @@ fun KptHeaderTitle(
     title: String,
     modifier: Modifier = Modifier,
     subtitle: String? = null,
+    maxLines: Int = 1,
 ) {
     Column(modifier = modifier) {
         if (subtitle != null) {
@@ -312,7 +313,7 @@ fun KptHeaderTitle(
                 color = KptTheme.colorScheme.onPrimary,
                 fontSize = 28.sp,
             ),
-            maxLines = 1,
+            maxLines = maxLines,
             overflow = TextOverflow.Ellipsis,
         )
     }

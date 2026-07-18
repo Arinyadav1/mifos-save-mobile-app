@@ -12,15 +12,8 @@ package org.mifos.core.network.fineract.group.dto
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class GroupDto(
+data class ClientStatusDto(
     val id: Long = 0,
-    val accountNo: String? = null,
-    val name: String? = null,
-    val status: GroupStatusDto? = null,
-    val active: Boolean = false,
-    val activationDate: List<Int>? = null,
-    val officeId: Long = 0,
-    val officeName: String? = null,
-    val timeline: GroupTimelineDto? = null,
-    val clientMembers: List<ClientMemberDto>? = null,
+    val code: String? = null,
+    val value: String? = null,
 )

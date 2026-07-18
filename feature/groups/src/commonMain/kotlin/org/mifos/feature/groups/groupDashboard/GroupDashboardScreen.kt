@@ -34,7 +34,6 @@ import org.mifos.core.designsystem.component.KptHeaderPillButton
 import org.mifos.core.designsystem.component.KptHeaderStatsCard
 import org.mifos.core.designsystem.component.KptHeaderTitle
 import org.mifos.core.designsystem.icon.AppIcons
-import org.mifos.core.designsystem.theme.spacing
 import org.mifos.core.ui.component.KptItemCard
 import org.mifos.core.ui.component.SubRowItem
 import org.mifos.core.ui.component.statusChipIntent
@@ -134,7 +133,7 @@ internal fun GroupDashboardScreenContent(
                             title = group.name.orEmpty(),
                             statusText = group.status?.value.orEmpty(),
                             statusIntent = group.statusChipIntent,
-                            leadingIcon = AppIcons.Groups,
+                            leadingIcon = AppIcons.Group,
                             subRows = listOf(
                                 SubRowItem(
                                     icon = AppIcons.Bank,

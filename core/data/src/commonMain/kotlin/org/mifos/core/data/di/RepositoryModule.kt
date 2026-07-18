@@ -182,7 +182,9 @@ val DataModule = module {
 
     single {
         GroupRepositoryImpl(
-            get(),
+            dataManager = get(),
+            networkMonitor = get(),
+            dispatcher = get(),
         )
     } bind GroupRepository::class
 }

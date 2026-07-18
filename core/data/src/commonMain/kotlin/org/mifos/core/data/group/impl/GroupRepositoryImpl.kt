@@ -9,11 +9,16 @@
  */
 package org.mifos.core.data.group.impl
 
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
+import org.mifos.core.base.common.manager.DispatcherManager
 import org.mifos.core.base.store.infra.StoreFactory
 import org.mifos.core.base.store.paging.PageKey
+import org.mifos.core.base.store.screen.ScreenState
 import org.mifos.core.data.group.GroupRepository
+import org.mifos.core.data.infra.NetworkMonitor
 import org.mifos.core.data.mapper.group.toModel
+import org.mifos.core.data.util.asScreenStateFlow
 import org.mifos.core.model.group.Group
 import org.mifos.core.network.DataManager
 import org.mobilenativefoundation.store.store5.Fetcher
@@ -21,6 +26,8 @@ import org.mobilenativefoundation.store.store5.Store
 
 class GroupRepositoryImpl(
     private val dataManager: DataManager,
+    private val networkMonitor: NetworkMonitor,
+    private val dispatcher: DispatcherManager,
 ) : GroupRepository {
 
     override fun listOfGroupPaging(): Store<PageKey, List<Group>> = StoreFactory.createMemoryStore(
@@ -36,4 +43,15 @@ class GroupRepositoryImpl(
             pageResponse.pageItems.map { it.toModel() }
         },
     )
+
+    override fun getGroupDetails(groupId: Long): Flow<ScreenState<Group>> {
+        return dataManager.fineract.groupApi
+            .getGroupDetails(groupId)
+            .asScreenStateFlow(
+                networkMonitor = networkMonitor,
+                dispatcher = dispatcher.io,
+            ) { dto ->
+                dto.toModel()
+            }
+    }
 }
