@@ -21,6 +21,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import org.mifos.core.base.designsystem.theme.KptTheme
 import org.mifos.core.designsystem.theme.spacing
 
 /**
@@ -42,8 +43,8 @@ fun SectionHeader(
         modifier = modifier
             .fillMaxWidth()
             .padding(
-                top = MaterialTheme.spacing.lg,
-                bottom = MaterialTheme.spacing.sm,
+                top = KptTheme.spacing.lg,
+                bottom = KptTheme.spacing.sm,
             ),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -51,14 +52,14 @@ fun SectionHeader(
         Column(modifier = Modifier.weight(1f)) {
             Text(
                 text = title,
-                style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.SemiBold),
-                color = MaterialTheme.colorScheme.onSurface,
+                style = KptTheme.typography.titleMedium.copy(fontWeight = FontWeight.SemiBold),
+                color = KptTheme.colorScheme.onSurface,
             )
             if (supporting != null) {
                 Text(
                     text = supporting,
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    style = KptTheme.typography.bodyMedium,
+                    color = KptTheme.colorScheme.onSurfaceVariant,
                 )
             }
         }

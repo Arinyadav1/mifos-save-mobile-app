@@ -38,4 +38,12 @@
     <string name="feature_groups_loans_stat">Loans</string>
     <string name="feature_groups_outstanding_stat">Outstanding</string>
     <string name="feature_groups_repayment_stat">Repayment</string>
+    <string name="feature_groups_members_list_title">GROUP MEMBERS</string>
+    <string name="feature_groups_search_members">Search members...</string>
+    <string name="feature_groups_remove_members">Remove Member</string>
+    <string name="feature_groups_cancel">Cancel</string>
+    <string name="feature_groups_remove_members_confirm_title">Remove Member</string>
+    <string name="feature_groups_remove_members_confirm_desc">Are you sure you want to remove the selected member(s)?</string>
+    <string name="feature_groups_empty_members_message">No members found in this group.</string>
+    <string name="feature_groups_add_members">Add Members</string>
 </resources>
