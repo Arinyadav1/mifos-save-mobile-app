@@ -90,69 +90,101 @@ class GroupMembersListViewModel(
 
     override fun handleAction(action: GroupMembersListAction) {
         when (action) {
-            GroupMembersListAction.OnBackClick -> {
-                sendEvent(GroupMembersListEvent.NavigateBack)
-            }
-            GroupMembersListAction.Retry -> {
-                loadGroupMembers()
-            }
-            is GroupMembersListAction.SearchQueryChanged -> {
-                searchQuery.value = action.query
-                mutableStateFlow.update {
-                    it.copy(searchQuery = action.query)
+            GroupMembersListAction.OnBackClick -> sendEvent(GroupMembersListEvent.NavigateBack)
+            GroupMembersListAction.Retry -> loadGroupMembers()
+            is GroupMembersListAction.SearchQueryChanged -> handleSearchQueryChanged(action.query)
+            is GroupMembersListAction.OnMemberLongClick -> handleMemberLongClick(action.memberId)
+            is GroupMembersListAction.OnMemberClick -> handleMemberClick(action.memberId)
+            GroupMembersListAction.ClearSelection -> clearSelection()
+            GroupMembersListAction.ShowRemoveConfirmation -> sendEvent(GroupMembersListEvent.ShowConfirmationDialog)
+            GroupMembersListAction.ConfirmRemoveMembers -> confirmRemoveMembers()
+            GroupMembersListAction.DismissSuccessDialog -> dismissSuccessDialog()
+            GroupMembersListAction.OnAddMembersClick -> sendEvent(GroupMembersListEvent.NavigateToAddMembers)
+        }
+    }
+
+    private fun handleSearchQueryChanged(query: String) {
+        searchQuery.value = query
+        mutableStateFlow.update {
+            it.copy(searchQuery = query)
+        }
+    }
+
+    private fun handleMemberLongClick(memberId: Long) {
+        mutableStateFlow.update { state ->
+            val newSelected = state.selectedMemberIds + memberId
+            state.copy(
+                isSelectionMode = true,
+                selectedMemberIds = newSelected,
+            )
+        }
+    }
+
+    private fun handleMemberClick(memberId: Long) {
+        mutableStateFlow.update { state ->
+            if (state.isSelectionMode) {
+                val newSelected = if (state.selectedMemberIds.contains(memberId)) {
+                    state.selectedMemberIds - memberId
+                } else {
+                    state.selectedMemberIds + memberId
                 }
-            }
-            is GroupMembersListAction.OnMemberLongClick -> {
-                mutableStateFlow.update { state ->
-                    val newSelected = state.selectedMemberIds + action.memberId
-                    state.copy(
-                        isSelectionMode = true,
-                        selectedMemberIds = newSelected,
-                    )
-                }
-            }
-            is GroupMembersListAction.OnMemberClick -> {
-                mutableStateFlow.update { state ->
-                    if (state.isSelectionMode) {
-                        val newSelected = if (state.selectedMemberIds.contains(action.memberId)) {
-                            state.selectedMemberIds - action.memberId
-                        } else {
-                            state.selectedMemberIds + action.memberId
-                        }
-                        state.copy(
-                            selectedMemberIds = newSelected,
-                            isSelectionMode = newSelected.isNotEmpty(),
-                        )
-                    } else {
-                        state
-                    }
-                }
-            }
-            GroupMembersListAction.ClearSelection -> {
-                mutableStateFlow.update {
-                    it.copy(
-                        isSelectionMode = false,
-                        selectedMemberIds = emptySet(),
-                    )
-                }
-            }
-            GroupMembersListAction.ShowRemoveConfirmation -> {
-                sendEvent(GroupMembersListEvent.ShowConfirmationDialog)
-            }
-            GroupMembersListAction.ConfirmRemoveMembers -> {
-                val toRemove = state.selectedMemberIds
-                removedMemberIds.update { it + toRemove }
-                mutableStateFlow.update {
-                    it.copy(
-                        isSelectionMode = false,
-                        selectedMemberIds = emptySet(),
-                    )
-                }
-            }
-            GroupMembersListAction.OnAddMembersClick -> {
-                sendEvent(GroupMembersListEvent.NavigateToAddMembers)
+                state.copy(
+                    selectedMemberIds = newSelected,
+                    isSelectionMode = newSelected.isNotEmpty(),
+                )
+            } else {
+                state
             }
         }
+    }
+
+    private fun clearSelection() {
+        mutableStateFlow.update {
+            it.copy(
+                isSelectionMode = false,
+                selectedMemberIds = emptySet(),
+            )
+        }
+    }
+
+    private fun confirmRemoveMembers() {
+        val toRemove = state.selectedMemberIds
+        mutableStateFlow.update { it.copy(screenState = ScreenState.Loading) }
+        viewModelScope.launch {
+            val result = groupRepository.disassociateClients(groupId, toRemove.toList())
+            when (result) {
+                is ScreenState.Content -> {
+                    removedMemberIds.update { it + toRemove }
+                    mutableStateFlow.update {
+                        it.copy(
+                            isSelectionMode = false,
+                            selectedMemberIds = emptySet(),
+                            showSuccessDialog = true,
+                        )
+                    }
+                }
+                is ScreenState.Error -> {
+                    mutableStateFlow.update {
+                        it.copy(screenState = ScreenState.Error(result.error, result.isNetworkError))
+                    }
+                }
+                is ScreenState.NoNetwork -> {
+                    mutableStateFlow.update {
+                        it.copy(screenState = ScreenState.NoNetwork(result.isCaptivePortal))
+                    }
+                }
+                else -> {
+                    // no-op
+                }
+            }
+        }
+    }
+
+    private fun dismissSuccessDialog() {
+        mutableStateFlow.update {
+            it.copy(showSuccessDialog = false)
+        }
+        sendEvent(GroupMembersListEvent.NavigateBack)
     }
 }
 
@@ -161,6 +193,7 @@ data class GroupMembersListState(
     val selectedMemberIds: Set<Long> = emptySet(),
     val isSelectionMode: Boolean = false,
     val searchQuery: String = "",
+    val showSuccessDialog: Boolean = false,
 )
 
 sealed interface GroupMembersListEvent {
@@ -178,5 +211,6 @@ sealed interface GroupMembersListAction {
     data object ClearSelection : GroupMembersListAction
     data object ShowRemoveConfirmation : GroupMembersListAction
     data object ConfirmRemoveMembers : GroupMembersListAction
+    data object DismissSuccessDialog : GroupMembersListAction
     data object OnAddMembersClick : GroupMembersListAction
 }

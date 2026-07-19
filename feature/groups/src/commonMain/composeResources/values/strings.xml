@@ -50,4 +50,7 @@
     <string name="feature_groups_search_savings">Search savings...</string>
     <string name="feature_groups_empty_savings_message">No savings accounts found in this group.</string>
     <string name="feature_groups_new_savings">New Savings</string>
+    <string name="feature_groups_disassociate_success_title">Success</string>
+    <string name="feature_groups_disassociate_success_message">Members disassociated successfully.</string>
+    <string name="feature_groups_ok">OK</string>
 </resources>
