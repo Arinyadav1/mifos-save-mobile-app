@@ -20,4 +20,5 @@ object ApiEndPoints {
     const val RENEW = "renew"
     const val GROUPS = "groups"
     const val ACCOUNTS = "accounts"
+    const val CLIENTS = "clients"
 }

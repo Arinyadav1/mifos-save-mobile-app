@@ -68,7 +68,7 @@ import org.mifos.feature.groups.generated.resources.feature_groups_search_member
 fun GroupMembersListScreen(
     onBackClick: () -> Unit,
     modifier: Modifier = Modifier,
-    onAddMembersClick: () -> Unit = {},
+    onAddMembersClick: (groupId: Long, officeId: Long) -> Unit = { _, _ -> },
     viewModel: GroupMembersListViewModel = koinViewModel(),
 ) {
     val state by viewModel.stateFlow.collectAsStateWithLifecycle()
@@ -80,7 +80,7 @@ fun GroupMembersListScreen(
             GroupMembersListEvent.ShowConfirmationDialog -> {
                 showDialog = true
             }
-            GroupMembersListEvent.NavigateToAddMembers -> onAddMembersClick()
+            is GroupMembersListEvent.NavigateToAddMembers -> onAddMembersClick(event.groupId, event.officeId)
         }
     }
 

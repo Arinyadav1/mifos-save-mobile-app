@@ -29,6 +29,7 @@ fun KptSearchBar(
     modifier: Modifier = Modifier,
     containerColor: Color = KptTheme.colorScheme.inverseOnSurface,
     shape: Shape = KptTheme.shapes.large,
+    trailingIcon: (@Composable () -> Unit)? = null,
 ) {
     KptTextField(
         value = query,
@@ -47,6 +48,7 @@ fun KptSearchBar(
                 tint = KptTheme.colorScheme.onSurfaceVariant,
             )
         },
+        trailingIcon = trailingIcon,
         shape = shape,
         colors = KptTextFieldDefaults.textFieldColors(
             focusedContainerColor = containerColor,

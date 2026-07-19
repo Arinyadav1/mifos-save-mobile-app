@@ -13,12 +13,15 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.navigation
 import kotlinx.serialization.Serializable
+import org.mifos.feature.groups.addMember.addMemberDestination
+import org.mifos.feature.groups.addMember.navigateToAddMember
 import org.mifos.feature.groups.groupDashboard.GroupDashboardRoute
 import org.mifos.feature.groups.groupDashboard.groupDashboardDestination
 import org.mifos.feature.groups.groupDetails.groupDetailsDestination
 import org.mifos.feature.groups.groupDetails.navigateToGroupDetails
 import org.mifos.feature.groups.groupMembersList.groupMembersListDestination
 import org.mifos.feature.groups.groupMembersList.navigateToGroupMembersList
+import org.mifos.feature.groups.groupMembersList.navigateToGroupMembersListWithUpdateData
 import org.mifos.feature.groups.groupSavingList.groupSavingListDestination
 import org.mifos.feature.groups.groupSavingList.navigateToGroupSavingList
 
@@ -46,9 +49,13 @@ fun NavGraphBuilder.groupsNavigationGraph(navController: NavController) {
             },
         )
         groupMembersListDestination(
-            onBackClick = {
-                navController.popBackStack()
-            },
+            onBackClick = navController::popBackStack,
+            onAddMembersClick = navController::navigateToAddMember,
+        )
+
+        addMemberDestination(
+            onBackClick = navController::popBackStack,
+            onBackWithUpdateData = navController::navigateToGroupMembersListWithUpdateData,
         )
         groupSavingListDestination(
             onBackClick = {

@@ -20,14 +20,23 @@ data class GroupMembersListRoute(val groupId: Long)
 
 fun NavGraphBuilder.groupMembersListDestination(
     onBackClick: () -> Unit,
+    onAddMembersClick: (groupId: Long, officeId: Long) -> Unit,
 ) {
     composableWithStayTransitions<GroupMembersListRoute> {
         GroupMembersListScreen(
             onBackClick = onBackClick,
+            onAddMembersClick = onAddMembersClick,
         )
     }
 }
 
 fun NavController.navigateToGroupMembersList(groupId: Long, navOptions: NavOptions? = null) {
     this.navigate(route = GroupMembersListRoute(groupId), navOptions = navOptions)
+}
+
+fun NavController.navigateToGroupMembersListWithUpdateData(groupId: Long) {
+    this.navigate(route = GroupMembersListRoute(groupId)) {
+        popUpTo(GroupMembersListRoute(groupId)) { inclusive = true }
+        launchSingleTop = true
+    }
 }

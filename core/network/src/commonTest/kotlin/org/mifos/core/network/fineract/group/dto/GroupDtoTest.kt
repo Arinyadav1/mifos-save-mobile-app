@@ -10,7 +10,7 @@
 package org.mifos.core.network.fineract.group.dto
 
 import kotlinx.serialization.json.Json
-import org.mifos.core.network.commonDto.PageResponseDto
+import org.mifos.core.network.commonDto.Page
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
@@ -66,7 +66,7 @@ class GroupDtoTest {
             }
         """.trimIndent()
 
-        val response = json.decodeFromString<PageResponseDto>(payload)
+        val response = json.decodeFromString<Page<GroupDto>>(payload)
 
         assertEquals(2, response.totalFilteredRecords)
         assertEquals(2, response.pageItems.size)

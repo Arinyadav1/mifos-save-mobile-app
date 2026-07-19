@@ -49,6 +49,11 @@ class GroupMembersListViewModel(
             ) { groupState, removedIds, query ->
                 when (groupState) {
                     is ScreenState.Content -> {
+                        mutableStateFlow.update {
+                            it.copy(
+                                officeId = groupState.data.officeId,
+                            )
+                        }
                         val allMembers = groupState.data.clientMembers.orEmpty()
                             .filter { it.id !in removedIds }
 
@@ -99,7 +104,9 @@ class GroupMembersListViewModel(
             GroupMembersListAction.ShowRemoveConfirmation -> sendEvent(GroupMembersListEvent.ShowConfirmationDialog)
             GroupMembersListAction.ConfirmRemoveMembers -> confirmRemoveMembers()
             GroupMembersListAction.DismissSuccessDialog -> dismissSuccessDialog()
-            GroupMembersListAction.OnAddMembersClick -> sendEvent(GroupMembersListEvent.NavigateToAddMembers)
+            GroupMembersListAction.OnAddMembersClick -> sendEvent(
+                GroupMembersListEvent.NavigateToAddMembers(groupId, state.officeId),
+            )
         }
     }
 
@@ -151,8 +158,7 @@ class GroupMembersListViewModel(
         val toRemove = state.selectedMemberIds
         mutableStateFlow.update { it.copy(screenState = ScreenState.Loading) }
         viewModelScope.launch {
-            val result = groupRepository.disassociateClients(groupId, toRemove.toList())
-            when (result) {
+            when (val result = groupRepository.disassociateClients(groupId, toRemove.toList())) {
                 is ScreenState.Content -> {
                     removedMemberIds.update { it + toRemove }
                     mutableStateFlow.update {
@@ -194,12 +200,13 @@ data class GroupMembersListState(
     val isSelectionMode: Boolean = false,
     val searchQuery: String = "",
     val showSuccessDialog: Boolean = false,
+    val officeId: Long = 0,
 )
 
 sealed interface GroupMembersListEvent {
     data object NavigateBack : GroupMembersListEvent
     data object ShowConfirmationDialog : GroupMembersListEvent
-    data object NavigateToAddMembers : GroupMembersListEvent
+    data class NavigateToAddMembers(val groupId: Long, val officeId: Long) : GroupMembersListEvent
 }
 
 sealed interface GroupMembersListAction {
