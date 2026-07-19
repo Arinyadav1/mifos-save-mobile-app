@@ -50,4 +50,17 @@
     <string name="feature_groups_search_savings">Search savings...</string>
     <string name="feature_groups_empty_savings_message">No savings accounts found in this group.</string>
     <string name="feature_groups_new_savings">New Savings</string>
+    <string name="feature_groups_activate_group">Activate Group</string>
+    <string name="feature_groups_update_group">Update Group</string>
+    <string name="feature_groups_close_group">Close Group</string>
+    <string name="feature_groups_delete_group">Delete Group</string>
+    <string name="feature_groups_activate_confirm_title">Activate Group</string>
+    <string name="feature_groups_activate_confirm_desc">Are you sure you want to activate this group?</string>
+    <string name="feature_groups_close_confirm_title">Close Group</string>
+    <string name="feature_groups_close_confirm_desc">Are you sure you want to close this group?</string>
+    <string name="feature_groups_update_confirm_title">Update Group Name</string>
+    <string name="feature_groups_update_name_label">Group Name</string>
+    <string name="feature_groups_save">Save</string>
+    <string name="feature_groups_activate">Activate</string>
+    <string name="feature_groups_close">Close</string>
 </resources>
