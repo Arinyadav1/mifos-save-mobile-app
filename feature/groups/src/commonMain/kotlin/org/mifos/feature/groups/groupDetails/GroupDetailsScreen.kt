@@ -34,6 +34,8 @@ import org.mifos.core.base.ui.effects.EventsEffect
 import org.mifos.core.base.ui.screen.DefaultLoadingContent
 import org.mifos.core.base.ui.screen.ScreenContent
 import org.mifos.core.base.ui.screen.ScreenStateLoading
+import org.mifos.core.designsystem.component.KptDropdownMenu
+import org.mifos.core.designsystem.component.KptDropdownMenuItem
 import org.mifos.core.designsystem.component.KptExploreCard
 import org.mifos.core.designsystem.component.KptHeader
 import org.mifos.core.designsystem.component.KptHeaderActionButton
@@ -43,13 +45,14 @@ import org.mifos.core.designsystem.component.KptKeyValueCard
 import org.mifos.core.designsystem.component.SectionHeader
 import org.mifos.core.designsystem.component.StatusChip
 import org.mifos.core.designsystem.icon.AppIcons
-import org.mifos.core.designsystem.theme.spacing
 import org.mifos.core.ui.component.statusChipIntent
 import org.mifos.core.ui.scaffold.KptScaffold
 import org.mifos.feature.groups.generated.resources.Res
 import org.mifos.feature.groups.generated.resources.feature_groups_account_no
+import org.mifos.feature.groups.generated.resources.feature_groups_activate_group
 import org.mifos.feature.groups.generated.resources.feature_groups_activation_date
 import org.mifos.feature.groups.generated.resources.feature_groups_active_loan
+import org.mifos.feature.groups.generated.resources.feature_groups_close_group
 import org.mifos.feature.groups.generated.resources.feature_groups_details_title
 import org.mifos.feature.groups.generated.resources.feature_groups_explore_title
 import org.mifos.feature.groups.generated.resources.feature_groups_glim
@@ -62,6 +65,7 @@ import org.mifos.feature.groups.generated.resources.feature_groups_overview_titl
 import org.mifos.feature.groups.generated.resources.feature_groups_savings
 import org.mifos.feature.groups.generated.resources.feature_groups_submitted_date
 import org.mifos.feature.groups.generated.resources.feature_groups_total_saving
+import org.mifos.feature.groups.generated.resources.feature_groups_update_group
 
 @Composable
 fun GroupDetailsScreen(
@@ -125,10 +129,39 @@ internal fun GroupDetailsScreenContent(
                     KptHeaderBackButton(onClick = { onAction(GroupDetailsAction.OnBackClick) })
                 },
                 actions = {
-                    KptHeaderActionButton(
-                        icon = AppIcons.MoreVert,
-                        onClick = { },
-                    )
+                    Box {
+                        KptHeaderActionButton(
+                            icon = AppIcons.MoreVert,
+                            onClick = { onAction(GroupDetailsAction.SetMenuVisible(true)) },
+                        )
+                        KptDropdownMenu(
+                            expanded = state.showMenu,
+                            onDismissRequest = { onAction(GroupDetailsAction.SetMenuVisible(false)) },
+                            items = buildList {
+                                if (group?.status?.code?.contains("pending") == true) {
+                                    add(
+                                        KptDropdownMenuItem(
+                                            text = stringResource(Res.string.feature_groups_close_group),
+                                            onClick = {},
+                                        ),
+                                    )
+                                    add(
+                                        KptDropdownMenuItem(
+                                            text = stringResource(Res.string.feature_groups_activate_group),
+                                            onClick = {},
+                                        ),
+                                    )
+                                }
+
+                                add(
+                                    KptDropdownMenuItem(
+                                        text = stringResource(Res.string.feature_groups_update_group),
+                                        onClick = {},
+                                    ),
+                                )
+                            },
+                        )
+                    }
                 },
                 title = {
                     Row(
@@ -216,47 +249,58 @@ internal fun GroupDetailsScreenContent(
                         title = stringResource(Res.string.feature_groups_explore_title),
                     )
 
-                    Column(
-                        verticalArrangement = Arrangement.spacedBy(KptTheme.spacing.sm),
-                    ) {
-                        KptExploreCard(
-                            title = stringResource(Res.string.feature_groups_loans),
-                            leadingIcon = AppIcons.Loans,
-                            onClick = { onAction(GroupDetailsAction.OnLoansClick) },
-                        )
-
-                        KptExploreCard(
-                            title = stringResource(Res.string.feature_groups_savings),
-                            leadingIcon = AppIcons.Savings,
-                            onClick = { onAction(GroupDetailsAction.OnSavingsClick) },
-                        )
-
-                        KptExploreCard(
-                            title = stringResource(Res.string.feature_groups_meetings),
-                            leadingIcon = AppIcons.Meetings,
-                            onClick = { onAction(GroupDetailsAction.OnMeetingsClick) },
-                        )
-
-                        KptExploreCard(
-                            title = stringResource(Res.string.feature_groups_members),
-                            leadingIcon = AppIcons.Groups,
-                            onClick = { onAction(GroupDetailsAction.OnMembersClick) },
-                        )
-
-                        KptExploreCard(
-                            title = stringResource(Res.string.feature_groups_glim),
-                            leadingIcon = AppIcons.Glim,
-                            onClick = { onAction(GroupDetailsAction.OnGlimClick) },
-                        )
-
-                        KptExploreCard(
-                            title = stringResource(Res.string.feature_groups_gsim),
-                            leadingIcon = AppIcons.Gsim,
-                            onClick = { onAction(GroupDetailsAction.OnGsimClick) },
-                        )
-                    }
+                    ExploreCart(
+                        onAction = onAction,
+                    )
                 }
             }
         }
+    }
+}
+
+@Composable
+fun ExploreCart(
+    onAction: (GroupDetailsAction) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    Column(
+        modifier = modifier,
+        verticalArrangement = Arrangement.spacedBy(KptTheme.spacing.sm),
+    ) {
+        KptExploreCard(
+            title = stringResource(Res.string.feature_groups_loans),
+            leadingIcon = AppIcons.Loans,
+            onClick = { onAction(GroupDetailsAction.OnLoansClick) },
+        )
+
+        KptExploreCard(
+            title = stringResource(Res.string.feature_groups_savings),
+            leadingIcon = AppIcons.Savings,
+            onClick = { onAction(GroupDetailsAction.OnSavingsClick) },
+        )
+
+        KptExploreCard(
+            title = stringResource(Res.string.feature_groups_meetings),
+            leadingIcon = AppIcons.Meetings,
+            onClick = { onAction(GroupDetailsAction.OnMeetingsClick) },
+        )
+
+        KptExploreCard(
+            title = stringResource(Res.string.feature_groups_members),
+            leadingIcon = AppIcons.Groups,
+            onClick = { onAction(GroupDetailsAction.OnMembersClick) },
+        )
+
+        KptExploreCard(
+            title = stringResource(Res.string.feature_groups_glim),
+            leadingIcon = AppIcons.Glim,
+            onClick = { onAction(GroupDetailsAction.OnGlimClick) },
+        )
+
+        KptExploreCard(
+            title = stringResource(Res.string.feature_groups_gsim),
+            leadingIcon = AppIcons.Gsim,
+            onClick = { onAction(GroupDetailsAction.OnGsimClick) },
+        )
     }
 }

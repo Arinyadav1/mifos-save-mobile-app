@@ -53,4 +53,17 @@
     <string name="feature_groups_disassociate_success_title">Success</string>
     <string name="feature_groups_disassociate_success_message">Members disassociated successfully.</string>
     <string name="feature_groups_ok">OK</string>
+    <string name="feature_groups_activate_group">Activate Group</string>
+    <string name="feature_groups_update_group">Update Group</string>
+    <string name="feature_groups_close_group">Close Group</string>
+    <string name="feature_groups_delete_group">Delete Group</string>
+    <string name="feature_groups_activate_confirm_title">Activate Group</string>
+    <string name="feature_groups_activate_confirm_desc">Are you sure you want to activate this group?</string>
+    <string name="feature_groups_close_confirm_title">Close Group</string>
+    <string name="feature_groups_close_confirm_desc">Are you sure you want to close this group?</string>
+    <string name="feature_groups_update_confirm_title">Update Group Name</string>
+    <string name="feature_groups_update_name_label">Group Name</string>
+    <string name="feature_groups_save">Save</string>
+    <string name="feature_groups_activate">Activate</string>
+    <string name="feature_groups_close">Close</string>
 </resources>
