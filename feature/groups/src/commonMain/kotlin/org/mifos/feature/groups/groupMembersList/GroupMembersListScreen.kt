@@ -34,6 +34,7 @@ import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.mifos.core.base.designsystem.component.KptButton
 import org.mifos.core.base.designsystem.component.KptOutlinedButton
+import org.mifos.core.base.designsystem.component.KptSuccessDialog
 import org.mifos.core.base.designsystem.component.KptTextButton
 import org.mifos.core.base.designsystem.theme.KptTheme
 import org.mifos.core.base.ui.effects.EventsEffect
@@ -43,6 +44,7 @@ import org.mifos.core.base.ui.screen.ScreenStateLoading
 import org.mifos.core.designsystem.component.KptEmptyState
 import org.mifos.core.designsystem.component.KptHeader
 import org.mifos.core.designsystem.component.KptHeaderBackButton
+import org.mifos.core.designsystem.component.KptHeaderPillButton
 import org.mifos.core.designsystem.component.KptHeaderTitle
 import org.mifos.core.designsystem.component.KptSelectableItemCard
 import org.mifos.core.designsystem.icon.AppIcons
@@ -51,9 +53,12 @@ import org.mifos.core.ui.scaffold.KptScaffold
 import org.mifos.feature.groups.generated.resources.Res
 import org.mifos.feature.groups.generated.resources.feature_groups_add_members
 import org.mifos.feature.groups.generated.resources.feature_groups_cancel
+import org.mifos.feature.groups.generated.resources.feature_groups_disassociate_success_message
+import org.mifos.feature.groups.generated.resources.feature_groups_disassociate_success_title
 import org.mifos.feature.groups.generated.resources.feature_groups_empty_members_message
 import org.mifos.feature.groups.generated.resources.feature_groups_members_list_title
 import org.mifos.feature.groups.generated.resources.feature_groups_mifos_save
+import org.mifos.feature.groups.generated.resources.feature_groups_ok
 import org.mifos.feature.groups.generated.resources.feature_groups_remove_members
 import org.mifos.feature.groups.generated.resources.feature_groups_remove_members_confirm_desc
 import org.mifos.feature.groups.generated.resources.feature_groups_remove_members_confirm_title
@@ -114,6 +119,15 @@ fun GroupMembersListScreen(
         )
     }
 
+    if (state.showSuccessDialog) {
+        KptSuccessDialog(
+            title = stringResource(Res.string.feature_groups_disassociate_success_title),
+            message = stringResource(Res.string.feature_groups_disassociate_success_message),
+            buttonText = stringResource(Res.string.feature_groups_ok),
+            onConfirm = { viewModel.trySendAction(GroupMembersListAction.DismissSuccessDialog) },
+        )
+    }
+
     GroupMembersListScreenContent(
         state = state,
         onAction = viewModel::trySendAction,
@@ -140,6 +154,15 @@ internal fun GroupMembersListScreenContent(
                             onAction(GroupMembersListAction.OnBackClick)
                         }
                     })
+                },
+                actions = {
+                    if (!state.isSelectionMode) {
+                        KptHeaderPillButton(
+                            text = stringResource(Res.string.feature_groups_add_members),
+                            icon = AppIcons.AddDefault,
+                            onClick = { onAction(GroupMembersListAction.OnAddMembersClick) },
+                        )
+                    }
                 },
                 title = {
                     KptHeaderTitle(

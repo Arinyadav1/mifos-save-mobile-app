@@ -20,4 +20,8 @@ interface GroupRepository {
     fun listOfGroupPaging(): Store<PageKey, List<Group>>
     fun getGroupDetails(groupId: Long): Flow<ScreenState<Group>>
     fun getGroupAccounts(groupId: Long, fields: String): Flow<ScreenState<GroupAccounts>>
+    suspend fun disassociateClients(
+        groupId: Long,
+        clientMembers: List<Long>,
+    ): ScreenState<Unit>
 }

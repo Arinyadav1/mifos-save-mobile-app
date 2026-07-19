@@ -9,11 +9,15 @@
  */
 package org.mifos.core.network.fineract.group.apis
 
+import de.jensklingenberg.ktorfit.http.Body
 import de.jensklingenberg.ktorfit.http.GET
+import de.jensklingenberg.ktorfit.http.POST
 import de.jensklingenberg.ktorfit.http.Path
 import de.jensklingenberg.ktorfit.http.Query
+import io.ktor.client.statement.HttpResponse
 import kotlinx.coroutines.flow.Flow
 import org.mifos.core.network.commonDto.PageResponseDto
+import org.mifos.core.network.fineract.group.dto.DisassociateClientsRequestDto
 import org.mifos.core.network.fineract.group.dto.GroupAccountsDto
 import org.mifos.core.network.fineract.group.dto.GroupDto
 import org.mifos.core.network.utils.ApiEndPoints
@@ -37,4 +41,11 @@ interface GroupApi {
         @Path("groupId") groupId: Long,
         @Query("fields") fields: String,
     ): Flow<GroupAccountsDto>
+
+    @POST("${ApiEndPoints.GROUPS}/{groupId}")
+    suspend fun disassociateClients(
+        @Path("groupId") groupId: Long,
+        @Query("command") command: String = "disassociateClients",
+        @Body request: DisassociateClientsRequestDto,
+    ): HttpResponse
 }
