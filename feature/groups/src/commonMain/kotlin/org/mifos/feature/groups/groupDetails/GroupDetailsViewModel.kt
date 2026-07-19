@@ -76,12 +76,18 @@ class GroupDetailsViewModel(
             GroupDetailsAction.OnMembersClick -> {
                 sendEvent(GroupDetailsEvent.NavigateToMembers)
             }
+            is GroupDetailsAction.SetMenuVisible -> {
+                mutableStateFlow.update {
+                    it.copy(showMenu = action.visible)
+                }
+            }
         }
     }
 }
 
 data class GroupDetailsState(
     val screenState: ScreenState<Group> = ScreenState.Loading,
+    val showMenu: Boolean = false,
 )
 
 sealed interface GroupDetailsEvent {
@@ -103,4 +109,5 @@ sealed interface GroupDetailsAction {
     data object OnGlimClick : GroupDetailsAction
     data object OnGsimClick : GroupDetailsAction
     data object OnMembersClick : GroupDetailsAction
+    data class SetMenuVisible(val visible: Boolean) : GroupDetailsAction
 }

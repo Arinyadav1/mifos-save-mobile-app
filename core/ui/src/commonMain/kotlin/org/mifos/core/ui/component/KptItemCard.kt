@@ -169,7 +169,7 @@ val Group.statusChipIntent: StatusChipIntent
 /**
  * Maps a [SavingsAccount]'s status to the appropriate [StatusChipIntent] for visual styling.
  */
-val org.mifos.core.model.group.SavingsAccount.statusChipIntent: StatusChipIntent
+val SavingsAccount.statusChipIntent: StatusChipIntent
     get() = when {
         status?.active == true -> StatusChipIntent.Success
         status?.submittedAndPendingApproval == true ||
