@@ -13,9 +13,11 @@ import kotlinx.coroutines.flow.Flow
 import org.mifos.core.base.store.paging.PageKey
 import org.mifos.core.base.store.screen.ScreenState
 import org.mifos.core.model.group.Group
+import org.mifos.core.model.group.GroupAccounts
 import org.mobilenativefoundation.store.store5.Store
 
 interface GroupRepository {
     fun listOfGroupPaging(): Store<PageKey, List<Group>>
     fun getGroupDetails(groupId: Long): Flow<ScreenState<Group>>
+    fun getGroupAccounts(groupId: Long, fields: String): Flow<ScreenState<GroupAccounts>>
 }
