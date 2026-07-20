@@ -16,7 +16,9 @@ import de.jensklingenberg.ktorfit.http.Path
 import de.jensklingenberg.ktorfit.http.Query
 import io.ktor.client.statement.HttpResponse
 import kotlinx.coroutines.flow.Flow
-import org.mifos.core.network.commonDto.PageResponseDto
+import org.mifos.core.network.commonDto.Page
+import org.mifos.core.network.fineract.group.dto.AssociateClientsRequestDto
+import org.mifos.core.network.fineract.group.dto.ClientMemberDto
 import org.mifos.core.network.fineract.group.dto.DisassociateClientsRequestDto
 import org.mifos.core.network.fineract.group.dto.GroupAccountsDto
 import org.mifos.core.network.fineract.group.dto.GroupDto
@@ -28,7 +30,7 @@ interface GroupApi {
         @Query("paged") paged: Boolean = true,
         @Query("offset") offset: Int,
         @Query("limit") limit: Int,
-    ): Flow<PageResponseDto>
+    ): Flow<Page<GroupDto>>
 
     @GET("${ApiEndPoints.GROUPS}/{groupId}")
     fun getGroupDetails(
@@ -47,5 +49,21 @@ interface GroupApi {
         @Path("groupId") groupId: Long,
         @Query("command") command: String = "disassociateClients",
         @Body request: DisassociateClientsRequestDto,
+    ): HttpResponse
+
+    @GET(ApiEndPoints.CLIENTS)
+    fun searchClients(
+        @Query("displayName") displayName: String,
+        @Query("orphansOnly") orphansOnly: Boolean = true,
+        @Query("sortOrder") sortOrder: String = "ASC",
+        @Query("orderBy") orderBy: String = "displayName",
+        @Query("officeId") officeId: Long,
+    ): Flow<Page<ClientMemberDto>>
+
+    @POST("${ApiEndPoints.GROUPS}/{groupId}")
+    suspend fun associateClients(
+        @Path("groupId") groupId: Long,
+        @Query("command") command: String = "associateClients",
+        @Body request: AssociateClientsRequestDto,
     ): HttpResponse
 }

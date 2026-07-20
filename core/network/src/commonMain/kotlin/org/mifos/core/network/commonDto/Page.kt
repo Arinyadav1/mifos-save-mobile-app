@@ -10,10 +10,9 @@
 package org.mifos.core.network.commonDto
 
 import kotlinx.serialization.Serializable
-import org.mifos.core.network.fineract.group.dto.GroupDto
 
 @Serializable
-data class PageResponseDto(
+data class Page<T>(
     val totalFilteredRecords: Int = 0,
-    val pageItems: List<GroupDto> = emptyList(),
+    val pageItems: List<T> = emptyList(),
 )

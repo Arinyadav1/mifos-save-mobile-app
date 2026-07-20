@@ -12,6 +12,7 @@ package org.mifos.core.data.group
 import kotlinx.coroutines.flow.Flow
 import org.mifos.core.base.store.paging.PageKey
 import org.mifos.core.base.store.screen.ScreenState
+import org.mifos.core.model.group.ClientMember
 import org.mifos.core.model.group.Group
 import org.mifos.core.model.group.GroupAccounts
 import org.mobilenativefoundation.store.store5.Store
@@ -21,6 +22,14 @@ interface GroupRepository {
     fun getGroupDetails(groupId: Long): Flow<ScreenState<Group>>
     fun getGroupAccounts(groupId: Long, fields: String): Flow<ScreenState<GroupAccounts>>
     suspend fun disassociateClients(
+        groupId: Long,
+        clientMembers: List<Long>,
+    ): ScreenState<Unit>
+    suspend fun searchClients(
+        displayName: String,
+        officeId: Long,
+    ): ScreenState<List<ClientMember>>
+    suspend fun associateClients(
         groupId: Long,
         clientMembers: List<Long>,
     ): ScreenState<Unit>

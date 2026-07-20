@@ -11,6 +11,7 @@ package org.mifos.feature.groups.di
 
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
+import org.mifos.feature.groups.addMember.AddMemberViewModel
 import org.mifos.feature.groups.groupDashboard.GroupDashboardViewModel
 import org.mifos.feature.groups.groupDetails.GroupDetailsViewModel
 import org.mifos.feature.groups.groupMembersList.GroupMembersListViewModel
@@ -21,4 +22,5 @@ val GroupsModule = module {
     viewModelOf(::GroupDetailsViewModel)
     viewModelOf(::GroupMembersListViewModel)
     viewModelOf(::GroupSavingListViewModel)
+    viewModelOf(::AddMemberViewModel)
 }

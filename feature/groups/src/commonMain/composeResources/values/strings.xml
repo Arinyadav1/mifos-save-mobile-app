@@ -66,4 +66,8 @@
     <string name="feature_groups_save">Save</string>
     <string name="feature_groups_activate">Activate</string>
     <string name="feature_groups_close">Close</string>
+    <string name="feature_groups_add_member_title">Add Member</string>
+    <string name="feature_groups_associate_success_title">Success</string>
+    <string name="feature_groups_associate_success_message">Members added successfully.</string>
+    <string name="feature_groups_search_members_hint">Search members...</string>
 </resources>
