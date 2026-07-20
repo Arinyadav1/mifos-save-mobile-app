@@ -41,6 +41,7 @@
             android:name="cmp.android.app.MainActivity"
             android:exported="true"
             android:theme="@style/Theme.AppSplash"
+            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden|keyboard|navigation|locale|layoutDirection|fontScale|uiMode"
             android:windowSoftInputMode="adjustPan|adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
