@@ -26,6 +26,7 @@ import org.mifos.core.model.group.ClientMember
 import org.mifos.core.model.group.Group
 import org.mifos.core.model.group.GroupAccounts
 import org.mifos.core.network.DataManager
+import org.mifos.core.network.fineract.group.dto.ActivateGroupRequestDto
 import org.mifos.core.network.fineract.group.dto.AssociateClientsRequestDto
 import org.mifos.core.network.fineract.group.dto.DisassociateClientsRequestDto
 import org.mobilenativefoundation.store.store5.Fetcher
@@ -121,6 +122,31 @@ class GroupRepositoryImpl(
             val response = dataManager.fineract.groupApi.associateClients(
                 groupId = groupId,
                 request = AssociateClientsRequestDto(clientMembers),
+            )
+            if (!response.status.isSuccess()) {
+                val errorMessage = extractErrorMessage(response)
+                throw Exception(errorMessage)
+            }
+        }
+    }
+
+    override suspend fun activateGroup(
+        groupId: Long,
+        activationDate: String,
+        dateFormat: String,
+        locale: String,
+    ): ScreenState<Unit> {
+        return runAsDataState(
+            networkMonitor = networkMonitor,
+            context = dispatcher.io,
+        ) {
+            val response = dataManager.fineract.groupApi.activateGroup(
+                groupId = groupId,
+                request = ActivateGroupRequestDto(
+                    activationDate = activationDate,
+                    dateFormat = dateFormat,
+                    locale = locale,
+                ),
             )
             if (!response.status.isSuccess()) {
                 val errorMessage = extractErrorMessage(response)

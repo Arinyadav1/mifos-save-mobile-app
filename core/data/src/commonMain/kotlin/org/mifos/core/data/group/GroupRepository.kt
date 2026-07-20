@@ -33,4 +33,10 @@ interface GroupRepository {
         groupId: Long,
         clientMembers: List<Long>,
     ): ScreenState<Unit>
+    suspend fun activateGroup(
+        groupId: Long,
+        activationDate: String,
+        dateFormat: String,
+        locale: String,
+    ): ScreenState<Unit>
 }

@@ -17,6 +17,7 @@ import de.jensklingenberg.ktorfit.http.Query
 import io.ktor.client.statement.HttpResponse
 import kotlinx.coroutines.flow.Flow
 import org.mifos.core.network.commonDto.Page
+import org.mifos.core.network.fineract.group.dto.ActivateGroupRequestDto
 import org.mifos.core.network.fineract.group.dto.AssociateClientsRequestDto
 import org.mifos.core.network.fineract.group.dto.ClientMemberDto
 import org.mifos.core.network.fineract.group.dto.DisassociateClientsRequestDto
@@ -65,5 +66,12 @@ interface GroupApi {
         @Path("groupId") groupId: Long,
         @Query("command") command: String = "associateClients",
         @Body request: AssociateClientsRequestDto,
+    ): HttpResponse
+
+    @POST("${ApiEndPoints.GROUPS}/{groupId}")
+    suspend fun activateGroup(
+        @Path("groupId") groupId: Long,
+        @Query("command") command: String = "activate",
+        @Body request: ActivateGroupRequestDto,
     ): HttpResponse
 }

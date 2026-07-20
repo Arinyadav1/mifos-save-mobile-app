@@ -70,4 +70,9 @@
     <string name="feature_groups_associate_success_title">Success</string>
     <string name="feature_groups_associate_success_message">Members added successfully.</string>
     <string name="feature_groups_search_members_hint">Search members...</string>
+    <string name="feature_groups_activate_group_title">ACTIVATE GROUP</string>
+    <string name="feature_groups_select_activation_date">Select Activation Date *</string>
+    <string name="feature_groups_activation_date_hint">Select Date</string>
+    <string name="feature_groups_activate_group_success_title">Success</string>
+    <string name="feature_groups_activate_group_success_message">Group activated successfully.</string>
 </resources>

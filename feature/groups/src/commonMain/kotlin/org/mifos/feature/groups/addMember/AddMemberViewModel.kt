@@ -14,7 +14,6 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import org.mifos.core.base.store.error.categorize
 import org.mifos.core.base.store.screen.DataFreshness
 import org.mifos.core.base.store.screen.ScreenState
 import org.mifos.core.base.store.submit.SubmitState
@@ -147,10 +146,8 @@ class AddMemberViewModel(
                 is ScreenState.Error -> {
                     mutableStateFlow.update {
                         it.copy(
-                            submitState = SubmitState.Failed(
-                                error = result.error,
-                                category = categorize(result.error),
-                            ),
+                            screenState = ScreenState.Error(result.error),
+                            submitState = SubmitState.Idle,
                         )
                     }
                 }

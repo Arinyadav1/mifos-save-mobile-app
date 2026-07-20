@@ -12,9 +12,10 @@ package org.mifos.core.common
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.number
 import kotlinx.datetime.toLocalDateTime
+import kotlin.time.Clock
 import kotlin.time.Instant
 
-fun formatDate(millis: Long): String {
+fun formatDateFromLong(millis: Long): String {
     val dateTime = Instant
         .fromEpochMilliseconds(millis)
         .toLocalDateTime(TimeZone.currentSystemDefault())
@@ -23,4 +24,8 @@ fun formatDate(millis: Long): String {
     val month = dateTime.month.number.toString().padStart(2, '0')
     val year = dateTime.year
     return "$day/$month/$year"
+}
+
+fun getCurrentEpochMillis(): Long {
+    return Clock.System.now().toEpochMilliseconds()
 }

@@ -16,6 +16,7 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import org.mifos.core.base.designsystem.theme.KptTheme
 
 /**
  * Primary filled button following the KPT design system.
@@ -34,7 +35,9 @@ fun KptButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
-    colors: ButtonColors = ButtonDefaults.buttonColors(),
+    colors: ButtonColors = ButtonDefaults.buttonColors(
+        containerColor = KptTheme.colorScheme.primary,
+    ),
     content: @Composable () -> Unit,
 ) {
     Button(

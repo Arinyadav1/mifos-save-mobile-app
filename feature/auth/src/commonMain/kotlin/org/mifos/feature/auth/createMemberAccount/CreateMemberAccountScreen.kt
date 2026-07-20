@@ -19,7 +19,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.RadioButtonDefaults
 import androidx.compose.material3.Text
@@ -264,9 +263,6 @@ fun CreateMemberAccountContent(
         KptButton(
             onClick = { onAction(CreateMemberAccountAction.CreateAccount) },
             enabled = state.isButtonEnabled,
-            colors = ButtonDefaults.buttonColors(
-                containerColor = KptTheme.colorScheme.primary,
-            ),
             modifier = Modifier
                 .fillMaxWidth()
                 .height(56.dp),

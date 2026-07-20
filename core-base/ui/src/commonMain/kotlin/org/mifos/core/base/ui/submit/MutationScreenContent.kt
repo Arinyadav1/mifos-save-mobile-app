@@ -12,8 +12,11 @@ package org.mifos.core.base.ui.submit
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import org.mifos.core.base.designsystem.theme.KptTheme
 import org.mifos.core.base.store.error.ErrorCategory
 import org.mifos.core.base.store.screen.DataFreshness
 import org.mifos.core.base.store.screen.ScreenState
@@ -57,7 +60,14 @@ fun <T, R> MutationScreenContent(
         onSubmitted = onSubmitted,
         onFailed = onFailed,
     )
-    Box(modifier = modifier.fillMaxSize()) {
+    Box(
+        modifier = modifier.fillMaxSize().clip(
+            RoundedCornerShape(
+                topStart = KptTheme.spacing.lg,
+                topEnd = KptTheme.spacing.lg,
+            ),
+        ),
+    ) {
         ScreenContent(
             state = screenState,
             onRetry = onRetry,

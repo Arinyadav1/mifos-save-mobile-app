@@ -13,6 +13,8 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.navigation
 import kotlinx.serialization.Serializable
+import org.mifos.feature.groups.activateGroup.activateGroupDestination
+import org.mifos.feature.groups.activateGroup.navigateToActivateGroup
 import org.mifos.feature.groups.addMember.addMemberDestination
 import org.mifos.feature.groups.addMember.navigateToAddMember
 import org.mifos.feature.groups.groupDashboard.GroupDashboardRoute
@@ -47,6 +49,9 @@ fun NavGraphBuilder.groupsNavigationGraph(navController: NavController) {
             onSavingsClick = { groupId ->
                 navController.navigateToGroupSavingList(groupId)
             },
+            onActivateGroupClick = { groupId ->
+                navController.navigateToActivateGroup(groupId)
+            },
         )
         groupMembersListDestination(
             onBackClick = navController::popBackStack,
@@ -56,6 +61,12 @@ fun NavGraphBuilder.groupsNavigationGraph(navController: NavController) {
         addMemberDestination(
             onBackClick = navController::popBackStack,
             onBackWithUpdateData = navController::navigateToGroupMembersListWithUpdateData,
+        )
+        activateGroupDestination(
+            onBackClick = navController::popBackStack,
+            onBackWithUpdateData = { _ ->
+                navController.popBackStack()
+            },
         )
         groupSavingListDestination(
             onBackClick = {
