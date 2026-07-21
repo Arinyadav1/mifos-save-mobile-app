@@ -13,15 +13,21 @@ import kotlinx.datetime.LocalDate
 import org.mifos.core.model.group.ClientMember
 import org.mifos.core.model.group.ClientStatus
 import org.mifos.core.model.group.ClientTimeline
+import org.mifos.core.model.group.CreateGroupRequest
 import org.mifos.core.model.group.Group
 import org.mifos.core.model.group.GroupStatus
+import org.mifos.core.model.group.GroupTemplate
 import org.mifos.core.model.group.GroupTimeline
+import org.mifos.core.model.group.OfficeOption
 import org.mifos.core.network.fineract.group.dto.ClientMemberDto
 import org.mifos.core.network.fineract.group.dto.ClientStatusDto
 import org.mifos.core.network.fineract.group.dto.ClientTimelineDto
+import org.mifos.core.network.fineract.group.dto.CreateGroupRequestDto
 import org.mifos.core.network.fineract.group.dto.GroupDto
 import org.mifos.core.network.fineract.group.dto.GroupStatusDto
+import org.mifos.core.network.fineract.group.dto.GroupTemplateResponseDto
 import org.mifos.core.network.fineract.group.dto.GroupTimelineDto
+import org.mifos.core.network.fineract.group.dto.OfficeOptionDto
 
 fun GroupDto.toModel(): Group =
     Group(
@@ -96,6 +102,31 @@ fun ClientTimelineDto.toModel(): ClientTimeline =
         activatedByUsername = activatedByUsername,
         activatedByFirstname = activatedByFirstname,
         activatedByLastname = activatedByLastname,
+    )
+
+fun GroupTemplateResponseDto.toModel(): GroupTemplate =
+    GroupTemplate(
+        officeOptions = officeOptions.map { it.toModel() },
+    )
+
+fun OfficeOptionDto.toModel(): OfficeOption =
+    OfficeOption(
+        id = id,
+        name = name,
+        nameDecorated = nameDecorated,
+    )
+
+fun CreateGroupRequest.toDto(): CreateGroupRequestDto =
+    CreateGroupRequestDto(
+        officeId = officeId,
+        name = name,
+        externalId = externalId,
+        clientMembers = clientMembers,
+        dateFormat = dateFormat,
+        locale = locale,
+        active = active,
+        activationDate = activationDate,
+        submittedOnDate = submittedOnDate,
     )
 
 private fun List<Int>?.toLocalDateOrNull(): LocalDate? {

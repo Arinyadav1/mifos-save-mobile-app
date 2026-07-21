@@ -18,13 +18,16 @@ import org.mifos.core.base.store.paging.PageKey
 import org.mifos.core.base.store.screen.ScreenState
 import org.mifos.core.data.group.GroupRepository
 import org.mifos.core.data.infra.NetworkMonitor
+import org.mifos.core.data.mapper.group.toDto
 import org.mifos.core.data.mapper.group.toModel
 import org.mifos.core.data.util.asScreenStateFlow
 import org.mifos.core.data.util.extractErrorMessage
 import org.mifos.core.data.util.runAsDataState
 import org.mifos.core.model.group.ClientMember
+import org.mifos.core.model.group.CreateGroupRequest
 import org.mifos.core.model.group.Group
 import org.mifos.core.model.group.GroupAccounts
+import org.mifos.core.model.group.GroupTemplate
 import org.mifos.core.network.DataManager
 import org.mifos.core.network.fineract.group.dto.ActivateGroupRequestDto
 import org.mifos.core.network.fineract.group.dto.AssociateClientsRequestDto
@@ -147,6 +150,32 @@ class GroupRepositoryImpl(
                     dateFormat = dateFormat,
                     locale = locale,
                 ),
+            )
+            if (!response.status.isSuccess()) {
+                val errorMessage = extractErrorMessage(response)
+                throw Exception(errorMessage)
+            }
+        }
+    }
+
+    override fun getGroupTemplate(): Flow<ScreenState<GroupTemplate>> {
+        return dataManager.fineract.groupApi
+            .getGroupTemplate()
+            .asScreenStateFlow(
+                networkMonitor = networkMonitor,
+                dispatcher = dispatcher.io,
+            ) { dto ->
+                dto.toModel()
+            }
+    }
+
+    override suspend fun createGroup(request: CreateGroupRequest): ScreenState<Unit> {
+        return runAsDataState(
+            networkMonitor = networkMonitor,
+            context = dispatcher.io,
+        ) {
+            val response = dataManager.fineract.groupApi.createGroup(
+                request = request.toDto(),
             )
             if (!response.status.isSuccess()) {
                 val errorMessage = extractErrorMessage(response)

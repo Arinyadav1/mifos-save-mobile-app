@@ -73,6 +73,21 @@
     <string name="feature_groups_activate_group_title">ACTIVATE GROUP</string>
     <string name="feature_groups_select_activation_date">Select Activation Date *</string>
     <string name="feature_groups_activation_date_hint">Select Date</string>
+    <string name="feature_groups_mifos_save_mobile">MIFOS SAVE MOBILE</string>
+    <string name="feature_groups_create_group_title">Create Group</string>
+    <string name="feature_groups_create_group_subtitle">Fill the details to get started</string>
+    <string name="feature_groups_group_name_label">Group Name *</string>
+    <string name="feature_groups_group_name_placeholder">Enter group name</string>
+    <string name="feature_groups_external_id_label">External Id *</string>
+    <string name="feature_groups_external_id_placeholder">Enter external ID</string>
+    <string name="feature_groups_office_label">Office *</string>
+    <string name="feature_groups_select_office_placeholder">Select office</string>
+    <string name="feature_groups_submitted_on_date_label">Submitted On Date *</string>
+    <string name="feature_groups_submitted_on_date_placeholder">Select date</string>
+    <string name="feature_groups_activate_group_toggle">Activate Group</string>
+    <string name="feature_groups_create_group_button">Create Account</string>
+    <string name="feature_groups_create_group_success_title">Success</string>
+    <string name="feature_groups_create_group_success_message">Group created successfully.</string>
     <string name="feature_groups_activate_group_success_title">Success</string>
     <string name="feature_groups_activate_group_success_message">Group activated successfully.</string>
 </resources>

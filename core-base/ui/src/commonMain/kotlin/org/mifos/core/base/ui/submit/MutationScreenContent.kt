@@ -16,6 +16,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Shape
 import org.mifos.core.base.designsystem.theme.KptTheme
 import org.mifos.core.base.store.error.ErrorCategory
 import org.mifos.core.base.store.screen.DataFreshness
@@ -24,6 +25,7 @@ import org.mifos.core.base.store.submit.DraftResumeState
 import org.mifos.core.base.store.submit.MutationUiState
 import org.mifos.core.base.store.submit.SubmitState
 import org.mifos.core.base.ui.screen.DefaultEmptyContent
+import org.mifos.core.base.ui.screen.DefaultLoadingContent
 import org.mifos.core.base.ui.screen.ScreenContent
 
 /**
@@ -52,7 +54,12 @@ fun <T, R> MutationScreenContent(
     onRetry: () -> Unit,
     onSubmitted: (result: R) -> Unit,
     modifier: Modifier = Modifier,
+    shape: Shape = RoundedCornerShape(
+        topStart = KptTheme.spacing.lg,
+        topEnd = KptTheme.spacing.lg,
+    ),
     refreshingIndicator: (@Composable () -> Unit)? = null,
+    loading: @Composable () -> Unit = { DefaultLoadingContent() },
     onFailed: ((error: Throwable, category: ErrorCategory) -> Unit)? = null,
     empty: @Composable () -> Unit = { DefaultEmptyContent() },
     content: @Composable (data: T, freshness: DataFreshness) -> Unit,
@@ -64,16 +71,14 @@ fun <T, R> MutationScreenContent(
     )
     Box(
         modifier = modifier.fillMaxSize().clip(
-            RoundedCornerShape(
-                topStart = KptTheme.spacing.lg,
-                topEnd = KptTheme.spacing.lg,
-            ),
+            shape,
         ),
     ) {
         ScreenContent(
             state = screenState,
             onRetry = onRetry,
             empty = empty,
+            loading = loading,
             modifier = Modifier.fillMaxSize(),
             refreshingIndicator = refreshingIndicator,
             content = content,

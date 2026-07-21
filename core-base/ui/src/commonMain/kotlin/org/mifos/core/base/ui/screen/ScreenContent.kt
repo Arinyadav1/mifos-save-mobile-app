@@ -219,6 +219,7 @@ fun DefaultEmptyContent(
                 text = title,
                 style = MaterialTheme.typography.titleMedium,
                 textAlign = TextAlign.Center,
+                color = KptTheme.colorScheme.onSurface
             )
             Spacer(Modifier.height(spacing.xs))
         }
