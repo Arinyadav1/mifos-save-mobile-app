@@ -45,9 +45,13 @@ class AddMemberViewModel(
             AddMemberAction.DismissDropdown -> {
                 mutableStateFlow.update { it.copy(showDropdown = false) }
             }
-            AddMemberAction.Retry -> associateClients()
-            AddMemberAction.DismissErrorState -> {
-                mutableStateFlow.update { it.copy(submitState = SubmitState.Idle) }
+            AddMemberAction.Retry -> {
+                mutableStateFlow.update {
+                    it.copy(
+                        submitState = SubmitState.Idle,
+                        screenState = ScreenState.Content(Unit, DataFreshness.FRESH),
+                    )
+                }
             }
         }
     }
@@ -147,7 +151,7 @@ class AddMemberViewModel(
                     mutableStateFlow.update {
                         it.copy(
                             screenState = ScreenState.Error(result.error),
-                            submitState = SubmitState.Idle,
+                            submitState = SubmitState.Failed(result.error),
                         )
                     }
                 }
@@ -155,7 +159,7 @@ class AddMemberViewModel(
                     mutableStateFlow.update {
                         it.copy(
                             screenState = ScreenState.NoNetwork(),
-                            submitState = SubmitState.Idle,
+                            submitState = SubmitState.Failed(),
                         )
                     }
                 }
@@ -163,7 +167,7 @@ class AddMemberViewModel(
                     mutableStateFlow.update {
                         it.copy(
                             screenState = ScreenState.Unauthenticated,
-                            submitState = SubmitState.Idle,
+                            submitState = SubmitState.Failed(),
                         )
                     }
                 }
@@ -171,7 +175,7 @@ class AddMemberViewModel(
                     mutableStateFlow.update {
                         it.copy(
                             screenState = ScreenState.Empty,
-                            submitState = SubmitState.Idle,
+                            submitState = SubmitState.Failed(),
                         )
                     }
                 }
@@ -207,5 +211,4 @@ sealed interface AddMemberAction {
     data object DismissSuccessDialog : AddMemberAction
     data object DismissDropdown : AddMemberAction
     data object Retry : AddMemberAction
-    data object DismissErrorState : AddMemberAction
 }

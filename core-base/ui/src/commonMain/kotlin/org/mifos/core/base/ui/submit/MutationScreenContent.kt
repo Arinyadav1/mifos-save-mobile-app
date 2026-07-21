@@ -23,6 +23,7 @@ import org.mifos.core.base.store.screen.ScreenState
 import org.mifos.core.base.store.submit.DraftResumeState
 import org.mifos.core.base.store.submit.MutationUiState
 import org.mifos.core.base.store.submit.SubmitState
+import org.mifos.core.base.ui.screen.DefaultEmptyContent
 import org.mifos.core.base.ui.screen.ScreenContent
 
 /**
@@ -53,6 +54,7 @@ fun <T, R> MutationScreenContent(
     modifier: Modifier = Modifier,
     refreshingIndicator: (@Composable () -> Unit)? = null,
     onFailed: ((error: Throwable, category: ErrorCategory) -> Unit)? = null,
+    empty: @Composable () -> Unit = { DefaultEmptyContent() },
     content: @Composable (data: T, freshness: DataFreshness) -> Unit,
 ) {
     SubmitResultHandler(
@@ -71,6 +73,7 @@ fun <T, R> MutationScreenContent(
         ScreenContent(
             state = screenState,
             onRetry = onRetry,
+            empty = empty,
             modifier = Modifier.fillMaxSize(),
             refreshingIndicator = refreshingIndicator,
             content = content,
