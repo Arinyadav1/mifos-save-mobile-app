@@ -144,6 +144,7 @@ object AppIcons {
     val Edit = Icons.Filled.Edit
     val Edit2 = Icons.Outlined.Edit
     val CalenderMonth = Icons.Filled.CalendarMonth
+    val Calendar = Icons.Filled.CalendarMonth
     val OutlinedDoneAll = Icons.Outlined.DoneAll
     val Person = Icons.Filled.Person
     val PersonAdd = Icons.Outlined.PersonAdd

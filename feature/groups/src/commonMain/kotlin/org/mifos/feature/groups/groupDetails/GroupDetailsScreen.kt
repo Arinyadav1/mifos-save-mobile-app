@@ -73,6 +73,7 @@ fun GroupDetailsScreen(
     onMembersClick: (Long) -> Unit,
     onSavingsClick: (Long) -> Unit,
     modifier: Modifier = Modifier,
+    onActivateGroupClick: (Long) -> Unit = {},
     viewModel: GroupDetailsViewModel = koinViewModel(),
 ) {
     val state by viewModel.stateFlow.collectAsStateWithLifecycle()
@@ -102,6 +103,10 @@ fun GroupDetailsScreen(
 
             GroupDetailsEvent.NavigateToMembers -> {
                 onMembersClick(viewModel.groupId)
+            }
+
+            is GroupDetailsEvent.NavigateToActivateGroup -> {
+                onActivateGroupClick(event.groupId)
             }
         }
     }
@@ -148,7 +153,10 @@ internal fun GroupDetailsScreenContent(
                                     add(
                                         KptDropdownMenuItem(
                                             text = stringResource(Res.string.feature_groups_activate_group),
-                                            onClick = {},
+                                            onClick = {
+                                                onAction(GroupDetailsAction.SetMenuVisible(false))
+                                                onAction(GroupDetailsAction.OnActivateGroupClick)
+                                            },
                                         ),
                                     )
                                 }
@@ -163,6 +171,7 @@ internal fun GroupDetailsScreenContent(
                         )
                     }
                 },
+
                 title = {
                     Row(
                         modifier = Modifier.fillMaxWidth(),

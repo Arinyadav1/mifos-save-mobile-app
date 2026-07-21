@@ -7,11 +7,13 @@
  *
  * See See https://github.com/openMF/kmp-project-template/blob/main/LICENSE
  */
-package org.mifos.core.common
+package org.mifos.core.network.fineract.group.dto
 
-object Constants {
-    const val SELF_SERVICE_USER = "Self Service User"
-    const val MEMBER_SAVINGS_ACCOUNTS = "memberSavingsAccounts"
-    const val DATE_FORMAT_SHORT_MONTH = "dd/MM/yyyy"
-    const val LOCALE_EN = "en"
-}
+import kotlinx.serialization.Serializable
+
+@Serializable
+data class ActivateGroupRequestDto(
+    val locale: String,
+    val dateFormat: String,
+    val activationDate: String,
+)

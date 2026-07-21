@@ -57,6 +57,7 @@ fun KptTextField(
     placeholder: String? = null,
     leadingIcon: @Composable (() -> Unit)? = null,
     trailingIcon: @Composable (() -> Unit)? = null,
+    onCalenderClick: (() -> Unit)? = null,
     errorText: String? = null,
     isPassword: Boolean = false,
     isPasswordVisible: Boolean = false,
@@ -70,8 +71,10 @@ fun KptTextField(
     colors: TextFieldColors = KptTextFieldDefaults.textFieldColors(),
 ) {
     var internalPasswordVisible by remember { mutableStateOf(false) }
-    val resolvedPasswordVisible = if (onTogglePasswordVisibility != null) isPasswordVisible else internalPasswordVisible
-    val resolvedToggle = onTogglePasswordVisibility ?: { internalPasswordVisible = !internalPasswordVisible }
+    val resolvedPasswordVisible =
+        if (onTogglePasswordVisibility != null) isPasswordVisible else internalPasswordVisible
+    val resolvedToggle =
+        onTogglePasswordVisibility ?: { internalPasswordVisible = !internalPasswordVisible }
 
     val actualVisualTransformation = if (isPassword) {
         if (resolvedPasswordVisible) VisualTransformation.None else PasswordVisualTransformation()
@@ -85,24 +88,38 @@ fun KptTextField(
         keyboardOptions
     }
 
-    val actualTrailingIcon: @Composable (() -> Unit)? = if (isPassword) {
-        {
-            IconButton(
-                onClick = resolvedToggle,
-                enabled = enabled,
-            ) {
-                Icon(
-                    imageVector = if (resolvedPasswordVisible) {
-                        AppIcons.VisibilityOff
-                    } else {
-                        AppIcons.Visibility
-                    },
-                    contentDescription = if (resolvedPasswordVisible) "Hide password" else "Show password",
-                )
+    val actualTrailingIcon: @Composable () -> Unit = {
+        when {
+            isPassword -> {
+                IconButton(
+                    onClick = resolvedToggle,
+                    enabled = enabled,
+                ) {
+                    Icon(
+                        imageVector = if (resolvedPasswordVisible) {
+                            AppIcons.VisibilityOff
+                        } else {
+                            AppIcons.Visibility
+                        },
+                        contentDescription = if (resolvedPasswordVisible) "Hide password" else "Show password",
+                    )
+                }
+            }
+            onCalenderClick != null -> {
+                IconButton(
+                    onClick = { onCalenderClick() },
+                ) {
+                    Icon(
+                        imageVector = AppIcons.Calendar,
+                        contentDescription = null,
+                    )
+                }
+            }
+
+            else -> {
+                trailingIcon?.invoke()
             }
         }
-    } else {
-        trailingIcon
     }
 
     Column(modifier = modifier) {

@@ -76,6 +76,9 @@ class GroupDetailsViewModel(
             GroupDetailsAction.OnMembersClick -> {
                 sendEvent(GroupDetailsEvent.NavigateToMembers)
             }
+            GroupDetailsAction.OnActivateGroupClick -> {
+                sendEvent(GroupDetailsEvent.NavigateToActivateGroup(groupId))
+            }
             is GroupDetailsAction.SetMenuVisible -> {
                 mutableStateFlow.update {
                     it.copy(showMenu = action.visible)
@@ -98,6 +101,7 @@ sealed interface GroupDetailsEvent {
     data object NavigateToGlim : GroupDetailsEvent
     data object NavigateToGsim : GroupDetailsEvent
     data object NavigateToMembers : GroupDetailsEvent
+    data class NavigateToActivateGroup(val groupId: Long) : GroupDetailsEvent
 }
 
 sealed interface GroupDetailsAction {
@@ -109,5 +113,6 @@ sealed interface GroupDetailsAction {
     data object OnGlimClick : GroupDetailsAction
     data object OnGsimClick : GroupDetailsAction
     data object OnMembersClick : GroupDetailsAction
+    data object OnActivateGroupClick : GroupDetailsAction
     data class SetMenuVisible(val visible: Boolean) : GroupDetailsAction
 }
