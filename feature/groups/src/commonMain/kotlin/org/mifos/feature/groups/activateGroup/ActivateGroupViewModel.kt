@@ -51,6 +51,7 @@ class ActivateGroupViewModel(
                 mutableStateFlow.update {
                     it.copy(
                         screenState = ScreenState.Content(Unit, DataFreshness.FRESH),
+                        submitState = SubmitState.Idle,
                     )
                 }
             }
@@ -103,7 +104,7 @@ class ActivateGroupViewModel(
                     mutableStateFlow.update {
                         it.copy(
                             screenState = ScreenState.Error(result.error),
-                            submitState = SubmitState.Idle,
+                            submitState = SubmitState.Failed(),
                         )
                     }
                 }
@@ -112,7 +113,7 @@ class ActivateGroupViewModel(
                     mutableStateFlow.update {
                         it.copy(
                             screenState = ScreenState.NoNetwork(),
-                            submitState = SubmitState.Idle,
+                            submitState = SubmitState.Failed(),
                         )
                     }
                 }
@@ -121,7 +122,7 @@ class ActivateGroupViewModel(
                     mutableStateFlow.update {
                         it.copy(
                             screenState = ScreenState.Unauthenticated,
-                            submitState = SubmitState.Idle,
+                            submitState = SubmitState.Failed(),
                         )
                     }
                 }
@@ -130,7 +131,7 @@ class ActivateGroupViewModel(
                     mutableStateFlow.update {
                         it.copy(
                             screenState = ScreenState.Empty,
-                            submitState = SubmitState.Idle,
+                            submitState = SubmitState.Failed(),
                         )
                     }
                 }

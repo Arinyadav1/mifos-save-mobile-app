@@ -13,25 +13,21 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
-import org.mifos.core.base.designsystem.component.KptButton
-import org.mifos.core.base.designsystem.component.KptOutlinedButton
+import org.mifos.core.base.designsystem.component.KptDoubleButton
 import org.mifos.core.base.designsystem.component.KptSuccessDialog
 import org.mifos.core.base.designsystem.theme.KptTheme
+import org.mifos.core.base.store.submit.SubmitState
 import org.mifos.core.base.ui.effects.EventsEffect
 import org.mifos.core.base.ui.submit.MutationScreenContent
 import org.mifos.core.designsystem.component.KptHeader
@@ -96,9 +92,11 @@ internal fun AddMemberScreenContent(
         topBar = {
             KptHeader(
                 navigationIcon = {
-                    KptHeaderBackButton(onClick = {
-                        onAction(AddMemberAction.OnBackClick)
-                    })
+                    KptHeaderBackButton(
+                        onClick = {
+                            onAction(AddMemberAction.OnBackClick)
+                        },
+                    )
                 },
                 title = {
                     KptHeaderTitle(
@@ -109,30 +107,13 @@ internal fun AddMemberScreenContent(
             )
         },
         bottomBar = {
-            Surface(
-                tonalElevation = KptTheme.elevation.level1,
-                modifier = Modifier.fillMaxWidth(),
-            ) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(KptTheme.spacing.md),
-                    horizontalArrangement = Arrangement.spacedBy(KptTheme.spacing.md),
-                ) {
-                    KptOutlinedButton(
-                        onClick = { onAction(AddMemberAction.OnBackClick) },
-                        modifier = Modifier.weight(1f),
-                    ) {
-                        Text(stringResource(Res.string.feature_groups_cancel))
-                    }
-                    KptButton(
-                        onClick = { onAction(AddMemberAction.AddMembers) },
-                        modifier = Modifier.weight(1f),
-                        enabled = state.selectedMembers.isNotEmpty(),
-                    ) {
-                        Text(stringResource(Res.string.feature_groups_add_members))
-                    }
-                }
+            if (state.submitState is SubmitState.Idle || state.submitState is SubmitState.Submitting) {
+                KptDoubleButton(
+                    onLeftButtonClick = { onAction(AddMemberAction.OnBackClick) },
+                    onRightButtonClick = { onAction(AddMemberAction.AddMembers) },
+                    leftButtonText = stringResource(Res.string.feature_groups_cancel),
+                    rightButtonText = stringResource(Res.string.feature_groups_add_members),
+                )
             }
         },
     ) {
@@ -152,7 +133,6 @@ internal fun AddMemberScreenContent(
                 submitState = state.submitState,
                 onRetry = { onAction(AddMemberAction.Retry) },
                 onSubmitted = {},
-                onFailed = { _, _ -> },
                 modifier = Modifier.fillMaxSize(),
             ) { _, _ ->
                 Column(
@@ -188,9 +168,10 @@ internal fun AddMemberScreenContent(
                         verticalArrangement = Arrangement.spacedBy(KptTheme.spacing.xs),
                     ) {
                         items(state.selectedMembers, key = { it.id }) { member ->
-                            val fullName = "${member.firstname.orEmpty()} ${member.lastname.orEmpty()}"
-                                .trim()
-                                .ifBlank { member.displayName.orEmpty() }
+                            val fullName =
+                                "${member.firstname.orEmpty()} ${member.lastname.orEmpty()}"
+                                    .trim()
+                                    .ifBlank { member.displayName.orEmpty() }
                             KptSelectableItemCard(
                                 title = fullName,
                                 subtitle = member.accountNo.orEmpty(),

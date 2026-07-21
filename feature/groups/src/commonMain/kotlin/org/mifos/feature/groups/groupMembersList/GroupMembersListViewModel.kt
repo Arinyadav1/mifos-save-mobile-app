@@ -17,6 +17,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.mifos.core.base.store.screen.ScreenState
+import org.mifos.core.base.store.submit.SubmitState
 import org.mifos.core.base.ui.viewmodel.BaseViewModel
 import org.mifos.core.data.group.GroupRepository
 import org.mifos.core.model.group.ClientMember
@@ -61,9 +62,11 @@ class GroupMembersListViewModel(
                             allMembers
                         } else {
                             allMembers.filter {
-                                val fullName = "${it.firstname.orEmpty()} ${it.lastname.orEmpty()}".trim()
+                                val fullName =
+                                    "${it.firstname.orEmpty()} ${it.lastname.orEmpty()}".trim()
                                 fullName.contains(query, ignoreCase = true) ||
-                                    it.displayName.orEmpty().contains(query, ignoreCase = true) ||
+                                    it.displayName.orEmpty()
+                                        .contains(query, ignoreCase = true) ||
                                     it.accountNo.orEmpty().contains(query, ignoreCase = true)
                             }
                         }
@@ -79,10 +82,15 @@ class GroupMembersListViewModel(
                             )
                         }
                     }
+
                     is ScreenState.Loading -> ScreenState.Loading
                     is ScreenState.Empty -> ScreenState.Empty
                     is ScreenState.NoNetwork -> ScreenState.NoNetwork(groupState.isCaptivePortal)
-                    is ScreenState.Error -> ScreenState.Error(groupState.error, groupState.isNetworkError)
+                    is ScreenState.Error -> ScreenState.Error(
+                        groupState.error,
+                        groupState.isNetworkError,
+                    )
+
                     is ScreenState.Unauthenticated -> ScreenState.Unauthenticated
                 }
             }.collect { mappedScreenState ->
@@ -96,7 +104,14 @@ class GroupMembersListViewModel(
     override fun handleAction(action: GroupMembersListAction) {
         when (action) {
             GroupMembersListAction.OnBackClick -> sendEvent(GroupMembersListEvent.NavigateBack)
-            GroupMembersListAction.Retry -> loadGroupMembers()
+            GroupMembersListAction.Retry -> {
+                mutableStateFlow.update {
+                    it.copy(
+                        submitState = SubmitState.Idle,
+                    )
+                }
+                loadGroupMembers()
+            }
             is GroupMembersListAction.SearchQueryChanged -> handleSearchQueryChanged(action.query)
             is GroupMembersListAction.OnMemberLongClick -> handleMemberLongClick(action.memberId)
             is GroupMembersListAction.OnMemberClick -> handleMemberClick(action.memberId)
@@ -107,6 +122,14 @@ class GroupMembersListViewModel(
             GroupMembersListAction.OnAddMembersClick -> sendEvent(
                 GroupMembersListEvent.NavigateToAddMembers(groupId, state.officeId),
             )
+            GroupMembersListAction.EmptyStateCancelClick -> {
+                mutableStateFlow.update {
+                    it.copy(
+                        searchQuery = "",
+                    )
+                }
+                loadGroupMembers()
+            }
         }
     }
 
@@ -156,39 +179,70 @@ class GroupMembersListViewModel(
 
     private fun confirmRemoveMembers() {
         val toRemove = state.selectedMemberIds
-        mutableStateFlow.update { it.copy(screenState = ScreenState.Loading) }
+        if (toRemove.isEmpty()) return
+
+        mutableStateFlow.update { it.copy(submitState = SubmitState.Submitting()) }
         viewModelScope.launch {
             when (val result = groupRepository.disassociateClients(groupId, toRemove.toList())) {
                 is ScreenState.Content -> {
                     removedMemberIds.update { it + toRemove }
                     mutableStateFlow.update {
                         it.copy(
+                            submitState = SubmitState.Submitted(Unit),
                             isSelectionMode = false,
                             selectedMemberIds = emptySet(),
                             showSuccessDialog = true,
                         )
                     }
                 }
+
                 is ScreenState.Error -> {
                     mutableStateFlow.update {
-                        it.copy(screenState = ScreenState.Error(result.error, result.isNetworkError))
+                        it.copy(
+                            screenState = ScreenState.Error(result.error, result.isNetworkError),
+                            submitState = SubmitState.Failed(),
+                        )
                     }
                 }
+
                 is ScreenState.NoNetwork -> {
                     mutableStateFlow.update {
-                        it.copy(screenState = ScreenState.NoNetwork(result.isCaptivePortal))
+                        it.copy(
+                            screenState = ScreenState.NoNetwork(result.isCaptivePortal),
+                            submitState = SubmitState.Failed(),
+                        )
                     }
                 }
-                else -> {
-                    // no-op
+
+                is ScreenState.Unauthenticated -> {
+                    mutableStateFlow.update {
+                        it.copy(
+                            screenState = ScreenState.Unauthenticated,
+                            submitState = SubmitState.Failed(),
+                        )
+                    }
                 }
+
+                is ScreenState.Empty -> {
+                    mutableStateFlow.update {
+                        it.copy(
+                            screenState = ScreenState.Empty,
+                            submitState = SubmitState.Failed(),
+                        )
+                    }
+                }
+
+                is ScreenState.Loading -> Unit
             }
         }
     }
 
     private fun dismissSuccessDialog() {
         mutableStateFlow.update {
-            it.copy(showSuccessDialog = false)
+            it.copy(
+                showSuccessDialog = false,
+                submitState = SubmitState.Idle,
+            )
         }
         sendEvent(GroupMembersListEvent.NavigateBack)
     }
@@ -196,6 +250,7 @@ class GroupMembersListViewModel(
 
 data class GroupMembersListState(
     val screenState: ScreenState<List<ClientMember>> = ScreenState.Loading,
+    val submitState: SubmitState<Unit> = SubmitState.Idle,
     val selectedMemberIds: Set<Long> = emptySet(),
     val isSelectionMode: Boolean = false,
     val searchQuery: String = "",
@@ -220,4 +275,5 @@ sealed interface GroupMembersListAction {
     data object ConfirmRemoveMembers : GroupMembersListAction
     data object DismissSuccessDialog : GroupMembersListAction
     data object OnAddMembersClick : GroupMembersListAction
+    data object EmptyStateCancelClick : GroupMembersListAction
 }

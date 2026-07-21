@@ -9,15 +9,60 @@
  */
 package org.mifos.core.base.designsystem.component
 
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import org.mifos.core.base.designsystem.theme.KptTheme
 
+
+@Composable
+fun KptDoubleButton(
+    leftButtonText: String,
+    rightButtonText: String,
+    onLeftButtonClick: () -> Unit,
+    onRightButtonClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    primaryEnabled: Boolean = true,
+    secondaryEnabled: Boolean = true,
+) {
+    Surface(
+        color = KptTheme.colorScheme.surface,
+        modifier = modifier.fillMaxWidth(),
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(KptTheme.spacing.md),
+            horizontalArrangement = Arrangement.spacedBy(KptTheme.spacing.md),
+        ) {
+            KptOutlinedButton(
+                onClick = onLeftButtonClick,
+                modifier = Modifier.weight(1f),
+                enabled = secondaryEnabled,
+            ) {
+                Text(leftButtonText)
+            }
+
+            KptButton(
+                onClick = onRightButtonClick,
+                modifier = Modifier.weight(1f),
+                enabled = primaryEnabled,
+            ) {
+                Text(rightButtonText)
+            }
+        }
+    }
+}
 /**
  * Primary filled button following the KPT design system.
  *

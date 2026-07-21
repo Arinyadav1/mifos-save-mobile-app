@@ -13,6 +13,8 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -20,6 +22,7 @@ import androidx.compose.ui.Modifier
 import org.mifos.core.base.designsystem.component.KptButton
 import org.mifos.core.base.designsystem.component.VerticalSpacer
 import org.mifos.core.base.designsystem.theme.KptTheme
+import org.mifos.core.designsystem.icon.AppIcons
 
 /**
  * A reusable empty state component following the project's design system.
@@ -31,6 +34,7 @@ fun KptEmptyState(
     modifier: Modifier = Modifier,
     buttonText: String? = null,
     onButtonClick: (() -> Unit)? = null,
+    onCancelClick: (() -> Unit)? = null,
 ) {
     Column(
         modifier = modifier
@@ -44,10 +48,24 @@ fun KptEmptyState(
             style = KptTheme.typography.bodyLarge,
             color = KptTheme.colorScheme.onSurfaceVariant,
         )
+
         if (buttonText != null && onButtonClick != null) {
             VerticalSpacer(height = KptTheme.spacing.md)
+
             KptButton(onClick = onButtonClick) {
                 Text(text = buttonText)
+            }
+        }
+
+        if (onCancelClick != null) {
+            VerticalSpacer(height = KptTheme.spacing.sm)
+
+            IconButton(onClick = onCancelClick) {
+                Icon(
+                    imageVector = AppIcons.Close,
+                    contentDescription = null,
+                    tint = KptTheme.colorScheme.onSurfaceVariant,
+                )
             }
         }
     }

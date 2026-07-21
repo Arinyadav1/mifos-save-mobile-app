@@ -15,20 +15,17 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
-import org.mifos.core.base.designsystem.component.KptButton
+import org.mifos.core.base.designsystem.component.KptDoubleButton
 import org.mifos.core.base.designsystem.component.KptSuccessDialog
-import org.mifos.core.base.designsystem.component.VerticalSpacer
 import org.mifos.core.base.designsystem.theme.KptTheme
+import org.mifos.core.base.store.submit.SubmitState
 import org.mifos.core.base.ui.effects.EventsEffect
 import org.mifos.core.base.ui.submit.MutationScreenContent
 import org.mifos.core.designsystem.component.KptDatePickerDialog
@@ -43,6 +40,7 @@ import org.mifos.feature.groups.generated.resources.feature_groups_activate_grou
 import org.mifos.feature.groups.generated.resources.feature_groups_activate_group_success_title
 import org.mifos.feature.groups.generated.resources.feature_groups_activate_group_title
 import org.mifos.feature.groups.generated.resources.feature_groups_activation_date_hint
+import org.mifos.feature.groups.generated.resources.feature_groups_cancel
 import org.mifos.feature.groups.generated.resources.feature_groups_mifos_save
 import org.mifos.feature.groups.generated.resources.feature_groups_ok
 import org.mifos.feature.groups.generated.resources.feature_groups_select_activation_date
@@ -117,6 +115,16 @@ internal fun ActivateGroupScreenContent(
                 },
             )
         },
+        bottomBar = {
+            if (state.submitState is SubmitState.Idle || state.submitState is SubmitState.Submitting) {
+                KptDoubleButton(
+                    onLeftButtonClick = { onAction(ActivateGroupAction.OnBackClick) },
+                    onRightButtonClick = { onAction(ActivateGroupAction.ActivateGroup) },
+                    leftButtonText = stringResource(Res.string.feature_groups_cancel),
+                    rightButtonText = stringResource(Res.string.feature_groups_activate_group),
+                )
+            }
+        },
     ) {
         Box(
             modifier = Modifier
@@ -134,10 +142,8 @@ internal fun ActivateGroupScreenContent(
                 submitState = state.submitState,
                 onRetry = { onAction(ActivateGroupAction.Retry) },
                 onSubmitted = {},
-                onFailed = { _, _ -> },
                 modifier = Modifier
-                    .fillMaxSize()
-                    .verticalScroll(rememberScrollState()),
+                    .fillMaxSize(),
             ) { _, _ ->
                 Column(
                     modifier = Modifier
@@ -154,16 +160,6 @@ internal fun ActivateGroupScreenContent(
                         onCalenderClick = { onAction(ActivateGroupAction.OnDatePickerToggle(true)) },
                         modifier = Modifier.fillMaxWidth(),
                     )
-
-                    VerticalSpacer(height = KptTheme.spacing.xl)
-
-                    KptButton(
-                        onClick = { onAction(ActivateGroupAction.ActivateGroup) },
-                        modifier = Modifier.fillMaxWidth(),
-                        enabled = state.dateText.isNotBlank(),
-                    ) {
-                        Text(stringResource(Res.string.feature_groups_activate_group))
-                    }
                 }
             }
         }

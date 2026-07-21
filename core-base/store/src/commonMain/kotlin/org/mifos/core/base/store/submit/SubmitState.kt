@@ -64,8 +64,8 @@ sealed interface SubmitState<out R> {
      * @param message    Optional per-mutation failure copy from [SubmitMessages.failed].
      */
     data class Failed(
-        val error: Throwable,
-        val category: ErrorCategory,
+        val error: Throwable = Throwable("Unexpected Error"),
+        val category: ErrorCategory = ErrorCategory.Generic,
         val draftSaved: Boolean = false,
         val message: String? = null,
     ) : SubmitState<Nothing>
