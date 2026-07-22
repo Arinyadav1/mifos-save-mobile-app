@@ -178,7 +178,7 @@ private fun SkeletonLoadingContent(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .padding(spacing.md)
+            .padding(vertical = spacing.md)
             .semantics {
                 contentDescription = "Loading"
                 liveRegion = LiveRegionMode.Polite

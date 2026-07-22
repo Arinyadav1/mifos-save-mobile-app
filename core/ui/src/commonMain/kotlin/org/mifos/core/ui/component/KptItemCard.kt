@@ -62,7 +62,6 @@ fun KptItemCard(
         modifier = modifier
             .fillMaxWidth()
             .padding(
-                horizontal = MaterialTheme.spacing.lg,
                 vertical = MaterialTheme.spacing.xs,
             )
             .clickable(onClick = onClick),

@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
@@ -111,6 +112,7 @@ internal fun GroupDashboardScreenContent(
             ) {
                 KptSearchBar(
                     query = state.searchQuery,
+                    modifier = Modifier.padding(horizontal = KptTheme.spacing.md),
                     onQueryChange = { onAction(GroupDashboardAction.SearchQueryChanged(it)) },
                     placeholder = stringResource(Res.string.feature_groups_search_groups),
                 )
@@ -118,7 +120,7 @@ internal fun GroupDashboardScreenContent(
                 PagingScreenContent(
                     pagingStream = pagingStream,
                     onRetry = { onAction(GroupDashboardAction.Retry) },
-                    modifier = Modifier.fillMaxSize(),
+                    modifier = Modifier.fillMaxSize().padding(horizontal = KptTheme.spacing.md),
                 ) { groups ->
                     val filteredGroups = if (state.searchQuery.isBlank()) {
                         groups

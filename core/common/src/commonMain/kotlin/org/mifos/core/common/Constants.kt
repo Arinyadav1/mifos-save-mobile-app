@@ -12,6 +12,7 @@ package org.mifos.core.common
 object Constants {
     const val SELF_SERVICE_USER = "Self Service User"
     const val MEMBER_SAVINGS_ACCOUNTS = "memberSavingsAccounts"
+    const val SAVINGS_ACCOUNTS = "savingsAccounts"
     const val DATE_FORMAT_SHORT_MONTH = "dd/MM/yyyy"
     const val LOCALE_EN = "en"
 }

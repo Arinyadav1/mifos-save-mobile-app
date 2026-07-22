@@ -10,10 +10,10 @@
 package org.mifos.core.model.group
 
 data class CreateGroupRequest(
-    val officeId: String,
+    val officeId: Long,
     val name: String,
     val externalId: String,
-    val clientMembers: List<String>? = null,
+    val clientMembers: List<Long>? = null,
     val dateFormat: String,
     val locale: String,
     val active: Boolean? = null,

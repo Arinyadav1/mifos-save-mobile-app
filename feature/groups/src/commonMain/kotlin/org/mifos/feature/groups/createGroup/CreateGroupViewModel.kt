@@ -20,6 +20,7 @@ import org.mifos.core.common.Constants
 import org.mifos.core.common.formatDateFromLong
 import org.mifos.core.common.getCurrentEpochMillis
 import org.mifos.core.data.group.GroupRepository
+import org.mifos.core.model.group.ClientMember
 import org.mifos.core.model.group.CreateGroupRequest
 import org.mifos.core.model.group.OfficeOption
 
@@ -34,37 +35,57 @@ class CreateGroupViewModel(
     }
 
     override fun handleAction(action: CreateGroupAction) {
+        if (handleFormAction(action)) return
+        if (handleMemberAction(action)) return
+        handleLifecycleAction(action)
+    }
+
+    private fun handleFormAction(action: CreateGroupAction): Boolean {
         when (action) {
-            CreateGroupAction.OnBackClick -> sendEvent(CreateGroupEvent.NavigateBack)
             is CreateGroupAction.NameChanged -> {
                 mutableStateFlow.update { it.copy(name = action.name) }
             }
-
             is CreateGroupAction.ExternalIdChanged -> {
                 mutableStateFlow.update { it.copy(externalId = action.externalId) }
             }
-
             is CreateGroupAction.OfficeSelected -> handleOfficeSelected(action.index)
             is CreateGroupAction.SubmittedOnDateSelected -> handleSubmittedOnDateSelected(action.millis)
             is CreateGroupAction.SubmittedOnDatePickerToggle -> {
                 mutableStateFlow.update { it.copy(isSubmittedDatePickerVisible = action.visible) }
             }
-
             is CreateGroupAction.ActivateGroupToggled -> {
                 mutableStateFlow.update { it.copy(isActiveGroup = action.active) }
             }
-
             is CreateGroupAction.ActivationDateSelected -> handleActivationDateSelected(action.millis)
             is CreateGroupAction.ActivationDatePickerToggle -> {
                 mutableStateFlow.update { it.copy(isActivationDatePickerVisible = action.visible) }
             }
+            else -> return false
+        }
+        return true
+    }
 
+    private fun handleMemberAction(action: CreateGroupAction): Boolean {
+        when (action) {
+            is CreateGroupAction.SearchQueryChanged -> handleSearchQueryChanged(action.query)
+            is CreateGroupAction.SelectMember -> handleSelectMember(action.member)
+            is CreateGroupAction.RemoveSelectedMember -> handleRemoveSelectedMember(action.memberId)
+            CreateGroupAction.DismissDropdown -> {
+                mutableStateFlow.update { it.copy(showDropdown = false) }
+            }
+            else -> return false
+        }
+        return true
+    }
+
+    private fun handleLifecycleAction(action: CreateGroupAction) {
+        when (action) {
+            CreateGroupAction.OnBackClick -> sendEvent(CreateGroupEvent.NavigateBack)
             CreateGroupAction.CreateGroup -> createGroup()
             CreateGroupAction.DismissSuccessDialog -> {
                 mutableStateFlow.update { it.copy(showSuccessDialog = false) }
                 sendEvent(CreateGroupEvent.NavigateBack)
             }
-
             CreateGroupAction.Retry -> {
                 mutableStateFlow.update {
                     it.copy(
@@ -73,9 +94,7 @@ class CreateGroupViewModel(
                     )
                 }
             }
-            CreateGroupAction.DismissErrorState -> {
-                mutableStateFlow.update { it.copy(submitState = SubmitState.Idle) }
-            }
+            else -> Unit
         }
     }
 
@@ -95,7 +114,13 @@ class CreateGroupViewModel(
                     }
 
                     is ScreenState.Error -> {
-                        mutableStateFlow.update { it.copy(screenState = ScreenState.Error(screenState.error)) }
+                        mutableStateFlow.update {
+                            it.copy(
+                                screenState = ScreenState.Error(
+                                    screenState.error,
+                                ),
+                            )
+                        }
                     }
 
                     is ScreenState.NoNetwork -> {
@@ -158,22 +183,103 @@ class CreateGroupViewModel(
         }
     }
 
+    private fun handleSearchQueryChanged(query: String) {
+        mutableStateFlow.update {
+            it.copy(
+                searchQuery = query,
+            )
+        }
+        viewModelScope.launch {
+            performSearch(query)
+        }
+    }
+
+    private suspend fun performSearch(query: String) {
+        if (query.isBlank()) {
+            mutableStateFlow.update { it.copy(searchResults = emptyList(), showDropdown = false) }
+            return
+        }
+
+        mutableStateFlow.update { it.copy(isSearching = true) }
+        val result = state.selectedOffice?.id.let {
+            it?.let { officeId ->
+                groupRepository.searchClients(
+                    displayName = query,
+                    officeId = officeId,
+                )
+            }
+        }
+        when (result) {
+            is ScreenState.Content -> {
+                val filtered = result.data.filter {
+                    it.id !in state.selectedMembers.map { sel -> sel.id }
+                }
+                mutableStateFlow.update {
+                    it.copy(
+                        searchResults = filtered,
+                        isSearching = false,
+                        showDropdown = filtered.isNotEmpty(),
+                    )
+                }
+            }
+
+            else -> {
+                mutableStateFlow.update {
+                    it.copy(
+                        searchResults = emptyList(),
+                        isSearching = false,
+                        showDropdown = false,
+                    )
+                }
+            }
+        }
+    }
+
+    private fun handleSelectMember(member: ClientMember) {
+        mutableStateFlow.update {
+            if (it.selectedMembers.any { m -> m.id == member.id }) {
+                it.copy(
+                    searchQuery = "",
+                    searchResults = emptyList(),
+                    showDropdown = false,
+                )
+            } else {
+                it.copy(
+                    selectedMembers = it.selectedMembers + member,
+                    searchQuery = "",
+                    searchResults = emptyList(),
+                    showDropdown = false,
+                )
+            }
+        }
+    }
+
+    private fun handleRemoveSelectedMember(memberId: Long) {
+        mutableStateFlow.update {
+            it.copy(
+                selectedMembers = it.selectedMembers.filter { m -> m.id != memberId },
+            )
+        }
+    }
+
     private fun createGroup() {
         mutableStateFlow.update { it.copy(submitState = SubmitState.Submitting()) }
         viewModelScope.launch {
-            val request = CreateGroupRequest(
-                officeId = state.selectedOffice?.id.toString(),
-                name = state.name.trim(),
-                externalId = state.externalId.trim(),
-                clientMembers = null,
-                dateFormat = Constants.DATE_FORMAT_SHORT_MONTH,
-                locale = Constants.LOCALE_EN,
-                active = if (state.isActiveGroup) true else null,
-                activationDate = if (state.isActiveGroup) state.activationDate else null,
-                submittedOnDate = state.submittedOnDate,
-            )
+            val request = state.selectedOffice?.id?.let { officeId ->
+                CreateGroupRequest(
+                    officeId = officeId,
+                    name = state.name.trim(),
+                    externalId = state.externalId.trim(),
+                    clientMembers = state.selectedMembers.map { it.id },
+                    dateFormat = Constants.DATE_FORMAT_SHORT_MONTH,
+                    locale = Constants.LOCALE_EN,
+                    active = if (state.isActiveGroup) true else null,
+                    activationDate = if (state.isActiveGroup) state.activationDate else null,
+                    submittedOnDate = state.submittedOnDate,
+                )
+            }
 
-            when (val result = groupRepository.createGroup(request)) {
+            when (val result = request?.let { groupRepository.createGroup(it) }) {
                 is ScreenState.Content -> {
                     mutableStateFlow.update {
                         it.copy(
@@ -220,6 +326,7 @@ class CreateGroupViewModel(
                 }
 
                 is ScreenState.Loading -> Unit
+                null -> Unit
             }
         }
     }
@@ -241,10 +348,14 @@ data class CreateGroupState(
     val showSuccessDialog: Boolean = false,
     val screenState: ScreenState<Unit> = ScreenState.Content(Unit, DataFreshness.FRESH),
     val submitState: SubmitState<Unit> = SubmitState.Idle,
+    val showDropdown: Boolean = false,
+    val searchQuery: String = "",
+    val searchResults: List<ClientMember> = emptyList(),
+    val selectedMembers: List<ClientMember> = emptyList(),
+    val isSearching: Boolean = false,
 ) {
     val isSubmitButtonEnabled: Boolean
         get() = name.isNotBlank() &&
-            externalId.isNotBlank() &&
             selectedOffice != null &&
             submittedOnDate.isNotBlank() &&
             (!isActiveGroup || activationDate.isNotBlank())
@@ -267,5 +378,8 @@ sealed interface CreateGroupAction {
     data object CreateGroup : CreateGroupAction
     data object DismissSuccessDialog : CreateGroupAction
     data object Retry : CreateGroupAction
-    data object DismissErrorState : CreateGroupAction
+    data class SearchQueryChanged(val query: String) : CreateGroupAction
+    data class SelectMember(val member: ClientMember) : CreateGroupAction
+    data class RemoveSelectedMember(val memberId: Long) : CreateGroupAction
+    data object DismissDropdown : CreateGroupAction
 }

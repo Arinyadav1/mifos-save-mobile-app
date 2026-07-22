@@ -84,9 +84,11 @@ internal fun GroupSavingListScreenContent(
         topBar = {
             KptHeader(
                 navigationIcon = {
-                    KptHeaderBackButton(onClick = {
-                        onAction(GroupSavingListAction.OnBackClick)
-                    })
+                    KptHeaderBackButton(
+                        onClick = {
+                            onAction(GroupSavingListAction.OnBackClick)
+                        },
+                    )
                 },
                 actions = {
                     KptHeaderPillButton(
@@ -121,7 +123,7 @@ internal fun GroupSavingListScreenContent(
                     ),
                 ),
         ) {
-            Column(modifier = Modifier.fillMaxSize()) {
+            Column(modifier = Modifier.fillMaxSize().padding(horizontal = KptTheme.spacing.md)) {
                 KptSearchBar(
                     query = state.searchQuery,
                     onQueryChange = { onAction(GroupSavingListAction.SearchQueryChanged(it)) },
@@ -152,7 +154,10 @@ internal fun GroupSavingListScreenContent(
                         items(savings, key = { it.id }) { savingAccount ->
                             KptItemCard(
                                 title = savingAccount.productName.orEmpty(),
-                                statusText = savingAccount.status?.value.orEmpty(),
+                                statusText = savingAccount.status?.value
+                                    ?.replace("Submitted and ", "")
+                                    ?.replaceFirstChar { it.uppercase() }
+                                    .orEmpty(),
                                 statusIntent = savingAccount.statusChipIntent,
                                 leadingIcon = AppIcons.Savings,
                                 subRows = listOf(
@@ -162,7 +167,11 @@ internal fun GroupSavingListScreenContent(
                                     ),
                                 ),
                                 onClick = {
-                                    onAction(GroupSavingListAction.OnSavingAccountClick(savingAccount.id))
+                                    onAction(
+                                        GroupSavingListAction.OnSavingAccountClick(
+                                            savingAccount.id,
+                                        ),
+                                    )
                                 },
                             )
                         }

@@ -43,7 +43,7 @@ class GroupSavingListViewModel(
         }
         viewModelScope.launch {
             combine(
-                groupRepository.getGroupAccounts(groupId, Constants.MEMBER_SAVINGS_ACCOUNTS),
+                groupRepository.getGroupAccounts(groupId, Constants.SAVINGS_ACCOUNTS),
                 searchQuery,
             ) { groupAccountsState, query ->
                 when (groupAccountsState) {

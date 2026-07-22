@@ -15,7 +15,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import org.mifos.core.base.designsystem.theme.KptTheme
 import org.mifos.core.designsystem.icon.AppIcons
@@ -27,17 +26,19 @@ fun KptSearchBar(
     onQueryChange: (String) -> Unit,
     placeholder: String,
     modifier: Modifier = Modifier,
-    containerColor: Color = KptTheme.colorScheme.inverseOnSurface,
+    label: String? = null,
     shape: Shape = KptTheme.shapes.large,
+    enabled: Boolean = true,
     trailingIcon: (@Composable () -> Unit)? = null,
 ) {
     KptTextField(
+        enabled = enabled,
         value = query,
+        label = label,
         onValueChange = onQueryChange,
         modifier = modifier
             .fillMaxWidth()
             .padding(
-                horizontal = MaterialTheme.spacing.lg,
                 vertical = MaterialTheme.spacing.md,
             ),
         placeholder = placeholder,
@@ -50,10 +51,6 @@ fun KptSearchBar(
         },
         trailingIcon = trailingIcon,
         shape = shape,
-        colors = KptTextFieldDefaults.textFieldColors(
-            focusedContainerColor = containerColor,
-            unfocusedContainerColor = containerColor,
-        ),
         singleLine = true,
     )
 }

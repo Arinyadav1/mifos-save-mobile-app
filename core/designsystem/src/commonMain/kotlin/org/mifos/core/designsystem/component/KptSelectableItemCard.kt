@@ -53,7 +53,6 @@ fun KptSelectableItemCard(
         modifier = modifier
             .fillMaxWidth()
             .padding(
-                horizontal = KptTheme.spacing.md,
                 vertical = KptTheme.spacing.xs,
             )
             .clip(KptTheme.shapes.medium)
