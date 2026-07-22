@@ -23,11 +23,11 @@ import org.mifos.feature.groups.groupDashboard.GroupDashboardRoute
 import org.mifos.feature.groups.groupDashboard.groupDashboardDestination
 import org.mifos.feature.groups.groupDetails.groupDetailsDestination
 import org.mifos.feature.groups.groupDetails.navigateToGroupDetails
+import org.mifos.feature.groups.groupLoanList.groupLoanListDestination
+import org.mifos.feature.groups.groupLoanList.navigateToGroupLoanList
 import org.mifos.feature.groups.groupMembersList.groupMembersListDestination
 import org.mifos.feature.groups.groupMembersList.navigateToGroupMembersList
 import org.mifos.feature.groups.groupMembersList.navigateToGroupMembersListWithUpdateData
-import org.mifos.feature.groups.groupLoanList.groupLoanListDestination
-import org.mifos.feature.groups.groupLoanList.navigateToGroupLoanList
 import org.mifos.feature.groups.groupSavingList.groupSavingListDestination
 import org.mifos.feature.groups.groupSavingList.navigateToGroupSavingList
 

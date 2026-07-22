@@ -25,7 +25,7 @@ import org.mifos.core.model.group.ClientMember
 class AddMemberViewModel(
     savedStateHandle: SavedStateHandle,
     private val clientRepository: ClientRepository,
-    private val groupRepository: GroupRepository
+    private val groupRepository: GroupRepository,
 ) : BaseViewModel<AddMemberState, AddMemberEvent, AddMemberAction>(
     AddMemberState(
         officeId = savedStateHandle.toRoute<AddMemberRoute>().officeId,

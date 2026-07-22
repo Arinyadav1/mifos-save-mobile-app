@@ -19,7 +19,6 @@ import kotlinx.coroutines.flow.Flow
 import org.mifos.core.network.commonDto.Page
 import org.mifos.core.network.fineract.group.dto.ActivateGroupRequestDto
 import org.mifos.core.network.fineract.group.dto.AssociateClientsRequestDto
-import org.mifos.core.network.fineract.client.dto.ClientMemberDto
 import org.mifos.core.network.fineract.group.dto.CreateGroupRequestDto
 import org.mifos.core.network.fineract.group.dto.DisassociateClientsRequestDto
 import org.mifos.core.network.fineract.group.dto.GroupAccountsDto

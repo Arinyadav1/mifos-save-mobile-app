@@ -27,7 +27,7 @@ import org.mifos.core.model.group.OfficeOption
 
 class CreateGroupViewModel(
     private val groupRepository: GroupRepository,
-    private val clientRepository: ClientRepository
+    private val clientRepository: ClientRepository,
 ) : BaseViewModel<CreateGroupState, CreateGroupEvent, CreateGroupAction>(
     CreateGroupState(),
 ) {

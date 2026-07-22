@@ -23,7 +23,6 @@ import org.mifos.core.data.mapper.group.toModel
 import org.mifos.core.data.util.asScreenStateFlow
 import org.mifos.core.data.util.extractErrorMessage
 import org.mifos.core.data.util.runAsDataState
-import org.mifos.core.model.group.ClientMember
 import org.mifos.core.model.group.CreateGroupRequest
 import org.mifos.core.model.group.Group
 import org.mifos.core.model.group.GroupAccounts

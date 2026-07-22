@@ -15,7 +15,6 @@ import androidx.navigation.toRoute
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.first
@@ -75,7 +74,7 @@ class GroupLoanListViewModel(
     }
 
     private suspend fun processGroupDetails(
-        groupState: ScreenState<Group>
+        groupState: ScreenState<Group>,
     ): ScreenState<List<LoanAccount>> {
         return when (groupState) {
             is ScreenState.Content -> {
@@ -96,7 +95,7 @@ class GroupLoanListViewModel(
     }
 
     private suspend fun fetchMembersLoans(
-        members: List<ClientMember>
+        members: List<ClientMember>,
     ): MemberLoansResult = coroutineScope {
         val deferred = members.map { member ->
             async {
@@ -141,7 +140,7 @@ class GroupLoanListViewModel(
 
     private fun mapMemberLoansResultToScreenState(
         result: MemberLoansResult,
-        groupState: ScreenState.Content<Group>
+        groupState: ScreenState.Content<Group>,
     ): ScreenState<List<LoanAccount>> {
         return when {
             result.hasNetworkError -> {
@@ -166,7 +165,7 @@ class GroupLoanListViewModel(
 
     private fun filterLoanAccounts(
         loanAccountsState: ScreenState<List<LoanAccount>>,
-        query: String
+        query: String,
     ): ScreenState<List<LoanAccount>> {
         return when (loanAccountsState) {
             is ScreenState.Content -> {

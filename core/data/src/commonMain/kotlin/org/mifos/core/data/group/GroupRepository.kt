@@ -12,7 +12,6 @@ package org.mifos.core.data.group
 import kotlinx.coroutines.flow.Flow
 import org.mifos.core.base.store.paging.PageKey
 import org.mifos.core.base.store.screen.ScreenState
-import org.mifos.core.model.group.ClientMember
 import org.mifos.core.model.group.CreateGroupRequest
 import org.mifos.core.model.group.Group
 import org.mifos.core.model.group.GroupAccounts
