@@ -136,7 +136,7 @@ internal fun AddMemberScreenContent(
                 modifier = Modifier.fillMaxSize(),
             ) { _, _ ->
                 Column(
-                    modifier = Modifier.fillMaxSize(),
+                    modifier = Modifier.fillMaxSize().padding(horizontal = KptTheme.spacing.md),
                 ) {
                     val dropdownItems = state.searchResults.map { member ->
                         val fullName = "${member.firstname.orEmpty()} ${member.lastname.orEmpty()}"

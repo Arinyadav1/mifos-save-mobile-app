@@ -54,12 +54,17 @@ fun ComponentActivity.setupEdgeToEdge(appThemeFlow: Flow<org.mifos.core.model.us
                     // This handles all the settings to go edge-to-edge. We are using a transparent
                     // scrim for system bars and switching between "light" and "dark" based on the
                     // system and internal app theme settings.
-                    val style = SystemBarStyle.auto(
-                        darkScrim = SCRIM_COLOR,
-                        lightScrim = SCRIM_COLOR,
-                        detectDarkMode = { isDarkMode },
-                    )
-                    enableEdgeToEdge(statusBarStyle = style, navigationBarStyle = style)
+                    val statusBarStyle = if (isDarkMode) {
+                        SystemBarStyle.dark(SCRIM_COLOR)
+                    } else {
+                        SystemBarStyle.light(SCRIM_COLOR, SCRIM_COLOR)
+                    }
+                    val navigationBarStyle = if (isDarkMode) {
+                        SystemBarStyle.dark(SCRIM_COLOR)
+                    } else {
+                        SystemBarStyle.light(SCRIM_COLOR, SCRIM_COLOR)
+                    }
+                    enableEdgeToEdge(statusBarStyle = statusBarStyle, navigationBarStyle = navigationBarStyle)
                 }
         }
     }

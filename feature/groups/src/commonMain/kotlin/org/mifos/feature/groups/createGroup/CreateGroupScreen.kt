@@ -10,6 +10,7 @@
 package org.mifos.feature.groups.createGroup
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -38,10 +39,15 @@ import org.mifos.core.base.ui.screen.ScreenStateLoading
 import org.mifos.core.base.ui.submit.MutationScreenContent
 import org.mifos.core.designsystem.component.KptDatePickerDialog
 import org.mifos.core.designsystem.component.KptRadioToggle
+import org.mifos.core.designsystem.component.KptSelectableItemCard
+import org.mifos.core.designsystem.icon.AppIcons
+import org.mifos.core.ui.input.KptDropdownSearchBar
+import org.mifos.core.ui.input.KptDropdownSearchBarItem
 import org.mifos.core.ui.input.KptDropdownTextField
 import org.mifos.core.ui.input.KptTextField
 import org.mifos.core.ui.scaffold.KptScaffold
 import org.mifos.feature.groups.generated.resources.Res
+import org.mifos.feature.groups.generated.resources.feature_groups_activate_add_members
 import org.mifos.feature.groups.generated.resources.feature_groups_activate_group_toggle
 import org.mifos.feature.groups.generated.resources.feature_groups_activation_date_hint
 import org.mifos.feature.groups.generated.resources.feature_groups_cancel
@@ -57,6 +63,7 @@ import org.mifos.feature.groups.generated.resources.feature_groups_group_name_pl
 import org.mifos.feature.groups.generated.resources.feature_groups_mifos_save_mobile
 import org.mifos.feature.groups.generated.resources.feature_groups_office_label
 import org.mifos.feature.groups.generated.resources.feature_groups_ok
+import org.mifos.feature.groups.generated.resources.feature_groups_search_members_hint
 import org.mifos.feature.groups.generated.resources.feature_groups_select_activation_date
 import org.mifos.feature.groups.generated.resources.feature_groups_select_office_placeholder
 import org.mifos.feature.groups.generated.resources.feature_groups_submitted_on_date_label
@@ -240,9 +247,15 @@ private fun CreateGroupFormContent(
             modifier = Modifier.fillMaxWidth(),
         )
 
-        VerticalSpacer(KptTheme.spacing.md)
+        VerticalSpacer(KptTheme.spacing.sm)
 
-        // Submitted On Date*
+        AddMembers(
+            state = state,
+            onAction = onAction,
+        )
+
+        VerticalSpacer(KptTheme.spacing.sm)
+
         KptTextField(
             value = state.submittedOnDate,
             onValueChange = {},
@@ -278,6 +291,60 @@ private fun CreateGroupFormContent(
                     modifier = Modifier.fillMaxWidth(),
                 )
             }
+        }
+    }
+}
+
+@Composable
+fun AddMembers(
+    state: CreateGroupState,
+    onAction: (CreateGroupAction) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    val dropdownItems = state.searchResults.map { member ->
+        val fullName = "${member.firstname.orEmpty()} ${member.lastname.orEmpty()}"
+            .trim()
+            .ifBlank { member.displayName.orEmpty() }
+        KptDropdownSearchBarItem(
+            title = fullName,
+            subtitle = member.accountNo.orEmpty(),
+            onClick = {
+                onAction(CreateGroupAction.SelectMember(member))
+            },
+        )
+    }
+
+    Column(
+        modifier = modifier,
+        verticalArrangement = Arrangement.spacedBy(KptTheme.spacing.xs),
+    ) {
+        KptDropdownSearchBar(
+            query = state.searchQuery,
+            onQueryChange = { onAction(CreateGroupAction.SearchQueryChanged(it)) },
+            placeholder = stringResource(Res.string.feature_groups_search_members_hint),
+            showDropdown = state.showDropdown,
+            dropdownItems = dropdownItems,
+            label = stringResource(Res.string.feature_groups_activate_add_members),
+            onDismissRequest = { onAction(CreateGroupAction.DismissDropdown) },
+            isSearching = state.isSearching,
+        )
+
+        state.selectedMembers.forEach { member ->
+            val fullName = "${member.firstname.orEmpty()} ${member.lastname.orEmpty()}"
+                .trim()
+                .ifBlank { member.displayName.orEmpty() }
+
+            KptSelectableItemCard(
+                title = fullName,
+                subtitle = member.accountNo.orEmpty(),
+                leadingIcon = AppIcons.Person,
+                isSelected = false,
+                isInSelectionMode = false,
+                onClick = {
+                    onAction(CreateGroupAction.RemoveSelectedMember(member.id))
+                },
+                onLongClick = {},
+            )
         }
     }
 }

@@ -51,7 +51,7 @@ data class KptDropdownSearchBarItem(
 )
 
 /**
- * Defaults for the dropdown search bar.
+ * Default configurations for the Dropdown Search Bar.
  */
 object KptDropdownSearchBarDefaults
 
@@ -68,6 +68,7 @@ fun KptDropdownSearchBar(
     onDismissRequest: () -> Unit,
     isSearching: Boolean,
     modifier: Modifier = Modifier,
+    label: String? = null,
 ) {
     val density = LocalDensity.current
     var searchBarWidth by remember { mutableStateOf(0) }
@@ -98,6 +99,7 @@ fun KptDropdownSearchBar(
         contentAlignment = Alignment.TopStart,
     ) {
         KptSearchBar(
+            label = label,
             query = query,
             onQueryChange = onQueryChange,
             placeholder = placeholder,
@@ -114,8 +116,7 @@ fun KptDropdownSearchBar(
         )
 
         if (showMenu && searchBarWidth > 0) {
-            val horizontalPaddingPx =
-                with(density) { MaterialTheme.spacing.lg.roundToPx() }
+            val horizontalPaddingPx = 0
             val verticalPaddingPx = with(density) { MaterialTheme.spacing.md.roundToPx() }
             val cardWidthDp = with(density) { (searchBarWidth - horizontalPaddingPx * 2).toDp() }
 
@@ -127,14 +128,14 @@ fun KptDropdownSearchBar(
                 Surface(
                     modifier = Modifier
                         .width(cardWidthDp)
-                        .heightIn(max = 200.dp),
+                        .heightIn(max = 300.dp),
                     shape = RoundedCornerShape(
                         topStart = 0.dp,
                         topEnd = 0.dp,
                         bottomStart = KptTheme.spacing.md,
                         bottomEnd = KptTheme.spacing.md,
                     ),
-                    color = KptTheme.colorScheme.inverseOnSurface,
+                    color = KptTheme.colorScheme.surfaceContainer,
                     tonalElevation = 0.dp,
                     shadowElevation = KptTheme.elevation.level2,
                 ) {

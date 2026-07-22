@@ -26,6 +26,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
@@ -188,15 +189,16 @@ internal fun GroupMembersListScreenContent(
         },
     ) {
         Box(
-            modifier = Modifier.fillMaxSize().background(
-                color = KptTheme.colorScheme.surface,
-                shape = RoundedCornerShape(
-                    topStart = KptTheme.spacing.lg,
-                    topEnd = KptTheme.spacing.lg,
+            modifier = Modifier.fillMaxSize()
+                .background(
+                    color = KptTheme.colorScheme.surface,
+                    shape = RoundedCornerShape(
+                        topStart = KptTheme.spacing.lg,
+                        topEnd = KptTheme.spacing.lg,
+                    ),
                 ),
-            ),
         ) {
-            Column(modifier = Modifier.fillMaxSize()) {
+            Column(modifier = Modifier.fillMaxSize().padding(horizontal = KptTheme.spacing.md)) {
                 KptSearchBar(
                     query = state.searchQuery,
                     onQueryChange = { onAction(GroupMembersListAction.SearchQueryChanged(it)) },
@@ -205,6 +207,7 @@ internal fun GroupMembersListScreenContent(
                 MutationScreenContent(
                     screenState = state.screenState,
                     submitState = state.submitState,
+                    shape = RectangleShape,
                     onRetry = { onAction(GroupMembersListAction.Retry) },
                     onSubmitted = {},
                     empty = {
