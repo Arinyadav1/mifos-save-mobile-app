@@ -91,4 +91,7 @@
     <string name="feature_groups_activate_group_success_title">Success</string>
     <string name="feature_groups_activate_group_success_message">Group activated successfully.</string>
     <string name="feature_groups_activate_add_members">Add Members</string>
+    <string name="feature_groups_update_group_success_title">Success</string>
+    <string name="feature_groups_update_group_success_message">Group updated successfully.</string>
+    <string name="feature_groups_update_group_subtitle">Update group details</string>
 </resources>

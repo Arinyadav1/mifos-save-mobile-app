@@ -35,3 +35,10 @@ fun NavGraphBuilder.groupDashboardDestination(
 fun NavController.navigateToGroupDashboard(navOptions: NavOptions? = null) {
     this.navigate(route = GroupDashboardRoute, navOptions = navOptions)
 }
+
+fun NavController.navigateToGroupDashboardWithUpdateData() {
+    this.navigate(route = GroupDashboardRoute) {
+        popUpTo(GroupDashboardRoute) { inclusive = true }
+        launchSingleTop = true
+    }
+}

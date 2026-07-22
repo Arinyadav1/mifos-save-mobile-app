@@ -16,18 +16,22 @@ import kotlinx.serialization.Serializable
 import org.mifos.core.base.ui.nav.composableWithStayTransitions
 
 @Serializable
-data object CreateGroupRoute
+data class CreateGroupRoute(val groupId: Long? = null)
 
 fun NavGraphBuilder.createGroupDestination(
     onBackClick: () -> Unit,
+    onNavigateToGroupDashboardWithUpdateData: () -> Unit,
+    onNavigateToGroupDetailWithUpdateData: (Long) -> Unit,
 ) {
     composableWithStayTransitions<CreateGroupRoute> {
         CreateGroupScreen(
             onBackClick = onBackClick,
+            onNavigateToGroupDetailWithUpdateData = onNavigateToGroupDetailWithUpdateData,
+            onNavigateToGroupDashboardWithUpdateData = onNavigateToGroupDashboardWithUpdateData,
         )
     }
 }
 
-fun NavController.navigateToCreateGroup(navOptions: NavOptions? = null) {
-    this.navigate(route = CreateGroupRoute, navOptions = navOptions)
+fun NavController.navigateToCreateGroup(groupId: Long? = null, navOptions: NavOptions? = null) {
+    this.navigate(route = CreateGroupRoute(groupId), navOptions = navOptions)
 }

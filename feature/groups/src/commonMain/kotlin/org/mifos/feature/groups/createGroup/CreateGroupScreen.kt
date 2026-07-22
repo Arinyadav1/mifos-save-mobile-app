@@ -51,7 +51,6 @@ import org.mifos.feature.groups.generated.resources.feature_groups_activate_add_
 import org.mifos.feature.groups.generated.resources.feature_groups_activate_group_toggle
 import org.mifos.feature.groups.generated.resources.feature_groups_activation_date_hint
 import org.mifos.feature.groups.generated.resources.feature_groups_cancel
-import org.mifos.feature.groups.generated.resources.feature_groups_create_group_button
 import org.mifos.feature.groups.generated.resources.feature_groups_create_group_subtitle
 import org.mifos.feature.groups.generated.resources.feature_groups_create_group_success_message
 import org.mifos.feature.groups.generated.resources.feature_groups_create_group_success_title
@@ -68,10 +67,16 @@ import org.mifos.feature.groups.generated.resources.feature_groups_select_activa
 import org.mifos.feature.groups.generated.resources.feature_groups_select_office_placeholder
 import org.mifos.feature.groups.generated.resources.feature_groups_submitted_on_date_label
 import org.mifos.feature.groups.generated.resources.feature_groups_submitted_on_date_placeholder
+import org.mifos.feature.groups.generated.resources.feature_groups_update_group
+import org.mifos.feature.groups.generated.resources.feature_groups_update_group_subtitle
+import org.mifos.feature.groups.generated.resources.feature_groups_update_group_success_message
+import org.mifos.feature.groups.generated.resources.feature_groups_update_group_success_title
 
 @Composable
 fun CreateGroupScreen(
     onBackClick: () -> Unit,
+    onNavigateToGroupDashboardWithUpdateData: () -> Unit,
+    onNavigateToGroupDetailWithUpdateData: (Long) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: CreateGroupViewModel = koinViewModel(),
 ) {
@@ -80,13 +85,27 @@ fun CreateGroupScreen(
     EventsEffect(viewModel.eventFlow) { event ->
         when (event) {
             CreateGroupEvent.NavigateBack -> onBackClick()
+            CreateGroupEvent.NavigateToGroupDashboardWithUpdateData ->
+                onNavigateToGroupDashboardWithUpdateData()
+            is CreateGroupEvent.NavigateToGroupDetailWithUpdateData ->
+                onNavigateToGroupDetailWithUpdateData(event.groupId)
         }
     }
 
     if (state.showSuccessDialog) {
+        val title = if (state.groupId != null) {
+            stringResource(Res.string.feature_groups_update_group_success_title)
+        } else {
+            stringResource(Res.string.feature_groups_create_group_success_title)
+        }
+        val message = if (state.groupId != null) {
+            stringResource(Res.string.feature_groups_update_group_success_message)
+        } else {
+            stringResource(Res.string.feature_groups_create_group_success_message)
+        }
         KptSuccessDialog(
-            title = stringResource(Res.string.feature_groups_create_group_success_title),
-            message = stringResource(Res.string.feature_groups_create_group_success_message),
+            title = title,
+            message = message,
             buttonText = stringResource(Res.string.feature_groups_ok),
             onConfirm = { viewModel.trySendAction(CreateGroupAction.DismissSuccessDialog) },
         )
@@ -139,9 +158,14 @@ internal fun CreateGroupScreenContent(
         },
         bottomBar = {
             if (state.submitState is SubmitState.Idle || state.submitState is SubmitState.Submitting) {
+                val rightButtonText = if (state.groupId != null) {
+                    stringResource(Res.string.feature_groups_update_group)
+                } else {
+                    stringResource(Res.string.feature_groups_create_group_title)
+                }
                 KptDoubleButton(
                     leftButtonText = stringResource(Res.string.feature_groups_cancel),
-                    rightButtonText = stringResource(Res.string.feature_groups_create_group_button),
+                    rightButtonText = rightButtonText,
                     onRightButtonClick = { onAction(CreateGroupAction.CreateGroup) },
                     onLeftButtonClick = { onAction(CreateGroupAction.OnBackClick) },
                     enabledRight = state.isSubmitButtonEnabled,
@@ -197,8 +221,13 @@ private fun CreateGroupFormContent(
 
         VerticalSpacer(KptTheme.spacing.xs)
 
+        val title = if (state.groupId != null) {
+            stringResource(Res.string.feature_groups_update_group)
+        } else {
+            stringResource(Res.string.feature_groups_create_group_title)
+        }
         Text(
-            text = stringResource(Res.string.feature_groups_create_group_title),
+            text = title,
             style = KptTheme.typography.headlineLarge.copy(
                 fontWeight = FontWeight.ExtraBold,
                 color = KptTheme.colorScheme.onSurface,
@@ -207,8 +236,13 @@ private fun CreateGroupFormContent(
 
         VerticalSpacer(KptTheme.spacing.xs)
 
+        val subtitle = if (state.groupId != null) {
+            stringResource(Res.string.feature_groups_update_group_subtitle)
+        } else {
+            stringResource(Res.string.feature_groups_create_group_subtitle)
+        }
         Text(
-            text = stringResource(Res.string.feature_groups_create_group_subtitle),
+            text = subtitle,
             style = KptTheme.typography.bodyLarge.copy(
                 color = KptTheme.colorScheme.onSurfaceVariant,
             ),
@@ -227,10 +261,11 @@ private fun CreateGroupFormContent(
 
         VerticalSpacer(KptTheme.spacing.md)
 
-        // External Id*
+        // External Id
         KptTextField(
             value = state.externalId,
             onValueChange = { onAction(CreateGroupAction.ExternalIdChanged(it)) },
+            enabled = (state.groupId == null),
             label = stringResource(Res.string.feature_groups_external_id_label),
             placeholder = stringResource(Res.string.feature_groups_external_id_placeholder),
             modifier = Modifier.fillMaxWidth(),
@@ -242,6 +277,7 @@ private fun CreateGroupFormContent(
             value = state.selectedOffice?.name.orEmpty(),
             onOptionSelected = { index, _ -> onAction(CreateGroupAction.OfficeSelected(index)) },
             options = state.officeOptions.map { it.name },
+            enabled = (state.groupId == null),
             label = stringResource(Res.string.feature_groups_office_label),
             placeholder = stringResource(Res.string.feature_groups_select_office_placeholder),
             modifier = Modifier.fillMaxWidth(),
@@ -249,10 +285,40 @@ private fun CreateGroupFormContent(
 
         VerticalSpacer(KptTheme.spacing.sm)
 
-        AddMembers(
-            state = state,
-            onAction = onAction,
-        )
+        if (state.groupId == null) {
+            AddMembers(
+                state = state,
+                onAction = onAction,
+            )
+        } else if (state.selectedMembers.isNotEmpty()) {
+            Column(
+                verticalArrangement = Arrangement.spacedBy(KptTheme.spacing.xs),
+            ) {
+                Text(
+                    text = stringResource(Res.string.feature_groups_activate_add_members),
+                    style = KptTheme.typography.bodyMedium.copy(
+                        fontWeight = FontWeight.SemiBold,
+                        color = KptTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.38f),
+                    ),
+                    modifier = Modifier.padding(bottom = KptTheme.spacing.xs),
+                )
+                state.selectedMembers.forEach { member ->
+                    val fullName = "${member.firstname.orEmpty()} ${member.lastname.orEmpty()}"
+                        .trim()
+                        .ifBlank { member.displayName.orEmpty() }
+
+                    KptSelectableItemCard(
+                        title = fullName,
+                        subtitle = member.accountNo.orEmpty(),
+                        leadingIcon = AppIcons.Person,
+                        isSelected = false,
+                        isInSelectionMode = false,
+                        onClick = {},
+                        onLongClick = {},
+                    )
+                }
+            }
+        }
 
         VerticalSpacer(KptTheme.spacing.sm)
 
@@ -260,9 +326,14 @@ private fun CreateGroupFormContent(
             value = state.submittedOnDate,
             onValueChange = {},
             readOnly = true,
+            enabled = (state.groupId == null),
             label = stringResource(Res.string.feature_groups_submitted_on_date_label),
             placeholder = stringResource(Res.string.feature_groups_submitted_on_date_placeholder),
-            onCalenderClick = { onAction(CreateGroupAction.SubmittedOnDatePickerToggle(true)) },
+            onCalenderClick = if (state.groupId == null) {
+                { onAction(CreateGroupAction.SubmittedOnDatePickerToggle(true)) }
+            } else {
+                null
+            },
             modifier = Modifier.fillMaxWidth(),
         )
 
@@ -271,6 +342,7 @@ private fun CreateGroupFormContent(
         // Activate Group Radio Toggle
         KptRadioToggle(
             selected = state.isActiveGroup,
+            enabled = (state.groupId == null),
             onClick = {
                 onAction(CreateGroupAction.ActivateGroupToggled(!state.isActiveGroup))
             },
@@ -285,9 +357,14 @@ private fun CreateGroupFormContent(
                     value = state.activationDate,
                     onValueChange = {},
                     readOnly = true,
+                    enabled = (state.groupId == null),
                     label = stringResource(Res.string.feature_groups_select_activation_date),
                     placeholder = stringResource(Res.string.feature_groups_activation_date_hint),
-                    onCalenderClick = { onAction(CreateGroupAction.ActivationDatePickerToggle(true)) },
+                    onCalenderClick = if (state.groupId == null) {
+                        { onAction(CreateGroupAction.ActivationDatePickerToggle(true)) }
+                    } else {
+                        null
+                    },
                     modifier = Modifier.fillMaxWidth(),
                 )
             }

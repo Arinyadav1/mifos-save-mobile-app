@@ -23,6 +23,7 @@ fun NavGraphBuilder.groupDetailsDestination(
     onMembersClick: (Long) -> Unit,
     onSavingsClick: (Long) -> Unit,
     onActivateGroupClick: (Long) -> Unit = {},
+    onUpdateGroupClick: (Long) -> Unit = {},
 ) {
     composableWithStayTransitions<GroupDetailsRoute> {
         GroupDetailsScreen(
@@ -30,10 +31,18 @@ fun NavGraphBuilder.groupDetailsDestination(
             onMembersClick = onMembersClick,
             onSavingsClick = onSavingsClick,
             onActivateGroupClick = onActivateGroupClick,
+            onUpdateGroupClick = onUpdateGroupClick,
         )
     }
 }
 
 fun NavController.navigateToGroupDetails(groupId: Long, navOptions: NavOptions? = null) {
     this.navigate(route = GroupDetailsRoute(groupId), navOptions = navOptions)
+}
+
+fun NavController.navigateToGroupDetailWithUpdateData(groupId: Long) {
+    this.navigate(route = GroupDetailsRoute(groupId)) {
+        popUpTo(GroupDetailsRoute(groupId)) { inclusive = true }
+        launchSingleTop = true
+    }
 }
