@@ -14,6 +14,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import kotlinx.serialization.Serializable
 import org.mifos.core.base.ui.nav.composableWithStayTransitions
+import org.mifos.feature.groups.groupDetails.GroupDetailsRoute
 
 @Serializable
 data object GroupDashboardRoute
@@ -34,4 +35,11 @@ fun NavGraphBuilder.groupDashboardDestination(
 
 fun NavController.navigateToGroupDashboard(navOptions: NavOptions? = null) {
     this.navigate(route = GroupDashboardRoute, navOptions = navOptions)
+}
+
+fun NavController.navigateToGroupDashboardWithUpdateData() {
+    this.navigate(route = GroupDashboardRoute) {
+        popUpTo(GroupDashboardRoute) { inclusive = true }
+        launchSingleTop = true
+    }
 }
