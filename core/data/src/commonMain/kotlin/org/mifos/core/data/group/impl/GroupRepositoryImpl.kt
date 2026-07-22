@@ -23,7 +23,6 @@ import org.mifos.core.data.mapper.group.toModel
 import org.mifos.core.data.util.asScreenStateFlow
 import org.mifos.core.data.util.extractErrorMessage
 import org.mifos.core.data.util.runAsDataState
-import org.mifos.core.model.group.ClientMember
 import org.mifos.core.model.group.CreateGroupRequest
 import org.mifos.core.model.group.Group
 import org.mifos.core.model.group.GroupAccounts
@@ -94,24 +93,6 @@ class GroupRepositoryImpl(
                 val errorMessage = extractErrorMessage(response)
                 throw Exception(errorMessage)
             }
-        }
-    }
-
-    override suspend fun searchClients(
-        displayName: String,
-        officeId: Long,
-    ): ScreenState<List<ClientMember>> {
-        return runAsDataState(
-            networkMonitor = networkMonitor,
-            context = dispatcher.io,
-        ) {
-            val response = dataManager.fineract.groupApi
-                .searchClients(
-                    displayName = displayName,
-                    officeId = officeId,
-                )
-                .first()
-            response.pageItems.map { it.toModel() }
         }
     }
 

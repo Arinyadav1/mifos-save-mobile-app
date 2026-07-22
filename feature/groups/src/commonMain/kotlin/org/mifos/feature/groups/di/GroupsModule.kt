@@ -16,6 +16,7 @@ import org.mifos.feature.groups.addMember.AddMemberViewModel
 import org.mifos.feature.groups.createGroup.CreateGroupViewModel
 import org.mifos.feature.groups.groupDashboard.GroupDashboardViewModel
 import org.mifos.feature.groups.groupDetails.GroupDetailsViewModel
+import org.mifos.feature.groups.groupLoanList.GroupLoanListViewModel
 import org.mifos.feature.groups.groupMembersList.GroupMembersListViewModel
 import org.mifos.feature.groups.groupSavingList.GroupSavingListViewModel
 
@@ -24,6 +25,7 @@ val GroupsModule = module {
     viewModelOf(::GroupDetailsViewModel)
     viewModelOf(::GroupMembersListViewModel)
     viewModelOf(::GroupSavingListViewModel)
+    viewModelOf(::GroupLoanListViewModel)
     viewModelOf(::AddMemberViewModel)
     viewModelOf(::ActivateGroupViewModel)
     viewModelOf(::CreateGroupViewModel)

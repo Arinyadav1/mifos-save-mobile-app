@@ -20,7 +20,6 @@ import kotlinx.coroutines.flow.Flow
 import org.mifos.core.network.commonDto.Page
 import org.mifos.core.network.fineract.group.dto.ActivateGroupRequestDto
 import org.mifos.core.network.fineract.group.dto.AssociateClientsRequestDto
-import org.mifos.core.network.fineract.group.dto.ClientMemberDto
 import org.mifos.core.network.fineract.group.dto.CreateGroupRequestDto
 import org.mifos.core.network.fineract.group.dto.DisassociateClientsRequestDto
 import org.mifos.core.network.fineract.group.dto.GroupAccountsDto
@@ -55,15 +54,6 @@ interface GroupApi {
         @Query("command") command: String = "disassociateClients",
         @Body request: DisassociateClientsRequestDto,
     ): HttpResponse
-
-    @GET(ApiEndPoints.CLIENTS)
-    fun searchClients(
-        @Query("displayName") displayName: String,
-        @Query("orphansOnly") orphansOnly: Boolean = true,
-        @Query("sortOrder") sortOrder: String = "ASC",
-        @Query("orderBy") orderBy: String = "displayName",
-        @Query("officeId") officeId: Long,
-    ): Flow<Page<ClientMemberDto>>
 
     @POST("${ApiEndPoints.GROUPS}/{groupId}")
     suspend fun associateClients(

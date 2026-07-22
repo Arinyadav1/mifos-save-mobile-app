@@ -72,6 +72,7 @@ fun GroupDetailsScreen(
     onBackClick: () -> Unit,
     onMembersClick: (Long) -> Unit,
     onSavingsClick: (Long) -> Unit,
+    onLoansClick: (Long) -> Unit,
     modifier: Modifier = Modifier,
     onActivateGroupClick: (Long) -> Unit = {},
     onUpdateGroupClick: (Long) -> Unit = {},
@@ -83,7 +84,7 @@ fun GroupDetailsScreen(
         when (event) {
             GroupDetailsEvent.NavigateBack -> onBackClick()
             GroupDetailsEvent.NavigateToLoans -> {
-                /* TODO: navigate to loans */
+                onLoansClick(viewModel.groupId)
             }
 
             GroupDetailsEvent.NavigateToSavings -> {

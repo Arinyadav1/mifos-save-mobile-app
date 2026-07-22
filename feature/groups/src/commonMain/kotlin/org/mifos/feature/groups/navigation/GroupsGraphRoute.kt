@@ -25,6 +25,8 @@ import org.mifos.feature.groups.groupDashboard.navigateToGroupDashboardWithUpdat
 import org.mifos.feature.groups.groupDetails.groupDetailsDestination
 import org.mifos.feature.groups.groupDetails.navigateToGroupDetailWithUpdateData
 import org.mifos.feature.groups.groupDetails.navigateToGroupDetails
+import org.mifos.feature.groups.groupLoanList.groupLoanListDestination
+import org.mifos.feature.groups.groupLoanList.navigateToGroupLoanList
 import org.mifos.feature.groups.groupMembersList.groupMembersListDestination
 import org.mifos.feature.groups.groupMembersList.navigateToGroupMembersList
 import org.mifos.feature.groups.groupMembersList.navigateToGroupMembersListWithUpdateData
@@ -60,6 +62,9 @@ fun NavGraphBuilder.groupsNavigationGraph(navController: NavController) {
             onSavingsClick = { groupId ->
                 navController.navigateToGroupSavingList(groupId)
             },
+            onLoansClick = { groupId ->
+                navController.navigateToGroupLoanList(groupId)
+            },
             onActivateGroupClick = { groupId ->
                 navController.navigateToActivateGroup(groupId)
             },
@@ -83,6 +88,11 @@ fun NavGraphBuilder.groupsNavigationGraph(navController: NavController) {
             },
         )
         groupSavingListDestination(
+            onBackClick = {
+                navController.popBackStack()
+            },
+        )
+        groupLoanListDestination(
             onBackClick = {
                 navController.popBackStack()
             },

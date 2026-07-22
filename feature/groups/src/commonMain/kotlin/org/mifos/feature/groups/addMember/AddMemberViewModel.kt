@@ -18,11 +18,13 @@ import org.mifos.core.base.store.screen.DataFreshness
 import org.mifos.core.base.store.screen.ScreenState
 import org.mifos.core.base.store.submit.SubmitState
 import org.mifos.core.base.ui.viewmodel.BaseViewModel
+import org.mifos.core.data.client.ClientRepository
 import org.mifos.core.data.group.GroupRepository
 import org.mifos.core.model.group.ClientMember
 
 class AddMemberViewModel(
     savedStateHandle: SavedStateHandle,
+    private val clientRepository: ClientRepository,
     private val groupRepository: GroupRepository,
 ) : BaseViewModel<AddMemberState, AddMemberEvent, AddMemberAction>(
     AddMemberState(
@@ -75,7 +77,7 @@ class AddMemberViewModel(
         }
 
         mutableStateFlow.update { it.copy(isSearching = true) }
-        val result = groupRepository.searchClients(
+        val result = clientRepository.searchClients(
             displayName = query,
             officeId = officeId,
         )

@@ -21,6 +21,7 @@ import org.mifos.core.base.ui.viewmodel.BaseViewModel
 import org.mifos.core.common.Constants
 import org.mifos.core.common.formatDateFromLong
 import org.mifos.core.common.getCurrentEpochMillis
+import org.mifos.core.data.client.ClientRepository
 import org.mifos.core.data.group.GroupRepository
 import org.mifos.core.model.group.ClientMember
 import org.mifos.core.model.group.CreateGroupRequest
@@ -29,6 +30,7 @@ import org.mifos.core.model.group.OfficeOption
 class CreateGroupViewModel(
     savedStateHandle: SavedStateHandle,
     private val groupRepository: GroupRepository,
+    private val clientRepository: ClientRepository,
 ) : BaseViewModel<CreateGroupState, CreateGroupEvent, CreateGroupAction>(
     CreateGroupState(),
 ) {
@@ -209,7 +211,7 @@ class CreateGroupViewModel(
         mutableStateFlow.update { it.copy(isSearching = true) }
         val result = state.selectedOffice?.id.let {
             it?.let { officeId ->
-                groupRepository.searchClients(
+                clientRepository.searchClients(
                     displayName = query,
                     officeId = officeId,
                 )

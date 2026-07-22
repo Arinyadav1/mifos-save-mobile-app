@@ -7,7 +7,7 @@
  *
  * See See https://github.com/openMF/kmp-project-template/blob/main/LICENSE
  */
-package org.mifos.core.network.fineract.group.dto
+package org.mifos.core.network.fineract.client.dto
 
 import kotlinx.serialization.Serializable
 
