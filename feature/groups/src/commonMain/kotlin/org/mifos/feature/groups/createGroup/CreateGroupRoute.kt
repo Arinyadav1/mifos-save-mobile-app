@@ -7,7 +7,7 @@
  *
  * See See https://github.com/openMF/kmp-project-template/blob/main/LICENSE
  */
-package org.mifos.feature.groups.groupDashboard
+package org.mifos.feature.groups.createGroup
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
@@ -16,22 +16,18 @@ import kotlinx.serialization.Serializable
 import org.mifos.core.base.ui.nav.composableWithStayTransitions
 
 @Serializable
-data object GroupDashboardRoute
+data object CreateGroupRoute
 
-fun NavGraphBuilder.groupDashboardDestination(
-    onBackClick: () -> Unit = {},
-    onNewGroupClick: () -> Unit = {},
-    onGroupClick: (Long) -> Unit,
+fun NavGraphBuilder.createGroupDestination(
+    onBackClick: () -> Unit,
 ) {
-    composableWithStayTransitions<GroupDashboardRoute> {
-        GroupDashboardScreen(
+    composableWithStayTransitions<CreateGroupRoute> {
+        CreateGroupScreen(
             onBackClick = onBackClick,
-            onNewGroupClick = onNewGroupClick,
-            onGroupClick = onGroupClick,
         )
     }
 }
 
-fun NavController.navigateToGroupDashboard(navOptions: NavOptions? = null) {
-    this.navigate(route = GroupDashboardRoute, navOptions = navOptions)
+fun NavController.navigateToCreateGroup(navOptions: NavOptions? = null) {
+    this.navigate(route = CreateGroupRoute, navOptions = navOptions)
 }

@@ -17,6 +17,8 @@ import org.mifos.feature.groups.activateGroup.activateGroupDestination
 import org.mifos.feature.groups.activateGroup.navigateToActivateGroup
 import org.mifos.feature.groups.addMember.addMemberDestination
 import org.mifos.feature.groups.addMember.navigateToAddMember
+import org.mifos.feature.groups.createGroup.createGroupDestination
+import org.mifos.feature.groups.createGroup.navigateToCreateGroup
 import org.mifos.feature.groups.groupDashboard.GroupDashboardRoute
 import org.mifos.feature.groups.groupDashboard.groupDashboardDestination
 import org.mifos.feature.groups.groupDetails.groupDetailsDestination
@@ -35,9 +37,14 @@ fun NavGraphBuilder.groupsNavigationGraph(navController: NavController) {
         startDestination = GroupDashboardRoute,
     ) {
         groupDashboardDestination(
+            onBackClick = navController::popBackStack,
+            onNewGroupClick = navController::navigateToCreateGroup,
             onGroupClick = { groupId ->
                 navController.navigateToGroupDetails(groupId)
             },
+        )
+        createGroupDestination(
+            onBackClick = navController::popBackStack,
         )
         groupDetailsDestination(
             onBackClick = {

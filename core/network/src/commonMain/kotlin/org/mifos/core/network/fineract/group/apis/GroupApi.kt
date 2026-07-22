@@ -20,9 +20,11 @@ import org.mifos.core.network.commonDto.Page
 import org.mifos.core.network.fineract.group.dto.ActivateGroupRequestDto
 import org.mifos.core.network.fineract.group.dto.AssociateClientsRequestDto
 import org.mifos.core.network.fineract.group.dto.ClientMemberDto
+import org.mifos.core.network.fineract.group.dto.CreateGroupRequestDto
 import org.mifos.core.network.fineract.group.dto.DisassociateClientsRequestDto
 import org.mifos.core.network.fineract.group.dto.GroupAccountsDto
 import org.mifos.core.network.fineract.group.dto.GroupDto
+import org.mifos.core.network.fineract.group.dto.GroupTemplateResponseDto
 import org.mifos.core.network.utils.ApiEndPoints
 
 interface GroupApi {
@@ -73,5 +75,13 @@ interface GroupApi {
         @Path("groupId") groupId: Long,
         @Query("command") command: String = "activate",
         @Body request: ActivateGroupRequestDto,
+    ): HttpResponse
+
+    @GET("${ApiEndPoints.GROUPS}/template")
+    fun getGroupTemplate(): Flow<GroupTemplateResponseDto>
+
+    @POST(ApiEndPoints.GROUPS)
+    suspend fun createGroup(
+        @Body request: CreateGroupRequestDto,
     ): HttpResponse
 }

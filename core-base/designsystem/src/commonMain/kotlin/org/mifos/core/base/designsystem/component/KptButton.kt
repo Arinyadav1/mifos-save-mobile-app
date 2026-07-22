@@ -32,8 +32,8 @@ fun KptDoubleButton(
     onLeftButtonClick: () -> Unit,
     onRightButtonClick: () -> Unit,
     modifier: Modifier = Modifier,
-    primaryEnabled: Boolean = true,
-    secondaryEnabled: Boolean = true,
+    enabledRight: Boolean = true,
+    enableLeft: Boolean = true,
 ) {
     Surface(
         color = KptTheme.colorScheme.surface,
@@ -48,7 +48,7 @@ fun KptDoubleButton(
             KptOutlinedButton(
                 onClick = onLeftButtonClick,
                 modifier = Modifier.weight(1f),
-                enabled = secondaryEnabled,
+                enabled = enableLeft,
             ) {
                 Text(leftButtonText)
             }
@@ -56,7 +56,7 @@ fun KptDoubleButton(
             KptButton(
                 onClick = onRightButtonClick,
                 modifier = Modifier.weight(1f),
-                enabled = primaryEnabled,
+                enabled = enabledRight,
             ) {
                 Text(rightButtonText)
             }
