@@ -14,7 +14,6 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import kotlinx.serialization.Serializable
 import org.mifos.core.base.ui.nav.composableWithStayTransitions
-import org.mifos.feature.groups.createGroup.CreateGroupRoute
 
 @Serializable
 data class GroupDetailsRoute(val groupId: Long)

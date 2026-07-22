@@ -12,7 +12,6 @@ package org.mifos.feature.groups.createGroup
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
-import kotlinx.serialization.Serializable
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.mifos.core.base.store.screen.DataFreshness
@@ -94,12 +93,11 @@ class CreateGroupViewModel(
             CreateGroupAction.CreateGroup -> createGroup()
             CreateGroupAction.DismissSuccessDialog -> {
                 mutableStateFlow.update { it.copy(showSuccessDialog = false) }
-                if(route.groupId != null){
+                if (route.groupId != null) {
                     sendEvent(CreateGroupEvent.NavigateToGroupDetailWithUpdateData(route.groupId))
-                }else{
+                } else {
                     sendEvent(CreateGroupEvent.NavigateToGroupDashboardWithUpdateData)
                 }
-
             }
             CreateGroupAction.Retry -> handleRetry()
             else -> Unit
@@ -289,7 +287,7 @@ class CreateGroupViewModel(
         mutableStateFlow.update {
             it.copy(
                 groupId = groupId,
-                screenState = ScreenState.Loading
+                screenState = ScreenState.Loading,
             )
         }
         viewModelScope.launch {
@@ -460,7 +458,7 @@ data class CreateGroupState(
 
 sealed interface CreateGroupEvent {
     data object NavigateBack : CreateGroupEvent
-    data class NavigateToGroupDetailWithUpdateData(val groupId : Long) : CreateGroupEvent
+    data class NavigateToGroupDetailWithUpdateData(val groupId: Long) : CreateGroupEvent
     data object NavigateToGroupDashboardWithUpdateData : CreateGroupEvent
 }
 

@@ -14,7 +14,6 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import kotlinx.serialization.Serializable
 import org.mifos.core.base.ui.nav.composableWithStayTransitions
-import org.mifos.feature.groups.groupMembersList.GroupMembersListRoute
 
 @Serializable
 data class CreateGroupRoute(val groupId: Long? = null)
@@ -28,7 +27,7 @@ fun NavGraphBuilder.createGroupDestination(
         CreateGroupScreen(
             onBackClick = onBackClick,
             onNavigateToGroupDetailWithUpdateData = onNavigateToGroupDetailWithUpdateData,
-            onNavigateToGroupDashboardWithUpdateData = onNavigateToGroupDashboardWithUpdateData
+            onNavigateToGroupDashboardWithUpdateData = onNavigateToGroupDashboardWithUpdateData,
         )
     }
 }

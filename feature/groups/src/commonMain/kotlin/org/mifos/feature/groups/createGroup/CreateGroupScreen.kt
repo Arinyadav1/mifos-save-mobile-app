@@ -51,7 +51,6 @@ import org.mifos.feature.groups.generated.resources.feature_groups_activate_add_
 import org.mifos.feature.groups.generated.resources.feature_groups_activate_group_toggle
 import org.mifos.feature.groups.generated.resources.feature_groups_activation_date_hint
 import org.mifos.feature.groups.generated.resources.feature_groups_cancel
-import org.mifos.feature.groups.generated.resources.feature_groups_create_group_button
 import org.mifos.feature.groups.generated.resources.feature_groups_create_group_subtitle
 import org.mifos.feature.groups.generated.resources.feature_groups_create_group_success_message
 import org.mifos.feature.groups.generated.resources.feature_groups_create_group_success_title
@@ -63,7 +62,6 @@ import org.mifos.feature.groups.generated.resources.feature_groups_group_name_pl
 import org.mifos.feature.groups.generated.resources.feature_groups_mifos_save_mobile
 import org.mifos.feature.groups.generated.resources.feature_groups_office_label
 import org.mifos.feature.groups.generated.resources.feature_groups_ok
-import org.mifos.feature.groups.generated.resources.feature_groups_save
 import org.mifos.feature.groups.generated.resources.feature_groups_search_members_hint
 import org.mifos.feature.groups.generated.resources.feature_groups_select_activation_date
 import org.mifos.feature.groups.generated.resources.feature_groups_select_office_placeholder
@@ -333,7 +331,9 @@ private fun CreateGroupFormContent(
             placeholder = stringResource(Res.string.feature_groups_submitted_on_date_placeholder),
             onCalenderClick = if (state.groupId == null) {
                 { onAction(CreateGroupAction.SubmittedOnDatePickerToggle(true)) }
-            } else null,
+            } else {
+                null
+            },
             modifier = Modifier.fillMaxWidth(),
         )
 
@@ -362,7 +362,9 @@ private fun CreateGroupFormContent(
                     placeholder = stringResource(Res.string.feature_groups_activation_date_hint),
                     onCalenderClick = if (state.groupId == null) {
                         { onAction(CreateGroupAction.ActivationDatePickerToggle(true)) }
-                    } else null,
+                    } else {
+                        null
+                    },
                     modifier = Modifier.fillMaxWidth(),
                 )
             }
