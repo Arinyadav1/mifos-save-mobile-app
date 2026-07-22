@@ -12,6 +12,7 @@ package org.mifos.core.network.fineract.group.apis
 import de.jensklingenberg.ktorfit.http.Body
 import de.jensklingenberg.ktorfit.http.GET
 import de.jensklingenberg.ktorfit.http.POST
+import de.jensklingenberg.ktorfit.http.PUT
 import de.jensklingenberg.ktorfit.http.Path
 import de.jensklingenberg.ktorfit.http.Query
 import io.ktor.client.statement.HttpResponse
@@ -24,6 +25,7 @@ import org.mifos.core.network.fineract.group.dto.DisassociateClientsRequestDto
 import org.mifos.core.network.fineract.group.dto.GroupAccountsDto
 import org.mifos.core.network.fineract.group.dto.GroupDto
 import org.mifos.core.network.fineract.group.dto.GroupTemplateResponseDto
+import org.mifos.core.network.fineract.group.dto.UpdateGroupRequestDto
 import org.mifos.core.network.utils.ApiEndPoints
 
 interface GroupApi {
@@ -73,5 +75,11 @@ interface GroupApi {
     @POST(ApiEndPoints.GROUPS)
     suspend fun createGroup(
         @Body request: CreateGroupRequestDto,
+    ): HttpResponse
+
+    @PUT("${ApiEndPoints.GROUPS}/{groupId}")
+    suspend fun updateGroup(
+        @Path("groupId") groupId: Long,
+        @Body request: UpdateGroupRequestDto,
     ): HttpResponse
 }

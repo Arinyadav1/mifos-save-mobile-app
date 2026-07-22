@@ -9,7 +9,9 @@
  */
 package org.mifos.feature.groups.createGroup
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.toRoute
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.mifos.core.base.store.screen.DataFreshness
@@ -26,14 +28,21 @@ import org.mifos.core.model.group.CreateGroupRequest
 import org.mifos.core.model.group.OfficeOption
 
 class CreateGroupViewModel(
+    savedStateHandle: SavedStateHandle,
     private val groupRepository: GroupRepository,
     private val clientRepository: ClientRepository,
 ) : BaseViewModel<CreateGroupState, CreateGroupEvent, CreateGroupAction>(
     CreateGroupState(),
 ) {
+    private val route = savedStateHandle.toRoute<CreateGroupRoute>()
+    val groupId = route.groupId
 
     init {
-        loadGroupTemplate()
+        if (groupId != null) {
+            loadGroupDetails(groupId)
+        } else {
+            loadGroupTemplate()
+        }
     }
 
     override fun handleAction(action: CreateGroupAction) {
@@ -86,16 +95,13 @@ class CreateGroupViewModel(
             CreateGroupAction.CreateGroup -> createGroup()
             CreateGroupAction.DismissSuccessDialog -> {
                 mutableStateFlow.update { it.copy(showSuccessDialog = false) }
-                sendEvent(CreateGroupEvent.NavigateBack)
-            }
-            CreateGroupAction.Retry -> {
-                mutableStateFlow.update {
-                    it.copy(
-                        submitState = SubmitState.Idle,
-                        screenState = ScreenState.Content(Unit, DataFreshness.FRESH),
-                    )
+                if (route.groupId != null) {
+                    sendEvent(CreateGroupEvent.NavigateToGroupDetailWithUpdateData(route.groupId))
+                } else {
+                    sendEvent(CreateGroupEvent.NavigateToGroupDashboardWithUpdateData)
                 }
             }
+            CreateGroupAction.Retry -> handleRetry()
             else -> Unit
         }
     }
@@ -264,24 +270,108 @@ class CreateGroupViewModel(
         }
     }
 
+    private fun handleRetry() {
+        mutableStateFlow.update {
+            it.copy(
+                submitState = SubmitState.Idle,
+            )
+        }
+        if (state.screenState is ScreenState.Error || state.screenState is ScreenState.NoNetwork) {
+            if (groupId != null) {
+                loadGroupDetails(groupId)
+            } else {
+                loadGroupTemplate()
+            }
+        }
+    }
+
+    private fun loadGroupDetails(groupId: Long) {
+        mutableStateFlow.update {
+            it.copy(
+                groupId = groupId,
+                screenState = ScreenState.Loading,
+            )
+        }
+        viewModelScope.launch {
+            groupRepository.getGroupDetails(groupId).collect { screenState ->
+                when (screenState) {
+                    is ScreenState.Content -> {
+                        val group = screenState.data
+                        mutableStateFlow.update {
+                            it.copy(
+                                name = group.name.orEmpty(),
+                                selectedOffice = OfficeOption(id = group.officeId, name = group.officeName.orEmpty()),
+                                submittedOnDate = group.timeline?.submittedOnDate?.toString().orEmpty(),
+                                isActiveGroup = group.active,
+                                activationDate = group.activationDate?.toString().orEmpty(),
+                                selectedMembers = group.clientMembers.orEmpty(),
+                                screenState = ScreenState.Content(Unit, DataFreshness.FRESH),
+                            )
+                        }
+                    }
+
+                    is ScreenState.Error -> {
+                        mutableStateFlow.update {
+                            it.copy(
+                                screenState = ScreenState.Error(screenState.error),
+                            )
+                        }
+                    }
+
+                    is ScreenState.NoNetwork -> {
+                        mutableStateFlow.update {
+                            it.copy(
+                                screenState = ScreenState.NoNetwork(),
+                            )
+                        }
+                    }
+
+                    is ScreenState.Unauthenticated -> {
+                        mutableStateFlow.update {
+                            it.copy(
+                                screenState = ScreenState.Unauthenticated,
+                            )
+                        }
+                    }
+
+                    is ScreenState.Empty -> {
+                        mutableStateFlow.update {
+                            it.copy(
+                                screenState = ScreenState.Empty,
+                            )
+                        }
+                    }
+
+                    is ScreenState.Loading -> Unit
+                }
+            }
+        }
+    }
+
     private fun createGroup() {
         mutableStateFlow.update { it.copy(submitState = SubmitState.Submitting()) }
         viewModelScope.launch {
-            val request = state.selectedOffice?.id?.let { officeId ->
-                CreateGroupRequest(
-                    officeId = officeId,
-                    name = state.name.trim(),
-                    externalId = state.externalId.trim(),
-                    clientMembers = state.selectedMembers.map { it.id },
-                    dateFormat = Constants.DATE_FORMAT_SHORT_MONTH,
-                    locale = Constants.LOCALE_EN,
-                    active = if (state.isActiveGroup) true else null,
-                    activationDate = if (state.isActiveGroup) state.activationDate else null,
-                    submittedOnDate = state.submittedOnDate,
-                )
+            val currentGroupId = state.groupId
+            val result = if (currentGroupId != null) {
+                groupRepository.updateGroup(currentGroupId, state.name.trim())
+            } else {
+                val request = state.selectedOffice?.id?.let { officeId ->
+                    CreateGroupRequest(
+                        officeId = officeId,
+                        name = state.name.trim(),
+                        externalId = state.externalId.trim(),
+                        clientMembers = state.selectedMembers.map { it.id },
+                        dateFormat = Constants.DATE_FORMAT_SHORT_MONTH,
+                        locale = Constants.LOCALE_EN,
+                        active = if (state.isActiveGroup) true else null,
+                        activationDate = if (state.isActiveGroup) state.activationDate else null,
+                        submittedOnDate = state.submittedOnDate,
+                    )
+                }
+                request?.let { groupRepository.createGroup(it) }
             }
 
-            when (val result = request?.let { groupRepository.createGroup(it) }) {
+            when (result) {
                 is ScreenState.Content -> {
                     mutableStateFlow.update {
                         it.copy(
@@ -335,6 +425,7 @@ class CreateGroupViewModel(
 }
 
 data class CreateGroupState(
+    val groupId: Long? = null,
     val name: String = "",
     val externalId: String = "",
     val officeOptions: List<OfficeOption> = emptyList(),
@@ -357,14 +448,20 @@ data class CreateGroupState(
     val isSearching: Boolean = false,
 ) {
     val isSubmitButtonEnabled: Boolean
-        get() = name.isNotBlank() &&
-            selectedOffice != null &&
-            submittedOnDate.isNotBlank() &&
-            (!isActiveGroup || activationDate.isNotBlank())
+        get() = if (groupId != null) {
+            name.isNotBlank()
+        } else {
+            name.isNotBlank() &&
+                selectedOffice != null &&
+                submittedOnDate.isNotBlank() &&
+                (!isActiveGroup || activationDate.isNotBlank())
+        }
 }
 
 sealed interface CreateGroupEvent {
     data object NavigateBack : CreateGroupEvent
+    data class NavigateToGroupDetailWithUpdateData(val groupId: Long) : CreateGroupEvent
+    data object NavigateToGroupDashboardWithUpdateData : CreateGroupEvent
 }
 
 sealed interface CreateGroupAction {

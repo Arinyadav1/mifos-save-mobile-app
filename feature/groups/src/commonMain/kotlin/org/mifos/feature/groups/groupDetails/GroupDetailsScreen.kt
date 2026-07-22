@@ -75,6 +75,7 @@ fun GroupDetailsScreen(
     onLoansClick: (Long) -> Unit,
     modifier: Modifier = Modifier,
     onActivateGroupClick: (Long) -> Unit = {},
+    onUpdateGroupClick: (Long) -> Unit = {},
     viewModel: GroupDetailsViewModel = koinViewModel(),
 ) {
     val state by viewModel.stateFlow.collectAsStateWithLifecycle()
@@ -108,6 +109,10 @@ fun GroupDetailsScreen(
 
             is GroupDetailsEvent.NavigateToActivateGroup -> {
                 onActivateGroupClick(event.groupId)
+            }
+
+            is GroupDetailsEvent.NavigateToUpdateGroup -> {
+                onUpdateGroupClick(event.groupId)
             }
         }
     }
@@ -165,7 +170,10 @@ internal fun GroupDetailsScreenContent(
                                 add(
                                     KptDropdownMenuItem(
                                         text = stringResource(Res.string.feature_groups_update_group),
-                                        onClick = {},
+                                        onClick = {
+                                            onAction(GroupDetailsAction.SetMenuVisible(false))
+                                            onAction(GroupDetailsAction.OnUpdateGroupClick)
+                                        },
                                     ),
                                 )
                             },

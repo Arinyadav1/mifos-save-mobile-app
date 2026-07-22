@@ -21,7 +21,9 @@ import org.mifos.feature.groups.createGroup.createGroupDestination
 import org.mifos.feature.groups.createGroup.navigateToCreateGroup
 import org.mifos.feature.groups.groupDashboard.GroupDashboardRoute
 import org.mifos.feature.groups.groupDashboard.groupDashboardDestination
+import org.mifos.feature.groups.groupDashboard.navigateToGroupDashboardWithUpdateData
 import org.mifos.feature.groups.groupDetails.groupDetailsDestination
+import org.mifos.feature.groups.groupDetails.navigateToGroupDetailWithUpdateData
 import org.mifos.feature.groups.groupDetails.navigateToGroupDetails
 import org.mifos.feature.groups.groupLoanList.groupLoanListDestination
 import org.mifos.feature.groups.groupLoanList.navigateToGroupLoanList
@@ -40,13 +42,15 @@ fun NavGraphBuilder.groupsNavigationGraph(navController: NavController) {
     ) {
         groupDashboardDestination(
             onBackClick = navController::popBackStack,
-            onNewGroupClick = navController::navigateToCreateGroup,
+            onNewGroupClick = { navController.navigateToCreateGroup() },
             onGroupClick = { groupId ->
                 navController.navigateToGroupDetails(groupId)
             },
         )
         createGroupDestination(
             onBackClick = navController::popBackStack,
+            onNavigateToGroupDetailWithUpdateData = navController::navigateToGroupDetailWithUpdateData,
+            onNavigateToGroupDashboardWithUpdateData = navController::navigateToGroupDashboardWithUpdateData,
         )
         groupDetailsDestination(
             onBackClick = {
@@ -63,6 +67,9 @@ fun NavGraphBuilder.groupsNavigationGraph(navController: NavController) {
             },
             onActivateGroupClick = { groupId ->
                 navController.navigateToActivateGroup(groupId)
+            },
+            onUpdateGroupClick = { groupId ->
+                navController.navigateToCreateGroup(groupId)
             },
         )
         groupMembersListDestination(
