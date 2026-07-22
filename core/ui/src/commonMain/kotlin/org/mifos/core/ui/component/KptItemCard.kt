@@ -25,6 +25,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -39,6 +40,7 @@ import org.mifos.core.designsystem.component.StatusChipIntent
 import org.mifos.core.designsystem.icon.AppIcons
 import org.mifos.core.designsystem.theme.elevation
 import org.mifos.core.designsystem.theme.spacing
+import org.mifos.core.model.client.LoanAccount
 import org.mifos.core.model.group.Group
 import org.mifos.core.model.group.SavingsAccount
 
@@ -111,6 +113,8 @@ fun KptItemCard(
                             fontWeight = FontWeight.SemiBold,
                         ),
                         color = KptTheme.colorScheme.onSurface,
+                        maxLines = 2,
+                        overflow = TextOverflow.Ellipsis,
                         modifier = Modifier.weight(1f, fill = false),
                     )
 
@@ -176,5 +180,20 @@ val SavingsAccount.statusChipIntent: StatusChipIntent
         status?.closed == true ||
             status?.rejected == true ||
             status?.withdrawnByApplicant == true -> StatusChipIntent.Neutral
+        else -> StatusChipIntent.Info
+    }
+
+/**
+ * Maps a [LoanAccount]'s status to the appropriate [StatusChipIntent] for visual styling.
+ */
+val LoanAccount.statusChipIntent: StatusChipIntent
+    get() = when {
+        status?.active == true -> StatusChipIntent.Success
+        status?.pendingApproval == true ||
+            status?.waitingForDisbursal == true -> StatusChipIntent.Warning
+        status?.closed == true ||
+            status?.closedObligationsMet == true ||
+            status?.closedWrittenOff == true ||
+            status?.closedRescheduled == true -> StatusChipIntent.Neutral
         else -> StatusChipIntent.Info
     }

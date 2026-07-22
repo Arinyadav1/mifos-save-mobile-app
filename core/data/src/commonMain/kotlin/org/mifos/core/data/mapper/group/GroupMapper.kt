@@ -19,9 +19,9 @@ import org.mifos.core.model.group.GroupStatus
 import org.mifos.core.model.group.GroupTemplate
 import org.mifos.core.model.group.GroupTimeline
 import org.mifos.core.model.group.OfficeOption
-import org.mifos.core.network.fineract.group.dto.ClientMemberDto
-import org.mifos.core.network.fineract.group.dto.ClientStatusDto
-import org.mifos.core.network.fineract.group.dto.ClientTimelineDto
+import org.mifos.core.network.fineract.client.dto.ClientMemberDto
+import org.mifos.core.network.fineract.client.dto.ClientStatusDto
+import org.mifos.core.network.fineract.client.dto.ClientTimelineDto
 import org.mifos.core.network.fineract.group.dto.CreateGroupRequestDto
 import org.mifos.core.network.fineract.group.dto.GroupDto
 import org.mifos.core.network.fineract.group.dto.GroupStatusDto

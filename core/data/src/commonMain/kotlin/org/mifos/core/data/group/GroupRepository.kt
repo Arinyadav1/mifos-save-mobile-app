@@ -27,10 +27,6 @@ interface GroupRepository {
         groupId: Long,
         clientMembers: List<Long>,
     ): ScreenState<Unit>
-    suspend fun searchClients(
-        displayName: String,
-        officeId: Long,
-    ): ScreenState<List<ClientMember>>
     suspend fun associateClients(
         groupId: Long,
         clientMembers: List<Long>,

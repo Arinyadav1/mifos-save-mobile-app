@@ -10,6 +10,7 @@
 package org.mifos.core.network.fineract.group.dto
 
 import kotlinx.serialization.Serializable
+import org.mifos.core.network.fineract.client.dto.ClientMemberDto
 
 @Serializable
 data class GroupDto(

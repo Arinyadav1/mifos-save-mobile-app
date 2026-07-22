@@ -11,6 +11,7 @@ package org.mifos.core.network.fineract
 
 import de.jensklingenberg.ktorfit.Ktorfit
 import org.mifos.core.network.fineract.auth.apis.createAuthApi
+import org.mifos.core.network.fineract.client.apis.createClientApi
 import org.mifos.core.network.fineract.group.apis.createGroupApi
 
 class FineractApiManager(
@@ -18,4 +19,5 @@ class FineractApiManager(
 ) {
     val authApi by lazy { ktorfit.createAuthApi() }
     val groupApi by lazy { ktorfit.createGroupApi() }
+    val clientApi by lazy { ktorfit.createClientApi() }
 }

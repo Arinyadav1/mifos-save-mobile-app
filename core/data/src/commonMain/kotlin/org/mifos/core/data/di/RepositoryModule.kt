@@ -29,6 +29,8 @@ import org.mifos.core.data.banking.BillReminderRepository
 import org.mifos.core.data.banking.LoanRepository
 import org.mifos.core.data.banking.impl.BillReminderRepositoryImpl
 import org.mifos.core.data.banking.impl.LoanRepositoryImpl
+import org.mifos.core.data.client.ClientRepository
+import org.mifos.core.data.client.impl.ClientRepositoryImpl
 import org.mifos.core.data.group.GroupRepository
 import org.mifos.core.data.group.impl.GroupRepositoryImpl
 import org.mifos.core.data.infra.NetworkMonitor
@@ -187,6 +189,14 @@ val DataModule = module {
             dispatcher = get(),
         )
     } bind GroupRepository::class
+
+    single {
+        ClientRepositoryImpl(
+            dataManager = get(),
+            networkMonitor = get(),
+            dispatcher = get(),
+        )
+    } bind ClientRepository::class
 }
 
 expect val platformModule: Module

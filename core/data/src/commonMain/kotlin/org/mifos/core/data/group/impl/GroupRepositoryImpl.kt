@@ -96,24 +96,6 @@ class GroupRepositoryImpl(
         }
     }
 
-    override suspend fun searchClients(
-        displayName: String,
-        officeId: Long,
-    ): ScreenState<List<ClientMember>> {
-        return runAsDataState(
-            networkMonitor = networkMonitor,
-            context = dispatcher.io,
-        ) {
-            val response = dataManager.fineract.groupApi
-                .searchClients(
-                    displayName = displayName,
-                    officeId = officeId,
-                )
-                .first()
-            response.pageItems.map { it.toModel() }
-        }
-    }
-
     override suspend fun associateClients(
         groupId: Long,
         clientMembers: List<Long>,

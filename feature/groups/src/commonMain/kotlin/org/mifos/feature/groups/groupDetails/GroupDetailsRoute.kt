@@ -22,6 +22,7 @@ fun NavGraphBuilder.groupDetailsDestination(
     onBackClick: () -> Unit,
     onMembersClick: (Long) -> Unit,
     onSavingsClick: (Long) -> Unit,
+    onLoansClick: (Long) -> Unit,
     onActivateGroupClick: (Long) -> Unit = {},
 ) {
     composableWithStayTransitions<GroupDetailsRoute> {
@@ -29,6 +30,7 @@ fun NavGraphBuilder.groupDetailsDestination(
             onBackClick = onBackClick,
             onMembersClick = onMembersClick,
             onSavingsClick = onSavingsClick,
+            onLoansClick = onLoansClick,
             onActivateGroupClick = onActivateGroupClick,
         )
     }
