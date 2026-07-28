@@ -12,10 +12,12 @@ package org.mifos.feature.groups.groupDashboard
 import androidx.lifecycle.viewModelScope
 import io.github.mobilebytelabs.kmptoolkit.networkmonitor.NetworkMonitor
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import org.mifos.core.base.store.infra.FetchedAtRepository
 import org.mifos.core.base.store.paging.PageKey
 import org.mifos.core.base.store.paging.PagingScreenStream
 import org.mifos.core.base.store.paging.asPagingScreenStream
+import org.mifos.core.base.store.screen.ScreenState
 import org.mifos.core.base.ui.viewmodel.BaseViewModel
 import org.mifos.core.data.group.GroupRepository
 import org.mifos.core.model.group.Group
@@ -47,6 +49,22 @@ class GroupDashboardViewModel(
                 pagingStream = pagingStream,
             )
         }
+
+        viewModelScope.launch {
+            pagingStream.state.collect { screenState ->
+                if (screenState is ScreenState.Content) {
+                    val groups = screenState.data
+                    val offices = groups.mapNotNull { it.officeName }.distinct().sorted()
+                    val statuses = groups.mapNotNull { it.status?.value }.distinct().sorted()
+                    mutableStateFlow.update {
+                        it.copy(
+                            availableOffices = offices,
+                            availableStatuses = statuses,
+                        )
+                    }
+                }
+            }
+        }
     }
 
     override fun handleAction(action: GroupDashboardAction) {
@@ -66,7 +84,9 @@ class GroupDashboardViewModel(
             }
 
             GroupDashboardAction.OnFilterClick -> {
-                sendEvent(GroupDashboardEvent.OpenFilter)
+                mutableStateFlow.update {
+                    it.copy(isFilterVisible = !it.isFilterVisible)
+                }
             }
 
             is GroupDashboardAction.OnGroupClick -> {
@@ -76,6 +96,49 @@ class GroupDashboardViewModel(
             GroupDashboardAction.Retry -> {
                 state.pagingStream?.retry()
             }
+
+            is GroupDashboardAction.HandleFilterClick -> {
+                mutableStateFlow.update { state ->
+                    val newSelectedStatus = if (action.filterType == GroupFilterType.STATUS) {
+                        if (action.filterValue in state.selectedStatuses) {
+                            state.selectedStatuses - action.filterValue
+                        } else {
+                            state.selectedStatuses + action.filterValue
+                        }
+                    } else {
+                        state.selectedStatuses
+                    }
+                    val newSelectedOffices = if (action.filterType == GroupFilterType.OFFICE) {
+                        if (action.filterValue in state.selectedOffices) {
+                            state.selectedOffices - action.filterValue
+                        } else {
+                            state.selectedOffices + action.filterValue
+                        }
+                    } else {
+                        state.selectedOffices
+                    }
+                    state.copy(
+                        selectedStatuses = newSelectedStatus,
+                        selectedOffices = newSelectedOffices,
+                    )
+                }
+            }
+
+            is GroupDashboardAction.HandleSortClick -> {
+                mutableStateFlow.update { state ->
+                    state.copy(sortType = action.sort)
+                }
+            }
+
+            GroupDashboardAction.ClearFilters -> {
+                mutableStateFlow.update { state ->
+                    state.copy(
+                        selectedStatuses = emptyList(),
+                        selectedOffices = emptyList(),
+                        sortType = null,
+                    )
+                }
+            }
         }
     }
 }
@@ -83,12 +146,27 @@ class GroupDashboardViewModel(
 data class GroupDashboardState(
     val pagingStream: PagingScreenStream<Group>? = null,
     val searchQuery: String = "",
+    val isFilterVisible: Boolean = false,
+    val selectedStatuses: List<String> = emptyList(),
+    val selectedOffices: List<String> = emptyList(),
+    val availableStatuses: List<String> = emptyList(),
+    val availableOffices: List<String> = emptyList(),
+    val sortType: GroupSortType? = null,
 )
+
+enum class GroupSortType(val value: String) {
+    NAME("Name"),
+    ACCOUNT_NUMBER("Account Number"),
+}
+
+enum class GroupFilterType(val value: String) {
+    STATUS("Status"),
+    OFFICE("Office"),
+}
 
 sealed interface GroupDashboardEvent {
     data object NavigateBack : GroupDashboardEvent
     data object NavigateToNewGroup : GroupDashboardEvent
-    data object OpenFilter : GroupDashboardEvent
     data class NavigateToGroupDetail(val groupId: Long) : GroupDashboardEvent
 }
 
@@ -99,4 +177,7 @@ sealed interface GroupDashboardAction {
     data object OnFilterClick : GroupDashboardAction
     data class OnGroupClick(val groupId: Long) : GroupDashboardAction
     data object Retry : GroupDashboardAction
+    data class HandleFilterClick(val filterValue: String, val filterType: GroupFilterType) : GroupDashboardAction
+    data class HandleSortClick(val sort: GroupSortType?) : GroupDashboardAction
+    data object ClearFilters : GroupDashboardAction
 }
