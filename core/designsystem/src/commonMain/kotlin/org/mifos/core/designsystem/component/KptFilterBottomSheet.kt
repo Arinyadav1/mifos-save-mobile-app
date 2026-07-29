@@ -33,7 +33,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.text.font.FontWeight
-import org.mifos.core.base.designsystem.component.KptButton
 import org.mifos.core.base.designsystem.component.KptTextButton
 import org.mifos.core.base.designsystem.theme.KptTheme
 import org.mifos.core.designsystem.icon.AppIcons
