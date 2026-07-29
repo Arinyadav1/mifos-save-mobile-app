@@ -18,14 +18,12 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.SheetState
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -152,7 +150,7 @@ private fun FilterHeader(
                     style = KptTheme.typography.labelLarge,
                 )
             }
-            KptTextButton(
+            KptButton(
                 onClick = onDismissRequest,
             ) {
                 Text(
@@ -188,7 +186,7 @@ private fun FilterSortSection(
         ) {
             Text(
                 text = sortSectionTitle,
-                style = KptTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
+                style = KptTheme.typography.titleMedium.copy(fontWeight = FontWeight.SemiBold),
                 color = KptTheme.colorScheme.onSurface,
             )
             Icon(
@@ -243,7 +241,7 @@ private fun FilterListSection(
         ) {
             Text(
                 text = section.title,
-                style = KptTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
+                style = KptTheme.typography.titleMedium.copy(fontWeight = FontWeight.SemiBold),
                 color = KptTheme.colorScheme.onSurface,
             )
             Icon(

@@ -15,11 +15,7 @@ import androidx.navigation.toRoute
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.mifos.core.base.store.screen.ScreenState
@@ -49,25 +45,23 @@ class GroupLoanListViewModel(
             it.copy(screenState = ScreenState.Loading)
         }
         viewModelScope.launch {
-            val loanAccountsFlow = flow {
-                emit(ScreenState.Loading)
-                groupRepository.getGroupDetails(groupId).collect { groupState ->
-                    emit(processGroupDetails(groupState))
-                }
-            }
-
-            val searchQueryFlow = mutableStateFlow
-                .map { it.searchQuery }
-                .distinctUntilChanged()
-
-            combine(
-                loanAccountsFlow,
-                searchQueryFlow,
-            ) { loanAccountsState, query ->
-                filterLoanAccounts(loanAccountsState, query)
-            }.collect { mappedScreenState ->
-                mutableStateFlow.update {
-                    it.copy(screenState = mappedScreenState)
+            groupRepository.getGroupDetails(groupId).collect { groupState ->
+                val loansState = processGroupDetails(groupState)
+                if (loansState is ScreenState.Content) {
+                    val loans = loansState.data
+                    val statuses = loans.mapNotNull { it.status?.value }.distinct().sorted()
+                    val products = loans.mapNotNull { it.productName }.distinct().sorted()
+                    mutableStateFlow.update {
+                        it.copy(
+                            screenState = loansState,
+                            availableStatuses = statuses,
+                            availableProducts = products,
+                        )
+                    }
+                } else {
+                    mutableStateFlow.update {
+                        it.copy(screenState = loansState)
+                    }
                 }
             }
         }
@@ -163,38 +157,6 @@ class GroupLoanListViewModel(
         }
     }
 
-    private fun filterLoanAccounts(
-        loanAccountsState: ScreenState<List<LoanAccount>>,
-        query: String,
-    ): ScreenState<List<LoanAccount>> {
-        return when (loanAccountsState) {
-            is ScreenState.Content -> {
-                val loans = loanAccountsState.data
-                val filteredLoans = if (query.isBlank()) {
-                    loans
-                } else {
-                    loans.filter {
-                        it.productName.orEmpty().contains(query, ignoreCase = true) ||
-                            it.accountNo.orEmpty().contains(query, ignoreCase = true) ||
-                            it.status?.value.orEmpty().contains(query, ignoreCase = true)
-                    }
-                }
-
-                if (filteredLoans.isEmpty()) {
-                    ScreenState.Empty
-                } else {
-                    ScreenState.Content(
-                        data = filteredLoans,
-                        freshness = loanAccountsState.freshness,
-                        fetchedAt = loanAccountsState.fetchedAt,
-                        freshnessSignal = loanAccountsState.freshnessSignal,
-                    )
-                }
-            }
-            else -> loanAccountsState
-        }
-    }
-
     override fun handleAction(action: GroupLoanListAction) {
         when (action) {
             GroupLoanListAction.OnBackClick -> {
@@ -209,9 +171,52 @@ class GroupLoanListViewModel(
                 }
             }
             GroupLoanListAction.OnFilterClick -> {
+                mutableStateFlow.update {
+                    it.copy(isFilterVisible = !it.isFilterVisible)
+                }
             }
             is GroupLoanListAction.OnLoanAccountClick -> {
                 // Loan account clicked
+            }
+            is GroupLoanListAction.HandleFilterClick -> {
+                mutableStateFlow.update { state ->
+                    val newSelectedStatus = if (action.filterType == LoanFilterType.STATUS) {
+                        if (action.filterValue in state.selectedStatuses) {
+                            state.selectedStatuses - action.filterValue
+                        } else {
+                            state.selectedStatuses + action.filterValue
+                        }
+                    } else {
+                        state.selectedStatuses
+                    }
+                    val newSelectedProducts = if (action.filterType == LoanFilterType.PRODUCT) {
+                        if (action.filterValue in state.selectedProducts) {
+                            state.selectedProducts - action.filterValue
+                        } else {
+                            state.selectedProducts + action.filterValue
+                        }
+                    } else {
+                        state.selectedProducts
+                    }
+                    state.copy(
+                        selectedStatuses = newSelectedStatus,
+                        selectedProducts = newSelectedProducts,
+                    )
+                }
+            }
+            is GroupLoanListAction.HandleSortClick -> {
+                mutableStateFlow.update { state ->
+                    state.copy(sortType = action.sort)
+                }
+            }
+            GroupLoanListAction.ClearFilters -> {
+                mutableStateFlow.update { state ->
+                    state.copy(
+                        selectedStatuses = emptyList(),
+                        selectedProducts = emptyList(),
+                        sortType = null,
+                    )
+                }
             }
         }
     }
@@ -227,7 +232,23 @@ class GroupLoanListViewModel(
 data class GroupLoanListState(
     val screenState: ScreenState<List<LoanAccount>> = ScreenState.Loading,
     val searchQuery: String = "",
+    val isFilterVisible: Boolean = false,
+    val selectedStatuses: List<String> = emptyList(),
+    val selectedProducts: List<String> = emptyList(),
+    val availableStatuses: List<String> = emptyList(),
+    val availableProducts: List<String> = emptyList(),
+    val sortType: LoanSortType? = null,
 )
+
+enum class LoanSortType(val value: String) {
+    PRODUCT_NAME("Product Name"),
+    ACCOUNT_NUMBER("Account Number"),
+}
+
+enum class LoanFilterType(val value: String) {
+    STATUS("Status"),
+    PRODUCT("Product"),
+}
 
 sealed interface GroupLoanListEvent {
     data object NavigateBack : GroupLoanListEvent
@@ -239,4 +260,7 @@ sealed interface GroupLoanListAction {
     data class SearchQueryChanged(val query: String) : GroupLoanListAction
     data object OnFilterClick : GroupLoanListAction
     data class OnLoanAccountClick(val accountId: Long) : GroupLoanListAction
+    data class HandleFilterClick(val filterValue: String, val filterType: LoanFilterType) : GroupLoanListAction
+    data class HandleSortClick(val sort: LoanSortType?) : GroupLoanListAction
+    data object ClearFilters : GroupLoanListAction
 }
