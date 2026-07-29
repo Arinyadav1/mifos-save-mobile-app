@@ -97,4 +97,10 @@
     <string name="feature_groups_update_group_success_title">Success</string>
     <string name="feature_groups_update_group_success_message">Group updated successfully.</string>
     <string name="feature_groups_update_group_subtitle">Update group details</string>
+    <string name="feature_groups_sort_by">Sort by</string>
+    <string name="feature_groups_account_status">Account Status</string>
+    <string name="feature_groups_clear_all">Clear All</string>
+    <string name="feature_groups_apply">Apply</string>
+    <string name="feature_groups_sort_name">Name</string>
+    <string name="feature_groups_sort_account_number">Account Number</string>
 </resources>
