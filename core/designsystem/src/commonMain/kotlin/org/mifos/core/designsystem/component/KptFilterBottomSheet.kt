@@ -149,7 +149,7 @@ private fun FilterHeader(
                     style = KptTheme.typography.labelLarge,
                 )
             }
-            KptTextButton(
+            KptButton(
                 onClick = onDismissRequest,
             ) {
                 Text(
@@ -185,7 +185,7 @@ private fun FilterSortSection(
         ) {
             Text(
                 text = sortSectionTitle,
-                style = KptTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
+                style = KptTheme.typography.titleMedium.copy(fontWeight = FontWeight.SemiBold),
                 color = KptTheme.colorScheme.onSurface,
             )
             Icon(
@@ -240,7 +240,7 @@ private fun FilterListSection(
         ) {
             Text(
                 text = section.title,
-                style = KptTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
+                style = KptTheme.typography.titleMedium.copy(fontWeight = FontWeight.SemiBold),
                 color = KptTheme.colorScheme.onSurface,
             )
             Icon(

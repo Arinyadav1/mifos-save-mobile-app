@@ -103,4 +103,5 @@
     <string name="feature_groups_apply">Apply</string>
     <string name="feature_groups_sort_name">Name</string>
     <string name="feature_groups_sort_account_number">Account Number</string>
+    <string name="feature_groups_product_name">Product Name</string>
 </resources>
