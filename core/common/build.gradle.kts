@@ -10,6 +10,8 @@
 plugins {
     alias(libs.plugins.kmp.library.convention)
     alias(libs.plugins.kotlin.parcelize)
+    alias(libs.plugins.jetbrainsCompose)
+    alias(libs.plugins.compose.compiler)
 }
 
 kotlin {
@@ -18,6 +20,14 @@ kotlin {
             implementation(libs.kotlinx.coroutines.core)
             api(libs.kermit.logging)
             api(libs.kotlinx.datetime)
+            implementation(compose.components.resources)
+            implementation(libs.jb.composeRuntime)
         }
+    }
+}
+
+compose {
+    resources {
+        packageOfResClass = "org.mifos.core.common.generated.resources"
     }
 }

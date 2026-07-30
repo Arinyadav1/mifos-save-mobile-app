@@ -43,38 +43,32 @@ class GroupRepositoryImpl(
 
     override fun listOfGroupPaging(): Store<PageKey, List<Group>> = StoreFactory.createMemoryStore(
         fetcher = Fetcher.of { key ->
-            val pageResponse = dataManager.fineract.groupApi
-                .getGroups(
-                    paged = true,
-                    offset = key.offset,
-                    limit = key.pageSize,
-                )
-                .first()
+            val pageResponse = dataManager.fineract.groupApi.getGroups(
+                paged = true,
+                offset = key.offset,
+                limit = key.pageSize,
+            ).first()
 
             pageResponse.pageItems.map { it.toModel() }
         },
     )
 
     override fun getGroupDetails(groupId: Long): Flow<ScreenState<Group>> {
-        return dataManager.fineract.groupApi
-            .getGroupDetails(groupId)
-            .asScreenStateFlow(
-                networkMonitor = networkMonitor,
-                dispatcher = dispatcher.io,
-            ) { dto ->
-                dto.toModel()
-            }
+        return dataManager.fineract.groupApi.getGroupDetails(groupId).asScreenStateFlow(
+            networkMonitor = networkMonitor,
+            dispatcher = dispatcher.io,
+        ) { dto ->
+            dto.toModel()
+        }
     }
 
     override fun getGroupAccounts(groupId: Long, fields: String): Flow<ScreenState<GroupAccounts>> {
-        return dataManager.fineract.groupApi
-            .getGroupAccounts(groupId, fields)
-            .asScreenStateFlow(
-                networkMonitor = networkMonitor,
-                dispatcher = dispatcher.io,
-            ) { dto ->
-                dto.toModel()
-            }
+        return dataManager.fineract.groupApi.getGroupAccounts(groupId, fields).asScreenStateFlow(
+            networkMonitor = networkMonitor,
+            dispatcher = dispatcher.io,
+        ) { dto ->
+            dto.toModel()
+        }
     }
 
     override suspend fun disassociateClients(
@@ -141,14 +135,12 @@ class GroupRepositoryImpl(
     }
 
     override fun getGroupTemplate(): Flow<ScreenState<GroupTemplate>> {
-        return dataManager.fineract.groupApi
-            .getGroupTemplate()
-            .asScreenStateFlow(
-                networkMonitor = networkMonitor,
-                dispatcher = dispatcher.io,
-            ) { dto ->
-                dto.toModel()
-            }
+        return dataManager.fineract.groupApi.getGroupTemplate().asScreenStateFlow(
+            networkMonitor = networkMonitor,
+            dispatcher = dispatcher.io,
+        ) { dto ->
+            dto.toModel()
+        }
     }
 
     override suspend fun createGroup(request: CreateGroupRequest): ScreenState<Unit> {
@@ -179,6 +171,15 @@ class GroupRepositoryImpl(
                 val errorMessage = extractErrorMessage(response)
                 throw Exception(errorMessage)
             }
+        }
+    }
+
+    override fun getGroups(): Flow<ScreenState<List<Group>>> {
+        return dataManager.fineract.groupApi.getListGroups().asScreenStateFlow(
+            networkMonitor = networkMonitor,
+            dispatcher = dispatcher.io,
+        ) { dto ->
+            dto.map { it.toModel() }
         }
     }
 }

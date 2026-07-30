@@ -37,6 +37,7 @@ import org.mifos.core.model.currency.RateHistory
 import org.mifos.core.model.currency.RateHistoryKey
 import org.mifos.core.model.economic.InterestRateSeries
 import org.mifos.core.store.economic.impl.InterestRateSeriesKey
+import org.mifos.feature.home.HomeViewModel
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -45,11 +46,11 @@ import kotlin.test.assertTrue
 
 /**
  * Focused archetype showcase test for the **PERIODIC(300_000L)** pattern in
- * [HomeViewModel].
+ * [org.mifos.feature.home.HomeViewModel].
  *
  * The home dashboard exchange-rate tile must auto-refresh every 5 minutes in the
  * background without requiring a user pull-to-refresh. This is implemented by
- * passing [FetchPolicy.PERIODIC] with [HomeViewModel.Companion.EXCHANGE_RATE_REFRESH_INTERVAL_MS]
+ * passing [FetchPolicy.PERIODIC] with [org.mifos.feature.home.HomeViewModel.Companion.EXCHANGE_RATE_REFRESH_INTERVAL_MS]
  * when opening the exchange-rate stream.
  *
  * Full dashboard-state + fan-in tests (slots, aggregates, RefreshAll, RetryRates, etc.)

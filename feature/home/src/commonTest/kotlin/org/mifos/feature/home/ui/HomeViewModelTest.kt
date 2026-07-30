@@ -44,6 +44,8 @@ import org.mifos.core.model.currency.RateHistoryKey
 import org.mifos.core.model.economic.InterestRateSeries
 import org.mifos.core.model.economic.RateObservation
 import org.mifos.core.store.economic.impl.InterestRateSeriesKey
+import org.mifos.feature.home.HomeAction
+import org.mifos.feature.home.HomeViewModel
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -52,7 +54,7 @@ import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 
 /**
- * Locks the [HomeViewModel] contract for the Money Toolkit pivot:
+ * Locks the [org.mifos.feature.home.HomeViewModel] contract for the Money Toolkit pivot:
  *
  *  - Initial state has 4 independent Loading slots.
  *  - Loans + Bills are pure-local: empty list → `ScreenState.Empty`; non-empty

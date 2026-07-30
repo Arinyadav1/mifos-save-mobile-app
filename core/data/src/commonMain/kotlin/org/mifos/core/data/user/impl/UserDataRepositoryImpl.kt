@@ -25,6 +25,9 @@ class UserDataRepositoryImpl(
     override val userData: StateFlow<UserData>
         get() = preferencesRepository.userData
 
+    override val userName: String?
+        get() = preferencesRepository.userName
+
     override val role: String?
         get() = preferencesRepository.role
 
@@ -82,6 +85,10 @@ class UserDataRepositoryImpl(
     }
 
     override suspend fun setPasscode(passcode: String) = preferencesRepository.setPasscode(passcode)
+
+    override suspend fun setUserName(userName: String) {
+        preferencesRepository.setUserName(userName)
+    }
 
     override suspend fun clearUserData() = preferencesRepository.clearUserData()
 }

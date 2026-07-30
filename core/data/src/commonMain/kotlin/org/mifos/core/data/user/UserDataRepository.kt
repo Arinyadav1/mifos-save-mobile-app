@@ -28,6 +28,7 @@ interface UserDataRepository {
     val userData: StateFlow<UserData>
 
     val authToken: String?
+    val userName: String?
 
     val role: String?
 
@@ -66,6 +67,8 @@ interface UserDataRepository {
     suspend fun setRole(userRole: String)
 
     suspend fun setPasscode(passcode: String)
+
+    suspend fun setUserName(userName: String)
 
     suspend fun clearUserData()
 }
