@@ -65,6 +65,7 @@ class SignInViewModel(
                 viewModelScope.launch {
                     data.roles.firstOrNull()?.name?.let { userDataRepository.setRole(it) }
                     data.base64EncodedAuthenticationKey?.let { userDataRepository.setToken(it) }
+                    userDataRepository.setUserName(data.username.orEmpty())
                     userDataRepository.setIsAuthenticated(true)
                     userDataRepository.setIsUnlocked(true)
                 }

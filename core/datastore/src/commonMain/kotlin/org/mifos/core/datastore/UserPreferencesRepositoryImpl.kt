@@ -103,6 +103,9 @@ class UserPreferencesRepositoryImpl(
     override val authToken: String
         get() = _userData.value.token
 
+    override val userName: String
+        get() = _userData.value.userName
+
     override val role: String
         get() = _userData.value.userRole
 
@@ -168,6 +171,9 @@ class UserPreferencesRepositoryImpl(
 
     override suspend fun setRole(userRole: String) =
         updatePreference { it.copy(userRole = userRole) }
+
+    override suspend fun setUserName(userName: String) =
+        updatePreference { it.copy(userName = userName) }
 
     override suspend fun clearUserData() {
         setIsAuthenticated(false)

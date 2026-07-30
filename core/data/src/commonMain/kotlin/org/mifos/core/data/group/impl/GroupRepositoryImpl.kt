@@ -181,4 +181,15 @@ class GroupRepositoryImpl(
             }
         }
     }
+
+    override fun getGroups(offset: Int, limit: Int): Flow<ScreenState<List<Group>>> {
+        return dataManager.fineract.groupApi
+            .getGroups(paged = true, offset = offset, limit = limit)
+            .asScreenStateFlow(
+                networkMonitor = networkMonitor,
+                dispatcher = dispatcher.io,
+            ) { page ->
+                page.pageItems.map { it.toModel() }
+            }
+    }
 }

@@ -26,6 +26,11 @@ kotlin {
             implementation(compose.material3)
             implementation(compose.foundation)
             implementation(compose.materialIconsExtended)
+            implementation(compose.components.resources)
+            implementation(compose.components.uiToolingPreview)
+
+            implementation(libs.koin.compose)
+            implementation(libs.koin.compose.viewmodel)
 
             implementation(libs.kotlinx.coroutines.core)
             implementation(libs.kotlinx.datetime)
@@ -36,5 +41,11 @@ kotlin {
             implementation(libs.kotlinx.coroutines.test)
             implementation(libs.turbine)
         }
+    }
+}
+
+compose {
+    resources {
+        packageOfResClass = "org.mifos.feature.home.generated.resources"
     }
 }

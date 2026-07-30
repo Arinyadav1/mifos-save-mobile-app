@@ -9,6 +9,7 @@
  */
 package org.mifos.core.common
 
+import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.number
 import kotlinx.datetime.toLocalDateTime
@@ -28,4 +29,19 @@ fun formatDateFromLong(millis: Long): String {
 
 fun getCurrentEpochMillis(): Long {
     return Clock.System.now().toEpochMilliseconds()
+}
+
+fun getGreeting(hour: Int): String = when (hour) {
+    in 5..11 -> "Good morning"
+    in 12..16 -> "Good afternoon"
+    in 17..20 -> "Good evening"
+    else -> "Good night"
+}
+
+fun formatHomeDate(dateTime: LocalDateTime): String {
+    val dayOfWeek = dateTime.dayOfWeek.name.lowercase().replaceFirstChar { it.uppercase() }
+    val dayOfMonth = dateTime.day
+    val monthName = dateTime.month.name.lowercase().replaceFirstChar { it.uppercase() }
+    val year = dateTime.year
+    return "$dayOfWeek, $dayOfMonth $monthName $year"
 }
