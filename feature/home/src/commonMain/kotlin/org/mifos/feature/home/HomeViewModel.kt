@@ -16,6 +16,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
+import org.jetbrains.compose.resources.StringResource
 import org.mifos.core.base.store.screen.ScreenState
 import org.mifos.core.base.ui.viewmodel.BaseViewModel
 import org.mifos.core.common.formatHomeDate
@@ -131,7 +132,7 @@ data class HomeState(
     val username: String = "",
     val screenState: ScreenState<Unit> = ScreenState.Loading,
     val isRefreshing: Boolean = false,
-    val greeting: String = "",
+    val greeting: StringResource? = null,
     val formattedDate: String = "",
     val avatarText: String = "",
     val totalGroups: Int = 0,
