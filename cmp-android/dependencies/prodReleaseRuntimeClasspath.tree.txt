@@ -1998,7 +1998,8 @@
 |    |    |    |    |    |    +--- io.insert-koin:koin-core:4.2.1 (*)
 |    |    |    |    |    |    +--- io.insert-koin:koin-annotations:2.3.1 -> 4.2.1 (*)
 |    |    |    |    |    |    +--- org.jetbrains.kotlinx:kotlinx-serialization-json:1.9.0 -> 1.11.0 (*)
-|    |    |    |    |    |    \--- org.jetbrains.kotlinx:kotlinx-coroutines-core:1.11.0 (*)
+|    |    |    |    |    |    +--- org.jetbrains.kotlinx:kotlinx-coroutines-core:1.11.0 (*)
+|    |    |    |    |    |    \--- org.jetbrains.compose.components:components-resources:1.11.0 -> 1.11.1 (*)
 |    |    |    |    |    +--- project :core-base:database
 |    |    |    |    |    |    +--- androidx.sqlite:sqlite-bundled:2.6.2 -> 2.7.0-alpha05
 |    |    |    |    |    |    |    \--- androidx.sqlite:sqlite-bundled-android:2.7.0-alpha05
