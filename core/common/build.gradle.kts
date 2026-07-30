@@ -21,6 +21,7 @@ kotlin {
             api(libs.kermit.logging)
             api(libs.kotlinx.datetime)
             implementation(compose.components.resources)
+            implementation(libs.jb.composeRuntime)
         }
     }
 }
