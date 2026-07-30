@@ -69,7 +69,7 @@ class HomeViewModel(
     private fun fetchDashboardData() {
         mutableStateFlow.update { it.copy(screenState = ScreenState.Loading) }
         viewModelScope.launch {
-            groupRepository.getGroups(offset = 0, limit = 1000).collect { result ->
+            groupRepository.getGroups().collect { result ->
                 when (result) {
                     is ScreenState.Content -> {
                         val groups = result.data

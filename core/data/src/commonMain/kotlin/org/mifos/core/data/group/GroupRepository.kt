@@ -39,5 +39,5 @@ interface GroupRepository {
     fun getGroupTemplate(): Flow<ScreenState<GroupTemplate>>
     suspend fun createGroup(request: CreateGroupRequest): ScreenState<Unit>
     suspend fun updateGroup(groupId: Long, name: String): ScreenState<Unit>
-    fun getGroups(offset: Int = 0, limit: Int = 100): Flow<ScreenState<List<Group>>>
+    fun getGroups(): Flow<ScreenState<List<Group>>>
 }

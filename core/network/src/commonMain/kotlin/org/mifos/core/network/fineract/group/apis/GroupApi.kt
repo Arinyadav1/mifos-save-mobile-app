@@ -36,6 +36,9 @@ interface GroupApi {
         @Query("limit") limit: Int,
     ): Flow<Page<GroupDto>>
 
+    @GET(ApiEndPoints.GROUPS)
+    fun getListGroups(): Flow<List<GroupDto>>
+
     @GET("${ApiEndPoints.GROUPS}/{groupId}")
     fun getGroupDetails(
         @Path("groupId") groupId: Long,
