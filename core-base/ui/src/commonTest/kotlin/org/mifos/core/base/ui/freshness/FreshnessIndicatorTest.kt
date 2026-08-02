@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Copyright 2025 Mifos Initiative
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
@@ -14,7 +14,6 @@ import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 import org.mifos.core.base.store.error.ErrorCategory
 import org.mifos.core.base.store.freshness.FreshnessBand
-import toLongMessage
 
 /**
  * Locks the pure-helper contracts inside `FreshnessIndicator.kt`:

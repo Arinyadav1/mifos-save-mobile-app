@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2026 Mifos Initiative
+
+    This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0.
+    If a copy of the MPL was not distributed with this file,
+    You can obtain one at https://mozilla.org/MPL/2.0/.
+
+    See https://github.com/openMF/kmp-project-template/blob/main/LICENSE
+-->
+<resources>
+    <string name="feature_saving_details_title">SAVINGS DETAILS</string>
+    <string name="feature_saving_mifos_save">MIFOS SAVE</string>
+    <string name="feature_saving_overview_title">OVERVIEW</string>
+    <string name="feature_saving_account_no">Account No</string>
+    <string name="feature_saving_client_name">Client Name</string>
+    <string name="feature_saving_product_name">Product Name</string>
+    <string name="feature_saving_submitted_date">Submitted Date</string>
+    <string name="feature_saving_interest_rate">Nominal Annual Interest Rate</string>
+    <string name="feature_saving_compounding_period">Interest Compounding Period</string>
+    <string name="feature_saving_posting_period">Interest Posting Period</string>
+    <string name="feature_saving_interest_calculation">Interest Calculation Type</string>
+    <string name="feature_saving_days_in_year">Interest Calculation Days in Year</string>
+    <string name="feature_saving_balance_title">BALANCES</string>
+    <string name="feature_saving_account_balance">Account Balance</string>
+    <string name="feature_saving_available_balance">Available Balance</string>
+    <string name="feature_saving_close_savings">Close Savings</string>
+    <string name="feature_saving_activate_savings">Activate Savings</string>
+    <string name="feature_saving_update_savings">Update Savings</string>
+    <string name="feature_saving_explore_title">Explore</string>
+    <string name="feature_saving_explore_general">General</string>
+    <string name="feature_saving_explore_transactions">Transactions</string>
+    <string name="feature_saving_explore_deposit">Deposit Transaction</string>
+    <string name="feature_saving_explore_withdraw">Withdraw Transaction</string>
+    <string name="feature_saving_savings_product">Savings Product</string>
+    <string name="feature_saving_account_number">Account Number</string>
+    <string name="feature_saving_current_balance">Current Balance</string>
+</resources>

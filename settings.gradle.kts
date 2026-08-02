@@ -118,6 +118,7 @@ include(":core:ui")
 include(":feature:home")
 include(":feature:groups")
 include(":feature:auth")
+include(":feature:saving")
 
 include(":core-base:analytics")
 include(":core-base:common")

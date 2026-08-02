@@ -43,6 +43,8 @@ import org.mifos.feature.groups.navigation.groupsNavigationGraph
 import org.mifos.feature.home.HomeDestination
 import org.mifos.feature.home.homeGraph
 import org.mifos.feature.home.navigateToHome
+import org.mifos.feature.saving.savingDetails.navigateToSavingDetails
+import org.mifos.feature.saving.savingDetails.savingDetailsDestination
 
 @Composable
 internal fun AdminNavbarNavigationScreen(
@@ -144,7 +146,13 @@ internal fun AdminNavbarNavigationScreenContent(
             popExitTransition = RootTransitionProviders.Kpt.Exit.fadeThrough(motion),
         ) {
             homeGraph()
-            groupsNavigationGraph(navController = navController)
+            groupsNavigationGraph(
+                navController = navController,
+                onSavingClick = { accountId ->
+                    navController.navigateToSavingDetails(accountId)
+                },
+            )
+            savingDetailsDestination(onBackClick = navController::popBackStack)
         }
     }
 }

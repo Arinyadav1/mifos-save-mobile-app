@@ -55,7 +55,13 @@ private fun resolveChipColors(intent: StatusChipIntent): Pair<Color, Color> {
     val f = MaterialTheme.finance
     return when (intent) {
         StatusChipIntent.Success -> f.moneyPositiveContainer to f.moneyPositive
-        StatusChipIntent.Warning -> f.urgencyUpcoming.copy(alpha = 0.15f) to f.urgencyToday
+        StatusChipIntent.Warning -> {
+            if (androidx.compose.foundation.isSystemInDarkTheme()) {
+                Color(0xFF451A03) to Color(0xFFFDE68A)
+            } else {
+                Color(0xFFFEF3C7) to Color(0xFFB45309)
+            }
+        }
         StatusChipIntent.Danger -> f.moneyNegativeContainer to f.urgencyOverdue
         StatusChipIntent.Info -> cs.primaryContainer to cs.onPrimaryContainer
         StatusChipIntent.Neutral -> cs.surfaceContainerHighest to cs.onSurfaceVariant
