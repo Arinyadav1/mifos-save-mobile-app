@@ -154,7 +154,7 @@ class GroupSavingListViewModel(
                 }
             }
             is GroupSavingListAction.OnSavingAccountClick -> {
-                // Savings account clicked
+                sendEvent(GroupSavingListEvent.NavigateToSavingDetails(action.accountId))
             }
             is GroupSavingListAction.HandleFilterClick -> {
                 val current = selectedStatuses.value
@@ -213,6 +213,7 @@ enum class SavingFilterType(val value: String) {
 sealed interface GroupSavingListEvent {
     data object NavigateBack : GroupSavingListEvent
     data object NavigateToNewSavings : GroupSavingListEvent
+    data class NavigateToSavingDetails(val accountId: Long) : GroupSavingListEvent
 }
 
 sealed interface GroupSavingListAction {

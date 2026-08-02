@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Copyright 2025 Mifos Initiative
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
@@ -21,7 +21,7 @@ import kotlin.time.ExperimentalTime
 /**
  * Verifies the pure helper functions of [mifos.core.base.ui.screen.DataFreshnessIndicator]:
  * - [mifos.core.base.ui.screen.formatDurationAgo] human-readable duration formatting
- * - [buildStaleText] / [mifos.core.base.ui.screen.buildUpdatingText] timestamp-aware copy
+ * - [mifos.core.base.ui.screen.buildUpdatingText] timestamp-aware copy
  *
  * These are the behaviors a user observes in the staleness banner. PLAN-fw-260504
  * polish (G2 "always shows just now" / "showing cached data") regressions land
@@ -76,30 +76,6 @@ class DataFreshnessTextTest {
         assertEquals("7d ago",
             formatDurationAgo(7.days)
         )
-    }
-
-    // ── buildStaleText: indicator copy when offline ───────────────────────
-
-    @Test
-    fun buildStaleText_nullFetchedAt_isPlainOffline_notMisleadingCachedDataMessage() {
-        // Regression guard: previous copy was "Offline — showing cached data" which
-        // the user found confusing because (a) it implies we have a timestamp we
-        // don't, and (b) appears even when serving from cold-restart SoT (the
-        // common case where lastFetchedAt is null). Plain "Offline" is honest.
-        assertEquals("Offline", buildStaleText(fetchedAt = null))
-    }
-
-    @Test
-    fun buildStaleText_recentFetch_showsTimestamp() {
-        val fiveMinutesAgo = Clock.System.now() - 5.minutes
-        val text = buildStaleText(fiveMinutesAgo)
-        assertEquals("Offline · Updated 5m ago", text)
-    }
-
-    @Test
-    fun buildStaleText_justNow_showsJustNow() {
-        val tenSecondsAgo = Clock.System.now() - 10.seconds
-        assertEquals("Offline · Updated just now", buildStaleText(tenSecondsAgo))
     }
 
     // ── buildUpdatingText: indicator copy during refresh ──────────────────

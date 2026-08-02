@@ -36,6 +36,8 @@ import org.mifos.core.data.group.impl.GroupRepositoryImpl
 import org.mifos.core.data.infra.NetworkMonitor
 import org.mifos.core.data.infra.impl.RoomFetchedAtRepository
 import org.mifos.core.data.infra.impl.RoomSubmitOutbox
+import org.mifos.core.data.savings.SavingsRepository
+import org.mifos.core.data.savings.impl.SavingsRepositoryImpl
 import org.mifos.core.data.user.UserDataRepository
 import org.mifos.core.data.user.UserLogoutManager
 import org.mifos.core.data.user.impl.UserDataRepositoryImpl
@@ -197,6 +199,14 @@ val DataModule = module {
             dispatcher = get(),
         )
     } bind ClientRepository::class
+
+    single {
+        SavingsRepositoryImpl(
+            dataManager = get(),
+            networkMonitor = get(),
+            dispatcher = get(),
+        )
+    } bind SavingsRepository::class
 }
 
 expect val platformModule: Module

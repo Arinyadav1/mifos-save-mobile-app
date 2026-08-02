@@ -32,6 +32,7 @@ kotlin {
             implementation(projects.feature.home)
             implementation(projects.feature.auth)
             implementation(projects.feature.groups)
+            implementation(projects.feature.saving)
 
             //put your multiplatform dependencies here
             implementation(compose.material3)

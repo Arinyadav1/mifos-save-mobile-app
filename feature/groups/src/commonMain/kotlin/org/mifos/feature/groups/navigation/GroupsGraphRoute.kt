@@ -36,7 +36,10 @@ import org.mifos.feature.groups.groupSavingList.navigateToGroupSavingList
 @Serializable
 data object GroupsGraphRoute
 
-fun NavGraphBuilder.groupsNavigationGraph(navController: NavController) {
+fun NavGraphBuilder.groupsNavigationGraph(
+    navController: NavController,
+    onSavingClick: (Long) -> Unit,
+) {
     navigation<GroupsGraphRoute>(
         startDestination = GroupDashboardRoute,
     ) {
@@ -91,6 +94,7 @@ fun NavGraphBuilder.groupsNavigationGraph(navController: NavController) {
             onBackClick = {
                 navController.popBackStack()
             },
+            onSavingClick = onSavingClick,
         )
         groupLoanListDestination(
             onBackClick = {

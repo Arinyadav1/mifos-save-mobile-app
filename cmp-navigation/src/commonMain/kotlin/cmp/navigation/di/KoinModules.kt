@@ -27,6 +27,7 @@ import org.mifos.core.store.di.appStoreModule
 import org.mifos.feature.auth.di.AuthModule
 import org.mifos.feature.groups.di.GroupsModule
 import org.mifos.feature.home.di.HomeModule
+import org.mifos.feature.saving.di.SavingModule
 
 object KoinModules {
     private val dataModule = module {
@@ -51,6 +52,7 @@ object KoinModules {
             HomeModule,
             AuthModule,
             GroupsModule,
+            SavingModule,
         )
     }
 

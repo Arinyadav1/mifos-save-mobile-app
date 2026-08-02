@@ -68,7 +68,7 @@ internal fun HomeScreen(
                 navigationIcon = {
                     KptHeaderProfile(
                         avatarText = state.avatarText,
-                        greeting = state.greeting.toString(),
+                        greeting = state.greeting?.let { stringResource(it) }.orEmpty(),
                         name = state.username,
                         onProfileClick = {},
                     )
