@@ -15,6 +15,8 @@ import androidx.navigation.navigation
 import kotlinx.serialization.Serializable
 import org.mifos.feature.saving.approveSaving.approveSavingDestination
 import org.mifos.feature.saving.approveSaving.navigateToApproveSaving
+import org.mifos.feature.saving.depositTransaction.depositTransactionDestination
+import org.mifos.feature.saving.depositTransaction.navigateToDepositTransaction
 import org.mifos.feature.saving.savingDetails.SavingDetailsRoute
 import org.mifos.feature.saving.savingDetails.savingDetailsDestination
 
@@ -32,8 +34,17 @@ fun NavGraphBuilder.savingNavigationGraph(
             onApproveSavingsClick = { savingsId ->
                 navController.navigateToApproveSaving(savingsId)
             },
+            onDepositTransactionClick = { accountId ->
+                navController.navigateToDepositTransaction(accountId)
+            },
         )
         approveSavingDestination(
+            onBackClick = navController::popBackStack,
+            onBackWithUpdateData = { _ ->
+                navController.popBackStack()
+            },
+        )
+        depositTransactionDestination(
             onBackClick = navController::popBackStack,
             onBackWithUpdateData = { _ ->
                 navController.popBackStack()

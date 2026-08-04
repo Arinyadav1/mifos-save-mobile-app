@@ -20,8 +20,10 @@ import org.mifos.core.data.util.asScreenStateFlow
 import org.mifos.core.data.util.extractErrorMessage
 import org.mifos.core.data.util.runAsDataState
 import org.mifos.core.model.savings.SavingDetail
+import org.mifos.core.model.savings.SavingsTransactionTemplate
 import org.mifos.core.network.DataManager
 import org.mifos.core.network.fineract.savings.dto.ApproveSavingRequestDto
+import org.mifos.core.network.fineract.savings.dto.DepositRequestDto
 
 class SavingsRepositoryImpl(
     private val dataManager: DataManager,
@@ -54,6 +56,54 @@ class SavingsRepositoryImpl(
                     approvedOnDate = approvedOnDate,
                     dateFormat = dateFormat,
                     locale = locale,
+                ),
+            )
+            if (!response.status.isSuccess()) {
+                val errorMessage = extractErrorMessage(response)
+                throw Exception(errorMessage)
+            }
+        }
+    }
+
+    override fun getSavingsTransactionTemplate(accountId: Long): Flow<ScreenState<SavingsTransactionTemplate>> {
+        return dataManager.fineract.savingsApi.getSavingsTransactionTemplate(accountId).asScreenStateFlow(
+            networkMonitor = networkMonitor,
+            dispatcher = dispatcher.io,
+        ) { dto ->
+            dto.toModel()
+        }
+    }
+
+    override suspend fun depositTransaction(
+        accountId: Long,
+        locale: String,
+        dateFormat: String,
+        transactionDate: String,
+        transactionAmount: String,
+        paymentTypeId: String,
+        accountNumber: String?,
+        checkNumber: String?,
+        routingCode: String?,
+        receiptNumber: String?,
+        bankNumber: String?,
+    ): ScreenState<Unit> {
+        return runAsDataState(
+            networkMonitor = networkMonitor,
+            context = dispatcher.io,
+        ) {
+            val response = dataManager.fineract.savingsApi.depositTransaction(
+                accountId = accountId,
+                request = DepositRequestDto(
+                    locale = locale,
+                    dateFormat = dateFormat,
+                    transactionDate = transactionDate,
+                    transactionAmount = transactionAmount,
+                    paymentTypeId = paymentTypeId,
+                    accountNumber = accountNumber,
+                    checkNumber = checkNumber,
+                    routingCode = routingCode,
+                    receiptNumber = receiptNumber,
+                    bankNumber = bankNumber,
                 ),
             )
             if (!response.status.isSuccess()) {

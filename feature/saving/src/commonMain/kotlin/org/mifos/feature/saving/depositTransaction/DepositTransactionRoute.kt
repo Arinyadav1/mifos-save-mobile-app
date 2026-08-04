@@ -7,7 +7,7 @@
  *
  * See See https://github.com/openMF/kmp-project-template/blob/main/LICENSE
  */
-package org.mifos.feature.saving.savingDetails
+package org.mifos.feature.saving.depositTransaction
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
@@ -16,22 +16,20 @@ import kotlinx.serialization.Serializable
 import org.mifos.core.base.ui.nav.composableWithStayTransitions
 
 @Serializable
-data class SavingDetailsRoute(val accountId: Long)
+data class DepositTransactionRoute(val accountId: Long)
 
-fun NavGraphBuilder.savingDetailsDestination(
+fun NavGraphBuilder.depositTransactionDestination(
     onBackClick: () -> Unit,
-    onApproveSavingsClick: (Long) -> Unit,
-    onDepositTransactionClick: (Long) -> Unit,
+    onBackWithUpdateData: (Long) -> Unit,
 ) {
-    composableWithStayTransitions<SavingDetailsRoute> {
-        SavingDetailsScreen(
+    composableWithStayTransitions<DepositTransactionRoute> {
+        DepositTransactionScreen(
             onBackClick = onBackClick,
-            onApproveSavingsClick = onApproveSavingsClick,
-            onDepositTransactionClick = onDepositTransactionClick,
+            onBackWithUpdateData = onBackWithUpdateData,
         )
     }
 }
 
-fun NavController.navigateToSavingDetails(accountId: Long, navOptions: NavOptions? = null) {
-    this.navigate(route = SavingDetailsRoute(accountId), navOptions = navOptions)
+fun NavController.navigateToDepositTransaction(accountId: Long, navOptions: NavOptions? = null) {
+    this.navigate(route = DepositTransactionRoute(accountId), navOptions = navOptions)
 }
