@@ -40,6 +40,20 @@ interface SavingsRepository {
         bankNumber: String?,
     ): ScreenState<Unit>
 
+    suspend fun withdrawTransaction(
+        accountId: Long,
+        locale: String,
+        dateFormat: String,
+        transactionDate: String,
+        transactionAmount: String,
+        paymentTypeId: String,
+        accountNumber: String?,
+        checkNumber: String?,
+        routingCode: String?,
+        receiptNumber: String?,
+        bankNumber: String?,
+    ): ScreenState<Unit>
+
     suspend fun activateSaving(
         savingsId: Long,
         activatedOnDate: String,

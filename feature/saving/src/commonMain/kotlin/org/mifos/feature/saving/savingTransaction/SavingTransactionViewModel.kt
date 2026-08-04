@@ -7,13 +7,14 @@
  *
  * See See https://github.com/openMF/kmp-project-template/blob/main/LICENSE
  */
-package org.mifos.feature.saving.depositTransaction
+package org.mifos.feature.saving.savingTransaction
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.StringResource
 import org.mifos.core.base.store.screen.DataFreshness
 import org.mifos.core.base.store.screen.ScreenState
 import org.mifos.core.base.store.submit.SubmitState
@@ -23,16 +24,20 @@ import org.mifos.core.common.formatDateFromLong
 import org.mifos.core.common.getCurrentEpochMillis
 import org.mifos.core.data.savings.SavingsRepository
 import org.mifos.core.model.savings.PaymentTypeOption
+import org.mifos.feature.saving.generated.resources.Res
+import org.mifos.feature.saving.generated.resources.feature_saving_amount_required
+import org.mifos.feature.saving.generated.resources.feature_saving_payment_type_required
 
-class DepositTransactionViewModel(
+class SavingTransactionViewModel(
     savedStateHandle: SavedStateHandle,
     private val savingsRepository: SavingsRepository,
-) : BaseViewModel<DepositTransactionState, DepositTransactionEvent, DepositTransactionAction>(
-    DepositTransactionState(
-        accountId = savedStateHandle.toRoute<DepositTransactionRoute>().accountId,
+) : BaseViewModel<SavingTransactionState, SavingTransactionEvent, SavingTransactionAction>(
+    SavingTransactionState(
+        accountId = savedStateHandle.toRoute<SavingTransactionRoute>().accountId,
+        isWithdrawal = savedStateHandle.toRoute<SavingTransactionRoute>().isWithdrawal,
     ),
 ) {
-    private val route = savedStateHandle.toRoute<DepositTransactionRoute>()
+    private val route = savedStateHandle.toRoute<SavingTransactionRoute>()
 
     init {
         loadTemplate()
@@ -70,44 +75,44 @@ class DepositTransactionViewModel(
         }
     }
 
-    override fun handleAction(action: DepositTransactionAction) {
+    override fun handleAction(action: SavingTransactionAction) {
         when (action) {
-            DepositTransactionAction.OnBackClick -> sendEvent(DepositTransactionEvent.NavigateBack)
-            is DepositTransactionAction.OnDateSelected -> handleDateSelected(action.millis)
-            DepositTransactionAction.SubmitDeposit -> submitDeposit()
-            DepositTransactionAction.DismissSuccessDialog -> dismissSuccessDialog()
-            DepositTransactionAction.Retry -> retry()
-            DepositTransactionAction.DismissErrorState -> dismissErrorState()
+            SavingTransactionAction.OnBackClick -> sendEvent(SavingTransactionEvent.NavigateBack)
+            is SavingTransactionAction.OnDateSelected -> handleDateSelected(action.millis)
+            SavingTransactionAction.SubmitTransaction -> submitTransaction()
+            SavingTransactionAction.DismissSuccessDialog -> dismissSuccessDialog()
+            SavingTransactionAction.Retry -> retry()
+            SavingTransactionAction.DismissErrorState -> dismissErrorState()
             else -> handleFormAction(action)
         }
     }
 
-    private fun handleFormAction(action: DepositTransactionAction) {
+    private fun handleFormAction(action: SavingTransactionAction) {
         when (action) {
-            is DepositTransactionAction.OnDatePickerToggle -> {
+            is SavingTransactionAction.OnDatePickerToggle -> {
                 mutableStateFlow.update { it.copy(isDatePickerVisible = action.visible) }
             }
-            is DepositTransactionAction.OnAmountChanged -> {
-                mutableStateFlow.update { it.copy(amount = action.amount, amountError = null) }
+            is SavingTransactionAction.OnAmountChanged -> {
+                mutableStateFlow.update { it.copy(amount = action.amount, amountErrorRes = null) }
             }
-            is DepositTransactionAction.OnPaymentTypeSelected -> {
+            is SavingTransactionAction.OnPaymentTypeSelected -> {
                 mutableStateFlow.update {
-                    it.copy(selectedPaymentType = action.option, paymentTypeError = null)
+                    it.copy(selectedPaymentType = action.option, paymentTypeErrorRes = null)
                 }
             }
-            is DepositTransactionAction.OnAccountNumberChanged -> {
+            is SavingTransactionAction.OnAccountNumberChanged -> {
                 mutableStateFlow.update { it.copy(accountNumber = action.value) }
             }
-            is DepositTransactionAction.OnCheckNumberChanged -> {
+            is SavingTransactionAction.OnCheckNumberChanged -> {
                 mutableStateFlow.update { it.copy(checkNumber = action.value) }
             }
-            is DepositTransactionAction.OnRoutingCodeChanged -> {
+            is SavingTransactionAction.OnRoutingCodeChanged -> {
                 mutableStateFlow.update { it.copy(routingCode = action.value) }
             }
-            is DepositTransactionAction.OnReceiptNumberChanged -> {
+            is SavingTransactionAction.OnReceiptNumberChanged -> {
                 mutableStateFlow.update { it.copy(receiptNumber = action.value) }
             }
-            is DepositTransactionAction.OnBankNumberChanged -> {
+            is SavingTransactionAction.OnBankNumberChanged -> {
                 mutableStateFlow.update { it.copy(bankNumber = action.value) }
             }
             else -> Unit
@@ -116,7 +121,7 @@ class DepositTransactionViewModel(
 
     private fun dismissSuccessDialog() {
         mutableStateFlow.update { it.copy(showSuccessDialog = false) }
-        sendEvent(DepositTransactionEvent.NavigateBackWithUpdateData(route.accountId))
+        sendEvent(SavingTransactionEvent.NavigateBackWithUpdateData(route.accountId))
     }
 
     private fun retry() {
@@ -147,7 +152,7 @@ class DepositTransactionViewModel(
         }
     }
 
-    private fun submitDeposit() {
+    private fun submitTransaction() {
         val dateText = state.dateText
         val amount = state.amount
         val selectedPaymentType = state.selectedPaymentType
@@ -155,8 +160,16 @@ class DepositTransactionViewModel(
         if (dateText.isBlank() || amount.isBlank() || selectedPaymentType == null) {
             mutableStateFlow.update {
                 it.copy(
-                    amountError = if (amount.isBlank()) "Amount is required" else null,
-                    paymentTypeError = if (selectedPaymentType == null) "Payment type is required" else null,
+                    amountErrorRes = if (amount.isBlank()) {
+                        Res.string.feature_saving_amount_required
+                    } else {
+                        null
+                    },
+                    paymentTypeErrorRes = if (selectedPaymentType == null) {
+                        Res.string.feature_saving_payment_type_required
+                    } else {
+                        null
+                    },
                 )
             }
             return
@@ -164,19 +177,35 @@ class DepositTransactionViewModel(
 
         mutableStateFlow.update { it.copy(submitState = SubmitState.Submitting()) }
         viewModelScope.launch {
-            val result = savingsRepository.depositTransaction(
-                accountId = route.accountId,
-                locale = Constants.LOCALE_EN,
-                dateFormat = Constants.DATE_FORMAT_SHORT_MONTH,
-                transactionDate = dateText,
-                transactionAmount = amount,
-                paymentTypeId = selectedPaymentType.id.toString(),
-                accountNumber = state.accountNumber.takeIf { it.isNotBlank() },
-                checkNumber = state.checkNumber.takeIf { it.isNotBlank() },
-                routingCode = state.routingCode.takeIf { it.isNotBlank() },
-                receiptNumber = state.receiptNumber.takeIf { it.isNotBlank() },
-                bankNumber = state.bankNumber.takeIf { it.isNotBlank() },
-            )
+            val result = if (state.isWithdrawal) {
+                savingsRepository.withdrawTransaction(
+                    accountId = route.accountId,
+                    locale = Constants.LOCALE_EN,
+                    dateFormat = Constants.DATE_FORMAT_SHORT_MONTH,
+                    transactionDate = dateText,
+                    transactionAmount = amount,
+                    paymentTypeId = selectedPaymentType.id.toString(),
+                    accountNumber = state.accountNumber.takeIf { it.isNotBlank() },
+                    checkNumber = state.checkNumber.takeIf { it.isNotBlank() },
+                    routingCode = state.routingCode.takeIf { it.isNotBlank() },
+                    receiptNumber = state.receiptNumber.takeIf { it.isNotBlank() },
+                    bankNumber = state.bankNumber.takeIf { it.isNotBlank() },
+                )
+            } else {
+                savingsRepository.depositTransaction(
+                    accountId = route.accountId,
+                    locale = Constants.LOCALE_EN,
+                    dateFormat = Constants.DATE_FORMAT_SHORT_MONTH,
+                    transactionDate = dateText,
+                    transactionAmount = amount,
+                    paymentTypeId = selectedPaymentType.id.toString(),
+                    accountNumber = state.accountNumber.takeIf { it.isNotBlank() },
+                    checkNumber = state.checkNumber.takeIf { it.isNotBlank() },
+                    routingCode = state.routingCode.takeIf { it.isNotBlank() },
+                    receiptNumber = state.receiptNumber.takeIf { it.isNotBlank() },
+                    bankNumber = state.bankNumber.takeIf { it.isNotBlank() },
+                )
+            }
             when (result) {
                 is ScreenState.Content -> {
                     mutableStateFlow.update {
@@ -224,15 +253,16 @@ class DepositTransactionViewModel(
     }
 }
 
-data class DepositTransactionState(
+data class SavingTransactionState(
     val accountId: Long,
+    val isWithdrawal: Boolean = false,
     val selectedDateMillis: Long? = null,
     val dateText: String = formatDateFromLong(getCurrentEpochMillis()),
     val amount: String = "",
-    val amountError: String? = null,
+    val amountErrorRes: StringResource? = null,
     val paymentTypeOptions: List<PaymentTypeOption> = emptyList(),
     val selectedPaymentType: PaymentTypeOption? = null,
-    val paymentTypeError: String? = null,
+    val paymentTypeErrorRes: StringResource? = null,
     val accountNumber: String = "",
     val checkNumber: String = "",
     val routingCode: String = "",
@@ -244,24 +274,24 @@ data class DepositTransactionState(
     val submitState: SubmitState<Unit> = SubmitState.Idle,
 )
 
-sealed interface DepositTransactionEvent {
-    data class NavigateBackWithUpdateData(val accountId: Long) : DepositTransactionEvent
-    data object NavigateBack : DepositTransactionEvent
+sealed interface SavingTransactionEvent {
+    data class NavigateBackWithUpdateData(val accountId: Long) : SavingTransactionEvent
+    data object NavigateBack : SavingTransactionEvent
 }
 
-sealed interface DepositTransactionAction {
-    data object OnBackClick : DepositTransactionAction
-    data class OnDateSelected(val millis: Long?) : DepositTransactionAction
-    data class OnDatePickerToggle(val visible: Boolean) : DepositTransactionAction
-    data class OnAmountChanged(val amount: String) : DepositTransactionAction
-    data class OnPaymentTypeSelected(val option: PaymentTypeOption) : DepositTransactionAction
-    data class OnAccountNumberChanged(val value: String) : DepositTransactionAction
-    data class OnCheckNumberChanged(val value: String) : DepositTransactionAction
-    data class OnRoutingCodeChanged(val value: String) : DepositTransactionAction
-    data class OnReceiptNumberChanged(val value: String) : DepositTransactionAction
-    data class OnBankNumberChanged(val value: String) : DepositTransactionAction
-    data object SubmitDeposit : DepositTransactionAction
-    data object DismissSuccessDialog : DepositTransactionAction
-    data object Retry : DepositTransactionAction
-    data object DismissErrorState : DepositTransactionAction
+sealed interface SavingTransactionAction {
+    data object OnBackClick : SavingTransactionAction
+    data class OnDateSelected(val millis: Long?) : SavingTransactionAction
+    data class OnDatePickerToggle(val visible: Boolean) : SavingTransactionAction
+    data class OnAmountChanged(val amount: String) : SavingTransactionAction
+    data class OnPaymentTypeSelected(val option: PaymentTypeOption) : SavingTransactionAction
+    data class OnAccountNumberChanged(val value: String) : SavingTransactionAction
+    data class OnCheckNumberChanged(val value: String) : SavingTransactionAction
+    data class OnRoutingCodeChanged(val value: String) : SavingTransactionAction
+    data class OnReceiptNumberChanged(val value: String) : SavingTransactionAction
+    data class OnBankNumberChanged(val value: String) : SavingTransactionAction
+    data object SubmitTransaction : SavingTransactionAction
+    data object DismissSuccessDialog : SavingTransactionAction
+    data object Retry : SavingTransactionAction
+    data object DismissErrorState : SavingTransactionAction
 }

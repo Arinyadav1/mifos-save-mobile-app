@@ -71,8 +71,7 @@ fun SavingDetailsScreen(
     modifier: Modifier = Modifier,
     onGeneralClick: (Long) -> Unit = {},
     onTransactionsClick: (Long) -> Unit = {},
-    onDepositTransactionClick: (Long) -> Unit = {},
-    onWithdrawTransactionClick: (Long) -> Unit = {},
+    onSavingTransactionClick: (Long, Boolean) -> Unit = { _, _ -> },
     onActivateSavingsClick: (Long) -> Unit = {},
     onUpdateSavingsClick: (Long) -> Unit = {},
     onApproveSavingsClick: (Long) -> Unit = {},
@@ -85,8 +84,8 @@ fun SavingDetailsScreen(
             SavingDetailsEvent.NavigateBack -> onBackClick()
             SavingDetailsEvent.NavigateToGeneral -> onGeneralClick(viewModel.accountId)
             SavingDetailsEvent.NavigateToTransactions -> onTransactionsClick(viewModel.accountId)
-            SavingDetailsEvent.NavigateToDepositTransaction -> onDepositTransactionClick(viewModel.accountId)
-            SavingDetailsEvent.NavigateToWithdrawTransaction -> onWithdrawTransactionClick(viewModel.accountId)
+            is SavingDetailsEvent.NavigateToSavingTransaction ->
+                onSavingTransactionClick(viewModel.accountId, event.isWithdrawal)
             SavingDetailsEvent.NavigateToActivateSavings -> onActivateSavingsClick(viewModel.accountId)
             SavingDetailsEvent.NavigateToApproveSavings -> onApproveSavingsClick(viewModel.accountId)
             SavingDetailsEvent.NavigateToUpdateSavings -> onUpdateSavingsClick(viewModel.accountId)
@@ -283,13 +282,13 @@ fun ExploreCart(
         KptExploreCard(
             title = stringResource(Res.string.feature_saving_explore_deposit),
             leadingIcon = AppIcons.Add,
-            onClick = { onAction(SavingDetailsAction.OnDepositTransactionClick) },
+            onClick = { onAction(SavingDetailsAction.OnSavingTransactionClick(isWithdrawal = false)) },
         )
 
         KptExploreCard(
             title = stringResource(Res.string.feature_saving_explore_withdraw),
             leadingIcon = AppIcons.Payment,
-            onClick = { onAction(SavingDetailsAction.OnWithdrawTransactionClick) },
+            onClick = { onAction(SavingDetailsAction.OnSavingTransactionClick(isWithdrawal = true)) },
         )
     }
 }

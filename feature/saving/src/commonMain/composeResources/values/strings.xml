@@ -68,5 +68,12 @@
     <string name="feature_saving_activation_date_hint">Select Date</string>
     <string name="feature_saving_activate_success_title">Success</string>
     <string name="feature_saving_activate_success_message">Savings account activated successfully.</string>
+
+    <string name="feature_saving_withdraw_title">WITHDRAW TRANSACTION</string>
+    <string name="feature_saving_withdraw_submit">Withdraw</string>
+    <string name="feature_saving_withdraw_success_title">Success</string>
+    <string name="feature_saving_withdraw_success_message">Withdraw transaction processed successfully.</string>
+    <string name="feature_saving_amount_required">Amount is required</string>
+    <string name="feature_saving_payment_type_required">Payment type is required</string>
 </resources>
 
