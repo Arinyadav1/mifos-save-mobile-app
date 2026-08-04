@@ -17,10 +17,10 @@ import org.mifos.feature.saving.activateSaving.activateSavingDestination
 import org.mifos.feature.saving.activateSaving.navigateToActivateSaving
 import org.mifos.feature.saving.approveSaving.approveSavingDestination
 import org.mifos.feature.saving.approveSaving.navigateToApproveSaving
-import org.mifos.feature.saving.depositTransaction.depositTransactionDestination
-import org.mifos.feature.saving.depositTransaction.navigateToDepositTransaction
 import org.mifos.feature.saving.savingDetails.SavingDetailsRoute
 import org.mifos.feature.saving.savingDetails.savingDetailsDestination
+import org.mifos.feature.saving.savingTransaction.navigateToSavingTransaction
+import org.mifos.feature.saving.savingTransaction.savingTransactionDestination
 
 @Serializable
 data object SavingGraphRoute
@@ -36,8 +36,8 @@ fun NavGraphBuilder.savingNavigationGraph(
             onApproveSavingsClick = { savingsId ->
                 navController.navigateToApproveSaving(savingsId)
             },
-            onDepositTransactionClick = { accountId ->
-                navController.navigateToDepositTransaction(accountId)
+            onSavingTransactionClick = { accountId, isWithdrawal ->
+                navController.navigateToSavingTransaction(accountId, isWithdrawal = isWithdrawal)
             },
             onActivateSavingsClick = { savingsId ->
                 navController.navigateToActivateSaving(savingsId)
@@ -55,7 +55,7 @@ fun NavGraphBuilder.savingNavigationGraph(
                 navController.popBackStack()
             },
         )
-        depositTransactionDestination(
+        savingTransactionDestination(
             onBackClick = navController::popBackStack,
             onBackWithUpdateData = { _ ->
                 navController.popBackStack()

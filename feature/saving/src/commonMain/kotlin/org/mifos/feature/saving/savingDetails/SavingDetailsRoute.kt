@@ -21,14 +21,14 @@ data class SavingDetailsRoute(val accountId: Long)
 fun NavGraphBuilder.savingDetailsDestination(
     onBackClick: () -> Unit,
     onApproveSavingsClick: (Long) -> Unit,
-    onDepositTransactionClick: (Long) -> Unit,
+    onSavingTransactionClick: (Long, Boolean) -> Unit,
     onActivateSavingsClick: (Long) -> Unit,
 ) {
     composableWithStayTransitions<SavingDetailsRoute> {
         SavingDetailsScreen(
             onBackClick = onBackClick,
             onApproveSavingsClick = onApproveSavingsClick,
-            onDepositTransactionClick = onDepositTransactionClick,
+            onSavingTransactionClick = onSavingTransactionClick,
             onActivateSavingsClick = onActivateSavingsClick,
         )
     }

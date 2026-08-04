@@ -7,7 +7,7 @@
  *
  * See See https://github.com/openMF/kmp-project-template/blob/main/LICENSE
  */
-package org.mifos.feature.saving.depositTransaction
+package org.mifos.feature.saving.savingTransaction
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -66,45 +66,59 @@ import org.mifos.feature.saving.generated.resources.feature_saving_deposit_succe
 import org.mifos.feature.saving.generated.resources.feature_saving_deposit_title
 import org.mifos.feature.saving.generated.resources.feature_saving_mifos_save
 import org.mifos.feature.saving.generated.resources.feature_saving_ok
+import org.mifos.feature.saving.generated.resources.feature_saving_withdraw_submit
+import org.mifos.feature.saving.generated.resources.feature_saving_withdraw_success_message
+import org.mifos.feature.saving.generated.resources.feature_saving_withdraw_success_title
+import org.mifos.feature.saving.generated.resources.feature_saving_withdraw_title
 
 @Composable
-fun DepositTransactionScreen(
+fun SavingTransactionScreen(
     onBackClick: () -> Unit,
     onBackWithUpdateData: (Long) -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: DepositTransactionViewModel = koinViewModel(),
+    viewModel: SavingTransactionViewModel = koinViewModel(),
 ) {
     val state by viewModel.stateFlow.collectAsStateWithLifecycle()
 
     EventsEffect(viewModel.eventFlow) { event ->
         when (event) {
-            DepositTransactionEvent.NavigateBack -> onBackClick()
-            is DepositTransactionEvent.NavigateBackWithUpdateData -> onBackWithUpdateData(event.accountId)
+            SavingTransactionEvent.NavigateBack -> onBackClick()
+            is SavingTransactionEvent.NavigateBackWithUpdateData -> onBackWithUpdateData(event.accountId)
         }
     }
 
     if (state.showSuccessDialog) {
+        val successTitle = if (state.isWithdrawal) {
+            stringResource(Res.string.feature_saving_withdraw_success_title)
+        } else {
+            stringResource(Res.string.feature_saving_deposit_success_title)
+        }
+        val successMessage = if (state.isWithdrawal) {
+            stringResource(Res.string.feature_saving_withdraw_success_message)
+        } else {
+            stringResource(Res.string.feature_saving_deposit_success_message)
+        }
         KptSuccessDialog(
-            title = stringResource(Res.string.feature_saving_deposit_success_title),
-            message = stringResource(Res.string.feature_saving_deposit_success_message),
+            title = successTitle,
+            message = successMessage,
             buttonText = stringResource(Res.string.feature_saving_ok),
-            onConfirm = { viewModel.trySendAction(DepositTransactionAction.DismissSuccessDialog) },
+            onConfirm = { viewModel.trySendAction(SavingTransactionAction.DismissSuccessDialog) },
         )
     }
 
     if (state.isDatePickerVisible) {
         KptDatePickerDialog(
             onDateSelected = { millis ->
-                viewModel.trySendAction(DepositTransactionAction.OnDateSelected(millis))
+                viewModel.trySendAction(SavingTransactionAction.OnDateSelected(millis))
             },
             onDismiss = {
-                viewModel.trySendAction(DepositTransactionAction.OnDatePickerToggle(false))
+                viewModel.trySendAction(SavingTransactionAction.OnDatePickerToggle(false))
             },
             initialSelectedDateMillis = state.selectedDateMillis,
         )
     }
 
-    DepositTransactionScreenContent(
+    SavingTransactionScreenContent(
         state = state,
         onAction = viewModel::trySendAction,
         modifier = modifier,
@@ -112,9 +126,9 @@ fun DepositTransactionScreen(
 }
 
 @Composable
-internal fun DepositTransactionScreenContent(
-    state: DepositTransactionState,
-    onAction: (DepositTransactionAction) -> Unit,
+internal fun SavingTransactionScreenContent(
+    state: SavingTransactionState,
+    onAction: (SavingTransactionAction) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     KptScaffold(
@@ -123,11 +137,16 @@ internal fun DepositTransactionScreenContent(
         topBar = {
             KptHeader(
                 navigationIcon = {
-                    KptHeaderBackButton(onClick = { onAction(DepositTransactionAction.OnBackClick) })
+                    KptHeaderBackButton(onClick = { onAction(SavingTransactionAction.OnBackClick) })
                 },
                 title = {
+                    val headerTitle = if (state.isWithdrawal) {
+                        stringResource(Res.string.feature_saving_withdraw_title)
+                    } else {
+                        stringResource(Res.string.feature_saving_deposit_title)
+                    }
                     KptHeaderTitle(
-                        title = stringResource(Res.string.feature_saving_deposit_title),
+                        title = headerTitle,
                         subtitle = stringResource(Res.string.feature_saving_mifos_save),
                     )
                 },
@@ -135,11 +154,16 @@ internal fun DepositTransactionScreenContent(
         },
         bottomBar = {
             if (state.submitState is SubmitState.Idle || state.submitState is SubmitState.Submitting) {
+                val submitText = if (state.isWithdrawal) {
+                    stringResource(Res.string.feature_saving_withdraw_submit)
+                } else {
+                    stringResource(Res.string.feature_saving_deposit_submit)
+                }
                 KptDoubleButton(
-                    onLeftButtonClick = { onAction(DepositTransactionAction.OnBackClick) },
-                    onRightButtonClick = { onAction(DepositTransactionAction.SubmitDeposit) },
+                    onLeftButtonClick = { onAction(SavingTransactionAction.OnBackClick) },
+                    onRightButtonClick = { onAction(SavingTransactionAction.SubmitTransaction) },
                     leftButtonText = stringResource(Res.string.feature_saving_cancel),
-                    rightButtonText = stringResource(Res.string.feature_saving_deposit_submit),
+                    rightButtonText = submitText,
                 )
             }
         },
@@ -158,7 +182,7 @@ internal fun DepositTransactionScreenContent(
             MutationScreenContent(
                 screenState = state.screenState,
                 submitState = state.submitState,
-                onRetry = { onAction(DepositTransactionAction.Retry) },
+                onRetry = { onAction(SavingTransactionAction.Retry) },
                 onSubmitted = {},
                 loading = {
                     DefaultLoadingContent(
@@ -181,17 +205,17 @@ internal fun DepositTransactionScreenContent(
                         enabled = true,
                         label = stringResource(Res.string.feature_saving_deposit_date),
                         placeholder = stringResource(Res.string.feature_saving_approval_date_hint),
-                        onCalenderClick = { onAction(DepositTransactionAction.OnDatePickerToggle(true)) },
+                        onCalenderClick = { onAction(SavingTransactionAction.OnDatePickerToggle(true)) },
                         modifier = Modifier.fillMaxWidth(),
                     )
 
                     KptTextField(
                         value = state.amount,
-                        onValueChange = { onAction(DepositTransactionAction.OnAmountChanged(it)) },
+                        onValueChange = { onAction(SavingTransactionAction.OnAmountChanged(it)) },
                         label = stringResource(Res.string.feature_saving_deposit_amount),
                         placeholder = stringResource(Res.string.feature_saving_deposit_amount_hint),
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                        errorText = state.amountError,
+                        errorText = state.amountErrorRes?.let { stringResource(it) },
                         modifier = Modifier.fillMaxWidth(),
                     )
 
@@ -200,18 +224,18 @@ internal fun DepositTransactionScreenContent(
                         value = state.selectedPaymentType?.name.orEmpty(),
                         onOptionSelected = { index, _ ->
                             val option = state.paymentTypeOptions[index]
-                            onAction(DepositTransactionAction.OnPaymentTypeSelected(option))
+                            onAction(SavingTransactionAction.OnPaymentTypeSelected(option))
                         },
                         options = paymentTypeNames,
                         label = stringResource(Res.string.feature_saving_deposit_payment_type),
                         placeholder = stringResource(Res.string.feature_saving_deposit_select_payment_type),
-                        errorText = state.paymentTypeError,
+                        errorText = state.paymentTypeErrorRes?.let { stringResource(it) },
                         modifier = Modifier.fillMaxWidth(),
                     )
 
                     KptTextField(
                         value = state.accountNumber,
-                        onValueChange = { onAction(DepositTransactionAction.OnAccountNumberChanged(it)) },
+                        onValueChange = { onAction(SavingTransactionAction.OnAccountNumberChanged(it)) },
                         label = stringResource(Res.string.feature_saving_deposit_account_number),
                         placeholder = stringResource(Res.string.feature_saving_deposit_account_number_hint),
                         modifier = Modifier.fillMaxWidth(),
@@ -219,7 +243,7 @@ internal fun DepositTransactionScreenContent(
 
                     KptTextField(
                         value = state.checkNumber,
-                        onValueChange = { onAction(DepositTransactionAction.OnCheckNumberChanged(it)) },
+                        onValueChange = { onAction(SavingTransactionAction.OnCheckNumberChanged(it)) },
                         label = stringResource(Res.string.feature_saving_deposit_check_number),
                         placeholder = stringResource(Res.string.feature_saving_deposit_check_number_hint),
                         modifier = Modifier.fillMaxWidth(),
@@ -227,7 +251,7 @@ internal fun DepositTransactionScreenContent(
 
                     KptTextField(
                         value = state.routingCode,
-                        onValueChange = { onAction(DepositTransactionAction.OnRoutingCodeChanged(it)) },
+                        onValueChange = { onAction(SavingTransactionAction.OnRoutingCodeChanged(it)) },
                         label = stringResource(Res.string.feature_saving_deposit_routing_code),
                         placeholder = stringResource(Res.string.feature_saving_deposit_routing_code_hint),
                         modifier = Modifier.fillMaxWidth(),
@@ -235,7 +259,7 @@ internal fun DepositTransactionScreenContent(
 
                     KptTextField(
                         value = state.receiptNumber,
-                        onValueChange = { onAction(DepositTransactionAction.OnReceiptNumberChanged(it)) },
+                        onValueChange = { onAction(SavingTransactionAction.OnReceiptNumberChanged(it)) },
                         label = stringResource(Res.string.feature_saving_deposit_receipt_number),
                         placeholder = stringResource(Res.string.feature_saving_deposit_receipt_number_hint),
                         modifier = Modifier.fillMaxWidth(),
@@ -243,7 +267,7 @@ internal fun DepositTransactionScreenContent(
 
                     KptTextField(
                         value = state.bankNumber,
-                        onValueChange = { onAction(DepositTransactionAction.OnBankNumberChanged(it)) },
+                        onValueChange = { onAction(SavingTransactionAction.OnBankNumberChanged(it)) },
                         label = stringResource(Res.string.feature_saving_deposit_bank_number),
                         placeholder = stringResource(Res.string.feature_saving_deposit_bank_number_hint),
                         modifier = Modifier.fillMaxWidth(),
