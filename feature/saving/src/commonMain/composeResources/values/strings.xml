@@ -44,4 +44,9 @@
     <string name="feature_saving_approve_success_title">Success</string>
     <string name="feature_saving_approve_success_message">Savings account approved successfully.</string>
     <string name="feature_saving_ok">OK</string>
+    <string name="feature_saving_activate_savings_title">ACTIVATE SAVINGS</string>
+    <string name="feature_saving_select_activation_date">Select Activation Date *</string>
+    <string name="feature_saving_activation_date_hint">Select Date</string>
+    <string name="feature_saving_activate_success_title">Success</string>
+    <string name="feature_saving_activate_success_message">Savings account activated successfully.</string>
 </resources>
