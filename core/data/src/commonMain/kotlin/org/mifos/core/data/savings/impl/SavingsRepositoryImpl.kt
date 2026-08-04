@@ -22,6 +22,7 @@ import org.mifos.core.data.util.runAsDataState
 import org.mifos.core.model.savings.SavingDetail
 import org.mifos.core.model.savings.SavingsTransactionTemplate
 import org.mifos.core.network.DataManager
+import org.mifos.core.network.fineract.savings.dto.ActivateSavingRequestDto
 import org.mifos.core.network.fineract.savings.dto.ApproveSavingRequestDto
 import org.mifos.core.network.fineract.savings.dto.DepositRequestDto
 
@@ -104,6 +105,31 @@ class SavingsRepositoryImpl(
                     routingCode = routingCode,
                     receiptNumber = receiptNumber,
                     bankNumber = bankNumber,
+                ),
+            )
+            if (!response.status.isSuccess()) {
+                val errorMessage = extractErrorMessage(response)
+                throw Exception(errorMessage)
+            }
+        }
+    }
+
+    override suspend fun activateSaving(
+        savingsId: Long,
+        activatedOnDate: String,
+        dateFormat: String,
+        locale: String,
+    ): ScreenState<Unit> {
+        return runAsDataState(
+            networkMonitor = networkMonitor,
+            context = dispatcher.io,
+        ) {
+            val response = dataManager.fineract.savingsApi.activateSaving(
+                savingsId = savingsId,
+                request = ActivateSavingRequestDto(
+                    activatedOnDate = activatedOnDate,
+                    dateFormat = dateFormat,
+                    locale = locale,
                 ),
             )
             if (!response.status.isSuccess()) {

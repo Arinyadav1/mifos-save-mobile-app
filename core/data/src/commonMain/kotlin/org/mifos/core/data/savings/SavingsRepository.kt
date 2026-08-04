@@ -39,4 +39,11 @@ interface SavingsRepository {
         receiptNumber: String?,
         bankNumber: String?,
     ): ScreenState<Unit>
+
+    suspend fun activateSaving(
+        savingsId: Long,
+        activatedOnDate: String,
+        dateFormat: String,
+        locale: String,
+    ): ScreenState<Unit>
 }

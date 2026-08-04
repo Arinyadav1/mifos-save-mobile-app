@@ -22,12 +22,14 @@ fun NavGraphBuilder.savingDetailsDestination(
     onBackClick: () -> Unit,
     onApproveSavingsClick: (Long) -> Unit,
     onDepositTransactionClick: (Long) -> Unit,
+    onActivateSavingsClick: (Long) -> Unit,
 ) {
     composableWithStayTransitions<SavingDetailsRoute> {
         SavingDetailsScreen(
             onBackClick = onBackClick,
             onApproveSavingsClick = onApproveSavingsClick,
             onDepositTransactionClick = onDepositTransactionClick,
+            onActivateSavingsClick = onActivateSavingsClick,
         )
     }
 }

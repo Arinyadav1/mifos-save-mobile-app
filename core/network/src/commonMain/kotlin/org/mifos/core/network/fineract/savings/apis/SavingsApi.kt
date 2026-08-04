@@ -16,6 +16,7 @@ import de.jensklingenberg.ktorfit.http.Path
 import de.jensklingenberg.ktorfit.http.Query
 import io.ktor.client.statement.HttpResponse
 import kotlinx.coroutines.flow.Flow
+import org.mifos.core.network.fineract.savings.dto.ActivateSavingRequestDto
 import org.mifos.core.network.fineract.savings.dto.ApproveSavingRequestDto
 import org.mifos.core.network.fineract.savings.dto.DepositRequestDto
 import org.mifos.core.network.fineract.savings.dto.SavingDetailDto
@@ -45,5 +46,12 @@ interface SavingsApi {
         @Path("accountId") accountId: Long,
         @Query("command") command: String = "deposit",
         @Body request: DepositRequestDto,
+    ): HttpResponse
+
+    @POST("${ApiEndPoints.SAVINGS_ACCOUNTS}/{savingsId}")
+    suspend fun activateSaving(
+        @Path("savingsId") savingsId: Long,
+        @Query("command") command: String = "activate",
+        @Body request: ActivateSavingRequestDto,
     ): HttpResponse
 }
