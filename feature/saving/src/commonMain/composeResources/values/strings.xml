@@ -44,9 +44,29 @@
     <string name="feature_saving_approve_success_title">Success</string>
     <string name="feature_saving_approve_success_message">Savings account approved successfully.</string>
     <string name="feature_saving_ok">OK</string>
+    <string name="feature_saving_deposit_title">DEPOSIT TRANSACTION</string>
+    <string name="feature_saving_deposit_submit">Deposit</string>
+    <string name="feature_saving_deposit_success_title">Success</string>
+    <string name="feature_saving_deposit_success_message">Deposit transaction processed successfully.</string>
+    <string name="feature_saving_deposit_date">Transaction Date *</string>
+    <string name="feature_saving_deposit_amount">Amount *</string>
+    <string name="feature_saving_deposit_payment_type">Payment Type *</string>
+    <string name="feature_saving_deposit_account_number">Account Number</string>
+    <string name="feature_saving_deposit_check_number">Check Number</string>
+    <string name="feature_saving_deposit_routing_code">Routing Code</string>
+    <string name="feature_saving_deposit_receipt_number">Receipt Number</string>
+    <string name="feature_saving_deposit_bank_number">Bank Number</string>
+    <string name="feature_saving_deposit_select_payment_type">Select Payment Type</string>
+    <string name="feature_saving_deposit_amount_hint">Enter Amount</string>
+    <string name="feature_saving_deposit_account_number_hint">Enter Account Number</string>
+    <string name="feature_saving_deposit_check_number_hint">Enter Check Number</string>
+    <string name="feature_saving_deposit_routing_code_hint">Enter Routing Code</string>
+    <string name="feature_saving_deposit_receipt_number_hint">Enter Receipt Number</string>
+    <string name="feature_saving_deposit_bank_number_hint">Enter Bank Number</string>
     <string name="feature_saving_activate_savings_title">ACTIVATE SAVINGS</string>
     <string name="feature_saving_select_activation_date">Select Activation Date *</string>
     <string name="feature_saving_activation_date_hint">Select Date</string>
     <string name="feature_saving_activate_success_title">Success</string>
     <string name="feature_saving_activate_success_message">Savings account activated successfully.</string>
 </resources>
+

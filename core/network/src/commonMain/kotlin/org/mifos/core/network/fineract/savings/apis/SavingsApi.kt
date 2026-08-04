@@ -18,7 +18,9 @@ import io.ktor.client.statement.HttpResponse
 import kotlinx.coroutines.flow.Flow
 import org.mifos.core.network.fineract.savings.dto.ActivateSavingRequestDto
 import org.mifos.core.network.fineract.savings.dto.ApproveSavingRequestDto
+import org.mifos.core.network.fineract.savings.dto.DepositRequestDto
 import org.mifos.core.network.fineract.savings.dto.SavingDetailDto
+import org.mifos.core.network.fineract.savings.dto.SavingsTransactionTemplateDto
 import org.mifos.core.network.utils.ApiEndPoints
 
 interface SavingsApi {
@@ -32,6 +34,18 @@ interface SavingsApi {
         @Path("savingsId") savingsId: Long,
         @Query("command") command: String = "approve",
         @Body request: ApproveSavingRequestDto,
+    ): HttpResponse
+
+    @GET("${ApiEndPoints.SAVINGS_ACCOUNTS}/{accountId}/transactions/template")
+    fun getSavingsTransactionTemplate(
+        @Path("accountId") accountId: Long,
+    ): Flow<SavingsTransactionTemplateDto>
+
+    @POST("${ApiEndPoints.SAVINGS_ACCOUNTS}/{accountId}/transactions")
+    suspend fun depositTransaction(
+        @Path("accountId") accountId: Long,
+        @Query("command") command: String = "deposit",
+        @Body request: DepositRequestDto,
     ): HttpResponse
 
     @POST("${ApiEndPoints.SAVINGS_ACCOUNTS}/{savingsId}")
