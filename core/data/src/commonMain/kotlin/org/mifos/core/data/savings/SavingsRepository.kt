@@ -22,4 +22,11 @@ interface SavingsRepository {
         dateFormat: String,
         locale: String,
     ): ScreenState<Unit>
+
+    suspend fun activateSaving(
+        savingsId: Long,
+        activatedOnDate: String,
+        dateFormat: String,
+        locale: String,
+    ): ScreenState<Unit>
 }
