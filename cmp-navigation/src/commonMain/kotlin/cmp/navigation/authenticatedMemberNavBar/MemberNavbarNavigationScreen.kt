@@ -100,9 +100,7 @@ internal fun MemberNavbarNavigationScreenContent(
                     }
                 }
             },
-            shouldShowNavigation = navigationItems.any {
-                navBackStackEntry.isCurrentRoute(route = it.graphRoute)
-            },
+            shouldShowNavigation = true,
         ),
         snackbarHost = {
             SnackbarHost(hostState = snackbarHostState)

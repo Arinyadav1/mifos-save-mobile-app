@@ -51,6 +51,7 @@ import org.mifos.core.ui.scaffold.KptScaffold
 import org.mifos.feature.saving.generated.resources.Res
 import org.mifos.feature.saving.generated.resources.feature_saving_account_number
 import org.mifos.feature.saving.generated.resources.feature_saving_activate_savings
+import org.mifos.feature.saving.generated.resources.feature_saving_approve_savings
 import org.mifos.feature.saving.generated.resources.feature_saving_available_balance
 import org.mifos.feature.saving.generated.resources.feature_saving_close_savings
 import org.mifos.feature.saving.generated.resources.feature_saving_current_balance
@@ -74,6 +75,7 @@ fun SavingDetailsScreen(
     onWithdrawTransactionClick: (Long) -> Unit = {},
     onActivateSavingsClick: (Long) -> Unit = {},
     onUpdateSavingsClick: (Long) -> Unit = {},
+    onApproveSavingsClick: (Long) -> Unit = {},
     viewModel: SavingDetailsViewModel = koinViewModel(),
 ) {
     val state by viewModel.stateFlow.collectAsStateWithLifecycle()
@@ -86,6 +88,7 @@ fun SavingDetailsScreen(
             SavingDetailsEvent.NavigateToDepositTransaction -> onDepositTransactionClick(viewModel.accountId)
             SavingDetailsEvent.NavigateToWithdrawTransaction -> onWithdrawTransactionClick(viewModel.accountId)
             SavingDetailsEvent.NavigateToActivateSavings -> onActivateSavingsClick(viewModel.accountId)
+            SavingDetailsEvent.NavigateToApproveSavings -> onApproveSavingsClick(viewModel.accountId)
             SavingDetailsEvent.NavigateToUpdateSavings -> onUpdateSavingsClick(viewModel.accountId)
             SavingDetailsEvent.NavigateToCloseSavings -> {
                 /* TODO */
@@ -132,6 +135,15 @@ internal fun SavingDetailsScreenContent(
                             onDismissRequest = { onAction(SavingDetailsAction.SetMenuVisible(false)) },
                             items = buildList {
                                 if (savingDetail?.status?.code?.contains("pending") == true) {
+                                    add(
+                                        KptDropdownMenuItem(
+                                            text = stringResource(Res.string.feature_saving_approve_savings),
+                                            onClick = {
+                                                onAction(SavingDetailsAction.SetMenuVisible(false))
+                                                onAction(SavingDetailsAction.OnApproveSavingsClick)
+                                            },
+                                        ),
+                                    )
                                     add(
                                         KptDropdownMenuItem(
                                             text = stringResource(Res.string.feature_saving_close_savings),

@@ -15,4 +15,11 @@ import org.mifos.core.model.savings.SavingDetail
 
 interface SavingsRepository {
     fun getSavingDetails(accountId: Long): Flow<ScreenState<SavingDetail>>
+
+    suspend fun approveSaving(
+        savingsId: Long,
+        approvedOnDate: String,
+        dateFormat: String,
+        locale: String,
+    ): ScreenState<Unit>
 }

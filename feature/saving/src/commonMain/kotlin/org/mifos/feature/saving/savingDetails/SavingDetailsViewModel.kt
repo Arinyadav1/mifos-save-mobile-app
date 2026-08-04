@@ -65,6 +65,9 @@ class SavingDetailsViewModel(
             SavingDetailsAction.OnActivateSavingsClick -> {
                 sendEvent(SavingDetailsEvent.NavigateToActivateSavings)
             }
+            SavingDetailsAction.OnApproveSavingsClick -> {
+                sendEvent(SavingDetailsEvent.NavigateToApproveSavings)
+            }
             SavingDetailsAction.OnUpdateSavingsClick -> {
                 sendEvent(SavingDetailsEvent.NavigateToUpdateSavings)
             }
@@ -93,6 +96,7 @@ sealed interface SavingDetailsEvent {
     data object NavigateBack : SavingDetailsEvent
     data object NavigateToCloseSavings : SavingDetailsEvent
     data object NavigateToActivateSavings : SavingDetailsEvent
+    data object NavigateToApproveSavings : SavingDetailsEvent
     data object NavigateToUpdateSavings : SavingDetailsEvent
     data object NavigateToGeneral : SavingDetailsEvent
     data object NavigateToTransactions : SavingDetailsEvent
@@ -106,6 +110,7 @@ sealed interface SavingDetailsAction {
     data class SetMenuVisible(val visible: Boolean) : SavingDetailsAction
     data object OnCloseSavingsClick : SavingDetailsAction
     data object OnActivateSavingsClick : SavingDetailsAction
+    data object OnApproveSavingsClick : SavingDetailsAction
     data object OnUpdateSavingsClick : SavingDetailsAction
     data object OnGeneralClick : SavingDetailsAction
     data object OnTransactionsClick : SavingDetailsAction

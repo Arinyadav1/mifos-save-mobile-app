@@ -9,9 +9,14 @@
  */
 package org.mifos.core.network.fineract.savings.apis
 
+import de.jensklingenberg.ktorfit.http.Body
 import de.jensklingenberg.ktorfit.http.GET
+import de.jensklingenberg.ktorfit.http.POST
 import de.jensklingenberg.ktorfit.http.Path
+import de.jensklingenberg.ktorfit.http.Query
+import io.ktor.client.statement.HttpResponse
 import kotlinx.coroutines.flow.Flow
+import org.mifos.core.network.fineract.savings.dto.ApproveSavingRequestDto
 import org.mifos.core.network.fineract.savings.dto.SavingDetailDto
 import org.mifos.core.network.utils.ApiEndPoints
 
@@ -20,4 +25,11 @@ interface SavingsApi {
     fun getSavingDetails(
         @Path("accountId") accountId: Long,
     ): Flow<SavingDetailDto>
+
+    @POST("${ApiEndPoints.SAVINGS_ACCOUNTS}/{savingsId}")
+    suspend fun approveSaving(
+        @Path("savingsId") savingsId: Long,
+        @Query("command") command: String = "approve",
+        @Body request: ApproveSavingRequestDto,
+    ): HttpResponse
 }
