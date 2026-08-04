@@ -35,4 +35,13 @@
     <string name="feature_saving_savings_product">Savings Product</string>
     <string name="feature_saving_account_number">Account Number</string>
     <string name="feature_saving_current_balance">Current Balance</string>
+    <string name="feature_saving_approve_savings">Approve Savings</string>
+    <string name="feature_saving_approve_savings_title">APPROVE SAVINGS</string>
+    <string name="feature_saving_select_approval_date">Select Approval Date *</string>
+    <string name="feature_saving_approval_date_hint">Select Date</string>
+    <string name="feature_saving_cancel">Cancel</string>
+    <string name="feature_saving_approve">Approve</string>
+    <string name="feature_saving_approve_success_title">Success</string>
+    <string name="feature_saving_approve_success_message">Savings account approved successfully.</string>
+    <string name="feature_saving_ok">OK</string>
 </resources>

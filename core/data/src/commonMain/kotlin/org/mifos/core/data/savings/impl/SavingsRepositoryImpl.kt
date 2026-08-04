@@ -9,6 +9,7 @@
  */
 package org.mifos.core.data.savings.impl
 
+import io.ktor.http.isSuccess
 import kotlinx.coroutines.flow.Flow
 import org.mifos.core.base.common.manager.DispatcherManager
 import org.mifos.core.base.store.screen.ScreenState
@@ -16,8 +17,11 @@ import org.mifos.core.data.infra.NetworkMonitor
 import org.mifos.core.data.mapper.savings.toModel
 import org.mifos.core.data.savings.SavingsRepository
 import org.mifos.core.data.util.asScreenStateFlow
+import org.mifos.core.data.util.extractErrorMessage
+import org.mifos.core.data.util.runAsDataState
 import org.mifos.core.model.savings.SavingDetail
 import org.mifos.core.network.DataManager
+import org.mifos.core.network.fineract.savings.dto.ApproveSavingRequestDto
 
 class SavingsRepositoryImpl(
     private val dataManager: DataManager,
@@ -31,6 +35,31 @@ class SavingsRepositoryImpl(
             dispatcher = dispatcher.io,
         ) { dto ->
             dto.toModel()
+        }
+    }
+
+    override suspend fun approveSaving(
+        savingsId: Long,
+        approvedOnDate: String,
+        dateFormat: String,
+        locale: String,
+    ): ScreenState<Unit> {
+        return runAsDataState(
+            networkMonitor = networkMonitor,
+            context = dispatcher.io,
+        ) {
+            val response = dataManager.fineract.savingsApi.approveSaving(
+                savingsId = savingsId,
+                request = ApproveSavingRequestDto(
+                    approvedOnDate = approvedOnDate,
+                    dateFormat = dateFormat,
+                    locale = locale,
+                ),
+            )
+            if (!response.status.isSuccess()) {
+                val errorMessage = extractErrorMessage(response)
+                throw Exception(errorMessage)
+            }
         }
     }
 }

@@ -15,6 +15,7 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             implementation(projects.core.common)
+            implementation(projects.feature.saving)
             implementation(projects.core.domain)
             implementation(projects.coreBase.common)
             implementation(projects.coreBase.store)

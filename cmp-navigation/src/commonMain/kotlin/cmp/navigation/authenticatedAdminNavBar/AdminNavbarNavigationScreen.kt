@@ -44,7 +44,6 @@ import org.mifos.feature.home.HomeDestination
 import org.mifos.feature.home.homeGraph
 import org.mifos.feature.home.navigateToHome
 import org.mifos.feature.saving.savingDetails.navigateToSavingDetails
-import org.mifos.feature.saving.savingDetails.savingDetailsDestination
 
 @Composable
 internal fun AdminNavbarNavigationScreen(
@@ -152,7 +151,6 @@ internal fun AdminNavbarNavigationScreenContent(
                     navController.navigateToSavingDetails(accountId)
                 },
             )
-            savingDetailsDestination(onBackClick = navController::popBackStack)
         }
     }
 }

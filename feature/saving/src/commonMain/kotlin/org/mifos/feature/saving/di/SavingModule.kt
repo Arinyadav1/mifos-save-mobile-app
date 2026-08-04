@@ -11,8 +11,10 @@ package org.mifos.feature.saving.di
 
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
+import org.mifos.feature.saving.approveSaving.ApproveSavingViewModel
 import org.mifos.feature.saving.savingDetails.SavingDetailsViewModel
 
 val SavingModule = module {
     viewModelOf(::SavingDetailsViewModel)
+    viewModelOf(::ApproveSavingViewModel)
 }

@@ -32,6 +32,7 @@ import org.mifos.feature.groups.groupMembersList.navigateToGroupMembersList
 import org.mifos.feature.groups.groupMembersList.navigateToGroupMembersListWithUpdateData
 import org.mifos.feature.groups.groupSavingList.groupSavingListDestination
 import org.mifos.feature.groups.groupSavingList.navigateToGroupSavingList
+import org.mifos.feature.saving.navigation.savingNavigationGraph
 
 @Serializable
 data object GroupsGraphRoute
@@ -101,5 +102,6 @@ fun NavGraphBuilder.groupsNavigationGraph(
                 navController.popBackStack()
             },
         )
+        savingNavigationGraph(navController = navController)
     }
 }
