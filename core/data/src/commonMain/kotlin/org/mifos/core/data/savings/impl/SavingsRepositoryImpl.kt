@@ -14,12 +14,15 @@ import kotlinx.coroutines.flow.Flow
 import org.mifos.core.base.common.manager.DispatcherManager
 import org.mifos.core.base.store.screen.ScreenState
 import org.mifos.core.data.infra.NetworkMonitor
+import org.mifos.core.data.mapper.savings.toDto
 import org.mifos.core.data.mapper.savings.toModel
 import org.mifos.core.data.savings.SavingsRepository
 import org.mifos.core.data.util.asScreenStateFlow
 import org.mifos.core.data.util.extractErrorMessage
 import org.mifos.core.data.util.runAsDataState
+import org.mifos.core.model.savings.CreateSavingAccountRequest
 import org.mifos.core.model.savings.SavingDetail
+import org.mifos.core.model.savings.SavingsAccountTemplate
 import org.mifos.core.model.savings.SavingsTransactionTemplate
 import org.mifos.core.network.DataManager
 import org.mifos.core.network.fineract.savings.dto.ActivateSavingRequestDto
@@ -132,6 +135,30 @@ class SavingsRepositoryImpl(
                     locale = locale,
                 ),
             )
+            if (!response.status.isSuccess()) {
+                val errorMessage = extractErrorMessage(response)
+                throw Exception(errorMessage)
+            }
+        }
+    }
+
+    override fun getSavingsAccountTemplate(): Flow<ScreenState<SavingsAccountTemplate>> {
+        return dataManager.fineract.savingsApi.getSavingsAccountsTemplate().asScreenStateFlow(
+            networkMonitor = networkMonitor,
+            dispatcher = dispatcher.io,
+        ) { dto ->
+            dto.toModel()
+        }
+    }
+
+    override suspend fun createSavingsAccount(
+        createSavingAccountRequest: CreateSavingAccountRequest,
+    ): ScreenState<Unit> {
+        return runAsDataState(
+            networkMonitor = networkMonitor,
+            context = dispatcher.io,
+        ) {
+            val response = dataManager.fineract.savingsApi.createSavingsAccount(createSavingAccountRequest.toDto())
             if (!response.status.isSuccess()) {
                 val errorMessage = extractErrorMessage(response)
                 throw Exception(errorMessage)

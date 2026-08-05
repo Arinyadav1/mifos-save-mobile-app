@@ -19,10 +19,3 @@ data class SavingsTransactionTemplateDto(
     val currency: SavingDetailCurrencyDto? = null,
     val paymentTypeOptions: List<PaymentTypeOptionDto>? = null,
 )
-
-@Serializable
-data class PaymentTypeOptionDto(
-    val id: Long? = null,
-    val name: String? = null,
-    val position: Int? = null,
-)

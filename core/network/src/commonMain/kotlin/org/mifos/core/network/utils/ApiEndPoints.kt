@@ -22,4 +22,5 @@ object ApiEndPoints {
     const val ACCOUNTS = "accounts"
     const val CLIENTS = "clients"
     const val SAVINGS_ACCOUNTS = "savingsaccounts"
+    const val SAVINGS_PRODUCTS = "savingsproducts"
 }

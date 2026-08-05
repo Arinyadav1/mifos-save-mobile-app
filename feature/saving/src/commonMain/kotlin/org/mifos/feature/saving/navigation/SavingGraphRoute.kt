@@ -17,6 +17,7 @@ import org.mifos.feature.saving.activateSaving.activateSavingDestination
 import org.mifos.feature.saving.activateSaving.navigateToActivateSaving
 import org.mifos.feature.saving.approveSaving.approveSavingDestination
 import org.mifos.feature.saving.approveSaving.navigateToApproveSaving
+import org.mifos.feature.saving.createSaving.createSavingDestination
 import org.mifos.feature.saving.depositTransaction.depositTransactionDestination
 import org.mifos.feature.saving.depositTransaction.navigateToDepositTransaction
 import org.mifos.feature.saving.savingDetails.SavingDetailsRoute
@@ -58,6 +59,12 @@ fun NavGraphBuilder.savingNavigationGraph(
         depositTransactionDestination(
             onBackClick = navController::popBackStack,
             onBackWithUpdateData = { _ ->
+                navController.popBackStack()
+            },
+        )
+        createSavingDestination(
+            onBackClick = navController::popBackStack,
+            onBackWithUpdateData = {
                 navController.popBackStack()
             },
         )

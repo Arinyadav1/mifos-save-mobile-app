@@ -7,7 +7,7 @@
  *
  * See See https://github.com/openMF/kmp-project-template/blob/main/LICENSE
  */
-package org.mifos.feature.groups.groupSavingList
+package org.mifos.feature.saving.createSaving
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
@@ -16,22 +16,30 @@ import kotlinx.serialization.Serializable
 import org.mifos.core.base.ui.nav.composableWithStayTransitions
 
 @Serializable
-data class GroupSavingListRoute(val groupId: Long)
+data class CreateSavingRoute(
+    val groupId: Long? = null,
+    val clientId: Long? = null,
+)
 
-fun NavGraphBuilder.groupSavingListDestination(
+fun NavGraphBuilder.createSavingDestination(
     onBackClick: () -> Unit,
-    onSavingClick: (Long) -> Unit,
-    onNewSavingsClick: (Long) -> Unit,
+    onBackWithUpdateData: () -> Unit,
 ) {
-    composableWithStayTransitions<GroupSavingListRoute> {
-        GroupSavingListScreen(
+    composableWithStayTransitions<CreateSavingRoute> {
+        CreateSavingScreen(
             onBackClick = onBackClick,
-            onSavingClick = onSavingClick,
-            onNewSavingsClick = onNewSavingsClick,
+            onBackWithUpdateData = onBackWithUpdateData,
         )
     }
 }
 
-fun NavController.navigateToGroupSavingList(groupId: Long, navOptions: NavOptions? = null) {
-    this.navigate(route = GroupSavingListRoute(groupId), navOptions = navOptions)
+fun NavController.navigateToCreateSaving(
+    groupId: Long? = null,
+    clientId: Long? = null,
+    navOptions: NavOptions? = null,
+) {
+    this.navigate(
+        route = CreateSavingRoute(groupId = groupId, clientId = clientId),
+        navOptions = navOptions,
+    )
 }

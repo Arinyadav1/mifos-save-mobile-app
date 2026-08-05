@@ -20,6 +20,7 @@ import org.mifos.core.data.mapper.group.toModel
 import org.mifos.core.data.util.asScreenStateFlow
 import org.mifos.core.data.util.runAsDataState
 import org.mifos.core.model.client.ClientAccounts
+import org.mifos.core.model.client.ClientTemplate
 import org.mifos.core.model.group.ClientMember
 import org.mifos.core.network.DataManager
 
@@ -28,6 +29,17 @@ class ClientRepositoryImpl(
     private val networkMonitor: NetworkMonitor,
     private val dispatcher: DispatcherManager,
 ) : ClientRepository {
+
+    override fun getClientTemplate(): Flow<ScreenState<ClientTemplate>> {
+        return dataManager.fineract.clientApi
+            .getClientTemplate()
+            .asScreenStateFlow(
+                networkMonitor = networkMonitor,
+                dispatcher = dispatcher.io,
+            ) { dto ->
+                dto.toModel()
+            }
+    }
 
     override fun getClientAccounts(clientId: Long): Flow<ScreenState<ClientAccounts>> {
         return dataManager.fineract.clientApi

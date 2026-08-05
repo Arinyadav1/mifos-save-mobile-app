@@ -11,7 +11,9 @@ package org.mifos.core.data.savings
 
 import kotlinx.coroutines.flow.Flow
 import org.mifos.core.base.store.screen.ScreenState
+import org.mifos.core.model.savings.CreateSavingAccountRequest
 import org.mifos.core.model.savings.SavingDetail
+import org.mifos.core.model.savings.SavingsAccountTemplate
 import org.mifos.core.model.savings.SavingsTransactionTemplate
 
 interface SavingsRepository {
@@ -45,5 +47,11 @@ interface SavingsRepository {
         activatedOnDate: String,
         dateFormat: String,
         locale: String,
+    ): ScreenState<Unit>
+
+    fun getSavingsAccountTemplate(): Flow<ScreenState<SavingsAccountTemplate>>
+
+    suspend fun createSavingsAccount(
+        createSavingAccountRequest: CreateSavingAccountRequest,
     ): ScreenState<Unit>
 }

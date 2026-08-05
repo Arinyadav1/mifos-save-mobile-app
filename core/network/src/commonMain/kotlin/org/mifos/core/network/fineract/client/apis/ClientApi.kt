@@ -16,9 +16,13 @@ import kotlinx.coroutines.flow.Flow
 import org.mifos.core.network.commonDto.Page
 import org.mifos.core.network.fineract.client.dto.ClientAccountsDto
 import org.mifos.core.network.fineract.client.dto.ClientMemberDto
+import org.mifos.core.network.fineract.client.dto.ClientTemplateDto
 import org.mifos.core.network.utils.ApiEndPoints
 
 interface ClientApi {
+    @GET("${ApiEndPoints.CLIENTS}/template")
+    fun getClientTemplate(): Flow<ClientTemplateDto>
+
     @GET("${ApiEndPoints.CLIENTS}/{clientId}/accounts")
     fun getClientAccounts(
         @Path("clientId") clientId: Long,
