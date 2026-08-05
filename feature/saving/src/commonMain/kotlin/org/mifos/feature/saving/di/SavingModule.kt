@@ -14,7 +14,6 @@ import org.koin.dsl.module
 import org.mifos.feature.saving.activateSaving.ActivateSavingViewModel
 import org.mifos.feature.saving.approveSaving.ApproveSavingViewModel
 import org.mifos.feature.saving.createSaving.CreateSavingViewModel
-import org.mifos.feature.saving.depositTransaction.DepositTransactionViewModel
 import org.mifos.feature.saving.savingDetails.SavingDetailsViewModel
 import org.mifos.feature.saving.savingTransaction.SavingTransactionViewModel
 
