@@ -16,11 +16,12 @@ import org.mifos.feature.saving.approveSaving.ApproveSavingViewModel
 import org.mifos.feature.saving.createSaving.CreateSavingViewModel
 import org.mifos.feature.saving.depositTransaction.DepositTransactionViewModel
 import org.mifos.feature.saving.savingDetails.SavingDetailsViewModel
+import org.mifos.feature.saving.savingTransaction.SavingTransactionViewModel
 
 val SavingModule = module {
     viewModelOf(::SavingDetailsViewModel)
     viewModelOf(::ApproveSavingViewModel)
-    viewModelOf(::DepositTransactionViewModel)
+    viewModelOf(::SavingTransactionViewModel)
     viewModelOf(::ActivateSavingViewModel)
     viewModelOf(::CreateSavingViewModel)
 }

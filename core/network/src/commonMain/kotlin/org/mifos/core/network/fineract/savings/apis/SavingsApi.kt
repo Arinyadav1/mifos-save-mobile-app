@@ -50,6 +50,13 @@ interface SavingsApi {
         @Body request: DepositRequestDto,
     ): HttpResponse
 
+    @POST("${ApiEndPoints.SAVINGS_ACCOUNTS}/{accountId}/transactions")
+    suspend fun withdrawTransaction(
+        @Path("accountId") accountId: Long,
+        @Query("command") command: String = "withdrawal",
+        @Body request: DepositRequestDto,
+    ): HttpResponse
+
     @POST("${ApiEndPoints.SAVINGS_ACCOUNTS}/{savingsId}")
     suspend fun activateSaving(
         @Path("savingsId") savingsId: Long,

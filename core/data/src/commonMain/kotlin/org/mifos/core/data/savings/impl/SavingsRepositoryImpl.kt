@@ -117,6 +117,45 @@ class SavingsRepositoryImpl(
         }
     }
 
+    override suspend fun withdrawTransaction(
+        accountId: Long,
+        locale: String,
+        dateFormat: String,
+        transactionDate: String,
+        transactionAmount: String,
+        paymentTypeId: String,
+        accountNumber: String?,
+        checkNumber: String?,
+        routingCode: String?,
+        receiptNumber: String?,
+        bankNumber: String?,
+    ): ScreenState<Unit> {
+        return runAsDataState(
+            networkMonitor = networkMonitor,
+            context = dispatcher.io,
+        ) {
+            val response = dataManager.fineract.savingsApi.withdrawTransaction(
+                accountId = accountId,
+                request = DepositRequestDto(
+                    locale = locale,
+                    dateFormat = dateFormat,
+                    transactionDate = transactionDate,
+                    transactionAmount = transactionAmount,
+                    paymentTypeId = paymentTypeId,
+                    accountNumber = accountNumber,
+                    checkNumber = checkNumber,
+                    routingCode = routingCode,
+                    receiptNumber = receiptNumber,
+                    bankNumber = bankNumber,
+                ),
+            )
+            if (!response.status.isSuccess()) {
+                val errorMessage = extractErrorMessage(response)
+                throw Exception(errorMessage)
+            }
+        }
+    }
+
     override suspend fun activateSaving(
         savingsId: Long,
         activatedOnDate: String,

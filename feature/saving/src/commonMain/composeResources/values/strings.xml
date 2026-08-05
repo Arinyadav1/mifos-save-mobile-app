@@ -126,5 +126,11 @@
     <string name="feature_saving_error_invalid_interest_rate">Please enter a valid interest rate</string>
     <string name="feature_saving_error_invalid_amount">Please enter a valid amount</string>
     <string name="feature_saving_add">Add</string>
+    <string name="feature_saving_withdraw_title">WITHDRAW TRANSACTION</string>
+    <string name="feature_saving_withdraw_submit">Withdraw</string>
+    <string name="feature_saving_withdraw_success_title">Success</string>
+    <string name="feature_saving_withdraw_success_message">Withdraw transaction processed successfully.</string>
+    <string name="feature_saving_amount_required">Amount is required</string>
+    <string name="feature_saving_payment_type_required">Payment type is required</string>
 </resources>
 
