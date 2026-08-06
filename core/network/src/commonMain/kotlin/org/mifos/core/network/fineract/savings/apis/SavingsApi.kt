@@ -21,6 +21,7 @@ import org.mifos.core.network.fineract.savings.dto.ApproveSavingRequestDto
 import org.mifos.core.network.fineract.savings.dto.CreateSavingAccountRequestDto
 import org.mifos.core.network.fineract.savings.dto.DepositRequestDto
 import org.mifos.core.network.fineract.savings.dto.SavingDetailDto
+import org.mifos.core.network.fineract.savings.dto.SavingInterestDetailDto
 import org.mifos.core.network.fineract.savings.dto.SavingsAccountTemplateDto
 import org.mifos.core.network.fineract.savings.dto.SavingsTransactionTemplateDto
 import org.mifos.core.network.utils.ApiEndPoints
@@ -30,6 +31,12 @@ interface SavingsApi {
     fun getSavingDetails(
         @Path("accountId") accountId: Long,
     ): Flow<SavingDetailDto>
+
+    @GET("${ApiEndPoints.SAVINGS_ACCOUNTS}/{accountId}")
+    fun calculateSavingInterest(
+        @Path("accountId") accountId: Long,
+        @Query("command") command: String = "calculateInterest",
+    ): Flow<SavingInterestDetailDto>
 
     @POST("${ApiEndPoints.SAVINGS_ACCOUNTS}/{savingsId}")
     suspend fun approveSaving(

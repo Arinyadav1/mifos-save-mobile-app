@@ -132,5 +132,16 @@
     <string name="feature_saving_withdraw_success_message">Withdraw transaction processed successfully.</string>
     <string name="feature_saving_amount_required">Amount is required</string>
     <string name="feature_saving_payment_type_required">Payment type is required</string>
+
+    <!-- Savings Interest Showcase -->
+    <string name="feature_saving_explore_interest">Savings Interest</string>
+    <string name="feature_saving_interest_showcase_title">SAVINGS INTEREST</string>
+    <string name="feature_saving_interest_summary_title">INTEREST SUMMARY</string>
+    <string name="feature_saving_interest_details_title">INTEREST DETAILS</string>
+    <string name="feature_saving_total_interest_posted">Total Interest Posted</string>
+    <string name="feature_saving_total_overdraft_interest_derived">Total Overdraft Interest Derived</string>
+    <string name="feature_saving_interest_not_posted">Interest Not Posted</string>
+    <string name="feature_saving_running_balance_on_interest_posting_till_date">Running Balance on Interest Posting Till Date</string>
+    <string name="feature_saving_running_balance_on_pivot_date">Running Balance on Pivot Date</string>
 </resources>
 
