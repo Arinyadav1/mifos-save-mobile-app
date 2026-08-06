@@ -155,6 +155,7 @@ internal fun SavingDetailsScreenContent(
                                             },
                                         ),
                                     )
+                                } else {
                                     add(
                                         KptDropdownMenuItem(
                                             text = stringResource(Res.string.feature_saving_activate_savings),

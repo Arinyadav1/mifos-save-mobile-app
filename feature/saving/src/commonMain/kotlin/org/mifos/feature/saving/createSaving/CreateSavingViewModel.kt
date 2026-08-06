@@ -21,8 +21,7 @@ import org.mifos.core.base.store.screen.ScreenState
 import org.mifos.core.base.store.submit.SubmitState
 import org.mifos.core.base.ui.viewmodel.BaseViewModel
 import org.mifos.core.common.Constants
-import org.mifos.core.common.formatDateFromLong
-import org.mifos.core.common.getCurrentEpochMillis
+import org.mifos.core.common.FormatDate
 import org.mifos.core.data.client.ClientRepository
 import org.mifos.core.data.savings.SavingsRepository
 import org.mifos.core.model.client.ClientTemplate
@@ -330,8 +329,8 @@ class CreateSavingViewModel(
                         editingChargeIndex = -1,
                         chooseChargeIndex = -1,
                         chargeAmount = "",
-                        chargeDate = formatDateFromLong(getCurrentEpochMillis()),
-                        selectedChargeDateMillis = getCurrentEpochMillis(),
+                        chargeDate = FormatDate.formatDateFromLong(FormatDate.getCurrentEpochMillis()),
+                        selectedChargeDateMillis = FormatDate.getCurrentEpochMillis(),
                         chargeAmountError = null,
                     )
                 }
@@ -423,7 +422,7 @@ class CreateSavingViewModel(
 
     private fun handleSubmittedDateSelected(millis: Long?) {
         if (millis != null) {
-            val formattedDate = formatDateFromLong(millis)
+            val formattedDate = FormatDate.formatDateFromLong(millis)
             mutableStateFlow.update {
                 it.copy(
                     selectedSubmittedOnDateMillis = millis,
@@ -438,7 +437,7 @@ class CreateSavingViewModel(
 
     private fun handleChargeDateSelected(millis: Long?) {
         if (millis != null) {
-            val formattedDate = formatDateFromLong(millis)
+            val formattedDate = FormatDate.formatDateFromLong(millis)
             mutableStateFlow.update {
                 it.copy(
                     selectedChargeDateMillis = millis,
@@ -626,8 +625,8 @@ data class CreateSavingState(
     val savingsProductSelected: Int = -1,
     val fieldOfficerIndex: Int = -1,
     val externalId: String = "",
-    val submittedOnDate: String = formatDateFromLong(getCurrentEpochMillis()),
-    val selectedSubmittedOnDateMillis: Long? = getCurrentEpochMillis(),
+    val submittedOnDate: String = FormatDate.formatDateFromLong(FormatDate.getCurrentEpochMillis()),
+    val selectedSubmittedOnDateMillis: Long? = FormatDate.getCurrentEpochMillis(),
     val isSubmittedDatePickerVisible: Boolean = false,
     val savingProductError: StringResource? = null,
 
@@ -652,8 +651,8 @@ data class CreateSavingState(
     // Step 3: Charges
     val chooseChargeIndex: Int = -1,
     val addedCharges: List<CreatedCharges> = emptyList(),
-    val chargeDate: String = formatDateFromLong(getCurrentEpochMillis()),
-    val selectedChargeDateMillis: Long? = getCurrentEpochMillis(),
+    val chargeDate: String = FormatDate.formatDateFromLong(FormatDate.getCurrentEpochMillis()),
+    val selectedChargeDateMillis: Long? = FormatDate.getCurrentEpochMillis(),
     val isChargeDatePickerVisible: Boolean = false,
     val chargeAmount: String = "",
     val chargeAmountError: StringResource? = null,

@@ -20,8 +20,7 @@ import org.mifos.core.base.store.screen.ScreenState
 import org.mifos.core.base.store.submit.SubmitState
 import org.mifos.core.base.ui.viewmodel.BaseViewModel
 import org.mifos.core.common.Constants
-import org.mifos.core.common.formatDateFromLong
-import org.mifos.core.common.getCurrentEpochMillis
+import org.mifos.core.common.FormatDate
 import org.mifos.core.data.savings.SavingsRepository
 import org.mifos.core.model.savings.PaymentTypeOption
 import org.mifos.feature.saving.generated.resources.Res
@@ -139,7 +138,7 @@ class SavingTransactionViewModel(
 
     private fun handleDateSelected(millis: Long?) {
         if (millis != null) {
-            val formattedDate = formatDateFromLong(millis)
+            val formattedDate = FormatDate.formatDateFromLong(millis)
             mutableStateFlow.update {
                 it.copy(
                     selectedDateMillis = millis,
@@ -257,7 +256,7 @@ data class SavingTransactionState(
     val accountId: Long,
     val isWithdrawal: Boolean = false,
     val selectedDateMillis: Long? = null,
-    val dateText: String = formatDateFromLong(getCurrentEpochMillis()),
+    val dateText: String = FormatDate.formatDateFromLong(FormatDate.getCurrentEpochMillis()),
     val amount: String = "",
     val amountErrorRes: StringResource? = null,
     val paymentTypeOptions: List<PaymentTypeOption> = emptyList(),

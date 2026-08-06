@@ -27,7 +27,7 @@ import org.mifos.core.network.fineract.savings.dto.SavingsTransactionTemplateDto
 import org.mifos.core.network.utils.ApiEndPoints
 
 interface SavingsApi {
-    @GET("${ApiEndPoints.SAVINGS_ACCOUNTS}/{accountId}")
+    @GET("${ApiEndPoints.SAVINGS_ACCOUNTS}/{accountId}?associations=all")
     fun getSavingDetails(
         @Path("accountId") accountId: Long,
     ): Flow<SavingDetailDto>

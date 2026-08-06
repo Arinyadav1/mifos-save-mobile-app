@@ -14,7 +14,9 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.automirrored.outlined.ArrowBack
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.ArrowDownward
 import androidx.compose.material.icons.filled.ArrowOutward
+import androidx.compose.material.icons.filled.ArrowUpward
 import androidx.compose.material.icons.filled.AttachMoney
 import androidx.compose.material.icons.filled.Badge
 import androidx.compose.material.icons.filled.CalendarMonth
@@ -158,4 +160,6 @@ object AppIcons {
     val Sun = Icons.Outlined.WbSunny
     val Tune = Icons.Default.Tune
     val AddDefault = Icons.Default.Add
+    val ArrowUpward = Icons.Filled.ArrowUpward
+    val ArrowDownward = Icons.Filled.ArrowDownward
 }

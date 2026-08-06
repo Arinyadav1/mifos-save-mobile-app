@@ -24,6 +24,8 @@ import org.mifos.feature.saving.savingInterest.navigateToSavingInterest
 import org.mifos.feature.saving.savingInterest.savingInterestDestination
 import org.mifos.feature.saving.savingTransaction.navigateToSavingTransaction
 import org.mifos.feature.saving.savingTransaction.savingTransactionDestination
+import org.mifos.feature.saving.savingTransactionsHistory.navigateToSavingTransactionsHistory
+import org.mifos.feature.saving.savingTransactionsHistory.savingTransactionsHistoryDestination
 
 @Serializable
 data object SavingGraphRoute
@@ -44,6 +46,9 @@ fun NavGraphBuilder.savingNavigationGraph(
             },
             onActivateSavingsClick = { savingsId ->
                 navController.navigateToActivateSaving(savingsId)
+            },
+            onTransactionsClick = { accountId ->
+                navController.navigateToSavingTransactionsHistory(accountId)
             },
             onSavingInterestClick = { accountId ->
                 navController.navigateToSavingInterest(accountId)
@@ -66,6 +71,9 @@ fun NavGraphBuilder.savingNavigationGraph(
             onBackWithUpdateData = { _ ->
                 navController.popBackStack()
             },
+        )
+        savingTransactionsHistoryDestination(
+            onBackClick = navController::popBackStack,
         )
         createSavingDestination(
             onBackClick = navController::popBackStack,
