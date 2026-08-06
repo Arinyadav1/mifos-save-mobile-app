@@ -32,6 +32,7 @@ import org.mifos.feature.groups.groupMembersList.navigateToGroupMembersList
 import org.mifos.feature.groups.groupMembersList.navigateToGroupMembersListWithUpdateData
 import org.mifos.feature.groups.groupSavingList.groupSavingListDestination
 import org.mifos.feature.groups.groupSavingList.navigateToGroupSavingList
+import org.mifos.feature.loan.navigation.loanNavigationGraph
 import org.mifos.feature.saving.createSaving.navigateToCreateSaving
 import org.mifos.feature.saving.navigation.savingNavigationGraph
 
@@ -41,6 +42,7 @@ data object GroupsGraphRoute
 fun NavGraphBuilder.groupsNavigationGraph(
     navController: NavController,
     onSavingClick: (Long) -> Unit,
+    onLoanClick: (Long) -> Unit,
 ) {
     navigation<GroupsGraphRoute>(
         startDestination = GroupDashboardRoute,
@@ -105,7 +107,9 @@ fun NavGraphBuilder.groupsNavigationGraph(
             onBackClick = {
                 navController.popBackStack()
             },
+            onLoanClick = onLoanClick,
         )
         savingNavigationGraph(navController = navController)
+        loanNavigationGraph(navController = navController)
     }
 }

@@ -43,6 +43,7 @@ import org.mifos.feature.groups.navigation.groupsNavigationGraph
 import org.mifos.feature.home.HomeDestination
 import org.mifos.feature.home.homeGraph
 import org.mifos.feature.home.navigateToHome
+import org.mifos.feature.loan.loanDetails.navigateToLoanDetails
 import org.mifos.feature.saving.savingDetails.navigateToSavingDetails
 
 @Composable
@@ -149,6 +150,9 @@ internal fun AdminNavbarNavigationScreenContent(
                 navController = navController,
                 onSavingClick = { accountId ->
                     navController.navigateToSavingDetails(accountId)
+                },
+                onLoanClick = { loanId ->
+                    navController.navigateToLoanDetails(loanId)
                 },
             )
         }

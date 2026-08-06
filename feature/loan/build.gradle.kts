@@ -15,8 +15,6 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             implementation(projects.core.common)
-            implementation(projects.feature.saving)
-            implementation(projects.feature.loan)
             implementation(projects.core.domain)
             implementation(projects.coreBase.common)
             implementation(projects.coreBase.store)
@@ -43,6 +41,6 @@ kotlin {
 
 compose {
     resources {
-        packageOfResClass = "org.mifos.feature.groups.generated.resources"
+        packageOfResClass = "org.mifos.feature.loan.generated.resources"
     }
 }
