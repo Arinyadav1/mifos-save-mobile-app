@@ -7,7 +7,7 @@
  *
  * See See https://github.com/openMF/kmp-project-template/blob/main/LICENSE
  */
-package org.mifos.feature.saving.savingTransactionsHistory
+package org.mifos.feature.saving.transactionDetails
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
@@ -16,20 +16,18 @@ import kotlinx.serialization.Serializable
 import org.mifos.core.base.ui.nav.composableWithStayTransitions
 
 @Serializable
-data class SavingTransactionsHistoryRoute(val accountId: Long)
+data class TransactionDetailsRoute(val accountId: Long, val transactionId: Long)
 
-fun NavGraphBuilder.savingTransactionsHistoryDestination(
+fun NavGraphBuilder.transactionDetailsDestination(
     onBackClick: () -> Unit,
-    onTransactionClick: (Long, Long) -> Unit,
 ) {
-    composableWithStayTransitions<SavingTransactionsHistoryRoute> {
-        SavingTransactionsHistoryScreen(
+    composableWithStayTransitions<TransactionDetailsRoute> {
+        TransactionDetailsScreen(
             onBackClick = onBackClick,
-            onTransactionClick = onTransactionClick,
         )
     }
 }
 
-fun NavController.navigateToSavingTransactionsHistory(accountId: Long, navOptions: NavOptions? = null) {
-    this.navigate(route = SavingTransactionsHistoryRoute(accountId), navOptions = navOptions)
+fun NavController.navigateToTransactionDetails(accountId: Long, transactionId: Long, navOptions: NavOptions? = null) {
+    this.navigate(route = TransactionDetailsRoute(accountId, transactionId), navOptions = navOptions)
 }
