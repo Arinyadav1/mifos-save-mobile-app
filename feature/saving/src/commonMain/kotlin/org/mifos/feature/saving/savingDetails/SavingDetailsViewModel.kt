@@ -80,6 +80,9 @@ class SavingDetailsViewModel(
             is SavingDetailsAction.OnSavingTransactionClick -> {
                 sendEvent(SavingDetailsEvent.NavigateToSavingTransaction(action.isWithdrawal))
             }
+            SavingDetailsAction.OnSavingInterestClick -> {
+                sendEvent(SavingDetailsEvent.NavigateToSavingInterest)
+            }
         }
     }
 }
@@ -98,6 +101,7 @@ sealed interface SavingDetailsEvent {
     data object NavigateToGeneral : SavingDetailsEvent
     data object NavigateToTransactions : SavingDetailsEvent
     data class NavigateToSavingTransaction(val isWithdrawal: Boolean) : SavingDetailsEvent
+    data object NavigateToSavingInterest : SavingDetailsEvent
 }
 
 sealed interface SavingDetailsAction {
@@ -111,4 +115,5 @@ sealed interface SavingDetailsAction {
     data object OnGeneralClick : SavingDetailsAction
     data object OnTransactionsClick : SavingDetailsAction
     data class OnSavingTransactionClick(val isWithdrawal: Boolean) : SavingDetailsAction
+    data object OnSavingInterestClick : SavingDetailsAction
 }

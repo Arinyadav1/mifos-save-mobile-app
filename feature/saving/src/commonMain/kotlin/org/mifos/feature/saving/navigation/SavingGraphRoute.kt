@@ -20,6 +20,8 @@ import org.mifos.feature.saving.approveSaving.navigateToApproveSaving
 import org.mifos.feature.saving.createSaving.createSavingDestination
 import org.mifos.feature.saving.savingDetails.SavingDetailsRoute
 import org.mifos.feature.saving.savingDetails.savingDetailsDestination
+import org.mifos.feature.saving.savingInterest.navigateToSavingInterest
+import org.mifos.feature.saving.savingInterest.savingInterestDestination
 import org.mifos.feature.saving.savingTransaction.navigateToSavingTransaction
 import org.mifos.feature.saving.savingTransaction.savingTransactionDestination
 
@@ -42,6 +44,9 @@ fun NavGraphBuilder.savingNavigationGraph(
             },
             onActivateSavingsClick = { savingsId ->
                 navController.navigateToActivateSaving(savingsId)
+            },
+            onSavingInterestClick = { accountId ->
+                navController.navigateToSavingInterest(accountId)
             },
         )
         approveSavingDestination(
@@ -67,6 +72,9 @@ fun NavGraphBuilder.savingNavigationGraph(
             onBackWithUpdateData = {
                 navController.popBackStack()
             },
+        )
+        savingInterestDestination(
+            onBackClick = navController::popBackStack,
         )
     }
 }

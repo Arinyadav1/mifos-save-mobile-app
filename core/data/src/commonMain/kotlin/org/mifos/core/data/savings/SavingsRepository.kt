@@ -13,11 +13,14 @@ import kotlinx.coroutines.flow.Flow
 import org.mifos.core.base.store.screen.ScreenState
 import org.mifos.core.model.savings.CreateSavingAccountRequest
 import org.mifos.core.model.savings.SavingDetail
+import org.mifos.core.model.savings.SavingInterestDetail
 import org.mifos.core.model.savings.SavingsAccountTemplate
 import org.mifos.core.model.savings.SavingsTransactionTemplate
 
 interface SavingsRepository {
     fun getSavingDetails(accountId: Long): Flow<ScreenState<SavingDetail>>
+
+    fun calculateSavingInterest(accountId: Long): Flow<ScreenState<SavingInterestDetail>>
 
     suspend fun approveSaving(
         savingsId: Long,

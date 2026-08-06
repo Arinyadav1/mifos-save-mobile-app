@@ -22,6 +22,7 @@ import org.mifos.core.data.util.extractErrorMessage
 import org.mifos.core.data.util.runAsDataState
 import org.mifos.core.model.savings.CreateSavingAccountRequest
 import org.mifos.core.model.savings.SavingDetail
+import org.mifos.core.model.savings.SavingInterestDetail
 import org.mifos.core.model.savings.SavingsAccountTemplate
 import org.mifos.core.model.savings.SavingsTransactionTemplate
 import org.mifos.core.network.DataManager
@@ -37,6 +38,15 @@ class SavingsRepositoryImpl(
 
     override fun getSavingDetails(accountId: Long): Flow<ScreenState<SavingDetail>> {
         return dataManager.fineract.savingsApi.getSavingDetails(accountId).asScreenStateFlow(
+            networkMonitor = networkMonitor,
+            dispatcher = dispatcher.io,
+        ) { dto ->
+            dto.toModel()
+        }
+    }
+
+    override fun calculateSavingInterest(accountId: Long): Flow<ScreenState<SavingInterestDetail>> {
+        return dataManager.fineract.savingsApi.calculateSavingInterest(accountId).asScreenStateFlow(
             networkMonitor = networkMonitor,
             dispatcher = dispatcher.io,
         ) { dto ->

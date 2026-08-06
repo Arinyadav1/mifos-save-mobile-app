@@ -58,6 +58,7 @@ import org.mifos.feature.saving.generated.resources.feature_saving_current_balan
 import org.mifos.feature.saving.generated.resources.feature_saving_details_title
 import org.mifos.feature.saving.generated.resources.feature_saving_explore_deposit
 import org.mifos.feature.saving.generated.resources.feature_saving_explore_general
+import org.mifos.feature.saving.generated.resources.feature_saving_explore_interest
 import org.mifos.feature.saving.generated.resources.feature_saving_explore_title
 import org.mifos.feature.saving.generated.resources.feature_saving_explore_transactions
 import org.mifos.feature.saving.generated.resources.feature_saving_explore_withdraw
@@ -75,6 +76,7 @@ fun SavingDetailsScreen(
     onActivateSavingsClick: (Long) -> Unit = {},
     onUpdateSavingsClick: (Long) -> Unit = {},
     onApproveSavingsClick: (Long) -> Unit = {},
+    onSavingInterestClick: (Long) -> Unit = {},
     viewModel: SavingDetailsViewModel = koinViewModel(),
 ) {
     val state by viewModel.stateFlow.collectAsStateWithLifecycle()
@@ -89,6 +91,7 @@ fun SavingDetailsScreen(
             SavingDetailsEvent.NavigateToActivateSavings -> onActivateSavingsClick(viewModel.accountId)
             SavingDetailsEvent.NavigateToApproveSavings -> onApproveSavingsClick(viewModel.accountId)
             SavingDetailsEvent.NavigateToUpdateSavings -> onUpdateSavingsClick(viewModel.accountId)
+            SavingDetailsEvent.NavigateToSavingInterest -> onSavingInterestClick(viewModel.accountId)
             SavingDetailsEvent.NavigateToCloseSavings -> {
                 /* TODO */
             }
@@ -271,6 +274,12 @@ fun ExploreCart(
             title = stringResource(Res.string.feature_saving_explore_general),
             leadingIcon = AppIcons.DataInfo,
             onClick = { onAction(SavingDetailsAction.OnGeneralClick) },
+        )
+
+        KptExploreCard(
+            title = stringResource(Res.string.feature_saving_explore_interest),
+            leadingIcon = AppIcons.Savings,
+            onClick = { onAction(SavingDetailsAction.OnSavingInterestClick) },
         )
 
         KptExploreCard(
