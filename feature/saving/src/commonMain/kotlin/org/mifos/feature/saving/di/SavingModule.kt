@@ -17,11 +17,13 @@ import org.mifos.feature.saving.createSaving.CreateSavingViewModel
 import org.mifos.feature.saving.savingDetails.SavingDetailsViewModel
 import org.mifos.feature.saving.savingInterest.SavingInterestViewModel
 import org.mifos.feature.saving.savingTransaction.SavingTransactionViewModel
+import org.mifos.feature.saving.savingTransactionsHistory.SavingTransactionsHistoryViewModel
 
 val SavingModule = module {
     viewModelOf(::SavingDetailsViewModel)
     viewModelOf(::ApproveSavingViewModel)
     viewModelOf(::SavingTransactionViewModel)
+    viewModelOf(::SavingTransactionsHistoryViewModel)
     viewModelOf(::ActivateSavingViewModel)
     viewModelOf(::CreateSavingViewModel)
     viewModelOf(::SavingInterestViewModel)

@@ -23,6 +23,7 @@ fun NavGraphBuilder.savingDetailsDestination(
     onApproveSavingsClick: (Long) -> Unit,
     onSavingTransactionClick: (Long, Boolean) -> Unit,
     onActivateSavingsClick: (Long) -> Unit,
+    onTransactionsClick: (Long) -> Unit,
     onSavingInterestClick: (Long) -> Unit,
 ) {
     composableWithStayTransitions<SavingDetailsRoute> {
@@ -31,6 +32,7 @@ fun NavGraphBuilder.savingDetailsDestination(
             onApproveSavingsClick = onApproveSavingsClick,
             onSavingTransactionClick = onSavingTransactionClick,
             onActivateSavingsClick = onActivateSavingsClick,
+            onTransactionsClick = onTransactionsClick,
             onSavingInterestClick = onSavingInterestClick,
         )
     }

@@ -22,32 +22,42 @@ import org.mifos.core.common.generated.resources.core_common_home_good_night
 import kotlin.time.Clock
 import kotlin.time.Instant
 
-fun formatDateFromLong(millis: Long): String {
-    val dateTime = Instant
-        .fromEpochMilliseconds(millis)
-        .toLocalDateTime(TimeZone.currentSystemDefault())
+object FormatDate {
+    fun formatDateFromLong(millis: Long): String {
+        val dateTime = Instant
+            .fromEpochMilliseconds(millis)
+            .toLocalDateTime(TimeZone.currentSystemDefault())
 
-    val day = dateTime.day.toString().padStart(2, '0')
-    val month = dateTime.month.number.toString().padStart(2, '0')
-    val year = dateTime.year
-    return "$day/$month/$year"
-}
+        val day = dateTime.day.toString().padStart(2, '0')
+        val month = dateTime.month.number.toString().padStart(2, '0')
+        val year = dateTime.year
+        return "$day/$month/$year"
+    }
 
-fun getCurrentEpochMillis(): Long {
-    return Clock.System.now().toEpochMilliseconds()
-}
+    fun getCurrentEpochMillis(): Long {
+        return Clock.System.now().toEpochMilliseconds()
+    }
 
-fun getGreeting(hour: Int): StringResource = when (hour) {
-    in 5..11 -> Res.string.core_common_home_good_morning
-    in 12..16 -> Res.string.core_common_home_good_afternoon
-    in 17..20 -> Res.string.core_common_home_good_evening
-    else -> Res.string.core_common_home_good_night
-}
+    fun getGreeting(hour: Int): StringResource = when (hour) {
+        in 5..11 -> Res.string.core_common_home_good_morning
+        in 12..16 -> Res.string.core_common_home_good_afternoon
+        in 17..20 -> Res.string.core_common_home_good_evening
+        else -> Res.string.core_common_home_good_night
+    }
 
-fun formatHomeDate(dateTime: LocalDateTime): String {
-    val dayOfWeek = dateTime.dayOfWeek.name.lowercase().replaceFirstChar { it.uppercase() }
-    val dayOfMonth = dateTime.day
-    val monthName = dateTime.month.name.lowercase().replaceFirstChar { it.uppercase() }
-    val year = dateTime.year
-    return "$dayOfWeek, $dayOfMonth $monthName $year"
+    fun formatHomeDate(dateTime: LocalDateTime): String {
+        val dayOfWeek = dateTime.dayOfWeek.name.lowercase().replaceFirstChar { it.uppercase() }
+        val dayOfMonth = dateTime.day
+        val monthName = dateTime.month.name.lowercase().replaceFirstChar { it.uppercase() }
+        val year = dateTime.year
+        return "$dayOfWeek, $dayOfMonth $monthName $year"
+    }
+
+    fun formatLocalDate(date: kotlinx.datetime.LocalDate?): String {
+        if (date == null) return "—"
+        val day = date.day.toString().padStart(2, '0')
+        val monthName = date.month.name.lowercase().replaceFirstChar { it.uppercase() }
+        val year = date.year
+        return "$day $monthName $year"
+    }
 }

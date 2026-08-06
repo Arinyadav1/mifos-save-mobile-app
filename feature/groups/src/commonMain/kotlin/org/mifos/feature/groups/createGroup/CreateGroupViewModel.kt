@@ -19,8 +19,8 @@ import org.mifos.core.base.store.screen.ScreenState
 import org.mifos.core.base.store.submit.SubmitState
 import org.mifos.core.base.ui.viewmodel.BaseViewModel
 import org.mifos.core.common.Constants
-import org.mifos.core.common.formatDateFromLong
-import org.mifos.core.common.getCurrentEpochMillis
+import org.mifos.core.common.FormatDate.formatDateFromLong
+import org.mifos.core.common.FormatDate.getCurrentEpochMillis
 import org.mifos.core.data.client.ClientRepository
 import org.mifos.core.data.group.GroupRepository
 import org.mifos.core.model.group.ClientMember

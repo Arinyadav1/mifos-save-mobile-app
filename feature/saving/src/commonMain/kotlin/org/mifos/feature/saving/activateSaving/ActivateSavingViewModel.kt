@@ -19,8 +19,7 @@ import org.mifos.core.base.store.screen.ScreenState
 import org.mifos.core.base.store.submit.SubmitState
 import org.mifos.core.base.ui.viewmodel.BaseViewModel
 import org.mifos.core.common.Constants
-import org.mifos.core.common.formatDateFromLong
-import org.mifos.core.common.getCurrentEpochMillis
+import org.mifos.core.common.FormatDate
 import org.mifos.core.data.savings.SavingsRepository
 
 class ActivateSavingViewModel(
@@ -64,7 +63,7 @@ class ActivateSavingViewModel(
 
     private fun handleDateSelected(millis: Long?) {
         if (millis != null) {
-            val formattedDate = formatDateFromLong(millis)
+            val formattedDate = FormatDate.formatDateFromLong(millis)
             mutableStateFlow.update {
                 it.copy(
                     selectedDateMillis = millis,
@@ -145,7 +144,7 @@ class ActivateSavingViewModel(
 data class ActivateSavingState(
     val savingsId: Long,
     val selectedDateMillis: Long? = null,
-    val dateText: String = formatDateFromLong(getCurrentEpochMillis()),
+    val dateText: String = FormatDate.formatDateFromLong(FormatDate.getCurrentEpochMillis()),
     val isDatePickerVisible: Boolean = false,
     val showSuccessDialog: Boolean = false,
     val screenState: ScreenState<Unit> = ScreenState.Content(Unit, DataFreshness.FRESH),

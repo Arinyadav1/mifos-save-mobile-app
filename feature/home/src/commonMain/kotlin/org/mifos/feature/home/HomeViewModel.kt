@@ -19,8 +19,7 @@ import kotlinx.datetime.toLocalDateTime
 import org.jetbrains.compose.resources.StringResource
 import org.mifos.core.base.store.screen.ScreenState
 import org.mifos.core.base.ui.viewmodel.BaseViewModel
-import org.mifos.core.common.formatHomeDate
-import org.mifos.core.common.getGreeting
+import org.mifos.core.common.FormatDate
 import org.mifos.core.data.group.GroupRepository
 import org.mifos.core.data.user.UserDataRepository
 import kotlin.time.Clock
@@ -38,8 +37,8 @@ class HomeViewModel(
 
         // Initialize greeting & date immediately
         val nowInitial = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
-        val greetingInitial = getGreeting(nowInitial.hour)
-        val dateInitial = formatHomeDate(nowInitial)
+        val greetingInitial = FormatDate.getGreeting(nowInitial.hour)
+        val dateInitial = FormatDate.formatHomeDate(nowInitial)
 
         mutableStateFlow.update {
             it.copy(
@@ -57,8 +56,8 @@ class HomeViewModel(
                 val now = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
                 mutableStateFlow.update {
                     it.copy(
-                        greeting = getGreeting(now.hour),
-                        formattedDate = formatHomeDate(now),
+                        greeting = FormatDate.getGreeting(now.hour),
+                        formattedDate = FormatDate.formatHomeDate(now),
                     )
                 }
             }

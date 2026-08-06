@@ -17,7 +17,7 @@ import org.mifos.core.base.store.screen.DataFreshness
 import org.mifos.core.base.store.screen.ScreenState
 import org.mifos.core.base.store.submit.SubmitState
 import org.mifos.core.base.ui.viewmodel.BaseViewModel
-import org.mifos.core.common.formatDateFromLong
+import org.mifos.core.common.FormatDate
 import org.mifos.core.data.auth.AuthenticationRepository
 import org.mifos.core.model.auth.RegistrationRequest
 import org.mifos.core.model.auth.RegistrationResult
@@ -257,7 +257,7 @@ class CreateMemberAccountViewModel(
             middlename = state.middleName,
             lastname = state.lastName,
             externalId = state.externalId,
-            submittedOnDate = formatDateFromLong(Clock.System.now().toEpochMilliseconds()),
+            submittedOnDate = FormatDate.formatDateFromLong(Clock.System.now().toEpochMilliseconds()),
         )
 
         mutableStateFlow.update {
