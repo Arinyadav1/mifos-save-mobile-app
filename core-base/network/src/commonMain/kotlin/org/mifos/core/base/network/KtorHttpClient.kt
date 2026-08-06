@@ -190,7 +190,17 @@ fun setupDefaultHttpClient(
         }
         logger = object : Logger {
             override fun log(message: String) {
-                KermitLogger.d(tag = "KtorClient", messageString = message)
+                val maxLogLength = 3000
+                if (message.length <= maxLogLength) {
+                    KermitLogger.d(tag = "KtorClient", messageString = message)
+                } else {
+                    var i = 0
+                    while (i < message.length) {
+                        val end = (i + maxLogLength).coerceAtMost(message.length)
+                        KermitLogger.d(tag = "KtorClient", messageString = message.substring(i, end))
+                        i = end
+                    }
+                }
             }
         }
     }

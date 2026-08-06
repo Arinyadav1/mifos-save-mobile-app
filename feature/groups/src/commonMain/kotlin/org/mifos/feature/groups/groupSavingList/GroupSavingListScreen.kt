@@ -66,6 +66,7 @@ import org.mifos.feature.groups.generated.resources.feature_groups_sort_name
 fun GroupSavingListScreen(
     onBackClick: () -> Unit,
     onSavingClick: (Long) -> Unit,
+    onNewSavingsClick: (Long) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: GroupSavingListViewModel = koinViewModel(),
 ) {
@@ -128,7 +129,7 @@ fun GroupSavingListScreen(
     EventsEffect(viewModel.eventFlow) { event ->
         when (event) {
             GroupSavingListEvent.NavigateBack -> onBackClick()
-            GroupSavingListEvent.NavigateToNewSavings -> TODO()
+            GroupSavingListEvent.NavigateToNewSavings -> onNewSavingsClick(viewModel.groupId)
             is GroupSavingListEvent.NavigateToSavingDetails -> onSavingClick(event.accountId)
         }
     }

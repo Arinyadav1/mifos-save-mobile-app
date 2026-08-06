@@ -18,8 +18,10 @@ import io.ktor.client.statement.HttpResponse
 import kotlinx.coroutines.flow.Flow
 import org.mifos.core.network.fineract.savings.dto.ActivateSavingRequestDto
 import org.mifos.core.network.fineract.savings.dto.ApproveSavingRequestDto
+import org.mifos.core.network.fineract.savings.dto.CreateSavingAccountRequestDto
 import org.mifos.core.network.fineract.savings.dto.DepositRequestDto
 import org.mifos.core.network.fineract.savings.dto.SavingDetailDto
+import org.mifos.core.network.fineract.savings.dto.SavingsAccountTemplateDto
 import org.mifos.core.network.fineract.savings.dto.SavingsTransactionTemplateDto
 import org.mifos.core.network.utils.ApiEndPoints
 
@@ -60,5 +62,13 @@ interface SavingsApi {
         @Path("savingsId") savingsId: Long,
         @Query("command") command: String = "activate",
         @Body request: ActivateSavingRequestDto,
+    ): HttpResponse
+
+    @GET("${ApiEndPoints.SAVINGS_PRODUCTS}/template")
+    fun getSavingsAccountsTemplate(): Flow<SavingsAccountTemplateDto>
+
+    @POST(ApiEndPoints.SAVINGS_ACCOUNTS)
+    suspend fun createSavingsAccount(
+        @Body request: CreateSavingAccountRequestDto,
     ): HttpResponse
 }

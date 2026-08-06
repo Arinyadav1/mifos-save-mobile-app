@@ -12,9 +12,11 @@ package org.mifos.core.data.client
 import kotlinx.coroutines.flow.Flow
 import org.mifos.core.base.store.screen.ScreenState
 import org.mifos.core.model.client.ClientAccounts
+import org.mifos.core.model.client.ClientTemplate
 import org.mifos.core.model.group.ClientMember
 
 interface ClientRepository {
+    fun getClientTemplate(): Flow<ScreenState<ClientTemplate>>
     fun getClientAccounts(clientId: Long): Flow<ScreenState<ClientAccounts>>
     suspend fun searchClients(
         displayName: String,
