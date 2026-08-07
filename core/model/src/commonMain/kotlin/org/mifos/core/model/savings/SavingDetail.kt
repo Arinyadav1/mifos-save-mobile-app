@@ -244,3 +244,14 @@ data class SavingDetailChargePaid(
 data class SavingDetailTaxDetail(
     val id: Long,
 )
+
+val SavingDetailTransaction.isCredit: Boolean
+    get() = credit || deposit ||
+        transactionType?.credit == true || transactionType?.deposit == true ||
+        transactionType?.interestPosting == true || transactionType?.dividendPayout == true
+
+val SavingDetailTransaction.isDebit: Boolean
+    get() = debit || withdrawal ||
+        transactionType?.debit == true || transactionType?.withdrawal == true ||
+        transactionType?.feeDeduction == true || transactionType?.overdraftFee == true ||
+        transactionType?.withholdTax == true || transactionType?.escheat == true

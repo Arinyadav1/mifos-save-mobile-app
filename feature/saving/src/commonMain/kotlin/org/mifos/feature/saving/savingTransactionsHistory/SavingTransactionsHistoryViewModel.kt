@@ -18,7 +18,6 @@ import org.mifos.core.base.store.screen.ScreenState
 import org.mifos.core.base.ui.viewmodel.BaseViewModel
 import org.mifos.core.data.savings.SavingsRepository
 import org.mifos.core.model.savings.SavingDetail
-import org.mifos.core.model.savings.SavingDetailTransaction
 
 class SavingTransactionsHistoryViewModel(
     savedStateHandle: SavedStateHandle,
@@ -53,14 +52,12 @@ class SavingTransactionsHistoryViewModel(
             SavingTransactionsHistoryAction.OnBackClick -> sendEvent(SavingTransactionsHistoryEvent.NavigateBack)
             SavingTransactionsHistoryAction.Retry -> loadTransactions()
             is SavingTransactionsHistoryAction.OnTransactionClick -> {
-                mutableStateFlow.update {
-                    it.copy(selectedTransaction = action.transaction)
-                }
-            }
-            SavingTransactionsHistoryAction.DismissDetailsDialog -> {
-                mutableStateFlow.update {
-                    it.copy(selectedTransaction = null)
-                }
+                sendEvent(
+                    SavingTransactionsHistoryEvent.NavigateToTransactionDetails(
+                        accountId = route.accountId,
+                        transactionId = action.transactionId,
+                    ),
+                )
             }
         }
     }
@@ -69,16 +66,18 @@ class SavingTransactionsHistoryViewModel(
 data class SavingTransactionsHistoryState(
     val accountId: Long,
     val screenState: ScreenState<SavingDetail> = ScreenState.Loading,
-    val selectedTransaction: SavingDetailTransaction? = null,
 )
 
 sealed interface SavingTransactionsHistoryAction {
     data object OnBackClick : SavingTransactionsHistoryAction
     data object Retry : SavingTransactionsHistoryAction
-    data class OnTransactionClick(val transaction: SavingDetailTransaction) : SavingTransactionsHistoryAction
-    data object DismissDetailsDialog : SavingTransactionsHistoryAction
+    data class OnTransactionClick(val transactionId: Long) : SavingTransactionsHistoryAction
 }
 
 sealed interface SavingTransactionsHistoryEvent {
     data object NavigateBack : SavingTransactionsHistoryEvent
+    data class NavigateToTransactionDetails(
+        val accountId: Long,
+        val transactionId: Long,
+    ) : SavingTransactionsHistoryEvent
 }
