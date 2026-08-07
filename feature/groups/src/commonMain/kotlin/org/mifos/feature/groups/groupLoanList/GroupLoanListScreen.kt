@@ -62,6 +62,7 @@ import org.mifos.feature.groups.generated.resources.feature_groups_sort_by
 @Composable
 fun GroupLoanListScreen(
     onBackClick: () -> Unit,
+    onLoanClick: (Long) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: GroupLoanListViewModel = koinViewModel(),
 ) {
@@ -131,6 +132,7 @@ fun GroupLoanListScreen(
     EventsEffect(viewModel.eventFlow) { event ->
         when (event) {
             GroupLoanListEvent.NavigateBack -> onBackClick()
+            is GroupLoanListEvent.NavigateToLoanDetail -> onLoanClick(event.accountId)
         }
     }
 

@@ -176,7 +176,7 @@ class GroupLoanListViewModel(
                 }
             }
             is GroupLoanListAction.OnLoanAccountClick -> {
-                // Loan account clicked
+                sendEvent(GroupLoanListEvent.NavigateToLoanDetail(action.accountId))
             }
             is GroupLoanListAction.HandleFilterClick -> {
                 mutableStateFlow.update { state ->
@@ -252,6 +252,7 @@ enum class LoanFilterType(val value: String) {
 
 sealed interface GroupLoanListEvent {
     data object NavigateBack : GroupLoanListEvent
+    data class NavigateToLoanDetail(val accountId: Long) : GroupLoanListEvent
 }
 
 sealed interface GroupLoanListAction {

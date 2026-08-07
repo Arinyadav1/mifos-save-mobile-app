@@ -1,4 +1,4 @@
-// ── Workspace Library Linker (managed by /lib-integrate) ──────────────────
+ // ── Workspace Library Linker (managed by /lib-integrate) ──────────────────
 // Edit lib-integrate.properties to add/remove libraries. Never edit this block.
 // Path-existence guard: if library not cloned locally → silently uses Maven Central.
 // Groups libraries by path so multiple modules from same build use one includeBuild.
@@ -119,6 +119,7 @@ include(":feature:home")
 include(":feature:groups")
 include(":feature:auth")
 include(":feature:saving")
+include(":feature:loan")
 
 include(":core-base:analytics")
 include(":core-base:common")

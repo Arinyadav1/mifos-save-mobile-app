@@ -43,6 +43,7 @@ import org.mifos.core.designsystem.theme.spacing
 import org.mifos.core.model.client.LoanAccount
 import org.mifos.core.model.group.Group
 import org.mifos.core.model.group.SavingsAccount
+import org.mifos.core.model.loans.LoanDetail
 import org.mifos.core.model.savings.SavingDetail
 
 data class SubRowItem(
@@ -210,5 +211,20 @@ val SavingDetail.statusChipIntent: StatusChipIntent
         status?.closed == true ||
             status?.rejected == true ||
             status?.withdrawnByApplicant == true -> StatusChipIntent.Neutral
+        else -> StatusChipIntent.Info
+    }
+
+/**
+ * Maps a [LoanDetail]'s status to the appropriate [StatusChipIntent] for visual styling.
+ */
+val LoanDetail.statusChipIntent: StatusChipIntent
+    get() = when {
+        status?.active == true -> StatusChipIntent.Success
+        status?.pendingApproval == true ||
+            status?.waitingForDisbursal == true -> StatusChipIntent.Warning
+        status?.closed == true ||
+            status?.closedObligationsMet == true ||
+            status?.closedWrittenOff == true ||
+            status?.closedRescheduled == true -> StatusChipIntent.Neutral
         else -> StatusChipIntent.Info
     }
