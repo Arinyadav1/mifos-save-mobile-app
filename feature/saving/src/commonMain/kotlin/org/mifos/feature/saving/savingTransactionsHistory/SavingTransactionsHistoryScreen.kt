@@ -23,22 +23,16 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.jetbrains.compose.resources.stringResource
@@ -59,34 +53,20 @@ import org.mifos.core.designsystem.icon.AppIcons
 import org.mifos.core.designsystem.theme.finance
 import org.mifos.core.designsystem.theme.spacing
 import org.mifos.core.model.savings.SavingDetailTransaction
+import org.mifos.core.model.savings.isCredit
+import org.mifos.core.model.savings.isDebit
 import org.mifos.core.ui.scaffold.KptScaffold
 import org.mifos.feature.saving.generated.resources.Res
-import org.mifos.feature.saving.generated.resources.feature_saving_deposit_account_number
-import org.mifos.feature.saving.generated.resources.feature_saving_deposit_bank_number
-import org.mifos.feature.saving.generated.resources.feature_saving_deposit_check_number
-import org.mifos.feature.saving.generated.resources.feature_saving_deposit_receipt_number
-import org.mifos.feature.saving.generated.resources.feature_saving_deposit_routing_code
 import org.mifos.feature.saving.generated.resources.feature_saving_empty_transactions
-import org.mifos.feature.saving.generated.resources.feature_saving_ok
-import org.mifos.feature.saving.generated.resources.feature_saving_transaction_amount
 import org.mifos.feature.saving.generated.resources.feature_saving_transaction_balance_prefix
-import org.mifos.feature.saving.generated.resources.feature_saving_transaction_date
-import org.mifos.feature.saving.generated.resources.feature_saving_transaction_details
 import org.mifos.feature.saving.generated.resources.feature_saving_transaction_ext_prefix
-import org.mifos.feature.saving.generated.resources.feature_saving_transaction_external_id
-import org.mifos.feature.saving.generated.resources.feature_saving_transaction_id
 import org.mifos.feature.saving.generated.resources.feature_saving_transaction_id_prefix
-import org.mifos.feature.saving.generated.resources.feature_saving_transaction_payment_type
-import org.mifos.feature.saving.generated.resources.feature_saving_transaction_reversed
-import org.mifos.feature.saving.generated.resources.feature_saving_transaction_running_balance
-import org.mifos.feature.saving.generated.resources.feature_saving_transaction_submitted_by
-import org.mifos.feature.saving.generated.resources.feature_saving_transaction_submitted_on
-import org.mifos.feature.saving.generated.resources.feature_saving_transaction_type
 import org.mifos.feature.saving.generated.resources.feature_saving_transactions_title
 
 @Composable
 fun SavingTransactionsHistoryScreen(
     onBackClick: () -> Unit,
+    onTransactionClick: (Long, Long) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: SavingTransactionsHistoryViewModel = koinViewModel(),
 ) {
@@ -95,6 +75,8 @@ fun SavingTransactionsHistoryScreen(
     EventsEffect(viewModel.eventFlow) { event ->
         when (event) {
             SavingTransactionsHistoryEvent.NavigateBack -> onBackClick()
+            is SavingTransactionsHistoryEvent.NavigateToTransactionDetails ->
+                onTransactionClick(event.accountId, event.transactionId)
         }
     }
 
@@ -160,19 +142,12 @@ internal fun SavingTransactionsHistoryScreenContent(
                 TransactionList(
                     transactions = detail.transactions,
                     onTransactionClick = { transaction ->
-                        onAction(SavingTransactionsHistoryAction.OnTransactionClick(transaction))
+                        onAction(SavingTransactionsHistoryAction.OnTransactionClick(transaction.id))
                     },
                     modifier = Modifier.fillMaxSize(),
                 )
             }
         }
-    }
-
-    state.selectedTransaction?.let { transaction ->
-        TransactionDetailsDialog(
-            transaction = transaction,
-            onDismiss = { onAction(SavingTransactionsHistoryAction.DismissDetailsDialog) },
-        )
     }
 }
 
@@ -221,8 +196,8 @@ fun TransactionCard(
     modifier: Modifier = Modifier,
 ) {
     val currencySymbol = transaction.currency?.displaySymbol ?: "$"
-    val isCredit = transaction.credit || transaction.transactionType?.credit == true
-    val isDebit = transaction.debit || transaction.transactionType?.debit == true
+    val isCredit = transaction.isCredit
+    val isDebit = transaction.isDebit
 
     val icon = if (isCredit) AppIcons.ArrowUpward else AppIcons.ArrowDownward
     val iconColor = if (isCredit) MaterialTheme.finance.moneyPositive else MaterialTheme.finance.moneyNegative
@@ -345,173 +320,4 @@ fun TransactionCard(
             )
         }
     }
-}
-
-@Composable
-fun TransactionDetailsRow(
-    key: String,
-    value: String,
-    modifier: Modifier = Modifier,
-    showDivider: Boolean = true,
-) {
-    Column(
-        modifier = modifier.fillMaxWidth(),
-    ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = KptTheme.spacing.sm),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween,
-        ) {
-            Text(
-                text = key,
-                style = KptTheme.typography.bodyMedium,
-                color = KptTheme.colorScheme.onSurfaceVariant,
-                modifier = Modifier.weight(1.2f),
-            )
-            Text(
-                text = value,
-                style = KptTheme.typography.bodyMedium.copy(fontWeight = FontWeight.SemiBold),
-                color = KptTheme.colorScheme.onSurface,
-                textAlign = TextAlign.End,
-                modifier = Modifier.weight(1.8f),
-            )
-        }
-        if (showDivider) {
-            HorizontalDivider(
-                color = KptTheme.colorScheme.outlineVariant,
-                thickness = 1.dp,
-            )
-        }
-    }
-}
-
-@Composable
-fun TransactionDetailsDialog(
-    transaction: SavingDetailTransaction,
-    onDismiss: () -> Unit,
-) {
-    val currencySymbol = transaction.currency?.displaySymbol ?: "$"
-    AlertDialog(
-        onDismissRequest = onDismiss,
-        confirmButton = {
-            TextButton(onClick = onDismiss) {
-                Text(
-                    text = stringResource(Res.string.feature_saving_ok),
-                    color = KptTheme.colorScheme.primary,
-                    fontWeight = FontWeight.SemiBold,
-                )
-            }
-        },
-        title = {
-            Text(
-                text = stringResource(Res.string.feature_saving_transaction_details),
-                style = KptTheme.typography.titleMedium,
-                fontWeight = FontWeight.Bold,
-                color = KptTheme.colorScheme.onSurface,
-            )
-        },
-        text = {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .verticalScroll(rememberScrollState()),
-                verticalArrangement = Arrangement.spacedBy(KptTheme.spacing.xs),
-            ) {
-                TransactionDetailsRow(
-                    key = stringResource(Res.string.feature_saving_transaction_id),
-                    value = "${transaction.id}",
-                )
-                TransactionDetailsRow(
-                    key = stringResource(Res.string.feature_saving_transaction_date),
-                    value = FormatDate.formatLocalDate(transaction.date),
-                )
-                TransactionDetailsRow(
-                    key = stringResource(Res.string.feature_saving_transaction_type),
-                    value = transaction.transactionType?.value.orEmpty(),
-                )
-                TransactionDetailsRow(
-                    key = stringResource(Res.string.feature_saving_transaction_amount),
-                    value = formatCurrency(transaction.amount, currencySymbol),
-                )
-                TransactionDetailsRow(
-                    key = stringResource(Res.string.feature_saving_transaction_running_balance),
-                    value = formatCurrency(transaction.runningBalance, currencySymbol),
-                )
-                val externalId = transaction.externalId
-                if (!externalId.isNullOrBlank()) {
-                    TransactionDetailsRow(
-                        key = stringResource(Res.string.feature_saving_transaction_external_id),
-                        value = externalId,
-                    )
-                }
-                TransactionDetailsRow(
-                    key = stringResource(Res.string.feature_saving_transaction_reversed),
-                    value = transaction.reversed.toString(),
-                )
-                val payData = transaction.paymentDetailData
-                if (payData != null) {
-                    val paymentType = payData.paymentType
-                    if (paymentType != null) {
-                        TransactionDetailsRow(
-                            key = stringResource(Res.string.feature_saving_transaction_payment_type),
-                            value = paymentType.value.orEmpty(),
-                        )
-                    }
-                    val accountNumber = payData.accountNumber
-                    if (!accountNumber.isNullOrBlank()) {
-                        TransactionDetailsRow(
-                            key = stringResource(Res.string.feature_saving_deposit_account_number),
-                            value = accountNumber,
-                        )
-                    }
-                    val checkNumber = payData.checkNumber
-                    if (!checkNumber.isNullOrBlank()) {
-                        TransactionDetailsRow(
-                            key = stringResource(Res.string.feature_saving_deposit_check_number),
-                            value = checkNumber,
-                        )
-                    }
-                    val routingCode = payData.routingCode
-                    if (!routingCode.isNullOrBlank()) {
-                        TransactionDetailsRow(
-                            key = stringResource(Res.string.feature_saving_deposit_routing_code),
-                            value = routingCode,
-                        )
-                    }
-                    val receiptNumber = payData.receiptNumber
-                    if (!receiptNumber.isNullOrBlank()) {
-                        TransactionDetailsRow(
-                            key = stringResource(Res.string.feature_saving_deposit_receipt_number),
-                            value = receiptNumber,
-                        )
-                    }
-                    val bankNumber = payData.bankNumber
-                    if (!bankNumber.isNullOrBlank()) {
-                        TransactionDetailsRow(
-                            key = stringResource(Res.string.feature_saving_deposit_bank_number),
-                            value = bankNumber,
-                        )
-                    }
-                }
-                if (transaction.submittedOnDate != null) {
-                    TransactionDetailsRow(
-                        key = stringResource(Res.string.feature_saving_transaction_submitted_on),
-                        value = FormatDate.formatLocalDate(transaction.submittedOnDate),
-                    )
-                }
-                val submittedByUsername = transaction.submittedByUsername
-                if (!submittedByUsername.isNullOrBlank()) {
-                    TransactionDetailsRow(
-                        key = stringResource(Res.string.feature_saving_transaction_submitted_by),
-                        value = submittedByUsername,
-                        showDivider = false,
-                    )
-                }
-            }
-        },
-        containerColor = KptTheme.colorScheme.surface,
-        shape = KptTheme.shapes.medium,
-    )
 }
