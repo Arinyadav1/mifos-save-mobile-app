@@ -297,9 +297,9 @@ fun LoanTransactionCard(
                     )
                 }
 
-                if (portionTexts.isNotEmpty()) {
+                portionTexts.forEach { portionText ->
                     Text(
-                        text = portionTexts.joinToString(" • "),
+                        text = portionText,
                         style = KptTheme.typography.bodySmall,
                         color = KptTheme.colorScheme.primary,
                         fontWeight = FontWeight.Medium,
