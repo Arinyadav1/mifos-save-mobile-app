@@ -17,6 +17,8 @@ import org.mifos.feature.loan.approveLoan.approveLoanDestination
 import org.mifos.feature.loan.approveLoan.navigateToApproveLoan
 import org.mifos.feature.loan.loanDetails.LoanDetailsRoute
 import org.mifos.feature.loan.loanDetails.loanDetailsDestination
+import org.mifos.feature.loan.transactionDetails.loanTransactionDetailsDestination
+import org.mifos.feature.loan.transactionDetails.navigateToLoanTransactionDetails
 import org.mifos.feature.loan.transactionList.loanTransactionListDestination
 import org.mifos.feature.loan.transactionList.navigateToLoanTransactionList
 
@@ -39,6 +41,12 @@ fun NavGraphBuilder.loanNavigationGraph(
             },
         )
         loanTransactionListDestination(
+            onBackClick = navController::popBackStack,
+            onTransactionClick = { loanId, transactionId ->
+                navController.navigateToLoanTransactionDetails(loanId, transactionId)
+            },
+        )
+        loanTransactionDetailsDestination(
             onBackClick = navController::popBackStack,
         )
         approveLoanDestination(
