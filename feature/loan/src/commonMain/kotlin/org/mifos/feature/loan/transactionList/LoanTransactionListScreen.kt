@@ -59,7 +59,6 @@ import org.mifos.core.ui.scaffold.KptScaffold
 import org.mifos.feature.loan.generated.resources.Res
 import org.mifos.feature.loan.generated.resources.feature_loan_empty_transactions
 import org.mifos.feature.loan.generated.resources.feature_loan_transaction_balance_prefix
-import org.mifos.feature.loan.generated.resources.feature_loan_transaction_id_prefix
 import org.mifos.feature.loan.generated.resources.feature_loan_transaction_portion_fees
 import org.mifos.feature.loan.generated.resources.feature_loan_transaction_portion_interest
 import org.mifos.feature.loan.generated.resources.feature_loan_transaction_portion_penalties
@@ -70,6 +69,7 @@ import org.mifos.feature.loan.generated.resources.feature_loan_transactions_titl
 @Composable
 fun LoanTransactionListScreen(
     onBackClick: () -> Unit,
+    onTransactionClick: (Long, Long) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: LoanTransactionListViewModel = koinViewModel(),
 ) {
@@ -78,6 +78,9 @@ fun LoanTransactionListScreen(
     EventsEffect(viewModel.eventFlow) { event ->
         when (event) {
             LoanTransactionListEvent.NavigateBack -> onBackClick()
+            is LoanTransactionListEvent.NavigateToTransactionDetails -> {
+                onTransactionClick(event.loanId, event.transactionId)
+            }
         }
     }
 
@@ -142,6 +145,9 @@ internal fun LoanTransactionListScreenContent(
             ) { detail, _ ->
                 LoanTransactionList(
                     transactions = detail.transactions,
+                    onTransactionClick = { transactionId ->
+                        onAction(LoanTransactionListAction.OnTransactionClick(transactionId))
+                    },
                     modifier = Modifier.fillMaxSize(),
                 )
             }
@@ -152,6 +158,7 @@ internal fun LoanTransactionListScreenContent(
 @Composable
 fun LoanTransactionList(
     transactions: List<LoanTransaction>,
+    onTransactionClick: (Long) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     if (transactions.isEmpty()) {
@@ -179,7 +186,7 @@ fun LoanTransactionList(
             items(transactions) { transaction ->
                 LoanTransactionCard(
                     transaction = transaction,
-                    onClick = {},
+                    onClick = { onTransactionClick(transaction.id) },
                 )
             }
         }
@@ -265,22 +272,12 @@ fun LoanTransactionCard(
                 modifier = Modifier.weight(1f),
                 verticalArrangement = Arrangement.spacedBy(2.dp),
             ) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(KptTheme.spacing.xs),
-                ) {
-                    Text(
-                        text = transaction.type?.value.orEmpty(),
-                        style = KptTheme.typography.titleMedium,
-                        fontWeight = FontWeight.Bold,
-                        color = KptTheme.colorScheme.onSurface,
-                    )
-                    Text(
-                        text = stringResource(Res.string.feature_loan_transaction_id_prefix) + transaction.id,
-                        style = KptTheme.typography.bodySmall,
-                        color = KptTheme.colorScheme.onSurfaceVariant,
-                    )
-                }
+                Text(
+                    text = transaction.type?.value.orEmpty(),
+                    style = KptTheme.typography.titleMedium,
+                    fontWeight = FontWeight.Bold,
+                    color = KptTheme.colorScheme.onSurface,
+                )
 
                 Text(
                     text = transaction.date?.let { FormatDate.formatLocalDate(it) }.orEmpty(),

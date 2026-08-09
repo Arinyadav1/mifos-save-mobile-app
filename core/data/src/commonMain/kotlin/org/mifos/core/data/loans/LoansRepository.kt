@@ -12,9 +12,12 @@ package org.mifos.core.data.loans
 import kotlinx.coroutines.flow.Flow
 import org.mifos.core.base.store.screen.ScreenState
 import org.mifos.core.model.loans.LoanDetail
+import org.mifos.core.model.loans.LoanTransaction
 
 interface LoansRepository {
     fun getLoanDetails(loanId: Long): Flow<ScreenState<LoanDetail>>
+
+    fun getLoanTransactionDetails(loanId: Long, transactionId: Long): Flow<ScreenState<LoanTransaction>>
 
     suspend fun approveLoan(
         loanId: Long,

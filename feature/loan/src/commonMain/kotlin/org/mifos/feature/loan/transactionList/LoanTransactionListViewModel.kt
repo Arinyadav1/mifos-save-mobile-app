@@ -51,6 +51,9 @@ class LoanTransactionListViewModel(
         when (action) {
             LoanTransactionListAction.OnBackClick -> sendEvent(LoanTransactionListEvent.NavigateBack)
             LoanTransactionListAction.Retry -> loadTransactions()
+            is LoanTransactionListAction.OnTransactionClick -> {
+                sendEvent(LoanTransactionListEvent.NavigateToTransactionDetails(route.loanId, action.transactionId))
+            }
         }
     }
 }
@@ -63,8 +66,10 @@ data class LoanTransactionListState(
 sealed interface LoanTransactionListAction {
     data object OnBackClick : LoanTransactionListAction
     data object Retry : LoanTransactionListAction
+    data class OnTransactionClick(val transactionId: Long) : LoanTransactionListAction
 }
 
 sealed interface LoanTransactionListEvent {
     data object NavigateBack : LoanTransactionListEvent
+    data class NavigateToTransactionDetails(val loanId: Long, val transactionId: Long) : LoanTransactionListEvent
 }

@@ -19,6 +19,7 @@ import kotlinx.coroutines.flow.Flow
 import org.mifos.core.network.fineract.loans.dto.ApproveLoanRequestDto
 import org.mifos.core.network.fineract.loans.dto.DisburseLoanRequestDto
 import org.mifos.core.network.fineract.loans.dto.LoanDetailDto
+import org.mifos.core.network.fineract.loans.dto.LoanTransactionDto
 import org.mifos.core.network.utils.ApiEndPoints
 
 interface LoansApi {
@@ -28,6 +29,12 @@ interface LoansApi {
         @Query("associations") associations: String = "all",
         @Query("exclude") exclude: String = "guarantors,futureSchedule",
     ): Flow<LoanDetailDto>
+
+    @GET("${ApiEndPoints.LOANS}/{loanId}/transactions/{transactionId}")
+    fun getLoanTransaction(
+        @Path("loanId") loanId: Long,
+        @Path("transactionId") transactionId: Long,
+    ): Flow<LoanTransactionDto>
 
     @POST("${ApiEndPoints.LOANS}/{loanId}")
     suspend fun approveLoan(

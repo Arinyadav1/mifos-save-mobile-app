@@ -60,7 +60,6 @@ import org.mifos.feature.saving.generated.resources.Res
 import org.mifos.feature.saving.generated.resources.feature_saving_empty_transactions
 import org.mifos.feature.saving.generated.resources.feature_saving_transaction_balance_prefix
 import org.mifos.feature.saving.generated.resources.feature_saving_transaction_ext_prefix
-import org.mifos.feature.saving.generated.resources.feature_saving_transaction_id_prefix
 import org.mifos.feature.saving.generated.resources.feature_saving_transactions_title
 
 @Composable
@@ -200,7 +199,8 @@ fun TransactionCard(
     val isDebit = transaction.isDebit
 
     val icon = if (isCredit) AppIcons.ArrowUpward else AppIcons.ArrowDownward
-    val iconColor = if (isCredit) MaterialTheme.finance.moneyPositive else MaterialTheme.finance.moneyNegative
+    val iconColor =
+        if (isCredit) MaterialTheme.finance.moneyPositive else MaterialTheme.finance.moneyNegative
     val iconBgColor = iconColor.copy(alpha = 0.15f)
 
     val amountSign = if (isCredit) "+" else if (isDebit) "-" else ""
@@ -248,22 +248,12 @@ fun TransactionCard(
                 modifier = Modifier.weight(1f),
                 verticalArrangement = Arrangement.spacedBy(2.dp),
             ) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(KptTheme.spacing.xs),
-                ) {
-                    Text(
-                        text = transaction.transactionType?.value.orEmpty(),
-                        style = KptTheme.typography.titleMedium,
-                        fontWeight = FontWeight.Bold,
-                        color = KptTheme.colorScheme.onSurface,
-                    )
-                    Text(
-                        text = stringResource(Res.string.feature_saving_transaction_id_prefix) + transaction.id,
-                        style = KptTheme.typography.bodySmall,
-                        color = KptTheme.colorScheme.onSurfaceVariant,
-                    )
-                }
+                Text(
+                    text = transaction.transactionType?.value.orEmpty(),
+                    style = KptTheme.typography.titleMedium,
+                    fontWeight = FontWeight.Bold,
+                    color = KptTheme.colorScheme.onSurface,
+                )
 
                 Text(
                     text = FormatDate.formatLocalDate(transaction.date),
