@@ -28,6 +28,14 @@ interface LoansRepository {
         locale: String,
     ): ScreenState<Unit>
 
+    suspend fun rejectLoan(
+        loanId: Long,
+        rejectedOnDate: String,
+        note: String?,
+        dateFormat: String,
+        locale: String,
+    ): ScreenState<Unit>
+
     suspend fun disburseLoan(
         loanId: Long,
         actualDisbursementDate: String,

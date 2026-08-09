@@ -23,6 +23,7 @@ import org.mifos.core.model.loans.LoanDetail
 import org.mifos.core.model.loans.LoanTransaction
 import org.mifos.core.network.DataManager
 import org.mifos.core.network.fineract.loans.dto.ApproveLoanRequestDto
+import org.mifos.core.network.fineract.loans.dto.RejectLoanRequestDto
 import org.mifos.core.network.fineract.loans.dto.DisburseLoanRequestDto
 
 class LoansRepositoryImpl(
@@ -69,6 +70,33 @@ class LoansRepositoryImpl(
                 request = ApproveLoanRequestDto(
                     approvedOnDate = approvedOnDate,
                     expectedDisbursementDate = expectedDisbursementDate,
+                    note = note,
+                    dateFormat = dateFormat,
+                    locale = locale,
+                ),
+            )
+            if (!response.status.isSuccess()) {
+                val errorMessage = extractErrorMessage(response)
+                throw Exception(errorMessage)
+            }
+        }
+    }
+
+    override suspend fun rejectLoan(
+        loanId: Long,
+        rejectedOnDate: String,
+        note: String?,
+        dateFormat: String,
+        locale: String,
+    ): ScreenState<Unit> {
+        return runAsDataState(
+            networkMonitor = networkMonitor,
+            context = dispatcher.io,
+        ) {
+            val response = dataManager.fineract.loansApi.rejectLoan(
+                loanId = loanId,
+                request = RejectLoanRequestDto(
+                    rejectedOnDate = rejectedOnDate,
                     note = note,
                     dateFormat = dateFormat,
                     locale = locale,

@@ -14,6 +14,7 @@ import org.koin.dsl.module
 import org.mifos.feature.loan.approveLoan.ApproveLoanViewModel
 import org.mifos.feature.loan.disburseLoan.DisburseLoanViewModel
 import org.mifos.feature.loan.loanDetails.LoanDetailsViewModel
+import org.mifos.feature.loan.rejectLoan.RejectLoanViewModel
 import org.mifos.feature.loan.transactionDetails.LoanTransactionDetailsViewModel
 import org.mifos.feature.loan.transactionList.LoanTransactionListViewModel
 
@@ -21,6 +22,7 @@ val LoanModule = module {
     viewModelOf(::LoanDetailsViewModel)
     viewModelOf(::LoanTransactionListViewModel)
     viewModelOf(::ApproveLoanViewModel)
+    viewModelOf(::RejectLoanViewModel)
     viewModelOf(::DisburseLoanViewModel)
     viewModelOf(::LoanTransactionDetailsViewModel)
 }
