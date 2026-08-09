@@ -20,6 +20,7 @@ import org.mifos.core.data.util.asScreenStateFlow
 import org.mifos.core.data.util.extractErrorMessage
 import org.mifos.core.data.util.runAsDataState
 import org.mifos.core.model.loans.LoanDetail
+import org.mifos.core.model.loans.LoanTransaction
 import org.mifos.core.network.DataManager
 import org.mifos.core.network.fineract.loans.dto.ApproveLoanRequestDto
 
@@ -31,6 +32,18 @@ class LoansRepositoryImpl(
 
     override fun getLoanDetails(loanId: Long): Flow<ScreenState<LoanDetail>> {
         return dataManager.fineract.loansApi.getLoanDetails(loanId).asScreenStateFlow(
+            networkMonitor = networkMonitor,
+            dispatcher = dispatcher.io,
+        ) { dto ->
+            dto.toModel()
+        }
+    }
+
+    override fun getLoanTransactionDetails(
+        loanId: Long,
+        transactionId: Long,
+    ): Flow<ScreenState<LoanTransaction>> {
+        return dataManager.fineract.loansApi.getLoanTransaction(loanId, transactionId).asScreenStateFlow(
             networkMonitor = networkMonitor,
             dispatcher = dispatcher.io,
         ) { dto ->

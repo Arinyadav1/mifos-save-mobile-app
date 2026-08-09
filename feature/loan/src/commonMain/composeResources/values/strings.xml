@@ -47,5 +47,18 @@
     <string name="feature_loan_approve_success_title">Success</string>
     <string name="feature_loan_approve_success_message">Loan Approved Successfully</string>
     <string name="feature_loan_approve">Approve</string>
+
+    <!-- Loan Transaction Details -->
+    <string name="feature_loan_transaction_details">Transaction Details</string>
+    <string name="feature_loan_transaction_details_title">TRANSACTION DETAILS</string>
+    <string name="feature_loan_transaction_id">Transaction ID</string>
+    <string name="feature_loan_transaction_date">Transaction Date</string>
+    <string name="feature_loan_transaction_type">Transaction Type</string>
+    <string name="feature_loan_transaction_amount">Amount</string>
+    <string name="feature_loan_transaction_outstanding_balance">Outstanding Balance</string>
+    <string name="feature_loan_transaction_submitted_on">Submitted On</string>
+    <string name="feature_loan_transaction_office_name">Office Name</string>
+    <string name="feature_loan_transaction_portion_overpayment">Overpayment</string>
+    <string name="feature_loan_transaction_portion_unrecognized_income">Unrecognized Income</string>
 </resources>
 

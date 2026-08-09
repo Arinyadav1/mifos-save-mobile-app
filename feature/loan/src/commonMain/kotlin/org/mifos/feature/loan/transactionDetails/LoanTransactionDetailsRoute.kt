@@ -7,7 +7,7 @@
  *
  * See See https://github.com/openMF/kmp-project-template/blob/main/LICENSE
  */
-package org.mifos.feature.loan.transactionList
+package org.mifos.feature.loan.transactionDetails
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
@@ -16,20 +16,18 @@ import kotlinx.serialization.Serializable
 import org.mifos.core.base.ui.nav.composableWithStayTransitions
 
 @Serializable
-data class LoanTransactionListRoute(val loanId: Long)
+data class LoanTransactionDetailsRoute(val loanId: Long, val transactionId: Long)
 
-fun NavGraphBuilder.loanTransactionListDestination(
+fun NavGraphBuilder.loanTransactionDetailsDestination(
     onBackClick: () -> Unit,
-    onTransactionClick: (Long, Long) -> Unit,
 ) {
-    composableWithStayTransitions<LoanTransactionListRoute> {
-        LoanTransactionListScreen(
+    composableWithStayTransitions<LoanTransactionDetailsRoute> {
+        LoanTransactionDetailsScreen(
             onBackClick = onBackClick,
-            onTransactionClick = onTransactionClick,
         )
     }
 }
 
-fun NavController.navigateToLoanTransactionList(loanId: Long, navOptions: NavOptions? = null) {
-    this.navigate(route = LoanTransactionListRoute(loanId), navOptions = navOptions)
+fun NavController.navigateToLoanTransactionDetails(loanId: Long, transactionId: Long, navOptions: NavOptions? = null) {
+    this.navigate(route = LoanTransactionDetailsRoute(loanId, transactionId), navOptions = navOptions)
 }
