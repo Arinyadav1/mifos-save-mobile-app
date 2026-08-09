@@ -273,3 +273,21 @@ data class LoanTransactionType(
     val buyDownFeeAmortization: Boolean,
     val buyDownFeeAmortizationAdjustment: Boolean,
 )
+
+val LoanTransaction.isCredit: Boolean
+    get() = type?.repayment == true ||
+        type?.recoveryRepayment == true ||
+        type?.goodwillCredit == true ||
+        type?.writeOff == true ||
+        type?.waiveInterest == true ||
+        type?.waiveCharges == true ||
+        type?.interestPaymentWaiver == true
+
+val LoanTransaction.isDebit: Boolean
+    get() = type?.disbursement == true ||
+        type?.repaymentAtDisbursement == true ||
+        type?.chargePayment == true ||
+        type?.refund == true ||
+        type?.refundForActiveLoans == true ||
+        type?.creditBalanceRefund == true ||
+        type?.downPayment == true

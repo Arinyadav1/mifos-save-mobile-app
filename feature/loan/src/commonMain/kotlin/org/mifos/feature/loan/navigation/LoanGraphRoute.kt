@@ -17,6 +17,8 @@ import org.mifos.feature.loan.approveLoan.approveLoanDestination
 import org.mifos.feature.loan.approveLoan.navigateToApproveLoan
 import org.mifos.feature.loan.loanDetails.LoanDetailsRoute
 import org.mifos.feature.loan.loanDetails.loanDetailsDestination
+import org.mifos.feature.loan.transactionList.loanTransactionListDestination
+import org.mifos.feature.loan.transactionList.navigateToLoanTransactionList
 
 @Serializable
 data object LoanGraphRoute
@@ -29,9 +31,15 @@ fun NavGraphBuilder.loanNavigationGraph(
     ) {
         loanDetailsDestination(
             onBackClick = navController::popBackStack,
+            onTransactionsClick = { loanId ->
+                navController.navigateToLoanTransactionList(loanId)
+            },
             onApproveLoanClick = { loanId ->
                 navController.navigateToApproveLoan(loanId)
             },
+        )
+        loanTransactionListDestination(
+            onBackClick = navController::popBackStack,
         )
         approveLoanDestination(
             onBackClick = navController::popBackStack,
