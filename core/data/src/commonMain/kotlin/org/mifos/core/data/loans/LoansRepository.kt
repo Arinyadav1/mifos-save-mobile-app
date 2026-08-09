@@ -15,4 +15,13 @@ import org.mifos.core.model.loans.LoanDetail
 
 interface LoansRepository {
     fun getLoanDetails(loanId: Long): Flow<ScreenState<LoanDetail>>
+
+    suspend fun approveLoan(
+        loanId: Long,
+        approvedOnDate: String,
+        expectedDisbursementDate: String?,
+        note: String?,
+        dateFormat: String,
+        locale: String,
+    ): ScreenState<Unit>
 }

@@ -11,8 +11,10 @@ package org.mifos.feature.loan.di
 
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
+import org.mifos.feature.loan.approveLoan.ApproveLoanViewModel
 import org.mifos.feature.loan.loanDetails.LoanDetailsViewModel
 
 val LoanModule = module {
     viewModelOf(::LoanDetailsViewModel)
+    viewModelOf(::ApproveLoanViewModel)
 }
