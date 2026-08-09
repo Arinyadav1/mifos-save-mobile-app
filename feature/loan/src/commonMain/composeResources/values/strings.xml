@@ -26,4 +26,16 @@
     <string name="feature_loan_undo_approval_loan">Undo Approval Loan</string>
     <string name="feature_loan_cancel">Cancel</string>
     <string name="feature_loan_ok">OK</string>
+    <string name="feature_loan_transactions_title">Transactions</string>
+    <string name="feature_loan_empty_transactions">No transactions found for this loan.</string>
+    <string name="feature_loan_transaction_balance_prefix">Balance: </string>
+    <string name="feature_loan_transaction_id_prefix">id </string>
+    <string name="feature_loan_transaction_ext_prefix">Ext: </string>
+    <string name="feature_loan_transaction_na">N/A</string>
+    <string name="feature_loan_transaction_reversed">Reversed</string>
+    <string name="feature_loan_transaction_portion_principal">Principal</string>
+    <string name="feature_loan_transaction_portion_interest">Interest</string>
+    <string name="feature_loan_transaction_portion_fees">Fees</string>
+    <string name="feature_loan_transaction_portion_penalties">Penalties</string>
 </resources>
+
