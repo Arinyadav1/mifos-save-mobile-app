@@ -34,12 +34,12 @@ fun NavGraphBuilder.loanNavigationGraph(
             onTransactionsClick = { loanId ->
                 navController.navigateToLoanTransactionList(loanId)
             },
-        )
-        loanTransactionListDestination(
-            onBackClick = navController::popBackStack,
             onApproveLoanClick = { loanId ->
                 navController.navigateToApproveLoan(loanId)
             },
+        )
+        loanTransactionListDestination(
+            onBackClick = navController::popBackStack,
         )
         approveLoanDestination(
             onBackClick = navController::popBackStack,
