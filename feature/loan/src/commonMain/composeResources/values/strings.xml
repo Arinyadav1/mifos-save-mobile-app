@@ -37,5 +37,15 @@
     <string name="feature_loan_transaction_portion_interest">Interest</string>
     <string name="feature_loan_transaction_portion_fees">Fees</string>
     <string name="feature_loan_transaction_portion_penalties">Penalties</string>
+    <string name="feature_loan_approve_loan_title">Approve Loan</string>
+    <string name="feature_loan_select_approval_date">Approval Date *</string>
+    <string name="feature_loan_select_expected_disbursement_date">Expected Disbursement Date</string>
+    <string name="feature_loan_note">Note</string>
+    <string name="feature_loan_approval_date_hint">Select Approval Date</string>
+    <string name="feature_loan_expected_disbursement_date_hint">Select Expected Disbursement Date</string>
+    <string name="feature_loan_note_hint">Enter Note</string>
+    <string name="feature_loan_approve_success_title">Success</string>
+    <string name="feature_loan_approve_success_message">Loan Approved Successfully</string>
+    <string name="feature_loan_approve">Approve</string>
 </resources>
 

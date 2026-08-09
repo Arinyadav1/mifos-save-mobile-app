@@ -190,9 +190,9 @@ val SavingsAccount.statusChipIntent: StatusChipIntent
  */
 val LoanAccount.statusChipIntent: StatusChipIntent
     get() = when {
-        status?.active == true -> StatusChipIntent.Success
-        status?.pendingApproval == true ||
-            status?.waitingForDisbursal == true -> StatusChipIntent.Warning
+        status?.active == true ||
+            status?.waitingForDisbursal == true -> StatusChipIntent.Success
+        status?.pendingApproval == true -> StatusChipIntent.Warning
         status?.closed == true ||
             status?.closedObligationsMet == true ||
             status?.closedWrittenOff == true ||
@@ -219,9 +219,9 @@ val SavingDetail.statusChipIntent: StatusChipIntent
  */
 val LoanDetail.statusChipIntent: StatusChipIntent
     get() = when {
-        status?.active == true -> StatusChipIntent.Success
-        status?.pendingApproval == true ||
-            status?.waitingForDisbursal == true -> StatusChipIntent.Warning
+        status?.active == true ||
+            status?.waitingForDisbursal == true -> StatusChipIntent.Success
+        status?.pendingApproval == true -> StatusChipIntent.Warning
         status?.closed == true ||
             status?.closedObligationsMet == true ||
             status?.closedWrittenOff == true ||

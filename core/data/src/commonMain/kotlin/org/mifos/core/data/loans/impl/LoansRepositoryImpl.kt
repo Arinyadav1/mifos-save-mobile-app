@@ -9,6 +9,7 @@
  */
 package org.mifos.core.data.loans.impl
 
+import io.ktor.http.isSuccess
 import kotlinx.coroutines.flow.Flow
 import org.mifos.core.base.common.manager.DispatcherManager
 import org.mifos.core.base.store.screen.ScreenState
@@ -16,8 +17,11 @@ import org.mifos.core.data.infra.NetworkMonitor
 import org.mifos.core.data.loans.LoansRepository
 import org.mifos.core.data.mapper.loans.toModel
 import org.mifos.core.data.util.asScreenStateFlow
+import org.mifos.core.data.util.extractErrorMessage
+import org.mifos.core.data.util.runAsDataState
 import org.mifos.core.model.loans.LoanDetail
 import org.mifos.core.network.DataManager
+import org.mifos.core.network.fineract.loans.dto.ApproveLoanRequestDto
 
 class LoansRepositoryImpl(
     private val dataManager: DataManager,
@@ -31,6 +35,35 @@ class LoansRepositoryImpl(
             dispatcher = dispatcher.io,
         ) { dto ->
             dto.toModel()
+        }
+    }
+
+    override suspend fun approveLoan(
+        loanId: Long,
+        approvedOnDate: String,
+        expectedDisbursementDate: String?,
+        note: String?,
+        dateFormat: String,
+        locale: String,
+    ): ScreenState<Unit> {
+        return runAsDataState(
+            networkMonitor = networkMonitor,
+            context = dispatcher.io,
+        ) {
+            val response = dataManager.fineract.loansApi.approveLoan(
+                loanId = loanId,
+                request = ApproveLoanRequestDto(
+                    approvedOnDate = approvedOnDate,
+                    expectedDisbursementDate = expectedDisbursementDate,
+                    note = note,
+                    dateFormat = dateFormat,
+                    locale = locale,
+                ),
+            )
+            if (!response.status.isSuccess()) {
+                val errorMessage = extractErrorMessage(response)
+                throw Exception(errorMessage)
+            }
         }
     }
 }
