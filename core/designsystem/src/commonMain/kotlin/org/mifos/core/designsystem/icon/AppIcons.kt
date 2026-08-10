@@ -34,13 +34,16 @@ import androidx.compose.material.icons.filled.FlashOff
 import androidx.compose.material.icons.filled.FlashOn
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.Link
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Photo
 import androidx.compose.material.icons.filled.PhotoLibrary
+import androidx.compose.material.icons.filled.Place
 import androidx.compose.material.icons.filled.QrCode
 import androidx.compose.material.icons.filled.QrCode2
 import androidx.compose.material.icons.filled.RadioButtonChecked
 import androidx.compose.material.icons.filled.RadioButtonUnchecked
+import androidx.compose.material.icons.filled.Schedule
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material.icons.filled.Tune
 import androidx.compose.material.icons.filled.Visibility
@@ -162,4 +165,7 @@ object AppIcons {
     val AddDefault = Icons.Default.Add
     val ArrowUpward = Icons.Filled.ArrowUpward
     val ArrowDownward = Icons.Filled.ArrowDownward
+    val Location: ImageVector = Icons.Filled.Place
+    val Link: ImageVector = Icons.Filled.Link
+    val Time: ImageVector = Icons.Filled.Schedule
 }

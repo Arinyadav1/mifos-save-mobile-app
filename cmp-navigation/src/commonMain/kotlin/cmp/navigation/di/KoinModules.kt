@@ -28,6 +28,7 @@ import org.mifos.feature.auth.di.AuthModule
 import org.mifos.feature.groups.di.GroupsModule
 import org.mifos.feature.home.di.HomeModule
 import org.mifos.feature.loan.di.LoanModule
+import org.mifos.feature.meeting.di.MeetingModule
 import org.mifos.feature.saving.di.SavingModule
 
 object KoinModules {
@@ -55,6 +56,7 @@ object KoinModules {
             GroupsModule,
             SavingModule,
             LoanModule,
+            MeetingModule,
         )
     }
 

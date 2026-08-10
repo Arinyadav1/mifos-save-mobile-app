@@ -38,6 +38,8 @@ import org.mifos.core.data.infra.impl.RoomFetchedAtRepository
 import org.mifos.core.data.infra.impl.RoomSubmitOutbox
 import org.mifos.core.data.loans.LoansRepository
 import org.mifos.core.data.loans.impl.LoansRepositoryImpl
+import org.mifos.core.data.meeting.MeetingRepository
+import org.mifos.core.data.meeting.impl.MeetingRepositoryImpl
 import org.mifos.core.data.savings.SavingsRepository
 import org.mifos.core.data.savings.impl.SavingsRepositoryImpl
 import org.mifos.core.data.user.UserDataRepository
@@ -217,6 +219,14 @@ val DataModule = module {
             dispatcher = get(),
         )
     } bind LoansRepository::class
+
+    single {
+        MeetingRepositoryImpl(
+            dataManager = get(),
+            networkMonitor = get(),
+            dispatcher = get(),
+        )
+    } bind MeetingRepository::class
 }
 
 expect val platformModule: Module

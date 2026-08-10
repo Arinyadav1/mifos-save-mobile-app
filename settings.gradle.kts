@@ -120,6 +120,7 @@ include(":feature:groups")
 include(":feature:auth")
 include(":feature:saving")
 include(":feature:loan")
+include(":feature:meeting")
 
 include(":core-base:analytics")
 include(":core-base:common")

@@ -14,6 +14,7 @@ import org.mifos.core.network.fineract.auth.apis.createAuthApi
 import org.mifos.core.network.fineract.client.apis.createClientApi
 import org.mifos.core.network.fineract.group.apis.createGroupApi
 import org.mifos.core.network.fineract.loans.apis.createLoansApi
+import org.mifos.core.network.fineract.meeting.apis.createMeetingApi
 import org.mifos.core.network.fineract.savings.apis.createSavingsApi
 
 class FineractApiManager(
@@ -24,4 +25,5 @@ class FineractApiManager(
     val clientApi by lazy { ktorfit.createClientApi() }
     val savingsApi by lazy { ktorfit.createSavingsApi() }
     val loansApi by lazy { ktorfit.createLoansApi() }
+    val meetingApi by lazy { ktorfit.createMeetingApi() }
 }
