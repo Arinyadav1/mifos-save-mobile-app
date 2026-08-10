@@ -24,6 +24,7 @@ data object MeetingGraphRoute
 
 fun NavGraphBuilder.meetingNavigationGraph(
     navController: NavController,
+    onScheduleMeetingClick: (Long) -> Unit = {},
     onFilterClick: () -> Unit = {},
 ) {
     navigation<MeetingGraphRoute>(
@@ -31,6 +32,7 @@ fun NavGraphBuilder.meetingNavigationGraph(
     ) {
         meetingListDestination(
             onBackClick = navController::popBackStack,
+            onScheduleMeetingClick = onScheduleMeetingClick,
             onScheduleMeetingClick = { groupId ->
                 navController.navigateToScheduleMeeting(groupId)
             },
