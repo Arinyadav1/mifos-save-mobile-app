@@ -47,6 +47,12 @@
     <string name="feature_loan_approve_success_title">Success</string>
     <string name="feature_loan_approve_success_message">Loan Approved Successfully</string>
     <string name="feature_loan_approve">Approve</string>
+    <string name="feature_loan_reject_loan_title">Reject Loan</string>
+    <string name="feature_loan_select_rejection_date">Rejection Date *</string>
+    <string name="feature_loan_rejection_date_hint">Select Rejection Date</string>
+    <string name="feature_loan_reject_success_title">Success</string>
+    <string name="feature_loan_reject_success_message">Loan Rejected Successfully</string>
+    <string name="feature_loan_reject">Reject</string>
     <string name="feature_loan_disburse_loan_title">Disburse Loan</string>
     <string name="feature_loan_select_disbursement_date">Actual Disbursement Date *</string>
     <string name="feature_loan_disbursement_date_hint">Select Actual Disbursement Date</string>
