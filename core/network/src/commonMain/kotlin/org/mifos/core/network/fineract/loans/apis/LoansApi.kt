@@ -17,6 +17,7 @@ import de.jensklingenberg.ktorfit.http.Query
 import io.ktor.client.statement.HttpResponse
 import kotlinx.coroutines.flow.Flow
 import org.mifos.core.network.fineract.loans.dto.ApproveLoanRequestDto
+import org.mifos.core.network.fineract.loans.dto.DisburseLoanRequestDto
 import org.mifos.core.network.fineract.loans.dto.LoanDetailDto
 import org.mifos.core.network.fineract.loans.dto.LoanTransactionDto
 import org.mifos.core.network.utils.ApiEndPoints
@@ -40,5 +41,12 @@ interface LoansApi {
         @Path("loanId") loanId: Long,
         @Query("command") command: String = "approve",
         @Body request: ApproveLoanRequestDto,
+    ): HttpResponse
+
+    @POST("${ApiEndPoints.LOANS}/{loanId}")
+    suspend fun disburseLoan(
+        @Path("loanId") loanId: Long,
+        @Query("command") command: String = "disburseToSavings",
+        @Body request: DisburseLoanRequestDto,
     ): HttpResponse
 }

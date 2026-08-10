@@ -15,6 +15,8 @@ import androidx.navigation.navigation
 import kotlinx.serialization.Serializable
 import org.mifos.feature.loan.approveLoan.approveLoanDestination
 import org.mifos.feature.loan.approveLoan.navigateToApproveLoan
+import org.mifos.feature.loan.disburseLoan.disburseLoanDestination
+import org.mifos.feature.loan.disburseLoan.navigateToDisburseLoan
 import org.mifos.feature.loan.loanDetails.LoanDetailsRoute
 import org.mifos.feature.loan.loanDetails.loanDetailsDestination
 import org.mifos.feature.loan.transactionDetails.loanTransactionDetailsDestination
@@ -39,6 +41,9 @@ fun NavGraphBuilder.loanNavigationGraph(
             onApproveLoanClick = { loanId ->
                 navController.navigateToApproveLoan(loanId)
             },
+            onLoanDisbursementClick = { loanId ->
+                navController.navigateToDisburseLoan(loanId)
+            },
         )
         loanTransactionListDestination(
             onBackClick = navController::popBackStack,
@@ -50,6 +55,12 @@ fun NavGraphBuilder.loanNavigationGraph(
             onBackClick = navController::popBackStack,
         )
         approveLoanDestination(
+            onBackClick = navController::popBackStack,
+            onBackWithUpdateData = { _ ->
+                navController.popBackStack()
+            },
+        )
+        disburseLoanDestination(
             onBackClick = navController::popBackStack,
             onBackWithUpdateData = { _ ->
                 navController.popBackStack()

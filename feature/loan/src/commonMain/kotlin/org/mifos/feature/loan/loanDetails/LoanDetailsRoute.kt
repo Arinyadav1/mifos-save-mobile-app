@@ -22,12 +22,14 @@ fun NavGraphBuilder.loanDetailsDestination(
     onBackClick: () -> Unit,
     onTransactionsClick: (Long) -> Unit,
     onApproveLoanClick: (Long) -> Unit,
+    onLoanDisbursementClick: (Long) -> Unit,
 ) {
     composableWithStayTransitions<LoanDetailsRoute> {
         LoanDetailsScreen(
             onBackClick = onBackClick,
             onTransactionsClick = onTransactionsClick,
             onApproveLoanClick = onApproveLoanClick,
+            onLoanDisbursementClick = onLoanDisbursementClick,
         )
     }
 }
