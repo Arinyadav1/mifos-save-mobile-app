@@ -23,8 +23,8 @@ import org.mifos.core.model.loans.LoanDetail
 import org.mifos.core.model.loans.LoanTransaction
 import org.mifos.core.network.DataManager
 import org.mifos.core.network.fineract.loans.dto.ApproveLoanRequestDto
-import org.mifos.core.network.fineract.loans.dto.RejectLoanRequestDto
 import org.mifos.core.network.fineract.loans.dto.DisburseLoanRequestDto
+import org.mifos.core.network.fineract.loans.dto.RejectLoanRequestDto
 
 class LoansRepositoryImpl(
     private val dataManager: DataManager,
