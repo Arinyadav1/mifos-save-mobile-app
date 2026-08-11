@@ -23,6 +23,7 @@ fun NavGraphBuilder.groupDetailsDestination(
     onMembersClick: (Long) -> Unit,
     onSavingsClick: (Long) -> Unit,
     onLoansClick: (Long) -> Unit,
+    onMeetingsClick: (Long) -> Unit,
     onActivateGroupClick: (Long) -> Unit = {},
     onUpdateGroupClick: (Long) -> Unit = {},
 ) {
@@ -32,6 +33,7 @@ fun NavGraphBuilder.groupDetailsDestination(
             onMembersClick = onMembersClick,
             onSavingsClick = onSavingsClick,
             onLoansClick = onLoansClick,
+            onMeetingsClick = onMeetingsClick,
             onActivateGroupClick = onActivateGroupClick,
             onUpdateGroupClick = onUpdateGroupClick,
         )

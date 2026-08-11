@@ -33,6 +33,8 @@ import org.mifos.feature.groups.groupMembersList.navigateToGroupMembersListWithU
 import org.mifos.feature.groups.groupSavingList.groupSavingListDestination
 import org.mifos.feature.groups.groupSavingList.navigateToGroupSavingList
 import org.mifos.feature.loan.navigation.loanNavigationGraph
+import org.mifos.feature.meeting.meetingList.navigateToMeetingList
+import org.mifos.feature.meeting.navigation.meetingNavigationGraph
 import org.mifos.feature.saving.createSaving.navigateToCreateSaving
 import org.mifos.feature.saving.navigation.savingNavigationGraph
 
@@ -71,6 +73,9 @@ fun NavGraphBuilder.groupsNavigationGraph(
             },
             onLoansClick = { groupId ->
                 navController.navigateToGroupLoanList(groupId)
+            },
+            onMeetingsClick = { groupId ->
+                navController.navigateToMeetingList(groupId)
             },
             onActivateGroupClick = { groupId ->
                 navController.navigateToActivateGroup(groupId)
@@ -111,5 +116,6 @@ fun NavGraphBuilder.groupsNavigationGraph(
         )
         savingNavigationGraph(navController = navController)
         loanNavigationGraph(navController = navController)
+        meetingNavigationGraph(navController = navController)
     }
 }

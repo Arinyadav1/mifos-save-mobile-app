@@ -74,6 +74,7 @@ fun GroupDetailsScreen(
     onSavingsClick: (Long) -> Unit,
     onLoansClick: (Long) -> Unit,
     modifier: Modifier = Modifier,
+    onMeetingsClick: (Long) -> Unit = {},
     onActivateGroupClick: (Long) -> Unit = {},
     onUpdateGroupClick: (Long) -> Unit = {},
     viewModel: GroupDetailsViewModel = koinViewModel(),
@@ -92,7 +93,7 @@ fun GroupDetailsScreen(
             }
 
             GroupDetailsEvent.NavigateToMeetings -> {
-                /* TODO: navigate to meetings */
+                onMeetingsClick(viewModel.groupId)
             }
 
             GroupDetailsEvent.NavigateToGlim -> {
