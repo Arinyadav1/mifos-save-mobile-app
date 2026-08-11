@@ -12,7 +12,9 @@ package org.mifos.feature.meeting.di
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
 import org.mifos.feature.meeting.meetingList.MeetingListViewModel
+import org.mifos.feature.meeting.scheduleMeeting.ScheduleMeetingViewModel
 
 val MeetingModule = module {
     viewModelOf(::MeetingListViewModel)
+    viewModelOf(::ScheduleMeetingViewModel)
 }

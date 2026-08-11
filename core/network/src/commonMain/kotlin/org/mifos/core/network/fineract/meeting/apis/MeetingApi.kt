@@ -9,9 +9,13 @@
  */
 package org.mifos.core.network.fineract.meeting.apis
 
+import de.jensklingenberg.ktorfit.http.Body
 import de.jensklingenberg.ktorfit.http.GET
+import de.jensklingenberg.ktorfit.http.POST
 import de.jensklingenberg.ktorfit.http.Path
+import io.ktor.client.statement.HttpResponse
 import kotlinx.coroutines.flow.Flow
+import org.mifos.core.network.fineract.meeting.dto.CreateMeetingRequestDto
 import org.mifos.core.network.fineract.meeting.dto.MeetingDto
 import org.mifos.core.network.fineract.meeting.dto.MeetingStatusDto
 
@@ -23,4 +27,10 @@ interface MeetingApi {
 
     @GET("codes/138/codevalues")
     fun getMeetingStatuses(): Flow<List<MeetingStatusDto>>
+
+    @POST("datatables/group_meeting/{groupId}")
+    suspend fun createGroupMeeting(
+        @Path("groupId") groupId: Long,
+        @Body request: CreateMeetingRequestDto,
+    ): HttpResponse
 }
