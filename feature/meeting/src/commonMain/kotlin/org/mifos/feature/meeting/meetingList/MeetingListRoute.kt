@@ -11,7 +11,6 @@ package org.mifos.feature.meeting.meetingList
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
-import androidx.navigation.NavOptions
 import kotlinx.serialization.Serializable
 import org.mifos.core.base.ui.nav.composableWithStayTransitions
 
@@ -32,6 +31,15 @@ fun NavGraphBuilder.meetingListDestination(
     }
 }
 
-fun NavController.navigateToMeetingList(groupId: Long, navOptions: NavOptions? = null) {
-    this.navigate(route = MeetingListRoute(groupId), navOptions = navOptions)
+fun NavController.navigateToMeetingList(groupId: Long) {
+    this.navigate(route = MeetingListRoute(groupId))
+}
+
+fun NavController.navigateToMeetingListWithUpdateData(
+    groupId: Long,
+) {
+    this.navigate(route = MeetingListRoute(groupId)) {
+        popUpTo(MeetingListRoute(groupId)) { inclusive = true }
+        launchSingleTop = true
+    }
 }

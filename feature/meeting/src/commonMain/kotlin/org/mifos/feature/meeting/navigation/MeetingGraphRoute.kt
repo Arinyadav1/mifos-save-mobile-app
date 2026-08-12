@@ -15,13 +15,15 @@ import androidx.navigation.navigation
 import kotlinx.serialization.Serializable
 import org.mifos.feature.meeting.meetingList.MeetingListRoute
 import org.mifos.feature.meeting.meetingList.meetingListDestination
+import org.mifos.feature.meeting.meetingList.navigateToMeetingListWithUpdateData
+import org.mifos.feature.meeting.scheduleMeeting.navigateToScheduleMeeting
+import org.mifos.feature.meeting.scheduleMeeting.scheduleMeetingDestination
 
 @Serializable
 data object MeetingGraphRoute
 
 fun NavGraphBuilder.meetingNavigationGraph(
     navController: NavController,
-    onScheduleMeetingClick: (Long) -> Unit = {},
     onFilterClick: () -> Unit = {},
 ) {
     navigation<MeetingGraphRoute>(
@@ -29,8 +31,14 @@ fun NavGraphBuilder.meetingNavigationGraph(
     ) {
         meetingListDestination(
             onBackClick = navController::popBackStack,
-            onScheduleMeetingClick = onScheduleMeetingClick,
+            onScheduleMeetingClick = { groupId ->
+                navController.navigateToScheduleMeeting(groupId)
+            },
             onFilterClick = onFilterClick,
+        )
+        scheduleMeetingDestination(
+            onBackClick = navController::popBackStack,
+            onBackWithUpdateData = navController::navigateToMeetingListWithUpdateData,
         )
     }
 }
