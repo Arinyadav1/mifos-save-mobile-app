@@ -10,8 +10,12 @@
 package org.mifos.core.data.meeting.impl
 
 import io.ktor.http.isSuccess
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.map
 import kotlinx.datetime.LocalDate
 import org.mifos.core.base.common.manager.DispatcherManager
 import org.mifos.core.base.store.screen.ScreenState
@@ -22,10 +26,14 @@ import org.mifos.core.data.meeting.MeetingRepository
 import org.mifos.core.data.util.asScreenStateFlow
 import org.mifos.core.data.util.extractErrorMessage
 import org.mifos.core.data.util.runAsDataState
+import org.mifos.core.model.meeting.AttendanceStatus
 import org.mifos.core.model.meeting.CreateMeetingRequest
 import org.mifos.core.model.meeting.Meeting
+import org.mifos.core.model.meeting.MeetingAttendance
 import org.mifos.core.model.meeting.MeetingRepetitionType
 import org.mifos.core.network.DataManager
+import org.mifos.core.network.fineract.meeting.dto.MeetingAttendanceRequestDto
+import org.mifos.core.network.fineract.meeting.dto.UpdateMeetingStatusRequestDto
 
 class MeetingRepositoryImpl(
     private val dataManager: DataManager,
@@ -44,6 +52,111 @@ class MeetingRepositoryImpl(
             networkMonitor = networkMonitor,
             dispatcher = dispatcher.io,
         )
+    }
+
+    override fun getMeetingAttendance(groupId: Long): Flow<ScreenState<List<MeetingAttendance>>> {
+        return dataManager.fineract.meetingApi.getMeetingAttendance(groupId)
+            .map { list -> list.map { it.toModel() } }
+            .asScreenStateFlow(
+                networkMonitor = networkMonitor,
+                dispatcher = dispatcher.io,
+            )
+    }
+
+    override fun getAttendanceStatuses(): Flow<ScreenState<List<AttendanceStatus>>> {
+        return dataManager.fineract.meetingApi.getAttendanceStatuses()
+            .map { list -> list.map { it.toModel() } }
+            .asScreenStateFlow(
+                networkMonitor = networkMonitor,
+                dispatcher = dispatcher.io,
+            )
+    }
+
+    override suspend fun saveMeetingAttendance(
+        groupId: Long,
+        meetingId: Long,
+        memberId: Long,
+        attendanceStatusCdStatus: Long,
+        memberName: String?,
+        memberAccountNumber: String?,
+        remark: String?,
+    ): ScreenState<Unit> {
+        return runAsDataState(
+            networkMonitor = networkMonitor,
+            context = dispatcher.io,
+        ) {
+            val response = dataManager.fineract.meetingApi.saveMeetingAttendance(
+                groupId = groupId,
+                request = MeetingAttendanceRequestDto(
+                    meetingId = meetingId.toString(),
+                    memberId = memberId.toString(),
+                    attendanceStatusCdStatus = attendanceStatusCdStatus.toString(),
+                    memberName = memberName,
+                    memberAccountNumber = memberAccountNumber,
+                    remark = remark,
+                ),
+            )
+            if (!response.status.isSuccess()) {
+                val errorMessage = extractErrorMessage(response)
+                throw Exception(errorMessage)
+            }
+        }
+    }
+
+    override suspend fun saveBulkMeetingAttendance(
+        groupId: Long,
+        meetingId: Long,
+        records: List<MeetingAttendance>,
+    ): ScreenState<Unit> {
+        return runAsDataState(
+            networkMonitor = networkMonitor,
+            context = dispatcher.io,
+        ) {
+            coroutineScope {
+                records.map { record ->
+                    async {
+                        val response = dataManager.fineract.meetingApi.saveMeetingAttendance(
+                            groupId = groupId,
+                            request = MeetingAttendanceRequestDto(
+                                meetingId = meetingId.toString(),
+                                memberId = record.memberId.toString(),
+                                attendanceStatusCdStatus = record.attendanceStatusCdStatus.toString(),
+                                memberName = record.memberName,
+                                memberAccountNumber = record.memberAccountNumber,
+                                remark = record.remark,
+                            ),
+                        )
+                        if (!response.status.isSuccess()) {
+                            val errorMessage = extractErrorMessage(response)
+                            throw Exception(errorMessage)
+                        }
+                    }
+                }.awaitAll()
+            }
+        }
+    }
+
+    override suspend fun updateMeetingStatus(
+        groupId: Long,
+        meetingId: Long,
+        meetingStatusCdStatus: Long,
+    ): ScreenState<Unit> {
+        return runAsDataState(
+            networkMonitor = networkMonitor,
+            context = dispatcher.io,
+        ) {
+            val response = dataManager.fineract.meetingApi.updateMeetingStatus(
+                groupId = groupId,
+                meetingId = meetingId,
+                request = UpdateMeetingStatusRequestDto(
+                    meetingStatusCdStatus = meetingStatusCdStatus.toString(),
+                ),
+            )
+            if (!response.status.isSuccess()) {
+                val errorMessage = extractErrorMessage(response)
+                throw Exception(errorMessage)
+            }
+        }
     }
 
     override suspend fun scheduleMeeting(
