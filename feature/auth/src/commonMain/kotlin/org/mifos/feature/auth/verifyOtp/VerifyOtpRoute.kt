@@ -16,7 +16,7 @@ import org.mifos.core.base.ui.nav.composableWithStayTransitions
 
 @Serializable
 data class VerifyOtpRoute(
-    val flow: VerifyOtpFlow,
+    val flow: String,
     val isEmail: Boolean = true,
     val username: String = "",
 )
@@ -40,7 +40,7 @@ fun NavController.navigateToVerifyOtpScreen(
 ) {
     this.navigate(
         route = VerifyOtpRoute(
-            flow = flow,
+            flow = flow.name,
             isEmail = isEmail,
             username = username,
         ),

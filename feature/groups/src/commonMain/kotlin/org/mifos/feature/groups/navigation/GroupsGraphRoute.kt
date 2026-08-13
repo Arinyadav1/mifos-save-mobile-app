@@ -51,10 +51,8 @@ fun NavGraphBuilder.groupsNavigationGraph(
     ) {
         groupDashboardDestination(
             onBackClick = navController::popBackStack,
-            onNewGroupClick = { navController.navigateToCreateGroup() },
-            onGroupClick = { groupId ->
-                navController.navigateToGroupDetails(groupId)
-            },
+            onNewGroupClick = navController::navigateToCreateGroup,
+            onGroupClick = navController::navigateToGroupDetails,
         )
         createGroupDestination(
             onBackClick = navController::popBackStack,
@@ -62,27 +60,13 @@ fun NavGraphBuilder.groupsNavigationGraph(
             onNavigateToGroupDashboardWithUpdateData = navController::navigateToGroupDashboardWithUpdateData,
         )
         groupDetailsDestination(
-            onBackClick = {
-                navController.popBackStack()
-            },
-            onMembersClick = { groupId ->
-                navController.navigateToGroupMembersList(groupId)
-            },
-            onSavingsClick = { groupId ->
-                navController.navigateToGroupSavingList(groupId)
-            },
-            onLoansClick = { groupId ->
-                navController.navigateToGroupLoanList(groupId)
-            },
-            onMeetingsClick = { groupId ->
-                navController.navigateToMeetingList(groupId)
-            },
-            onActivateGroupClick = { groupId ->
-                navController.navigateToActivateGroup(groupId)
-            },
-            onUpdateGroupClick = { groupId ->
-                navController.navigateToCreateGroup(groupId)
-            },
+            onBackClick = navController::popBackStack,
+            onMembersClick = navController::navigateToGroupMembersList,
+            onSavingsClick = navController::navigateToGroupSavingList,
+            onLoansClick = navController::navigateToGroupLoanList,
+            onMeetingsClick = navController::navigateToMeetingList,
+            onActivateGroupClick = navController::navigateToActivateGroup,
+            onUpdateGroupClick = navController::navigateToCreateGroup,
         )
         groupMembersListDestination(
             onBackClick = navController::popBackStack,
@@ -95,23 +79,17 @@ fun NavGraphBuilder.groupsNavigationGraph(
         )
         activateGroupDestination(
             onBackClick = navController::popBackStack,
-            onBackWithUpdateData = { _ ->
-                navController.popBackStack()
-            },
+            onBackWithUpdateData = navController::navigateToGroupDetailWithUpdateData,
         )
         groupSavingListDestination(
             onBackClick = {
                 navController.popBackStack()
             },
             onSavingClick = onSavingClick,
-            onNewSavingsClick = { groupId ->
-                navController.navigateToCreateSaving(groupId)
-            },
+            onNewSavingsClick = navController::navigateToCreateSaving,
         )
         groupLoanListDestination(
-            onBackClick = {
-                navController.popBackStack()
-            },
+            onBackClick = navController::popBackStack,
             onLoanClick = onLoanClick,
         )
         savingNavigationGraph(navController = navController)

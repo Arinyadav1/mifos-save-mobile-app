@@ -11,8 +11,9 @@ package org.mifos.feature.meeting.meetingList
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
+import androidx.navigation.compose.composable
+import androidx.navigation.toRoute
 import kotlinx.serialization.Serializable
-import org.mifos.core.base.ui.nav.composableWithStayTransitions
 
 @Serializable
 data class MeetingListRoute(val groupId: Long)
@@ -21,12 +22,17 @@ fun NavGraphBuilder.meetingListDestination(
     onBackClick: () -> Unit,
     onScheduleMeetingClick: (Long) -> Unit = {},
     onFilterClick: () -> Unit = {},
+    onMeetingClick: (Long, Long) -> Unit,
 ) {
-    composableWithStayTransitions<MeetingListRoute> {
+    composable<MeetingListRoute> { backStackEntry ->
+        val route = backStackEntry.toRoute<MeetingListRoute>()
         MeetingListScreen(
             onBackClick = onBackClick,
             onScheduleMeetingClick = onScheduleMeetingClick,
             onFilterClick = onFilterClick,
+            onMeetingClick = { meetingId ->
+                onMeetingClick(route.groupId, meetingId)
+            },
         )
     }
 }

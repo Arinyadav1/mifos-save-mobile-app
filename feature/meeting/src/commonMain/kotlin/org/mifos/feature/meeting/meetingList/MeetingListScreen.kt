@@ -65,7 +65,7 @@ import org.mifos.feature.meeting.generated.resources.feature_meeting_schedule_me
 fun MeetingListScreen(
     onBackClick: () -> Unit,
     modifier: Modifier = Modifier,
-    onMeetingClick: (Meeting) -> Unit = {},
+    onMeetingClick: (Long) -> Unit = {},
     onScheduleMeetingClick: (Long) -> Unit = {},
     onFilterClick: () -> Unit = {},
     viewModel: MeetingListViewModel = koinViewModel(),
@@ -81,7 +81,7 @@ fun MeetingListScreen(
     MeetingListScreenContent(
         state = state,
         onAction = viewModel::trySendAction,
-        onMeetingClick = onMeetingClick,
+        onMeetingClick = { meeting -> onMeetingClick(meeting.id) },
         onScheduleMeetingClick = onScheduleMeetingClick,
         onFilterClick = onFilterClick,
         modifier = modifier,

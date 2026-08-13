@@ -47,16 +47,17 @@ class VerifyOtpViewModel(
 
     init {
         val route = savedStateHandle.toRoute<VerifyOtpRoute>()
+        val flow = VerifyOtpFlow.valueOf(route.flow)
 
         mutableStateFlow.update {
             it.copy(
-                flow = route.flow,
+                flow = flow,
                 isEmail = route.isEmail,
                 username = route.username,
             )
         }
 
-        if (route.flow == VerifyOtpFlow.RESET_PASSWORD_VERIFY) {
+        if (flow == VerifyOtpFlow.RESET_PASSWORD_VERIFY) {
             startResendTimer()
         }
     }
