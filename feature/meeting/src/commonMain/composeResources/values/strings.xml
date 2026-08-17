@@ -82,4 +82,22 @@
     <string name="feature_meeting_schedule_btn">Schedule</string>
     <string name="feature_meeting_ok">OK</string>
     <string name="feature_meeting_cancel">Cancel</string>
+    <string name="feature_meeting_dashboard_title">Meetings Dashboard</string>
+    <string name="feature_meeting_select_group">Select Group</string>
+    <string name="feature_meeting_overview_stats">Overview Stats</string>
+    <string name="feature_meeting_upcoming_meetings">Upcoming Meetings</string>
+    <string name="feature_meeting_completed_meetings">Completed Meetings</string>
+    <string name="feature_meeting_cancelled_meetings">Cancelled Meetings</string>
+    <string name="feature_meeting_next_upcoming">Next Upcoming Meeting</string>
+    <string name="feature_meeting_record_attendance">Record Attendance</string>
+    <string name="feature_meeting_cancel_meeting">Cancel Meeting</string>
+    <string name="feature_meeting_complete_meeting">Complete Meeting</string>
+    <string name="feature_meeting_update_status">Update Status</string>
+    <string name="feature_meeting_tab_upcoming">Upcoming</string>
+    <string name="feature_meeting_tab_completed">Completed</string>
+    <string name="feature_meeting_tab_all">All</string>
+    <string name="feature_meeting_no_meetings">No meetings found.</string>
+    <string name="feature_meeting_change_status_title">Change Meeting Status</string>
+    <string name="feature_meeting_select_status">Select a new status for this meeting:</string>
+    <string name="feature_meeting_status_updated">Meeting status updated successfully</string>
 </resources>

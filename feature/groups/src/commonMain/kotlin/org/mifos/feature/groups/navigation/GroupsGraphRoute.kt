@@ -34,7 +34,6 @@ import org.mifos.feature.groups.groupSavingList.groupSavingListDestination
 import org.mifos.feature.groups.groupSavingList.navigateToGroupSavingList
 import org.mifos.feature.loan.navigation.loanNavigationGraph
 import org.mifos.feature.meeting.meetingList.navigateToMeetingList
-import org.mifos.feature.meeting.navigation.meetingNavigationGraph
 import org.mifos.feature.saving.createSaving.navigateToCreateSaving
 import org.mifos.feature.saving.navigation.savingNavigationGraph
 
@@ -94,6 +93,5 @@ fun NavGraphBuilder.groupsNavigationGraph(
         )
         savingNavigationGraph(navController = navController)
         loanNavigationGraph(navController = navController)
-        meetingNavigationGraph(navController = navController)
     }
 }

@@ -15,7 +15,8 @@ import androidx.navigation.navigation
 import kotlinx.serialization.Serializable
 import org.mifos.feature.meeting.meetingAttandance.meetingAttendanceDestination
 import org.mifos.feature.meeting.meetingAttandance.navigateToMeetingAttendance
-import org.mifos.feature.meeting.meetingList.MeetingListRoute
+import org.mifos.feature.meeting.meetingDashboard.MeetingDashboardRoute
+import org.mifos.feature.meeting.meetingDashboard.meetingDashboardDestination
 import org.mifos.feature.meeting.meetingList.meetingListDestination
 import org.mifos.feature.meeting.meetingList.navigateToMeetingListWithUpdateData
 import org.mifos.feature.meeting.scheduleMeeting.navigateToScheduleMeeting
@@ -28,13 +29,17 @@ fun NavGraphBuilder.meetingNavigationGraph(
     navController: NavController,
 ) {
     navigation<MeetingGraphRoute>(
-        startDestination = MeetingListRoute::class,
+        startDestination = MeetingDashboardRoute,
     ) {
+        meetingDashboardDestination(
+            onBackClick = navController::popBackStack,
+            onScheduleMeetingClick = navController::navigateToScheduleMeeting,
+            onMeetingClick = navController::navigateToMeetingAttendance,
+        )
         meetingListDestination(
             onBackClick = navController::popBackStack,
             onScheduleMeetingClick = navController::navigateToScheduleMeeting,
             onMeetingClick = navController::navigateToMeetingAttendance,
-
         )
         meetingAttendanceDestination(
             onBackClick = navController::popBackStack,
