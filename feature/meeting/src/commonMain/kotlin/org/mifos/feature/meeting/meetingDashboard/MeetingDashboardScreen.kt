@@ -62,6 +62,7 @@ import org.mifos.core.designsystem.component.KptHeaderActionButton
 import org.mifos.core.designsystem.component.KptHeaderBackButton
 import org.mifos.core.designsystem.component.KptHeaderTitle
 import org.mifos.core.designsystem.component.KptStatsCard
+import org.mifos.core.designsystem.component.MeetingCard
 import org.mifos.core.designsystem.component.StatusChip
 import org.mifos.core.designsystem.component.StatusChipIntent
 import org.mifos.core.designsystem.component.state.CardLoadingSkeleton
@@ -71,7 +72,6 @@ import org.mifos.core.model.meeting.Meeting
 import org.mifos.core.model.meeting.MeetingStatus
 import org.mifos.core.ui.input.KptTextField
 import org.mifos.core.ui.scaffold.KptScaffold
-import org.mifos.feature.meeting.component.MeetingCard
 import org.mifos.feature.meeting.generated.resources.Res
 import org.mifos.feature.meeting.generated.resources.feature_meeting_cancel_meeting
 import org.mifos.feature.meeting.generated.resources.feature_meeting_cancelled_meetings
