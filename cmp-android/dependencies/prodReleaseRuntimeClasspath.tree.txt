@@ -2299,6 +2299,8 @@
 |    |    |    |    +--- org.jetbrains.kotlinx:kotlinx-coroutines-core:1.11.0 (*)
 |    |    |    |    +--- org.jetbrains.kotlinx:kotlinx-datetime:0.8.0 (*)
 |    |    |    |    \--- co.touchlab:kermit:2.0.8 (*)
+|    |    |    +--- project :core:model (*)
+|    |    |    +--- project :core:common (*)
 |    |    |    +--- org.jetbrains.compose.ui:ui:1.11.1 (*)
 |    |    |    +--- org.jetbrains.compose.ui:ui-util:1.11.1 (*)
 |    |    |    +--- org.jetbrains.compose.runtime:runtime:1.11.0 -> 1.11.1 (*)
