@@ -22,6 +22,8 @@ import org.mifos.feature.groups.groupDashboard.GroupDashboardRoute
 import org.mifos.feature.groups.navigation.GroupsGraphRoute
 import org.mifos.feature.home.HomeDestination
 import org.mifos.feature.home.HomeRoute
+import org.mifos.feature.meeting.meetingDashboard.MeetingDashboardRoute
+import org.mifos.feature.meeting.navigation.MeetingGraphRoute
 
 sealed class AdminNavBarTabItem : NavigationItem {
 
@@ -69,9 +71,9 @@ sealed class AdminNavBarTabItem : NavigationItem {
         override val contentDescriptionRes: StringResource
             get() = Res.string.meetings
         override val graphRoute: String
-            get() = ""
+            get() = MeetingGraphRoute.toObjectNavigationRoute()
         override val startDestinationRoute: String
-            get() = ""
+            get() = MeetingDashboardRoute.toObjectNavigationRoute()
         override val testTag: String
             get() = "AdminMeetingsTab"
     }

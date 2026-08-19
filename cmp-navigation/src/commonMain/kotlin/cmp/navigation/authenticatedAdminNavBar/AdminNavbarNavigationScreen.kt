@@ -44,6 +44,8 @@ import org.mifos.feature.home.HomeDestination
 import org.mifos.feature.home.homeGraph
 import org.mifos.feature.home.navigateToHome
 import org.mifos.feature.loan.loanDetails.navigateToLoanDetails
+import org.mifos.feature.meeting.meetingDashboard.navigateToMeetingDashboard
+import org.mifos.feature.meeting.navigation.meetingNavigationGraph
 import org.mifos.feature.saving.savingDetails.navigateToSavingDetails
 
 @Composable
@@ -76,6 +78,7 @@ internal fun AdminNavbarNavigationScreen(
                 AdminNavBarEvent.NavigateToMeetingsScreen -> {
                     analyticsHelper.logDestinationChanged(event.tab.startDestinationRoute)
                     navigateToTabOrRoot(tabToNavigateTo = event.tab) {
+                        navigateToMeetingDashboard(navOptions = it)
                     }
                 }
             }
@@ -154,6 +157,9 @@ internal fun AdminNavbarNavigationScreenContent(
                 onLoanClick = { loanId ->
                     navController.navigateToLoanDetails(loanId)
                 },
+            )
+            meetingNavigationGraph(
+                navController = navController,
             )
         }
     }

@@ -16,9 +16,11 @@ import org.mifos.core.model.meeting.AttendanceStatus
 import org.mifos.core.model.meeting.Meeting
 import org.mifos.core.model.meeting.MeetingAttendance
 import org.mifos.core.model.meeting.MeetingRepetitionType
+import org.mifos.core.model.meeting.MeetingStatus
 
 interface MeetingRepository {
     fun getGroupMeetings(groupId: Long): Flow<ScreenState<List<Meeting>>>
+    fun getMeetingStatuses(): Flow<ScreenState<List<MeetingStatus>>>
     fun getMeetingAttendance(groupId: Long): Flow<ScreenState<List<MeetingAttendance>>>
     fun getAttendanceStatuses(): Flow<ScreenState<List<AttendanceStatus>>>
     suspend fun saveMeetingAttendance(

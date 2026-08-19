@@ -31,6 +31,7 @@ import org.mifos.core.model.meeting.CreateMeetingRequest
 import org.mifos.core.model.meeting.Meeting
 import org.mifos.core.model.meeting.MeetingAttendance
 import org.mifos.core.model.meeting.MeetingRepetitionType
+import org.mifos.core.model.meeting.MeetingStatus
 import org.mifos.core.network.DataManager
 import org.mifos.core.network.fineract.meeting.dto.MeetingAttendanceRequestDto
 import org.mifos.core.network.fineract.meeting.dto.UpdateMeetingStatusRequestDto
@@ -52,6 +53,15 @@ class MeetingRepositoryImpl(
             networkMonitor = networkMonitor,
             dispatcher = dispatcher.io,
         )
+    }
+
+    override fun getMeetingStatuses(): Flow<ScreenState<List<MeetingStatus>>> {
+        return dataManager.fineract.meetingApi.getMeetingStatuses()
+            .map { list -> list.map { it.toModel() } }
+            .asScreenStateFlow(
+                networkMonitor = networkMonitor,
+                dispatcher = dispatcher.io,
+            )
     }
 
     override fun getMeetingAttendance(groupId: Long): Flow<ScreenState<List<MeetingAttendance>>> {

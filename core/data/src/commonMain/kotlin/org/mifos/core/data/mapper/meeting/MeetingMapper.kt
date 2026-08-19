@@ -12,7 +12,20 @@ package org.mifos.core.data.mapper.meeting
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
 import org.mifos.core.model.meeting.Meeting
+import org.mifos.core.model.meeting.MeetingStatus
 import org.mifos.core.network.fineract.meeting.dto.MeetingDto
+import org.mifos.core.network.fineract.meeting.dto.MeetingStatusDto
+
+fun MeetingStatusDto.toModel(): MeetingStatus {
+    return MeetingStatus(
+        id = id,
+        name = name.orEmpty(),
+        position = position,
+        description = description,
+        active = active ?: false,
+        mandatory = mandatory ?: false,
+    )
+}
 
 fun MeetingDto.toModel(statusMap: Map<Long, String?>): Meeting {
     return Meeting(

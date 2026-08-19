@@ -27,6 +27,8 @@ kotlin {
             // Theme wires LocalScreenStateDefaults from core/store so every screen
             // wrapped by MifosTheme picks up the app's branded ScreenState defaults.
             implementation(projects.core.store)
+            implementation(projects.core.model)
+            implementation(projects.core.common)
 
             implementation(libs.jb.composeUi)
             implementation(libs.jb.composeUi.util)
